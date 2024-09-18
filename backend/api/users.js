@@ -2,6 +2,8 @@ import express from "express";
 import { User } from "../models/users.model.js";
 const userRouter = express.Router();
 import argon2 from "argon2";
+import jwt from "jsonwebtoken";
+import verifyToken from "../middleware/authMiddleware.js";
 
 const hashPassword = async (password) => {
   try {
@@ -14,17 +16,31 @@ const hashPassword = async (password) => {
 
 userRouter.post("/signup", async (req, res) => {
   const user = req.body;
+  user["username"] = user["username"].toLowerCase();
+  const userInDB = await User.findOne({ username: user["username"] });
+  const phonenumberInDB = await User.findOne({ phoneNumber: user["phoneNumber"] });
   if (!user.username || !user.password || !user.phoneNumber) {
     res.status(400).json({ success: false, message: "Invalid request" });
-  }
-  user.username.toLowercase();
-  const newUser = new User(user);
-  newUser.password = await hashPassword(user.password);
-  try {
-    const savedUser = await newUser.save();
-    res.status(201).json({ success: true, data: savedUser });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Error saving user" });
+  } else if (userInDB || phonenumberInDB) {
+      res.status(400).json({ success: false, message: `${(userInDB) ? "Username" : "Phone number"} already exists`});
+  } else {
+    const newUser = new User(user);
+    newUser.password = await hashPassword(user.password);
+    const token = jwt.sign(
+      {
+        username: newUser.username,
+        userID: newUser._id,
+        permissions: newUser.permissions,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" },
+    );
+    try {
+      const savedUser = await newUser.save();
+      res.status(201).json({ success: true, data: savedUser, token: token });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error saving user", error: error});
+    }
   }
 });
 
@@ -33,7 +49,22 @@ userRouter.get("/login", async (req, res) => {
   try {
     const userInDB = await User.findOne({ username });
     if (userInDB && (await argon2.verify(userInDB.password, password))) {
-      res.status(200).json({ success: true, data: userInDB });
+      const token = jwt.sign(
+        {
+          username: userInDB.username,
+          userID: userInDB._id,
+          permissions: userInDB.permissions,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" },
+      );
+      res
+        .status(200)
+        .json({
+          success: true,
+          resortPreference: userInDB.resortPreference,
+          token: token,
+        });
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }
@@ -42,23 +73,23 @@ userRouter.get("/login", async (req, res) => {
   }
 });
 
-userRouter.put("/preferences/resorts", async (req, res) => {
+userRouter.put("/preferences/resorts", verifyToken, async (req, res) => {
   let prefs = {};
   if (req.body.resortPreference.skiPass) {
-    prefs["resortPreference.skiPass"] = req.body.resortPreference.skiPass
+    prefs["resortPreference.skiPass"] = req.body.resortPreference.skiPass;
   }
   if (req.body.resortPreference.resorts) {
-    prefs["resortPreference.resorts"]= req.body.resortPreference.resorts
+    prefs["resortPreference.resorts"] = req.body.resortPreference.resorts;
   }
   try {
     const updatedUser = await User.findByIdAndUpdate(
-      req.body._id,
+      req.userID,
       {
-        $addToSet: {...prefs},
+        $addToSet: { ...prefs },
       },
       { new: true },
     );
-    res.status(200).json({ success: true, data: updatedUser });
+    res.status(200).json({ success: true, data: updatedUser.resortPreference });
   } catch (error) {
     res
       .status(500)
@@ -66,21 +97,22 @@ userRouter.put("/preferences/resorts", async (req, res) => {
   }
 });
 
-userRouter.put("/preferences/alertThreshold", async (req, res) => {
+userRouter.put("/preferences/alertThreshold", verifyToken, async (req, res) => {
   let prefs = {};
   if (req.body.alertThreshold.preferredResorts) {
-    prefs["alertThreshold.preferredResorts"] = req.body.alertThreshold.preferredResorts
+    prefs["alertThreshold.preferredResorts"] =
+      req.body.alertThreshold.preferredResorts;
   }
   if (req.body.alertThreshold.anyResort) {
-    prefs["alertThreshold.anyResort"]= req.body.alertThreshold.anyResort
+    prefs["alertThreshold.anyResort"] = req.body.alertThreshold.anyResort;
   }
   try {
     const updatedUser = await User.findByIdAndUpdate(
-      req.body._id,
-      {$set: {...prefs}},
+      req.userID,
+      { $set: { ...prefs } },
       { new: true },
     );
-    res.status(200).json({ success: true, data: updatedUser });
+    res.status(200).json({ success: true, data: updatedUser.alertThreshold });
   } catch (error) {
     res
       .status(500)
@@ -88,10 +120,14 @@ userRouter.put("/preferences/alertThreshold", async (req, res) => {
   }
 });
 
-userRouter.delete("/", async (req, res) => {
+userRouter.delete("/:id", verifyToken, async (req, res) => {
   try {
-    const deletedUser = await User.findByIdAndDelete(req.body._id);
-    res.status(200).json({ success: true, data: deletedUser });
+    if ((req.privileges === "admin") || (req.userID === req.params.id)) {
+      const deletedUser = await User.findByIdAndDelete(req.userID);
+      res.status(200).json({ success: true, data: deletedUser });  
+    } else {
+      res.status(401).json({ success: false, message: "Unauthorized" });
+    }
   } catch (error) {
     res.status(500).json({ success: false, message: "Error deleting user" });
   }
