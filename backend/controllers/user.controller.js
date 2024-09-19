@@ -38,12 +38,12 @@ export const createUser = async (req, res) => {
       const savedUser = await newUser.save();
       res
         .status(201)
-        .json({ success: true, data: savedUser })
         .cookie("token", token, {
           httpOnly: true,
           sameSite: "none",
           secure: true,
-        });
+        })
+        .json({ success: true, data: savedUser });
     } catch (error) {
       res
         .status(500)
