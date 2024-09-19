@@ -1,11 +1,12 @@
 import express from "express";
 import { User } from "../models/users.model.js";
 import {createUser, login, updateResortPreference, updateAlertThreshold, deleteUser } from "../controllers/user.controller.js";
-import verifyToken from "../middleware/authMiddleware.js";
+import { verifyToken, signupValidation } from "../middleware/authMiddleware.js";
+import { check, validationResult } from "express-validator";
 
 const userRouter = express.Router();
 
-userRouter.post("/signup", createUser);
+userRouter.post("/signup", signupValidation, createUser);
 
 userRouter.get("/login", login);
 

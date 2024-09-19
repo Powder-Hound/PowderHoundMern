@@ -1,6 +1,13 @@
 import jwt from 'jsonwebtoken';
+import { body, validationResult } from 'express-validator';
+import { User } from '../models/users.model.js';
 
-const verifyToken = (req, res, next) => {
+const passwordLength = {
+  min: 8,
+  max: 128,
+}
+
+export const verifyToken = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
@@ -14,4 +21,36 @@ const verifyToken = (req, res, next) => {
   }
 }
 
-export default verifyToken;
+export const signupValidation = [
+  // validate username
+  body('username')
+  .trim()
+  .escape()
+  .isLength({ min: 5 })
+  .withMessage('Username must be at least 5 characters long')
+  .custom(async value => {
+    const userInDB = await User.findOne({ username: value });
+    if (userInDB) {
+      throw new Error("Username already exists");
+    }
+  }),
+  
+  body('password')
+  .trim()
+  .escape()
+  .isLength({ min: passwordLength.min, max: passwordLength.max})
+  .withMessage(`Password must be between ${passwordLength.min} and ${passwordLength.max} characters long`),
+  
+  body('phoneNumber')
+  .trim()
+  .isMobilePhone('en-US')
+  .withMessage('Phone number is not valid')
+  .custom(async value => {
+    const phonenumberInDB = await User.findOne({
+      phoneNumber: value,
+    });
+    if (phonenumberInDB) {
+      throw new Error("Phone number already exists");
+    }
+  })
+]

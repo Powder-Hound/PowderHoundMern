@@ -1,6 +1,7 @@
 import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
+import { validationResult } from "express-validator";
 
 const hashPassword = async (password) => {
   try {
@@ -11,21 +12,17 @@ const hashPassword = async (password) => {
   }
 };
 
+// Username, password, and phone number are required
+// Email is optional
+// Username and Phonenumber must be unique
+// Password must be between 8 and 128 characters long
 export const createUser = async (req, res) => {
-  const user = req.body;
-  user["username"] = user["username"].toLowerCase();
-  const userInDB = await User.findOne({ username: user["username"] });
-  const phonenumberInDB = await User.findOne({
-    phoneNumber: user["phoneNumber"],
-  });
-  if (!user.username || !user.password || !user.phoneNumber) {
-    res.status(400).json({ success: false, message: "Invalid request" });
-  } else if (userInDB || phonenumberInDB) {
-    res.status(400).json({
-      success: false,
-      message: `${userInDB ? "Username" : "Phone number"} already exists`,
-    });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
   } else {
+    const user = req.body;
+    delete user.permissions;
     const newUser = new User(user);
     newUser.password = await hashPassword(user.password);
     const token = jwt.sign(
@@ -39,7 +36,14 @@ export const createUser = async (req, res) => {
     );
     try {
       const savedUser = await newUser.save();
-      res.status(201).json({ success: true, data: savedUser, token: token });
+      res
+        .status(201)
+        .json({ success: true, data: savedUser })
+        .cookie("token", token, {
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        });
     } catch (error) {
       res
         .status(500)
@@ -62,11 +66,17 @@ export const login = async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: "1h" },
       );
-      res.status(200).json({
-        success: true,
-        resortPreference: userInDB.resortPreference,
-        token: token,
-      });
+      res
+        .status(200)
+        .json({
+          success: true,
+          resortPreference: userInDB.resortPreference,
+        })
+        .cookie("token", token, {
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        });
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }
