@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import { User } from '../models/users.model.js';
 
 const passwordLength = {
@@ -54,3 +54,4 @@ export const signupValidation = [
     }
   })
 ]
+

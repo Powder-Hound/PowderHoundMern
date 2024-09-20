@@ -2,6 +2,7 @@ import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
+import { verifyUser } from "../middleware/twilioMiddleware.js";
 
 const hashPassword = async (password) => {
   try {
@@ -23,6 +24,8 @@ export const createUser = async (req, res) => {
   } else {
     const user = req.body;
     delete user.permissions;
+    // Remove non-numeric characters from phone number
+    user.phoneNumber = user.phoneNumber.replace(/[^0-9]/g, '');
     const newUser = new User(user);
     newUser.password = await hashPassword(user.password);
     const token = jwt.sign(
