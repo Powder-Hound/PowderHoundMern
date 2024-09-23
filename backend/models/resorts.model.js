@@ -8,6 +8,10 @@ const resortSchema = new Schema({
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true }
   },
+  state: {
+    type: String,
+    required: true
+  },
   // Pass affiliation as a list of strings
   passAffiliation: [String],
   // Travel information including airport and lodging details
@@ -23,6 +27,4 @@ const resortSchema = new Schema({
 });
 
 // Create the model
-const Resort = mongoose.model('Resort', resortSchema);
-
-module.exports = Resort;
+export const Resort = mongoose.model('Resort', resortSchema);

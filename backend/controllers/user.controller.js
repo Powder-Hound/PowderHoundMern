@@ -18,6 +18,7 @@ const hashPassword = async (password) => {
 // Username and Phonenumber must be unique
 // Password must be between 8 and 128 characters long
 export const createUser = async (req, res) => {
+  // Validate the request body- called in index.js in the route declaration. Defined in ../middleware/authMiddleware.js
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
@@ -26,7 +27,12 @@ export const createUser = async (req, res) => {
     delete user.permissions;
     // Remove non-numeric characters from phone number
     user.phoneNumber = user.phoneNumber.replace(/[^0-9]/g, '');
+    
+    // Call twilio to verify phone number
+    verifyUser(user.countryCode, user.phoneNumber)
     const newUser = new User(user);
+
+    // Hash password before database input
     newUser.password = await hashPassword(user.password);
     const token = jwt.sign(
       {
@@ -71,14 +77,14 @@ export const login = async (req, res) => {
       );
       res
         .status(200)
-        .json({
-          success: true,
-          resortPreference: userInDB.resortPreference,
-        })
         .cookie("token", token, {
           httpOnly: true,
           sameSite: "none",
           secure: true,
+        })
+        .json({
+          success: true,
+          resortPreference: userInDB.resortPreference,
         });
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });

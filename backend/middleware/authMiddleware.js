@@ -40,6 +40,12 @@ export const signupValidation = [
   .escape()
   .isLength({ min: passwordLength.min, max: passwordLength.max})
   .withMessage(`Password must be between ${passwordLength.min} and ${passwordLength.max} characters long`),
+
+  body('countryCode')
+  .trim()
+  .escape()
+  .isNumeric()
+  .withMessage('Country code must be a number'),
   
   body('phoneNumber')
   .trim()

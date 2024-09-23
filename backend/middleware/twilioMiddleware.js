@@ -33,7 +33,7 @@ function checkVerification(phoneNumber, code) {
 }
 
 export const verifyUser = async (req, res, next) => {
-  const phoneNumber = '+1' + req.body.phoneNumber;
+  const phoneNumber = req.body.countryCode + req.body.phoneNumber;
   const status = await sendVerificationCode(phoneNumber);
    if (status === 'pending') {
          readingline.question('Enter code: ', code => {

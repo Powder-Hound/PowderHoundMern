@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    notificationsActive: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
     resortPreference: {
         skiPass: {
             type: [String],
