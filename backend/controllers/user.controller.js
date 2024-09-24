@@ -94,19 +94,46 @@ export const login = async (req, res) => {
   }
 };
 
-export const updateResortPreference = async (req, res) => {
-  let prefs = {};
-  if (req.body.resortPreference.skiPass) {
-    prefs["resortPreference.skiPass"] = req.body.resortPreference.skiPass;
+export const addLocations = async (req, res) => {
+  let prefsAdded = {};
+
+  // This can be refactored more elegantly, but I don't want to use a switch case in the event that data will be skipped over
+  if (req.body?.skiPass)  {
+    prefsAdded["resortPreference.skiPass"] = req.body.skiPass;
   }
-  if (req.body.resortPreference.resorts) {
-    prefs["resortPreference.resorts"] = req.body.resortPreference.resorts;
+  if (req.body?.resorts) {
+    prefsAdded["resortPreference.resorts"] = req.body.resorts;
   }
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       {
-        $addToSet: { ...prefs },
+        $addToSet: { ...prefsAdded }
+      },
+      { new: true },
+    );
+    res.status(200).json({ success: true, data: updatedUser.resortPreference });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error updating user", error: error });
+  }
+};
+
+export const removeLocations = async (req, res) => {
+  let prefsRemoved = {};
+  // Only one can be removed at a time; will be triggered by button on frontend, won't be batch updated like adding
+  if (req.body?.skiPass) {
+    prefsRemoved["resortPreference.skiPass"] = req.body.skiPass;
+  }
+  if (req.body.remove?.resorts) {
+    prefsRemoved["resortPreference.resorts"] = req.body.resorts;
+  }
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.userID,
+      {
+        $pull: { ...prefsRemoved }
       },
       { new: true },
     );
