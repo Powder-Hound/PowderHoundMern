@@ -1,7 +1,7 @@
 import { Resort } from "../models/resorts.model.js";
 
 export const createResort = async (req, res) => {
-  if (req.privileges.permissions === "admin") {
+  if (req.permissions === "admin") {
     try {
       const resort = new Resort(req.body);
       await resort.save();
@@ -33,7 +33,7 @@ export const getResort = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Error retrieving resort", error: error });
   }
-}
+};
 
 export const getAllResorts = async (req, res) => {
   let page = req.query.page || 1;
@@ -58,5 +58,55 @@ export const getAllResorts = async (req, res) => {
     res
     .status(500) 
     .json({ success: false, message: "Error retrieving resorts", error: error })
+  }
+};
+
+export const updateResort = async (req, res) => {
+  if (req.permissions === "admin") {
+    try {
+      const updatedResort = await Resort.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true },
+      );
+      if (updatedResort) {
+        res.status(200).json({ success: true, data: updatedResort });
+      } else {
+        res.status(404).json({ success: false, message: "Resort not found" });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({
+          success: false,
+          message: "Error updating resort",
+          error: error,
+        });
+    }
+  } else {
+    res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+};
+
+export const deleteResort = async (req, res) => {
+  if (req.permissions === "admin") {
+    try {
+      const deletedResort = await Resort.findByIdAndDelete(req.params.id);
+      if (deletedResort) {
+        res.status(200).json({ success: true, data: deletedResort });
+      } else {
+        res.status(404).json({ success: false, message: "Resort not found" });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({
+          success: false,
+          message: "Error deleting resort",
+          error: error,
+        });
+    }
+  } else {
+    res.status(401).json({ success: false, message: "Unauthorized" });
   }
 }

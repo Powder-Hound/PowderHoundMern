@@ -15,6 +15,7 @@ export const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userID= decoded.userID
+    req.permissions = decoded.permissions
     next();
   } catch (err) {
     console.error(err);
@@ -51,6 +52,7 @@ export const signupValidation = [
   .trim()
   .isMobilePhone('en-US')
   .withMessage('Phone number is not valid')
+  .replace(/[^0-9]/g, '')
   .custom(async value => {
     const phonenumberInDB = await User.findOne({
       phoneNumber: value,

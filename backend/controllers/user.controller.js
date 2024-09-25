@@ -20,16 +20,12 @@ const hashPassword = async (password) => {
 export const createUser = async (req, res) => {
   // Validate the request body- called in index.js in the route declaration. Defined in ../middleware/authMiddleware.js
   const errors = validationResult(req);
+
+  const user = req.body;
+  
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   } else {
-    const user = req.body;
-    delete user.permissions;
-    // Remove non-numeric characters from phone number
-    user.phoneNumber = user.phoneNumber.replace(/[^0-9]/g, '');
-    
-    // Call twilio to verify phone number
-    verifyUser(user.countryCode, user.phoneNumber)
     const newUser = new User(user);
 
     // Hash password before database input
@@ -94,6 +90,17 @@ export const login = async (req, res) => {
   }
 };
 
+export const getUser = async (req, res) => {
+  if (req.permissions === "admin" || req.userID === req.params.id) {
+    const userInDB = await User.findById(req.params.id);
+    if (userInDB) {
+      res.status(200).json({ success: true, data: userInDB });
+    }
+  } else {
+    res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+};
+// Locations provided will be an ObjectID referring to a resort
 export const addLocations = async (req, res) => {
   let prefsAdded = {};
 

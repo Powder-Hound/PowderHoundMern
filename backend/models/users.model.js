@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema({
     },
     countryCode: {
         type: Number,
-        required: true
+        required: true,
+        default: 1
     },
     phoneNumber: {
         type: String,
