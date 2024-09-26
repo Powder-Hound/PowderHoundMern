@@ -46,7 +46,7 @@ export const createUser = async (req, res) => {
         .cookie("token", token, {
           httpOnly: true,
           sameSite: "none",
-          secure: true,
+          secure,
         })
         .json({ success: true, data: savedUser });
     } catch (error) {
