@@ -15,6 +15,7 @@
     "argon2": "^0.41.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "expo": "^51.0.34",
     "express": "^4.21.0",
     "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
@@ -22,6 +23,7 @@
     "twilio": "^5.3.1"
   },
   "devDependencies": {
+    "metro": "^0.80.12",
     "nodemon": "^3.1.4"
   }
 }
