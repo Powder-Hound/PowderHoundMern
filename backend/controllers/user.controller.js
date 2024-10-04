@@ -43,12 +43,7 @@ export const createUser = async (req, res) => {
       const savedUser = await newUser.save();
       res
         .status(201)
-        .cookie("token", token, {
-          httpOnly: true,
-          sameSite: "none",
-          secure,
-        })
-        .json({ success: true, data: savedUser });
+        .json({ success: true, data: savedUser, token: token });
     } catch (error) {
       res
         .status(500)
@@ -73,20 +68,17 @@ export const login = async (req, res) => {
       );
       res
         .status(200)
-        .cookie("token", token, {
-          httpOnly: true,
-          sameSite: "none",
-          secure: true,
-        })
         .json({
+          status: 200,
           success: true,
           resortPreference: userInDB.resortPreference,
+          token: token
         });
     } else {
-      res.status(401).json({ success: false, message: "Invalid credentials" });
+      res.status(401).json({ success: false, message: "Invalid credentials", status: 401 });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error retrieving users" });
+    res.status(500).json({ success: false, message: "Error retrieving users", status: 500 });
   }
 };
 
@@ -94,10 +86,10 @@ export const getUser = async (req, res) => {
   if (req.permissions === "admin" || req.userID === req.params.id) {
     const userInDB = await User.findById(req.params.id);
     if (userInDB) {
-      res.status(200).json({ success: true, data: userInDB });
+      res.status(200).json({ success: true, data: userInDB, status: 200 });
     }
   } else {
-    res.status(401).json({ success: false, message: "Unauthorized" });
+    res.status(401).json({ success: false, message: "Unauthorized", status: 401 });
   }
 };
 // Locations provided will be an ObjectID referring to a resort
