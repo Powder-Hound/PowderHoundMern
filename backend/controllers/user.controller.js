@@ -93,16 +93,13 @@ export const getUser = async (req, res) => {
   }
 };
 // Locations provided will be an ObjectID referring to a resort
-export const addLocations = async (req, res) => {
+export const addResorts = async (req, res) => {
   let prefsAdded = {};
 
-  // This can be refactored more elegantly, but I don't want to use a switch case in the event that data will be skipped over
-  if (req.body?.skiPass)  {
-    prefsAdded["resortPreference.skiPass"] = req.body.skiPass;
-  }
   if (req.body?.resorts) {
     prefsAdded["resortPreference.resorts"] = req.body.resorts;
   }
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
@@ -119,20 +116,60 @@ export const addLocations = async (req, res) => {
   }
 };
 
-export const removeLocations = async (req, res) => {
-  let prefsRemoved = {};
-  // Only one can be removed at a time; will be triggered by button on frontend, won't be batch updated like adding
-  if (req.body?.skiPass) {
-    prefsRemoved["resortPreference.skiPass"] = req.body.skiPass;
+export const addSkiPasses = async (req, res) => {
+  let prefsAdded = {};
+
+  if (req.body?.skiPass)  {
+    prefsAdded["resortPreference.skiPass"] = req.body.skiPass;
+  } 
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.userID,
+      {
+        $addToSet: { ...prefsAdded }
+      },
+      { new: true },
+    );
+    res.status(200).json({ success: true, data: updatedUser.resortPreference });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error updating user", error: error });
   }
-  if (req.body.remove?.resorts) {
-    prefsRemoved["resortPreference.resorts"] = req.body.resorts;
+};
+
+export const removeResorts = async (req, res) => {
+  let prefsRemoved = [];
+  if (req.body?.resorts) {
+    prefsRemoved = req.body.resorts;
   }
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       {
-        $pull: { ...prefsRemoved }
+        $pull: { 'resortPreference.resorts': {$in: prefsRemoved}}
+      },
+      { new: true },
+    );
+    res.status(200).json({ success: true, data: updatedUser.resortPreference });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error updating user", error: error });
+  }
+};
+
+export const removeSkiPasses = async (req, res) => {
+  let prefsRemoved = [];
+  if (req.body?.skiPass) {
+    prefsRemoved = req.body.skiPass;
+  }
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.userID,
+      {
+        $pull: { 'resortPreference.skiPass': {$in: prefsRemoved}}
       },
       { new: true },
     );

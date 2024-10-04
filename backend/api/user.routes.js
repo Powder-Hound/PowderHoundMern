@@ -1,5 +1,5 @@
 import express from "express";
-import {createUser, login, addLocations, updateAlertThreshold, deleteUser, removeLocations, getUser } from "../controllers/user.controller.js";
+import {createUser, login, addResorts, addSkiPasses, updateAlertThreshold, deleteUser, removeResorts, removeSkiPasses, getUser } from "../controllers/user.controller.js";
 import { verifyToken, signupValidation } from "../middleware/authMiddleware.js";
 import { verifyUser } from "../middleware/twilioMiddleware.js";
 
@@ -11,9 +11,13 @@ userRouter.post("/login", login);
 
 userRouter.get("/:id", verifyToken, getUser);
 
-userRouter.put("/addLocations", verifyToken, addLocations);
+userRouter.put("/addResorts", verifyToken, addResorts);
 
-userRouter.put("/removeLocations", verifyToken, removeLocations)
+userRouter.put("/addSkiPasses", verifyToken, addSkiPasses);
+
+userRouter.put("/removeResorts", verifyToken, removeResorts);
+
+userRouter.put("/removeSkiPasses", verifyToken, removeSkiPasses);
 
 userRouter.put("/alertThreshold", verifyToken, updateAlertThreshold);
 
