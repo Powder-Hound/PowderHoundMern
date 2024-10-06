@@ -4,11 +4,9 @@ const Schema = mongoose.Schema;
 // Define the schema
 const resortSchema = new Schema({
   // Coordinates as latitude and longitude
-  coordinates: {
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true }
-  },
-  state: {
+  Latitude: { type: Number, required: true },
+  Longitude: { type: Number, required: true },
+  State: {
     type: String,
     required: true
   },

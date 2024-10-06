@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 dotenv.config();
+import {fetchForecastLink, fetchForecast} from './externalAPI/noaaAPI.js'
 
 const envOrigin = process.env.ORIGIN;
 
@@ -14,6 +15,7 @@ const corsOptions = {
 
 import userRouter from './api/user.routes.js';
 import resortRouter from './api/resort.routes.js';
+import { pullAPIData } from './chron/noaaChron.js';
 
 const port = process.env.PORT || 3000;
 
@@ -29,3 +31,5 @@ app.listen(port, () => {
   connectDB();
   console.log(`Server running on port ${port}`);
 });
+
+console.log(await pullAPIData())
