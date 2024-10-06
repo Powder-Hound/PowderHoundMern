@@ -12,7 +12,7 @@ export const fetchForecastLink = async (lat, long) => {
         return await response?.properties?.forecastGridData
     }
     catch (err) {
-        console.log(err)
+        console.log(err.status + ": NOAA Forecast Link Error")
     }
 }
 
@@ -29,7 +29,7 @@ export const fetchForecast = async (forecastLink) => {
         }
         return (snowfallSum, predictedSnowfall)
     } catch (err) {
-        console.log(err)
+        console.log(err.status + ": NOAA Forecast Error")
     }
 }
 
