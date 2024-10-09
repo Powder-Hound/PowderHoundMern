@@ -14,6 +14,9 @@ const corsOptions = {
 
 import userRouter from './api/user.routes.js';
 import resortRouter from './api/resort.routes.js';
+import { getAllNOAAData } from './chron/noaaChron.js';
+import { getAllWeatherBitData } from './chron/wbChron.js';
+import { getAllVisualCrossingData } from './chron/visualCrossingChron.js';
 
 const port = process.env.PORT || 3000;
 
@@ -29,3 +32,9 @@ app.listen(port, () => {
   connectDB();
   console.log(`Server running on port ${port}`);
 });
+
+// await getAllNOAAData()
+// await getAllWeatherBitData()
+await getAllVisualCrossingData()
+
+// console.log(await fetchWB(39.6042,-106.5166))

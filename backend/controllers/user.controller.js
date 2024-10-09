@@ -2,7 +2,6 @@ import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
-import { verifyUser } from "../middleware/twilioMiddleware.js";
 
 const hashPassword = async (password) => {
   try {

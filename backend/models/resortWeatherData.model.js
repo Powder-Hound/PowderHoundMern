@@ -5,6 +5,7 @@ const resortWeatherDataSchema = new Schema({
   resortId: {
     type: String,
     required: true,
+    unique: true
   },
   weatherData: {
     type: Object,
@@ -12,4 +13,4 @@ const resortWeatherDataSchema = new Schema({
   }
 });
 
-export const Resort = mongoose.model("ResortWeatherData", resortWeatherDataSchema);
+export const ResortWeatherData = mongoose.model("ResortWeatherData", resortWeatherDataSchema);

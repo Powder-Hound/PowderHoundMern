@@ -3,17 +3,35 @@ const Schema = mongoose.Schema;
 
 // Define the schema
 const resortSchema = new Schema({
-  // Coordinates as latitude and longitude
-  coordinates: {
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true }
+  'Ski Resort Name': {
+    type: String, 
+    required: true
   },
-  state: {
+  State: {
     type: String,
     required: true
   },
+  City: {
+    type: String,
+    required: true
+  },
+  Website: {
+    type: String,
+    required: false
+  },
+  'Snow Stick': {
+    type: String,
+    required: false
+  },
+  Latitude: { type: Number, required: true },
+  Longitude: { type: Number, required: true },
+  
   // Pass affiliation as a list of strings
-  passAffiliation: [String],
+  passAffiliation: {
+    Ikon: {type: Boolean},
+    Epic: {Boolean},
+    'Mountain Collective': {Boolean}
+  },
   // Travel information including airport and lodging details
   travelInfo: {
     airport: String,
@@ -21,8 +39,8 @@ const resortSchema = new Schema({
   },
   // Season with start and end dates
   season: {
-    start: { type: Date, required: true },
-    end: { type: Date, required: true }
+    start: { type: Date },
+    end: { type: Date }
   }
 });
 
