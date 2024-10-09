@@ -1,29 +1,13 @@
 import { fetchForecast, fetchForecastLink } from "../externalAPI/noaaAPI.js";
-import { Resort } from "../models/resorts.model.js";
 import { ResortWeatherData } from "../models/resortWeatherData.model.js"
+import { getAllResorts } from "./mongoResortHelper.js";
 
-let lastChecked;
-let fullResortsWithCoords = [];
+let lastChecked = new Date().toISOString();
+let query = { 'Country': 'United States' }
 
-const getAllResorts = async () => {
-    try {
-        // noaa only works for US! We only need to grab coords and a reference to the resort
-        const resorts = await Resort.find({'Country': 'United States'}, {
-            _id: 1,
-            Latitude: 1,
-            Longitude: 1,
-        })
-        resorts.forEach(D => fullResortsWithCoords.push({ resortId: D._id, Latitude: D.Latitude, Longitude: D.Longitude }))
-    }
-    catch (err) {
-        console.log(err)
-    }
-}
-
-
-export const pullAPIData = async () => {
-    await getAllResorts()
-        .then(async () => {
+export const getAllNOAAData = async () => {
+    await getAllResorts(query)
+        .then(async (fullResortsWithCoords) => {
             for (let i = 0; i < fullResortsWithCoords.length; i++) {
                 try {
                     let link = await fetchForecastLink(fullResortsWithCoords[i].Latitude, fullResortsWithCoords[i].Longitude);
@@ -38,22 +22,21 @@ export const pullAPIData = async () => {
                     // Set reference to resort, populate weatherdata with attribution to source
                     const updateForecast = await ResortWeatherData.findOneAndUpdate(
                         { resortId: fullResortsWithCoords[i].resortId },
-                        { $set: { weatherData: { noaa: { forecast } } } },
+                        { $set:
+                            {
+                                'weatherData.NOAA': { forecast },
+                                lastChecked: lastChecked
+                            }
+                    },
                         { upsert: true },
                         { new: true }
                     )
-                    if (!updateForecast){
-                        const updateForecast = new ResortWeatherData({
-                            'resortId': fullResortsWithCoords[i].resortId,
-                            'weatherData': { noaa: { forecast } }
-                        })
-                        await updateForecast.save();
-                    }
                 } catch (err) {
-                    console.log(err, fullResortsWithCoords[i])
+                    console.log("Error in NOAA Chron: " + err)
                 }
-                process.stdout.write(`\r\x1b[K---Fetching NOAA Data... (${i}/${fullResortsWithCoords.length} fetched)`)
+                process.stdout.write(`\r\x1b[K---Fetching NOAA Data... (${i + 1}/${fullResortsWithCoords.length} fetched)`)
             }
         })
+    console.log('\r')
     return console.log('NOAA Data updated')
 }
