@@ -17,6 +17,7 @@ import resortRouter from './api/resort.routes.js';
 import { getAllNOAAData } from './chron/noaaChron.js';
 import { getAllWeatherBitData } from './chron/wbChron.js';
 import { getAllVisualCrossingData } from './chron/visualCrossingChron.js';
+import { checkResorts } from './chron/notifyUsers.js';
 
 const port = process.env.PORT || 3000;
 
@@ -35,6 +36,7 @@ app.listen(port, () => {
 
 // await getAllNOAAData()
 // await getAllWeatherBitData()
-await getAllVisualCrossingData()
+// await getAllVisualCrossingData()
+console.log(await checkResorts())
 
 // console.log(await fetchWB(39.6042,-106.5166))

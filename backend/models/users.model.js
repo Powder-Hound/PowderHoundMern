@@ -48,11 +48,21 @@ const userSchema = new mongoose.Schema({
     alertThreshold: {
         preferredResorts: {
             type: Number,
-            default: 0
+            default: 12
         },
         anyResort: {
             type: Number,
-            default: 0
+            default: 18
+        },
+        snowfallPeriod: {
+            type: Number,
+            enum: [24, 48, 72], 
+            default: 48
+        },
+        uom: {
+            type: String,
+            enum: ['cm', 'mm', 'in'],
+            default: 'in'
         }
     },
     travelInformation: {

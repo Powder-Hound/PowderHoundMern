@@ -15,7 +15,9 @@ export const getAllNOAAData = async () => {
                     if (link === undefined) {
                         throw new Error("Unable to get link")
                     }
-                    let forecast = await fetchForecast(await link)
+                    let fetched = await fetchForecast(await link)
+                    let forecast = fetched[0]
+                    let uom = fetched[1]
                     if (forecast === null) {
                         throw new Error("Unable to get forecast")
                     }
@@ -24,8 +26,9 @@ export const getAllNOAAData = async () => {
                         { resortId: fullResortsWithCoords[i].resortId },
                         { $set:
                             {
-                                'weatherData.NOAA': { forecast },
-                                lastChecked: lastChecked
+                                'weatherData.NOAA.forecast': { forecast },
+                                lastChecked: lastChecked,
+                                'weatherData.NOAA.uom': uom
                             }
                     },
                         { upsert: true },
