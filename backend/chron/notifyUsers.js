@@ -1,5 +1,6 @@
 import { User } from "../models/users.model.js";
 import { ResortWeatherData } from "../models/resortWeatherData.model.js";
+import { send } from "process";
 
 const range = [24, 48, 72]
 
@@ -65,61 +66,75 @@ const uomConverter = (measurement, uom, convertTo) => {
 
 }
 
-const compileAggregates = (results) => {
+const compileAggregates = (resortId, weatherData) => {
     // A call is made once for each Range interval available as an enumerated option in users.model.js
-    let aggregates = { NOAA: {}, visualCrossing: [] }
-    for (let i = 0; i < results.length; i++) {
-        let resortId = results[i].resortId
-        let noaa = { [resortId]: [] }
-        let visCross = { [resortId]: [] }
+    let returnAggregates = { [resortId]: {} }
+
+    for (const dataSource in weatherData) {
+        returnAggregates[[resortId]][dataSource] = { uom: weatherData[dataSource].uom };
         for (let j = 0; j < range.length; j++) {
-            noaa[`${resortId}`].push({ [range[j]]: aggregateSnowfallForRange(results[i].weatherData.NOAA.forecast.forecast, range[j]) })
-            visCross[`${resortId}`].push({ [range[j]]: aggregateSnowfallForRange(results[i].weatherData.visualCrossing.forecast.forecast, range[j]) })
+            let rangeTitle = range[j].toString()
+            let getAggregates = aggregateSnowfallForRange(weatherData[dataSource].forecast.forecast, range[j])
+            returnAggregates[[resortId]][[dataSource]][[rangeTitle]] = getAggregates
         }
-        aggregates.NOAA[`${resortId}`] = noaa[`${resortId}`].map((resort) => ({ ...resort }));
-        aggregates.visualCrossing[`${resortId}`] = visCross[`${resortId}`].map((resort) => ({ ...resort }));
     }
-    return aggregates
+    return returnAggregates
 }
 
-const checkThresholds = (results) => {
-    let aggregates = compileAggregates(results);
-    let usersToNotify = [];
-    results.forEach((resort) => {
-        resort.usersWithResortPreference.forEach((user) => {
-            const period = ['24', '48', '72']
-            let userPeriod = period.indexOf(`${user.alertThreshold.snowfallPeriod}`)
+const checkThresholds = (user, aggregates) => {
+    let userRange = user.alertThreshold.snowfallPeriod.toString()
+    let resortId = Object.keys(aggregates).toString()
+    let userMatched = [{
+        resortId: resortId,
+        sources: []
+    }];
+    let thresholdMetSource = null
+    let count = 0
+    let sourceInfo = [];
 
-            let aggregateMatchNOAA = aggregates.NOAA[resort.resortId][[userPeriod]][`${period[userPeriod]}`]
-            let thresholdMetNOAA = aggregateMatchNOAA.some((val) => {
-                let sum;
-                if (resort.weatherData.NOAA.uom != user.alertThreshold.uom) {
-                    sum = uomConverter(val.sum, resort.weatherData.NOAA.uom, user.alertThreshold.uom)
-                } else {
-                    sum = val.sum
-                }
-                return sum <= user.alertThreshold.preferredResorts
-            })
+    for (const dataSource in aggregates[resortId]) {
+        let sourceMatch = aggregates[resortId][[dataSource]][[userRange]]
+        userMatched[0]["sources"].push(dataSource);
 
-            let aggregateMatchVC = aggregates.visualCrossing[resort.resortId][[userPeriod]][`${period[userPeriod]}`]
-            let thresholdMetVC = aggregateMatchVC.some((val) => {
-                let sum;
-                if (resort.weatherData.visualCrossing.uom != user.alertThreshold.uom) {
-                    sum = uomConverter(val.sum, resort.weatherData.visualCrossing.uom, user.alertThreshold.uom)
-                } else {
-                    sum = val.sum
-                }
-                return sum <= user.alertThreshold.preferredResorts
-            })
-            // console.log({[user.username]: {thresholdMetNOAA, thresholdMetVC, resortId: resort.resortId}})
-            usersToNotify.push({ [user._id]: { thresholdMetNOAA, thresholdMetVC, resortId: resort.resortId } })
+        sourceMatch.some((val) => {
+            let sum
+            if (aggregates[resortId][dataSource]['uom'] != user.alertThreshold.uom) {
+                sum = uomConverter(val.sum, aggregates[resortId][dataSource]["uom"], user.alertThreshold.uom)
+            } else {
+                sum = val.sum
+            }
+            if (sum >= user.alertThreshold.preferredResorts) {
+                count++
+                thresholdMetSource = true
+                sourceInfo.push(val)
+            } else {
+                return;
+            }
         })
+        if (sourceInfo.length > 0) {
+            userMatched[0][dataSource] = { thresholdMet: thresholdMetSource, sourceInfo: sourceInfo }
+        } else {
+            userMatched[0][dataSource] = { thresholdMet: thresholdMetSource }
+        }
+    }
+
+    let returnUser;
+
+    userMatched[0]["sources"].forEach((source) => {
+        if (userMatched[0][source].thresholdMet === true) {
+            returnUser = userMatched
+        } else {
+            return
+        }
     })
-    return usersToNotify
+
+    return returnUser
+
 }
 
 export const checkResorts = async () => {
     console.time('Execution Time')
+    let usersToNotify = {}
     try {
         ResortWeatherData.aggregate([
             {
@@ -137,7 +152,7 @@ export const checkResorts = async () => {
                         {
                             $project: {
                                 _id: 1,
-                                resortPreferences: 1,
+                                resortPreference: { resorts: 1, skiPass: 1 },
                                 alertThreshold: { preferredResorts: 1, snowfallPeriod: 1, uom: 1 }
                             }
                         }
@@ -159,10 +174,23 @@ export const checkResorts = async () => {
             }
         ])
             .then((results) => {
-                const usersToNotify = checkThresholds(results)
-                for (let i = 0; i < usersToNotify.length; i++) {
-                    
-                }
+                results.forEach((resort) => {
+                    let aggregates = compileAggregates(resort.resortId, resort.weatherData)
+                    // console.log(resort.usersWithResortPreference)
+                    resort.usersWithResortPreference.forEach((user) => {
+                        // usersToNotify[user._id] = {}
+                        let thresholdChecked = checkThresholds(user, aggregates)
+                        if (thresholdChecked) {
+                            if (usersToNotify.hasOwnProperty(user._id)) {
+                                usersToNotify[user._id]["resorts"] = thresholdChecked
+                            } else {
+                                usersToNotify[user._id] = {}
+                                usersToNotify[user._id]["resorts"] = thresholdChecked
+                            }
+                        }
+                    })
+                })
+                return usersToNotify
             }
             )
     } catch (error) {
