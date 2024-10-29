@@ -37,7 +37,7 @@ function checkVerification(phoneNumber, code) {
         });
 }
 
-export const verifyUser = async (req, res, next) => {
+export const verifyNumber = async (req, res, next) => {
     const phoneNumber = "+" + req.body.countryCode + req.body.phoneNumber;
     const status = await sendVerificationCode(phoneNumber).catch(err => {
         console.log(err);
@@ -57,3 +57,12 @@ export const verifyUser = async (req, res, next) => {
         });
     }
 };
+
+export const sendTextMessage = (number, message) => {
+    client.messages
+    .create({
+        body: message,
+        to: number,
+        from: '+18554267058'
+    })
+}

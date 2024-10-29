@@ -37,6 +37,6 @@ app.listen(port, () => {
 // await getAllNOAAData()
 // await getAllWeatherBitData()
 // await getAllVisualCrossingData()
-console.log(await checkResorts())
+await checkResorts()
 
 // console.log(await fetchWB(39.6042,-106.5166))

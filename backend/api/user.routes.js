@@ -1,11 +1,11 @@
 import express from "express";
 import {createUser, login, addResorts, addSkiPasses, updateAlertThreshold, deleteUser, removeResorts, removeSkiPasses, getUser } from "../controllers/user.controller.js";
 import { verifyToken, signupValidation } from "../middleware/authMiddleware.js";
-import { verifyUser } from "../middleware/twilioMiddleware.js";
+import { verifyNumber } from "../middleware/twilioMiddleware.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/signup", signupValidation, verifyUser, createUser);
+userRouter.post("/signup", signupValidation, verifyNumber, createUser);
 
 userRouter.post("/login", login);
 

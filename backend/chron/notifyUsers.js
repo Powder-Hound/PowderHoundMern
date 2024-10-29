@@ -1,6 +1,8 @@
 import { User } from "../models/users.model.js";
 import { ResortWeatherData } from "../models/resortWeatherData.model.js";
-import { send } from "process";
+import { NotifyData } from "../models/notify.model.js"
+import { sendTextMessage } from "../middleware/twilioMiddleware.js";
+import client from "../middleware/postmarkMiddleware.js"
 
 const range = [24, 48, 72]
 
@@ -81,120 +83,273 @@ const compileAggregates = (resortId, weatherData) => {
     return returnAggregates
 }
 
-const checkThresholds = (user, aggregates) => {
+const checkThresholds = (user, aggregates, userThreshold, thresholdCategory) => {
     let userRange = user.alertThreshold.snowfallPeriod.toString()
-    let resortId = Object.keys(aggregates).toString()
-    let userMatched = [{
-        resortId: resortId,
-        sources: []
-    }];
+    let resortIds = Object.keys(aggregates)
+    let resortMatched = {};
     let thresholdMetSource = null
-    let count = 0
-    let sourceInfo = [];
 
-    for (const dataSource in aggregates[resortId]) {
-        let sourceMatch = aggregates[resortId][[dataSource]][[userRange]]
-        userMatched[0]["sources"].push(dataSource);
+    for (let i in resortIds) {
+        let resortId = resortIds[i]
+        resortMatched[resortId] = {
+            sources: []
+        }
+        for (const dataSource in aggregates[resortId]) {
+            let sourceInfo = []
+            let sourceMatch = aggregates[resortId][[dataSource]][[userRange]]
+            resortMatched[resortId]["sources"].push(dataSource);
 
-        sourceMatch.some((val) => {
-            let sum
-            if (aggregates[resortId][dataSource]['uom'] != user.alertThreshold.uom) {
-                sum = uomConverter(val.sum, aggregates[resortId][dataSource]["uom"], user.alertThreshold.uom)
+            sourceMatch.some((val) => {
+                let sum
+                if (aggregates[resortId][dataSource]['uom'] != user.alertThreshold.uom) {
+                    sum = uomConverter(val.sum, aggregates[resortId][dataSource]["uom"], user.alertThreshold.uom)
+                } else {
+                    sum = val.sum
+                }
+                if (sum >= userThreshold) {
+                    thresholdMetSource = true
+                    sourceInfo.push(val)
+                } else {
+                    return;
+                }
+            })
+            if (sourceInfo.length > 0) {
+                resortMatched[resortId][dataSource] = {
+                    thresholdMet: thresholdMetSource,
+                    sourceInfo: sourceInfo,
+                    category: thresholdCategory,
+                    thresholdValidUntil: sourceInfo[sourceInfo.length - 1]['end:']
+                }
             } else {
-                sum = val.sum
+                continue
             }
-            if (sum >= user.alertThreshold.preferredResorts) {
-                count++
-                thresholdMetSource = true
-                sourceInfo.push(val)
-            } else {
-                return;
-            }
-        })
-        if (sourceInfo.length > 0) {
-            userMatched[0][dataSource] = { thresholdMet: thresholdMetSource, sourceInfo: sourceInfo }
-        } else {
-            userMatched[0][dataSource] = { thresholdMet: thresholdMetSource }
         }
     }
 
-    let returnUser;
+    let returnUser = [];
 
-    userMatched[0]["sources"].forEach((source) => {
-        if (userMatched[0][source].thresholdMet === true) {
-            returnUser = userMatched
-        } else {
-            return
+
+    resortIds.forEach((resortId) => {
+        let passedThresh = false
+        resortMatched[resortId]["sources"].forEach((source) => {
+            if (resortMatched[resortId][source]?.thresholdMet === true) {
+                passedThresh = true
+            }
+        })
+        if (passedThresh) {
+            returnUser.push(resortMatched[resortId])
         }
     })
 
-    return returnUser
+    if (returnUser.length > 0) {
+        return returnUser
+    }
 
 }
 
-export const checkResorts = async () => {
-    console.time('Execution Time')
-    let usersToNotify = {}
+
+let usersToNotify = {}
+
+let compileUserInfo = (user, aggregates, userThreshold) => {
+    let thresholdValue = user.alertThreshold[userThreshold]
+
+    let thresholdChecked = checkThresholds(user, aggregates, thresholdValue, userThreshold)
+    if (thresholdChecked) {
+        if (usersToNotify.hasOwnProperty(user._id)) {
+            usersToNotify[user._id]["resorts"][userThreshold] = thresholdChecked
+        } else {
+            usersToNotify[user._id] = {
+                username: user.username,
+                resorts: { [userThreshold]: thresholdChecked },
+                prefThreshold: user.alertThreshold.preferredResorts,
+                anyThreshold: user.alertThreshold.anyResort,
+                uom: user.alertThreshold.uom,
+                countryCode: user.countryCode,
+                phoneNumber: user.phoneNumber,
+                email: user?.email,
+                notificationPref: user.notificationsActive
+            }
+        }
+        return true
+
+    }
+}
+
+const getUsers = () => {
     try {
-        ResortWeatherData.aggregate([
-            {
-                $lookup: {
-                    from: "users", // Collection name of Users
-                    let: { resortId: "$resortId" },
-                    pipeline: [
-                        {
-                            $match: {
-                                $expr: {
-                                    $in: ["$$resortId", "$resortPreference.resorts"]
-                                }
-                            }
-                        },
-                        {
-                            $project: {
-                                _id: 1,
-                                resortPreference: { resorts: 1, skiPass: 1 },
-                                alertThreshold: { preferredResorts: 1, snowfallPeriod: 1, uom: 1 }
-                            }
-                        }
-                    ],
-                    as: "usersWithResortPreference"
-                }
-            },
+        return User.aggregate([
             {
                 $match: {
-                    "usersWithResortPreference.0": { $exists: true }
+                    $or: [
+                        { "notificationsActive.phone": { $eq: true } },
+                        { "notificationsActive.email": { $eq: true } }
+                    ]
                 }
             },
             {
                 $project: {
-                    resortId: 1,
-                    weatherData: 1,
-                    usersWithResortPreference: 1
+                    _id: 1,
+                    username: 1,
+                    resortPreference: { resorts: 1, skiPass: 1 },
+                    alertThreshold: { preferredResorts: 1, anyResort: 1, snowfallPeriod: 1, uom: 1 },
+                    countryCode: 1,
+                    phoneNumber: 1,
+                    email: 1,
+                    notificationsActive: { phone: 1, email: 1 },
                 }
             }
         ])
+            .then((results) => { return results })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const getAllResorts = () => {
+    try {
+        let allAggregates = {}
+        return ResortWeatherData.find({})
             .then((results) => {
                 results.forEach((resort) => {
-                    let aggregates = compileAggregates(resort.resortId, resort.weatherData)
-                    // console.log(resort.usersWithResortPreference)
-                    resort.usersWithResortPreference.forEach((user) => {
-                        // usersToNotify[user._id] = {}
-                        let thresholdChecked = checkThresholds(user, aggregates)
-                        if (thresholdChecked) {
-                            if (usersToNotify.hasOwnProperty(user._id)) {
-                                usersToNotify[user._id]["resorts"] = thresholdChecked
-                            } else {
-                                usersToNotify[user._id] = {}
-                                usersToNotify[user._id]["resorts"] = thresholdChecked
-                            }
-                        }
-                    })
+                    allAggregates[resort.resortId] = compileAggregates(resort.resortId, resort.weatherData)[resort.resortId]
                 })
-                return usersToNotify
-            }
-            )
+                return allAggregates
+            })
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
+}
+
+const getPreviousResults = async () => {
+    try {
+        return NotifyData.find({}, 
+            {
+                userId: 1,
+                previousMatches: 1
+            }
+        )
+        .then((results) => {return results})
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+const pushResults = async (userId, userResorts) => {
+    try {
+        const updateResults = await NotifyData.findOneAndUpdate({
+            userId: userId
+        },
+            {
+                $set: {
+                    previousMatches: userResorts
+                }
+            },
+            { upsert: true },
+            { new: true }
+        )
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const checkForChanges = (usersToNotify, previousData) => {
+    for (let previousUser in previousData) {
+        let userId = previousData[previousUser].userId
+        // First, check if updated user is already in the previous data. If they're not, nothing needs to happen. 
+        if (Object.keys(usersToNotify).includes(userId)) {
+            // If a user is in the previous data segment and that data is an exact 1-1 match, remove user from list of people to be notified. 
+            // (They already were last time, when the previous data was pushed to the DB. This applies to APIs that update daily, not hourly.)
+            if (JSON.stringify(previousData[previousUser].resorts) === JSON.stringify(usersToNotify.resorts)){
+                usersToNotify[userId] = undefined
+                return
+            }
+
+        } else {
+            return
+        }
+    }
+}
+
+export const checkResorts = async () => {
+    console.time('Execution Time')
+
+    let previousData = await getPreviousResults()
+    const allAggregates = await getAllResorts()
+    const allUsers = await getUsers();
+    let allAggregatesKeys = Object.keys(allAggregates)
+    allUsers.forEach(async (user) => {
+        let matchedResorts = {}
+        let unmatchedResorts = {}
+        allAggregatesKeys.forEach((resort) => {
+            if (user.resortPreference.resorts.includes(resort)) {
+                matchedResorts[resort] = allAggregates[resort]
+            } else {
+                unmatchedResorts[resort] = allAggregates[resort]
+            }
+        })
+        compileUserInfo(user, matchedResorts, 'preferredResorts')
+        compileUserInfo(user, unmatchedResorts, 'anyResort')
+        if (usersToNotify[user._id.toString()]) {
+            let resorts = usersToNotify[user._id.toString()].resorts
+            // pushResults(user._id, resorts)
+        }
+    })
     console.timeEnd('Execution Time')
+    console.log(Object.keys(usersToNotify).length)
+    checkForChanges(usersToNotify, previousData)
+    console.log(Object.keys(usersToNotify).length)
+    // sendUserNotifications(usersToNotify)
+    return usersToNotify
+}
+
+const sendUserNotifications = (usersToNotify) => {
+    for (let userId in usersToNotify) {
+        let user = usersToNotify[userId]
+        let sumOfPrefResorts
+        user.resorts.preferredResorts ? sumOfPrefResorts = Object.keys(user.resorts?.preferredResorts).length : null
+        let sumOfAnyResorts
+        user.resorts.anyResort ? sumOfAnyResorts = Object.keys(user.resorts?.anyResort).length : null
+
+        let messageEndings = ['hit the slopes!', 'shred.', 'conquer!', 'hit a black diamond.', 'shred the gnar.', 'carve up.', 'bomb.', 'drop in!', 'make fresh tracks.']
+        let prefMessage = `${sumOfPrefResorts} preferred ${sumOfPrefResorts > 1 ? "resorts" : "resort"} with over ${user.prefThreshold}${user.uom} of snow`
+        let anyMessage = `${sumOfAnyResorts} ${sumOfAnyResorts > 1 ? "resorts" : "resort"} with over ${user.anyThreshold}${user.uom} of snow`
+        let finalMessage
+        let messageEnd = messageEndings[Math.floor(Math.random() * (messageEndings.length))]
+        if (sumOfPrefResorts && sumOfAnyResorts) {
+            finalMessage = prefMessage + ' and ' + anyMessage + ' ready to ' + messageEnd
+        } else if (sumOfPrefResorts) {
+            finalMessage = prefMessage + ' ready to ' + messageEnd
+        } else if (sumOfAnyResorts) {
+            finalMessage = anyMessage + ' ready to ' + messageEnd
+        }
+        let message = `Hello, ${user.username}! You have ${finalMessage} 
+To see details, head to https://www.powalert.com/. 
+        
+Click here to change your preferences or unsubscribe: https://www.powalert.com/deactivate`
+        let notificationPref = user.notificationPref
+        if (notificationPref.phone === true) {
+            try {
+                // sendTextMessage(user.phoneNumber, message)
+            } catch (error) {
+                console.error(error)
+            }
+            // console.log(message)
+        }
+        if (notificationPref.email === true) {
+            try {
+                // client.sendEmail({
+                //         "From": "sudo@powalert.com",
+                //         "To": `${user.email}`,
+                //         "Subject": "New matches for your alerts",
+                //         // "HtmlBody": message,
+                //         "TextBody": `${message}`,
+                //         "MessageStream": "outbound"
+                //       });
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
+
+    console.log('messages sent')
 }

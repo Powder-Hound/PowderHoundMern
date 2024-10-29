@@ -31,9 +31,16 @@ const userSchema = new mongoose.Schema({
         required: false
     },
     notificationsActive: {
-        type: Boolean,
-        default: true,
-        required: true
+        phone: {
+            type: Boolean,
+            default: true,
+            required: true
+        },
+        email: {
+            type: Boolean,
+            default: false,
+            required: true
+        }
     },
     resortPreference: {
         skiPass: {
@@ -48,24 +55,24 @@ const userSchema = new mongoose.Schema({
     alertThreshold: {
         preferredResorts: {
             type: Number,
-            default: 12, 
+            default: 12,
             required: false
         },
         anyResort: {
             type: Number,
-            default: 18, 
+            default: 18,
             required: false
         },
         snowfallPeriod: {
             type: Number,
-            enum: [24, 48, 72], 
-            default: 48, 
+            enum: [24, 48, 72],
+            default: 48,
             required: true
         },
         uom: {
             type: String,
             enum: ['cm', 'mm', 'in'],
-            default: 'in', 
+            default: 'in',
             required: true
         }
     },
