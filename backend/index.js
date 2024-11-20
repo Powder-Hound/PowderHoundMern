@@ -7,7 +7,7 @@ dotenv.config();
 const envOrigin = process.env.ORIGIN;
 
 const corsOptions = {
-  origin: envOrigin,
+  'access-control-allow-origins': envOrigin,
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -37,6 +37,6 @@ app.listen(port, () => {
 // await getAllNOAAData()
 // await getAllWeatherBitData()
 // await getAllVisualCrossingData()
-await checkResorts()
+// await checkResorts()
 
 // console.log(await fetchWB(39.6042,-106.5166))

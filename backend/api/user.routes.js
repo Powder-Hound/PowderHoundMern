@@ -1,15 +1,27 @@
 import express from "express";
-import {createUser, login, addResorts, addSkiPasses, updateAlertThreshold, deleteUser, removeResorts, removeSkiPasses, getUser } from "../controllers/user.controller.js";
+import {createUser, login, addResorts, addSkiPasses, updateAlertThreshold, deleteUser, removeResorts, removeSkiPasses, getUser, validateUsername, getUserResorts } from "../controllers/user.controller.js";
 import { verifyToken, signupValidation } from "../middleware/authMiddleware.js";
-import { verifyNumber } from "../middleware/twilioMiddleware.js";
+import { sendVerificationCode, verifyOTP, validatePhoneNumber } from "../middleware/twilioMiddleware.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/signup", signupValidation, verifyNumber, createUser);
+userRouter.post("/signup", signupValidation, createUser);
+
+userRouter.post('/validate-username', validateUsername);
+
+userRouter.post('/validate-number', validatePhoneNumber);
+
+userRouter.post('/send-verification', sendVerificationCode);
+
+userRouter.post('/verify-otp', verifyOTP);
 
 userRouter.post("/login", login);
 
+// userRouter.put('/updatePassword', updatePassword);
+
 userRouter.get("/:id", verifyToken, getUser);
+
+userRouter.get('/getUserResorts', verifyToken, getUserResorts);
 
 userRouter.put("/addResorts", verifyToken, addResorts);
 

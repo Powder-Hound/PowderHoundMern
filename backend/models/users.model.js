@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: false
     },
     countryCode: {
         type: Number,
@@ -49,6 +49,18 @@ const userSchema = new mongoose.Schema({
         },
         resorts: {
             type: [String],
+            required: false
+        }
+    },
+    activityPreference: {
+        skiing: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
+        snowboarding: {
+            type: Boolean,
+            default: false,
             required: false
         }
     },

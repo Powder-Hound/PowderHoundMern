@@ -21,14 +21,16 @@ export const createUser = async (req, res) => {
   const errors = validationResult(req);
 
   const user = req.body;
-  
+
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   } else {
     const newUser = new User(user);
 
     // Hash password before database input
-    newUser.password = await hashPassword(user.password);
+    if (newUser.password) {
+      newUser.password = await hashPassword(user.password);
+    }
     const token = jwt.sign(
       {
         username: newUser.username,
@@ -50,6 +52,17 @@ export const createUser = async (req, res) => {
     }
   }
 };
+
+export const validateUsername = async (req, res) => {
+  const value = req.body.username
+  const userInDB = await User.findOne({ username: value });
+  if (userInDB) {
+    console.log(userInDB)
+    return res.status(400).json({ success: false, error: "Username already exists" })
+  } else {
+    return res.status(200).json({ success: true })
+  }
+}
 
 export const login = async (req, res) => {
   const { username, password } = req.body;
@@ -91,6 +104,18 @@ export const getUser = async (req, res) => {
     res.status(401).json({ success: false, message: "Unauthorized", status: 401 });
   }
 };
+
+export const getUserResorts = async (req, res) => {
+  if (req.permissions === "admin" || req.userID === req.params.id) {
+    const userInDB = await User.findById(req.params.id);
+    if (userInDB) {
+      res.status(200).json({ success: true, data: userInDB.resortPreference?.resorts, status: 200 });
+    }
+  } else {
+    res.status(401).json({ success: false, message: "Unauthorized", status: 401 });
+  }
+};
+
 // Locations provided will be an ObjectID referring to a resort
 export const addResorts = async (req, res) => {
   let prefsAdded = {};
@@ -118,9 +143,9 @@ export const addResorts = async (req, res) => {
 export const addSkiPasses = async (req, res) => {
   let prefsAdded = {};
 
-  if (req.body?.skiPass)  {
+  if (req.body?.skiPass) {
     prefsAdded["resortPreference.skiPass"] = req.body.skiPass;
-  } 
+  }
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -147,7 +172,7 @@ export const removeResorts = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       {
-        $pull: { 'resortPreference.resorts': {$in: prefsRemoved}}
+        $pull: { 'resortPreference.resorts': { $in: prefsRemoved } }
       },
       { new: true },
     );
@@ -168,7 +193,7 @@ export const removeSkiPasses = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       {
-        $pull: { 'resortPreference.skiPass': {$in: prefsRemoved}}
+        $pull: { 'resortPreference.skiPass': { $in: prefsRemoved } }
       },
       { new: true },
     );
