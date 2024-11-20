@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: false
     },
     countryCode: {
         type: Number,
@@ -31,9 +31,16 @@ const userSchema = new mongoose.Schema({
         required: false
     },
     notificationsActive: {
-        type: Boolean,
-        default: true,
-        required: true
+        phone: {
+            type: Boolean,
+            default: true,
+            required: true
+        },
+        email: {
+            type: Boolean,
+            default: false,
+            required: true
+        }
     },
     resortPreference: {
         skiPass: {
@@ -45,14 +52,40 @@ const userSchema = new mongoose.Schema({
             required: false
         }
     },
+    activityPreference: {
+        skiing: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
+        snowboarding: {
+            type: Boolean,
+            default: false,
+            required: false
+        }
+    },
     alertThreshold: {
         preferredResorts: {
             type: Number,
-            default: 0
+            default: 12,
+            required: false
         },
         anyResort: {
             type: Number,
-            default: 0
+            default: 18,
+            required: false
+        },
+        snowfallPeriod: {
+            type: Number,
+            enum: [24, 48, 72],
+            default: 48,
+            required: true
+        },
+        uom: {
+            type: String,
+            enum: ['cm', 'mm', 'in'],
+            default: 'in',
+            required: true
         }
     },
     travelInformation: {

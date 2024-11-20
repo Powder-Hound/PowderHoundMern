@@ -9,13 +9,16 @@ export const getAllVisualCrossingData = async () => {
         .then(async (fullResortsWithCoords) => {
             for (let i = 0; i < fullResortsWithCoords.length; i++) {
                 try {
-                    let forecast = await fetchVisualCrossing(fullResortsWithCoords[i].Latitude, fullResortsWithCoords[i].Longitude)
+                    let fetched = await fetchVisualCrossing(fullResortsWithCoords[i].Latitude, fullResortsWithCoords[i].Longitude)
+                    let forecast = fetched[0]
+                    let uom = fetched[1]
                     const updateForecast = await ResortWeatherData.findOneAndUpdate(
                         { resortId: fullResortsWithCoords[i].resortId },
                         { $set:
                                 {
-                                    'weatherData.visualCrossing': { forecast },
-                                    lastChecked: lastChecked
+                                    'weatherData.visualCrossing.forecast': { forecast },
+                                    lastChecked: lastChecked,
+                                    'weatherData.visualCrossing.uom': uom
                                 }
                         },
                         { upsert: true },

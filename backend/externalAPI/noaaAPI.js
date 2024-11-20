@@ -23,13 +23,22 @@ export const fetchForecast = async (forecastLink) => {
         })
             .then(response => response.json())
         const predictedSnowfall = response.properties?.snowfallAmount.values
-        let snowfallSum = 0;
-        for (let i = 0; i < predictedSnowfall?.length; i++) {
-            snowfallSum += predictedSnowfall[i]?.value;
+        let uom = response.properties?.snowfallAmount?.uom
+        if (uom && uom.includes(':')) {
+            uom = uom.split(':')[1]
         }
-        return (snowfallSum, predictedSnowfall)
+        if (predictedSnowfall) {
+            for (let i = 0; i < predictedSnowfall.length; i++) {
+                if (predictedSnowfall[i].validTime.includes('/')) {
+                    let truncatedVT = predictedSnowfall[i].validTime.split("/")
+                    predictedSnowfall[i].validTime = truncatedVT[0]
+                }
+            }
+        }
+        // console.log(predictedSnowfall)
+        return (predictedSnowfall ? [predictedSnowfall, uom] : null)
     } catch (err) {
-        console.log(err.status + ": NOAA Forecast Error")
+        console.log(err + ": NOAA Forecast Error")
     }
 }
 
