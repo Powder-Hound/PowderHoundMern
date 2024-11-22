@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
         default: 'user',
         required: true
     },
-    username: {
+    name: {
         type: String,
         required: true,
         unique: true
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    countryCode: {
+    areaCode: {
         type: Number,
         required: true,
         default: 1
@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
+    },
+    phoneVerifySID: {
+        type: String,
+        required: true
     },
     email: {
         type: String,
@@ -50,6 +54,24 @@ const userSchema = new mongoose.Schema({
         resorts: {
             type: [String],
             required: false
+        },
+        lodging: {
+            slopeside: {
+                type: Boolean,
+                required: false
+            },
+            luxury:  {
+                type: Boolean,
+                required: false
+            },
+            budget: {
+                type: Boolean,
+                required: false
+            },
+            value:  {
+                type: Boolean,
+                required: false
+            },
         }
     },
     activityPreference: {
