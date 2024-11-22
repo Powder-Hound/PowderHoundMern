@@ -45,4 +45,4 @@ const resortSchema = new Schema({
 });
 
 // Create the model
-export const Resort = mongoose.model('Resort', resortSchema);
+export const Resort = mongoose.model('Resort', resortSchema, 'resorts');
