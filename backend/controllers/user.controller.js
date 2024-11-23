@@ -18,13 +18,13 @@ const hashPassword = async (password) => {
 // Password must be between 8 and 128 characters long
 export const createUser = async (req, res) => {
   // Validate the request body- called in index.js in the route declaration. Defined in ../middleware/authMiddleware.js
-  const errors = validationResult(req);
+  // const errors = validationResult(req);
 
   const user = req.body;
 
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  } else {
+  // if (!errors.isEmpty()) {
+  //   return res.status(422).json({ errors: errors.array() });
+  // } else {
     const newUser = new User(user);
 
     // Hash password before database input
@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
     }
     const token = jwt.sign(
       {
-        username: newUser.username,
+        username: newUser.name,
         userID: newUser._id,
         permissions: newUser.permissions,
       },
@@ -50,7 +50,7 @@ export const createUser = async (req, res) => {
         .status(500)
         .json({ success: false, message: "Error saving user", error: error });
     }
-  }
+  // }
 };
 
 export const validateUsername = async (req, res) => {
