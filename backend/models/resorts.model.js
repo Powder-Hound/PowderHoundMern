@@ -29,8 +29,9 @@ const resortSchema = new Schema({
   // Pass affiliation as a list of strings
   passAffiliation: {
     Ikon: {type: Boolean},
-    Epic: {Boolean},
-    'Mountain Collective': {Boolean}
+    Epic: {type: Boolean},
+    Indy: {type: Boolean},
+    MountainCollective: {type: Boolean},
   },
   // Travel information including airport and lodging details
   travelInfo: {
