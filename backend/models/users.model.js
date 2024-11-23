@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    phoneVerifySID: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: false
