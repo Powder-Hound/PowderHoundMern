@@ -5,7 +5,7 @@ import { sendVerificationCode, verifyOTP, validatePhoneNumber } from "../middlew
 
 const userRouter = express.Router();
 
-userRouter.post("/signup", signupValidation, createUser);
+userRouter.post("/signup", createUser);
 
 userRouter.post('/validate-username', validateUsername);
 

@@ -23,24 +23,6 @@ export const verifyToken = (req, res, next) => {
 }
 
 export const signupValidation = [
-  // validate username
-  body('username')
-  .trim()
-  .escape()
-  .isLength({ min: 5 })
-  .withMessage('Username must be at least 5 characters long')
-  .custom(async value => {
-    const userInDB = await User.findOne({ username: value });
-    if (userInDB) {
-      throw new Error("Username already exists");
-    }
-  }),
-  
-  body('password')
-  .trim()
-  .escape()
-  .isLength({ min: passwordLength.min, max: passwordLength.max})
-  .withMessage(`Password must be between ${passwordLength.min} and ${passwordLength.max} characters long`),
 
   body('countryCode')
   .trim()
