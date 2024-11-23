@@ -22,26 +22,26 @@ export const verifyToken = (req, res, next) => {
   }
 }
 
-export const signupValidation = [
+// export const signupValidation = [
 
-  body('countryCode')
-  .trim()
-  .escape()
-  .isNumeric()
-  .withMessage('Country code must be a number'),
+//   body('countryCode')
+//   .trim()
+//   .escape()
+//   .isNumeric()
+//   .withMessage('Country code must be a number'),
   
-  body('phoneNumber')
-  .trim()
-  .isMobilePhone('en-US')
-  .withMessage('Phone number is not valid')
-  .replace(/[^0-9]/g, '')
-  .custom(async value => {
-    const phonenumberInDB = await User.findOne({
-      phoneNumber: value,
-    });
-    if (phonenumberInDB) {
-      throw new Error("Phone number already exists");
-    }
-  })
-]
+//   body('phoneNumber')
+//   .trim()
+//   .isMobilePhone('en-US')
+//   .withMessage('Phone number is not valid')
+//   .replace(/[^0-9]/g, '')
+//   .custom(async value => {
+//     const phonenumberInDB = await User.findOne({
+//       phoneNumber: value,
+//     });
+//     if (phonenumberInDB) {
+//       throw new Error("Phone number already exists");
+//     }
+//   })
+// ]
 
