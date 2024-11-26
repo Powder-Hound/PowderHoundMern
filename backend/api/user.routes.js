@@ -1,7 +1,7 @@
 import express from "express";
 import {createUser, login, addResorts, addSkiPasses, updateAlertThreshold, deleteUser, removeResorts, removeSkiPasses, getUser, validateUsername, getUserResorts } from "../controllers/user.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
-import { sendVerificationCode, verifyOTP, validatePhoneNumber } from "../middleware/twilioMiddleware.js";
+import { sendVerificationCode, verifyOTP, validatePhoneNumber, sendVerificationEmail, emailVerificationCheck } from "../middleware/twilioMiddleware.js";
 
 const userRouter = express.Router();
 
@@ -12,6 +12,10 @@ userRouter.post('/validate-username', validateUsername);
 userRouter.post('/validate-number', validatePhoneNumber);
 
 userRouter.post('/send-verification', sendVerificationCode);
+
+userRouter.post('/send-verification-email', sendVerificationEmail);
+
+userRouter.post('/verify-email-otp', emailVerificationCheck);
 
 userRouter.post('/verify-otp', verifyOTP);
 

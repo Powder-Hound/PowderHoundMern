@@ -43,6 +43,9 @@ export const findResort = async (req, res) => {
   if (req.query.name) {
     query['Ski Resort Name'] = { '$regex': req.query.name, '$options': 'i' }
   }
+  if (req.query.id) {
+    query._id = req.query.state
+  }
   if (!req.query.name && !req.query.state) {
     try {
       const resort = await Resort.distinct('State')
