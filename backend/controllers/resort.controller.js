@@ -73,6 +73,21 @@ export const findResort = async (req, res) => {
   }
 };
 
+export const findListOfResorts = async (req, res) => {
+  // expects list of IDs from front end/user object
+  let ids = req.body.ids;
+  try {
+    const resorts = await Resort.find().where('_id').in(ids).exec()
+    if (resorts) {
+      res.status(200).json({success: true, data: resorts})
+    } else {
+      res.status(500).json({success: false, message: 'There was an error retrieving resorts'})
+    }
+  } catch (error) {
+    res.status(500).json({error: error})
+  }
+} 
+
 export const getAllResorts = async (req, res) => {
   let page = Number(req.query.page) || 1;
   let pageSize = Number(req.query.pageSize) || 25;
