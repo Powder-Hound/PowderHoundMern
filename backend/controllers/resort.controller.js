@@ -75,16 +75,16 @@ export const findResort = async (req, res) => {
 
 export const findListOfResorts = async (req, res) => {
   // expects list of IDs from front end/user object
-  let ids = req.body.ids;
+  let ids = req.query.ids;
   try {
-    const resorts = await Resort.find().where('_id').in(ids).exec()
+    const resorts = await Resort.find({'_id': { $in: ids}})
     if (resorts) {
       res.status(200).json({success: true, data: resorts})
     } else {
       res.status(500).json({success: false, message: 'There was an error retrieving resorts'})
     }
   } catch (error) {
-    res.status(500).json({error: error})
+    res.status(500).json({success: false, message: error})
   }
 } 
 
