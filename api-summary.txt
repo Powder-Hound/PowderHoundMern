@@ -1,0 +1,26 @@
+Public Routes:
+POST /signup
+POST /login
+POST /validate-username
+POST /validate-number
+POST /send-verification
+POST /verify-otp
+POST /send-verification-email
+POST /verify-email-otp
+GET /find
+GET /list
+GET /
+
+Protected Routes:
+POST /create
+GET /id/:id
+PUT /:id
+DELETE /:id
+GET /:id
+GET /getUserResorts
+PUT /addResorts
+PUT /addSkiPasses
+PUT /removeResorts
+PUT /removeSkiPasses
+PUT /alertThreshold
+DELETE /:id

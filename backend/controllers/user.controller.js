@@ -25,72 +25,107 @@ export const createUser = async (req, res) => {
   // if (!errors.isEmpty()) {
   //   return res.status(422).json({ errors: errors.array() });
   // } else {
-    const newUser = new User(user);
+  const newUser = new User(user);
 
-    // Hash password before database input
-    if (newUser.password) {
-      newUser.password = await hashPassword(user.password);
-    }
-    const token = jwt.sign(
-      {
-        username: newUser.name,
-        userID: newUser._id,
-        permissions: newUser.permissions,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" },
-    );
-    try {
-      const savedUser = await newUser.save();
-      res
-        .status(201)
-        .json({ success: true, data: savedUser, token: token });
-    } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "Error saving user", error: error });
-    }
+  // Hash password before database input
+  if (newUser.password) {
+    newUser.password = await hashPassword(user.password);
+  }
+  const token = jwt.sign(
+    {
+      username: newUser.name,
+      userID: newUser._id,
+      permissions: newUser.permissions,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+  try {
+    const savedUser = await newUser.save();
+    res.status(201).json({ success: true, data: savedUser, token: token });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error saving user", error: error });
+  }
   // }
 };
 
 export const validateUsername = async (req, res) => {
-  const value = req.body.username
+  const value = req.body.username;
   const userInDB = await User.findOne({ username: value });
   if (userInDB) {
-    console.log(userInDB)
-    return res.status(400).json({ success: false, error: "Username already exists" })
+    console.log(userInDB);
+    return res
+      .status(400)
+      .json({ success: false, error: "Username already exists" });
   } else {
-    return res.status(200).json({ success: true })
+    return res.status(200).json({ success: true });
   }
-}
+};
 
 export const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
+
   try {
-    const userInDB = await User.findOne({ username });
-    if (userInDB && (await argon2.verify(userInDB.password, password))) {
-      const token = jwt.sign(
-        {
-          username: userInDB.username,
-          userID: userInDB._id,
-          permissions: userInDB.permissions,
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" },
-      );
-      res
-        .status(200)
-        .json({
-          status: 200,
-          success: true,
-          resortPreference: userInDB.resortPreference,
-          token: token
-        });
-    } else {
-      res.status(401).json({ success: false, message: "Invalid credentials", status: 401 });
+    console.log("Request Body:", req.body);
+
+    // Find user by email
+    const userInDB = await User.findOne({ email });
+    console.log("User Found:", userInDB);
+
+    if (!userInDB) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
+
+    // Verify password
+    if (!userInDB.password) {
+      return res.status(500).json({
+        success: false,
+        message: "User password is missing or corrupted.",
+      });
+    }
+
+    const isPasswordValid = await argon2.verify(userInDB.password, password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        username: userInDB.username,
+        userID: userInDB._id,
+        permissions: userInDB.permissions,
+      },
+      process.env.JWT_SECRET || "default_secret",
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+      token,
+      user: {
+        id: userInDB._id,
+        email: userInDB.email,
+        username: userInDB.username,
+      },
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error retrieving users", status: 500 });
+    console.error("Login Error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Error during login.",
+      error: error.message,
+    });
   }
 };
 
@@ -101,7 +136,9 @@ export const getUser = async (req, res) => {
       res.status(200).json({ success: true, data: userInDB, status: 200 });
     }
   } else {
-    res.status(401).json({ success: false, message: "Unauthorized", status: 401 });
+    res
+      .status(401)
+      .json({ success: false, message: "Unauthorized", status: 401 });
   }
 };
 
@@ -109,10 +146,16 @@ export const getUserResorts = async (req, res) => {
   if (req.permissions === "admin" || req.userID === req.params.id) {
     const userInDB = await User.findById(req.params.id);
     if (userInDB) {
-      res.status(200).json({ success: true, data: userInDB.resortPreference?.resorts, status: 200 });
+      res.status(200).json({
+        success: true,
+        data: userInDB.resortPreference?.resorts,
+        status: 200,
+      });
     }
   } else {
-    res.status(401).json({ success: false, message: "Unauthorized", status: 401 });
+    res
+      .status(401)
+      .json({ success: false, message: "Unauthorized", status: 401 });
   }
 };
 
@@ -128,9 +171,9 @@ export const addResorts = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       {
-        $addToSet: { ...prefsAdded }
+        $addToSet: { ...prefsAdded },
       },
-      { new: true },
+      { new: true }
     );
     res.status(200).json({ success: true, data: updatedUser.resortPreference });
   } catch (error) {
@@ -151,9 +194,9 @@ export const addSkiPasses = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       {
-        $addToSet: { ...prefsAdded }
+        $addToSet: { ...prefsAdded },
       },
-      { new: true },
+      { new: true }
     );
     res.status(200).json({ success: true, data: updatedUser.resortPreference });
   } catch (error) {
@@ -172,9 +215,9 @@ export const removeResorts = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       {
-        $pull: { 'resortPreference.resorts': { $in: prefsRemoved } }
+        $pull: { "resortPreference.resorts": { $in: prefsRemoved } },
       },
-      { new: true },
+      { new: true }
     );
     res.status(200).json({ success: true, data: updatedUser.resortPreference });
   } catch (error) {
@@ -193,9 +236,9 @@ export const removeSkiPasses = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       {
-        $pull: { 'resortPreference.skiPass': { $in: prefsRemoved } }
+        $pull: { "resortPreference.skiPass": { $in: prefsRemoved } },
       },
-      { new: true },
+      { new: true }
     );
     res.status(200).json({ success: true, data: updatedUser.resortPreference });
   } catch (error) {
@@ -218,7 +261,7 @@ export const updateAlertThreshold = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.userID,
       { $set: { ...prefs } },
-      { new: true },
+      { new: true }
     );
     res.status(200).json({ success: true, data: updatedUser.alertThreshold });
   } catch (error) {
