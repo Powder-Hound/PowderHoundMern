@@ -2,6 +2,20 @@ import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 // import { validationResult } from "express-validator";
+import twilio from "twilio";
+import dotenv from "dotenv";
+dotenv.config();
+
+console.log("TWILIO_ACCOUNT_SID:", process.env.TWILIO_ACCOUNT_SID);
+console.log("TWILIO_AUTH_TOKEN:", process.env.TWILIO_AUTH_TOKEN);
+console.log(
+  "TWILIO_VERIFY_SERVICE_SID:",
+  process.env.TWILIO_VERIFY_SERVICE_SID
+);
+const client = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 
 const hashPassword = async (password) => {
   try {
@@ -64,44 +78,81 @@ export const validateUsername = async (req, res) => {
   }
 };
 
+const validateAndFormatPhoneNumber = async (phoneNumber) => {
+  try {
+    // Check for valid E.164 format
+    const phoneRegex = /^\+\d{10,15}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      throw new Error("Phone number must be in valid E.164 format.");
+    }
+
+    // Validate the phone number with Twilio's Lookup API
+    const lookup = await client.lookups.v2.phoneNumbers(phoneNumber).fetch();
+    console.log("Validated Phone Number:", lookup.phoneNumber);
+    return lookup.phoneNumber;
+  } catch (error) {
+    console.error("Phone Number Validation Error:", error.message);
+    throw new Error(
+      "Invalid or unsupported phone number. Ensure the number is in E.164 format."
+    );
+  }
+};
+
+// Function to generate JWT Token
+const generateToken = (user) => {
+  return jwt.sign(
+    {
+      username: user.name,
+      userID: user._id,
+      permissions: user.permissions,
+    },
+    process.env.JWT_SECRET || "default_secret",
+    { expiresIn: "1h" }
+  );
+};
+
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { phoneNumber, code } = req.body;
 
   try {
     console.log("Request Body:", req.body);
 
-    // Find user by email
-    const userInDB = await User.findOne({ email });
-    console.log("User Found:", userInDB);
+    // Step 1: Validate and format the phone number (E.164 format)
+    const formattedPhoneNumber = phoneNumber.startsWith("+")
+      ? phoneNumber
+      : `+${phoneNumber}`;
+    console.log("Formatted Phone Number:", formattedPhoneNumber);
 
+    // Step 2: Verify OTP with Twilio
+    const verificationCheck = await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SERVICE_SID)
+      .verificationChecks.create({
+        to: formattedPhoneNumber,
+        code: code,
+      });
+
+    console.log("Verification Status:", verificationCheck.status);
+
+    if (verificationCheck.status !== "approved") {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired verification code.",
+      });
+    }
+
+    // Step 3: Find user in the database
+    const userInDB = await User.findOne({ phoneNumber: formattedPhoneNumber });
     if (!userInDB) {
       return res.status(404).json({
         success: false,
-        message: "User not found",
+        message: "User not found. Please register first.",
       });
     }
 
-    // Verify password
-    if (!userInDB.password) {
-      return res.status(500).json({
-        success: false,
-        message: "User password is missing or corrupted.",
-      });
-    }
-
-    const isPasswordValid = await argon2.verify(userInDB.password, password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials",
-      });
-    }
-
-    // Generate JWT token
+    // Step 4: Generate JWT token
     const token = jwt.sign(
       {
-        username: userInDB.username,
+        username: userInDB.name,
         userID: userInDB._id,
         permissions: userInDB.permissions,
       },
@@ -109,14 +160,16 @@ export const login = async (req, res) => {
       { expiresIn: "1h" }
     );
 
+    // Step 5: Return success response
     return res.status(200).json({
       success: true,
       message: "Login successful",
       token,
       user: {
         id: userInDB._id,
-        email: userInDB.email,
-        username: userInDB.username,
+        phoneNumber: userInDB.phoneNumber,
+        username: userInDB.name,
+        permissions: userInDB.permissions,
       },
     });
   } catch (error) {
