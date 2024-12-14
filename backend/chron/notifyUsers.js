@@ -4,7 +4,7 @@ import { NotifyData } from "../models/notify.model.js";
 import { sendTextMessage } from "../middleware/twilioMiddleware.js";
 import client from "../middleware/postmarkMiddleware.js";
 
-const range = [24, 48, 72];
+const range = [24, 48];
 
 // Define Ski Regions including Alaska
 const skiRegions = {
