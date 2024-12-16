@@ -131,3 +131,7 @@ dist
 
 # Replit debugger
 .breakpoints
+
+# Test directory
+__tests__/
+test/
