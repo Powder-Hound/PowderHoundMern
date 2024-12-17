@@ -119,31 +119,31 @@ export const login = async (req, res) => {
   try {
     console.log("Request Body:", req.body);
 
-    // Step 1: Validate and format the phone number (E.164 format)
-    const formattedPhoneNumber = phoneNumber.startsWith("+")
-      ? phoneNumber
-      : `+${phoneNumber}`;
-    console.log("Formatted Phone Number:", formattedPhoneNumber);
+    // // Step 1: Validate and format the phone number (E.164 format)
+    // const formattedPhoneNumber = phoneNumber.startsWith("")
+    //   ? phoneNumber
+    //   : `${phoneNumber}`;
+    // console.log("Formatted Phone Number:", formattedPhoneNumber);
 
     // Step 2: Verify OTP with Twilio
-    const verificationCheck = await client.verify.v2
-      .services(process.env.TWILIO_VERIFY_SERVICE_SID)
-      .verificationChecks.create({
-        to: formattedPhoneNumber,
-        code: code,
-      });
+    // const verificationCheck = await client.verify.v2
+    //   .services(process.env.TWILIO_VERIFY_SERVICE_SID)
+    //   .verificationChecks.create({
+    //     to: phoneNumber,
+    //     code: code,
+    //   });
 
-    console.log("Verification Status:", verificationCheck.status);
+    // console.log("Verification Status:", verificationCheck.status);
 
-    if (verificationCheck.status !== "approved") {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid or expired verification code.",
-      });
-    }
+    // if (verificationCheck.status !== "approved") {
+    //   return res.status(401).json({
+    //     success: false,
+    //     message: "Invalid or expired verification code.",
+    //   });
+    // }
 
     // Step 3: Find user in the database
-    const userInDB = await User.findOne({ phoneNumber: formattedPhoneNumber });
+    const userInDB = await User.findOne({ phoneNumber: phoneNumber });
     if (!userInDB) {
       return res.status(404).json({
         success: false,
