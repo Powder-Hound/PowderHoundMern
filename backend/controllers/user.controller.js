@@ -119,29 +119,6 @@ export const login = async (req, res) => {
   try {
     console.log("Request Body:", req.body);
 
-    // // Step 1: Validate and format the phone number (E.164 format)
-    // const formattedPhoneNumber = phoneNumber.startsWith("")
-    //   ? phoneNumber
-    //   : `${phoneNumber}`;
-    // console.log("Formatted Phone Number:", formattedPhoneNumber);
-
-    // Step 2: Verify OTP with Twilio
-    // const verificationCheck = await client.verify.v2
-    //   .services(process.env.TWILIO_VERIFY_SERVICE_SID)
-    //   .verificationChecks.create({
-    //     to: phoneNumber,
-    //     code: code,
-    //   });
-
-    // console.log("Verification Status:", verificationCheck.status);
-
-    // if (verificationCheck.status !== "approved") {
-    //   return res.status(401).json({
-    //     success: false,
-    //     message: "Invalid or expired verification code.",
-    //   });
-    // }
-
     // Step 3: Find user in the database
     const userInDB = await User.findOne({ phoneNumber: phoneNumber });
     if (!userInDB) {
@@ -167,12 +144,7 @@ export const login = async (req, res) => {
       success: true,
       message: "Login successful",
       token,
-      user: {
-        id: userInDB._id,
-        phoneNumber: userInDB.phoneNumber,
-        username: userInDB.name,
-        permissions: userInDB.permissions,
-      },
+      user: userInDB,
     });
   } catch (error) {
     console.error("Login Error:", error.message);
@@ -338,3 +310,27 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ success: false, message: "Error deleting user" });
   }
 };
+
+// this is taken out to facilitate the login function
+// // Step 1: Validate and format the phone number (E.164 format)
+// const formattedPhoneNumber = phoneNumber.startsWith("")
+//   ? phoneNumber
+//   : `${phoneNumber}`;
+// console.log("Formatted Phone Number:", formattedPhoneNumber);
+
+// Step 2: Verify OTP with Twilio
+// const verificationCheck = await client.verify.v2
+//   .services(process.env.TWILIO_VERIFY_SERVICE_SID)
+//   .verificationChecks.create({
+//     to: phoneNumber,
+//     code: code,
+//   });
+
+// console.log("Verification Status:", verificationCheck.status);
+
+// if (verificationCheck.status !== "approved") {
+//   return res.status(401).json({
+//     success: false,
+//     message: "Invalid or expired verification code.",
+//   });
+// }
