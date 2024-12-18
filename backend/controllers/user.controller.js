@@ -28,19 +28,9 @@ const hashPassword = async (password) => {
   }
 };
 
-// Username, password, and phone number are required
-// Email is optional
-// Username and Phonenumber must be unique
-// Password must be between 8 and 128 characters long
 export const createUser = async (req, res) => {
-  // Validate the request body- called in index.js in the route declaration. Defined in ../middleware/authMiddleware.js
-  // const errors = validationResult(req);
-
   const user = req.body;
 
-  // if (!errors.isEmpty()) {
-  //   return res.status(422).json({ errors: errors.array() });
-  // } else {
   const newUser = new User(user);
 
   // Hash password before database input
@@ -78,39 +68,6 @@ export const validateUsername = async (req, res) => {
   } else {
     return res.status(200).json({ success: true });
   }
-};
-
-const validateAndFormatPhoneNumber = async (phoneNumber) => {
-  try {
-    // Check for valid E.164 format
-    const phoneRegex = /^\+\d{10,15}$/;
-    if (!phoneRegex.test(phoneNumber)) {
-      throw new Error("Phone number must be in valid E.164 format.");
-    }
-
-    // Validate the phone number with Twilio's Lookup API
-    const lookup = await client.lookups.v2.phoneNumbers(phoneNumber).fetch();
-    console.log("Validated Phone Number:", lookup.phoneNumber);
-    return lookup.phoneNumber;
-  } catch (error) {
-    console.error("Phone Number Validation Error:", error.message);
-    throw new Error(
-      "Invalid or unsupported phone number. Ensure the number is in E.164 format."
-    );
-  }
-};
-
-// Function to generate JWT Token
-const generateToken = (user) => {
-  return jwt.sign(
-    {
-      username: user.name,
-      userID: user._id,
-      permissions: user.permissions,
-    },
-    process.env.JWT_SECRET || "default_secret",
-    { expiresIn: "1h" }
-  );
 };
 
 export const login = async (req, res) => {
@@ -310,27 +267,3 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ success: false, message: "Error deleting user" });
   }
 };
-
-// this is taken out to facilitate the login function
-// // Step 1: Validate and format the phone number (E.164 format)
-// const formattedPhoneNumber = phoneNumber.startsWith("")
-//   ? phoneNumber
-//   : `${phoneNumber}`;
-// console.log("Formatted Phone Number:", formattedPhoneNumber);
-
-// Step 2: Verify OTP with Twilio
-// const verificationCheck = await client.verify.v2
-//   .services(process.env.TWILIO_VERIFY_SERVICE_SID)
-//   .verificationChecks.create({
-//     to: phoneNumber,
-//     code: code,
-//   });
-
-// console.log("Verification Status:", verificationCheck.status);
-
-// if (verificationCheck.status !== "approved") {
-//   return res.status(401).json({
-//     success: false,
-//     message: "Invalid or expired verification code.",
-//   });
-// }
