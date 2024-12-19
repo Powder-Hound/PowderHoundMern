@@ -7,13 +7,11 @@ export const createResort = async (req, res) => {
       await resort.save();
       res.status(201).json({ success: true, data: resort });
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Error creating resort",
-          error: error,
-        });
+      res.status(500).json({
+        success: false,
+        message: "Error creating resort",
+        error: error,
+      });
     }
   } else {
     res.status(401).json({ success: false, message: "Unauthorized" });
@@ -29,33 +27,37 @@ export const getResort = async (req, res) => {
       res.status(404).json({ success: false, message: "Resort not found" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error retrieving resort", error: error });
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving resort",
+      error: error,
+    });
   }
 };
 
 export const findResort = async (req, res) => {
-  let query = {}
+  let query = {};
   if (req.query.state) {
-    query.State = req.query.state
+    query.State = req.query.state;
   }
   if (req.query.name) {
-    query['Ski Resort Name'] = { '$regex': req.query.name, '$options': 'i' }
+    query["Ski Resort Name"] = { $regex: req.query.name, $options: "i" };
   }
   if (req.query.id) {
-    query._id = req.query.state
+    query._id = req.query.state;
   }
   if (!req.query.name && !req.query.state) {
     try {
-      const resort = await Resort.distinct('State')
+      const resort = await Resort.distinct("State");
       if (resort) {
         res.status(200).json({ success: true, data: resort });
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "Error retrieving resort", error: error });
+      res.status(500).json({
+        success: false,
+        message: "Error retrieving resort",
+        error: error,
+      });
     }
   } else {
     try {
@@ -66,27 +68,31 @@ export const findResort = async (req, res) => {
         res.status(404).json({ success: false, message: "Resort not found" });
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "Error retrieving resort", error: error });
+      res.status(500).json({
+        success: false,
+        message: "Error retrieving resort",
+        error: error,
+      });
     }
   }
 };
 
 export const findListOfResorts = async (req, res) => {
-  // expects list of IDs from front end/user object
   let ids = req.query.ids;
   try {
-    const resorts = await Resort.find({'_id': { $in: ids}})
+    const resorts = await Resort.find({ _id: { $in: ids } });
     if (resorts) {
-      res.status(200).json({success: true, data: resorts})
+      res.status(200).json({ success: true, data: resorts });
     } else {
-      res.status(500).json({success: false, message: 'There was an error retrieving resorts'})
+      res.status(500).json({
+        success: false,
+        message: "There was an error retrieving resorts",
+      });
     }
   } catch (error) {
-    res.status(500).json({success: false, message: error})
+    res.status(500).json({ success: false, message: error });
   }
-} 
+};
 
 export const getAllResorts = async (req, res) => {
   let page = Number(req.query.page) || 1;
@@ -95,28 +101,35 @@ export const getAllResorts = async (req, res) => {
     const resorts = await Resort.aggregate([
       {
         $facet: {
-          metadata: [{ $count: 'totalCount' }],
+          metadata: [{ $count: "totalCount" }],
           data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize + 1 }],
         },
       },
     ]);
 
-    let hasNextPage = false
+    let hasNextPage = false;
     if (resorts[0].data.length > pageSize) {
-      hasNextPage = true; // has a next page of results
-      resorts[0].data.pop(); // remove extra result
+      hasNextPage = true;
+      resorts[0].data.pop();
     }
     return res.status(200).json({
       success: true,
       resorts: {
-        metadata: { totalCount: resorts[0].metadata[0].totalCount, page, pageSize, hasNextPage },
+        metadata: {
+          totalCount: resorts[0].metadata[0].totalCount,
+          page,
+          pageSize,
+          hasNextPage,
+        },
         data: resorts[0].data,
       },
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error retrieving resorts", error: error })
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving resorts",
+      error: error,
+    });
   }
 };
 
@@ -126,7 +139,7 @@ export const updateResort = async (req, res) => {
       const updatedResort = await Resort.findByIdAndUpdate(
         req.params.id,
         req.body,
-        { new: true },
+        { new: true }
       );
       if (updatedResort) {
         res.status(200).json({ success: true, data: updatedResort });
@@ -134,13 +147,11 @@ export const updateResort = async (req, res) => {
         res.status(404).json({ success: false, message: "Resort not found" });
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Error updating resort",
-          error: error,
-        });
+      res.status(500).json({
+        success: false,
+        message: "Error updating resort",
+        error: error,
+      });
     }
   } else {
     res.status(401).json({ success: false, message: "Unauthorized" });
@@ -157,15 +168,13 @@ export const deleteResort = async (req, res) => {
         res.status(404).json({ success: false, message: "Resort not found" });
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Error deleting resort",
-          error: error,
-        });
+      res.status(500).json({
+        success: false,
+        message: "Error deleting resort",
+        error: error,
+      });
     }
   } else {
     res.status(401).json({ success: false, message: "Unauthorized" });
   }
-}
+};

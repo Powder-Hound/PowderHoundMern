@@ -1,0 +1,2477 @@
+[{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a6f"
+  },
+  "Ski Resort Name": "Alta Ski Area",
+  "State": "Utah",
+  "City": "Alta",
+  "Website": "https://www.alta.com/",
+  "Snow Stick": "https://www.alta.com/weather",
+  "Latitude": 40.5883,
+  "Longitude": -111.638,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/ftl5zsuvrhzadf8uuv0b.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a70"
+  },
+  "Ski Resort Name": "Snowbird",
+  "State": "Utah",
+  "City": "Snowbird",
+  "Website": "https://www.snowbird.com/",
+  "Snow Stick": "https://www.snowbird.com/snowcam/",
+  "Latitude": 40.582,
+  "Longitude": -111.656,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575888/PowAlert/ResortImages/gme8cco9qmucqtsi6yij.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a71"
+  },
+  "Ski Resort Name": "Deer Valley Resort",
+  "State": "Utah",
+  "City": "Park City",
+  "Website": "https://www.deervalley.com/",
+  "Snow Stick": "https://www.deervalley.com/skiing/snow-reports-and-cams",
+  "Latitude": 40.6374,
+  "Longitude": -111.4783,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575889/PowAlert/ResortImages/tvi9iy29mhq4czthu3qn.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a72"
+  },
+  "Ski Resort Name": "Park City Mountain Resort",
+  "State": "Utah",
+  "City": "Park City",
+  "Website": "https://www.parkcitymountain.com/",
+  "Snow Stick": "https://www.parkcitymountain.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 40.6514,
+  "Longitude": -111.5077,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/ngzgmrymn5kgxxde5dao.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a73"
+  },
+  "Ski Resort Name": "Brighton Resort",
+  "State": "Utah",
+  "City": "Brighton",
+  "Website": "https://www.brightonresort.com/",
+  "Snow Stick": "https://www.brightonresort.com/the-mountain/conditions-webcams/snow-report",
+  "Latitude": 40.5982,
+  "Longitude": -111.5835,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575884/PowAlert/ResortImages/qjsgvf03wlm4ygtbvort.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a74"
+  },
+  "Ski Resort Name": "Solitude Mountain Resort",
+  "State": "Utah",
+  "City": "Solitude",
+  "Website": "https://www.solitudemountain.com/",
+  "Snow Stick": "https://www.solitudemountain.com/ski-ride/conditions",
+  "Latitude": 40.6219,
+  "Longitude": -111.593,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575888/PowAlert/ResortImages/cr6hnalf9oyutkse1fn9.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a75"
+  },
+  "Ski Resort Name": "Powder Mountain",
+  "State": "Utah",
+  "City": "Eden",
+  "Website": "https://www.powdermountain.com/",
+  "Snow Stick": "https://www.powdermountain.com/mountain/conditions",
+  "Latitude": 41.3797,
+  "Longitude": -111.7837,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575892/PowAlert/ResortImages/kbdqfuucuid22p2thfoe.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a76"
+  },
+  "Ski Resort Name": "Snowbasin Resort",
+  "State": "Utah",
+  "City": "Huntsville",
+  "Website": "https://www.snowbasin.com/",
+  "Snow Stick": "https://www.snowbasin.com/the-mountain/webcams",
+  "Latitude": 41.2157,
+  "Longitude": -111.8561,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a77"
+  },
+  "Ski Resort Name": "Beaver Mountain",
+  "State": "Utah",
+  "City": "Logan Canyon",
+  "Website": "https://www.skithebeav.com/",
+  "Snow Stick": "https://www.skithebeav.com/snow_report.php",
+  "Latitude": 41.9684,
+  "Longitude": -111.5417,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575888/PowAlert/ResortImages/drek829xasi0mqmdzyyu.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a78"
+  },
+  "Ski Resort Name": "Eagle Point Resort",
+  "State": "Utah",
+  "City": "Beaver",
+  "Website": "https://www.eaglepointresort.com/",
+  "Snow Stick": "https://www.eaglepointresort.com/mountain/conditions",
+  "Latitude": 38.3208,
+  "Longitude": -112.3839,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575890/PowAlert/ResortImages/e3jmb3omx7chetcikfa7.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a79"
+  },
+  "Ski Resort Name": "Cherry Peak Resort",
+  "State": "Utah",
+  "City": "Richmond",
+  "Website": "https://www.skicpr.com/",
+  "Snow Stick": "https://www.skicpr.com/snow-report",
+  "Latitude": 41.9661,
+  "Longitude": -111.7576,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575887/PowAlert/ResortImages/ak03xdo3e0ckfvvanqv4.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a7a"
+  },
+  "Ski Resort Name": "Nordic Valley",
+  "State": "Utah",
+  "City": "Eden",
+  "Website": "https://nordicvalley.com/",
+  "Snow Stick": "https://nordicvalley.com/mountain-info/snow-report",
+  "Latitude": 41.3106,
+  "Longitude": -111.8704,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575889/PowAlert/ResortImages/whllvgvjhik66yav5hvi.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a7b"
+  },
+  "Ski Resort Name": "Aspen Snowmass",
+  "State": "Colorado",
+  "City": "Aspen",
+  "Website": "https://www.aspensnowmass.com/",
+  "Snow Stick": "https://www.aspensnowmass.com/our-mountains/mountain-webcams",
+  "Latitude": 39.207,
+  "Longitude": -106.949,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575890/PowAlert/ResortImages/uqzbjgm2dhlckovll8tc.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a7c"
+  },
+  "Ski Resort Name": "Breckenridge",
+  "State": "Colorado",
+  "City": "Breckenridge",
+  "Website": "https://www.breckenridge.com/",
+  "Snow Stick": "https://www.breckenridge.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 39.4817,
+  "Longitude": -106.0384,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575888/PowAlert/ResortImages/llmtbc0epak8izr30jyx.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a7d"
+  },
+  "Ski Resort Name": "Vail",
+  "State": "Colorado",
+  "City": "Vail",
+  "Website": "https://www.vail.com/",
+  "Snow Stick": "https://www.vail.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 39.6403,
+  "Longitude": -106.3742,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575887/PowAlert/ResortImages/crhsljjypukficeaom1l.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a7e"
+  },
+  "Ski Resort Name": "Keystone",
+  "State": "Colorado",
+  "City": "Keystone",
+  "Website": "https://www.keystoneresort.com/",
+  "Snow Stick": "https://www.keystoneresort.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 39.6052,
+  "Longitude": -105.9437,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575889/PowAlert/ResortImages/j1qvn5xpkxgzn8fjuquu.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a7f"
+  },
+  "Ski Resort Name": "Telluride Ski Resort",
+  "State": "Colorado",
+  "City": "Telluride",
+  "Website": "https://www.tellurideskiresort.com/",
+  "Snow Stick": "https://www.tellurideskiresort.com/the-mountain/cams/",
+  "Latitude": 37.9375,
+  "Longitude": -107.8123,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575886/PowAlert/ResortImages/dmyujfrqdfsyyxyh3kma.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a80"
+  },
+  "Ski Resort Name": "Steamboat",
+  "State": "Colorado",
+  "City": "Steamboat Springs",
+  "Website": "https://www.steamboat.com/",
+  "Snow Stick": "https://www.steamboat.com/the-mountain/mountain-conditions/snow-and-weather-report",
+  "Latitude": 40.485,
+  "Longitude": -106.8317,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575888/PowAlert/ResortImages/f5otq5d9epngz0yoreaw.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a82"
+  },
+  "Ski Resort Name": "Copper Mountain",
+  "State": "Colorado",
+  "City": "Copper Mountain",
+  "Website": "https://www.coppercolorado.com/",
+  "Snow Stick": "https://www.coppercolorado.com/the-mountain/mountain-conditions/snow-weather-report.aspx",
+  "Latitude": 39.5022,
+  "Longitude": -106.1497,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575886/PowAlert/ResortImages/lbz462wgkpqsurnhjpwk.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a83"
+  },
+  "Ski Resort Name": "Winter Park Resort",
+  "State": "Colorado",
+  "City": "Winter Park",
+  "Website": "https://www.winterparkresort.com/",
+  "Snow Stick": "https://www.winterparkresort.com/the-mountain/mountain-cams",
+  "Latitude": 39.8917,
+  "Longitude": -105.7631,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575889/PowAlert/ResortImages/oqajosnld2oc1vtqmuyq.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a84"
+  },
+  "Ski Resort Name": "Arapahoe Basin",
+  "State": "Colorado",
+  "City": "Dillon",
+  "Website": "https://www.arapahoebasin.com/",
+  "Snow Stick": "https://www.arapahoebasin.com/webcams/",
+  "Latitude": 39.6428,
+  "Longitude": -105.8717,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575890/PowAlert/ResortImages/xfxdpk16abcgy29fayfl.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a85"
+  },
+  "Ski Resort Name": "Beaver Creek",
+  "State": "Colorado",
+  "City": "Avon",
+  "Website": "https://www.beavercreek.com/",
+  "Snow Stick": "https://www.beavercreek.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 39.6042,
+  "Longitude": -106.5166,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575890/PowAlert/ResortImages/shehylyytsx8fxw42lqc.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a89"
+  },
+  "Ski Resort Name": "Loveland Ski Area",
+  "State": "Colorado",
+  "City": "Georgetown",
+  "Website": "https://skiloveland.com/",
+  "Snow Stick": "https://skiloveland.com/snow-report/",
+  "Latitude": 39.6803,
+  "Longitude": -105.8971,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575887/PowAlert/ResortImages/atmzkalx7usw4zlvdy73.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a8a"
+  },
+  "Ski Resort Name": "Monarch Mountain",
+  "State": "Colorado",
+  "City": "Salida",
+  "Website": "https://www.skimonarch.com/",
+  "Snow Stick": "https://www.skimonarch.com/snow-report/",
+  "Latitude": 38.5127,
+  "Longitude": -106.3333,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575884/PowAlert/ResortImages/offh9e53ybsoko7ohgrn.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a8b"
+  },
+  "Ski Resort Name": "Purgatory Resort",
+  "State": "Colorado",
+  "City": "Durango",
+  "Website": "https://www.purgatory.ski/",
+  "Snow Stick": "https://www.purgatory.ski/mountain/cams/",
+  "Latitude": 37.6275,
+  "Longitude": -107.814,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575886/PowAlert/ResortImages/mxtrji9umeyzxld6sglk.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a8c"
+  },
+  "Ski Resort Name": "Crested Butte Mountain Resort",
+  "State": "Colorado",
+  "City": "Crested Butte",
+  "Website": "https://www.skicb.com/",
+  "Snow Stick": "https://www.skicb.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 38.8697,
+  "Longitude": -106.9878,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/czcslqbdaib7oxdpzftx.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a8d"
+  },
+  "Ski Resort Name": "Mammoth Mountain",
+  "State": "California",
+  "City": "Mammoth Lakes",
+  "Website": "https://www.mammothmountain.com/",
+  "Snow Stick": "https://www.mammothmountain.com/cams",
+  "Latitude": 37.6308,
+  "Longitude": -119.0325,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575883/PowAlert/ResortImages/vz7lb1ni5umi8uptrwim.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a8e"
+  },
+  "Ski Resort Name": "Squaw Valley Alpine Meadows (Palisades Tahoe)",
+  "State": "California",
+  "City": "Olympic Valley",
+  "Website": "https://www.palisadestahoe.com/",
+  "Snow Stick": "https://www.palisadestahoe.com/mountain-information/mountain-cams",
+  "Latitude": 39.197,
+  "Longitude": -120.235,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575886/PowAlert/ResortImages/v2mmrry3yiacpt5aggbm.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a8f"
+  },
+  "Ski Resort Name": "Heavenly Mountain Resort",
+  "State": "California",
+  "City": "South Lake Tahoe",
+  "Website": "https://www.skiheavenly.com/",
+  "Snow Stick": "https://www.skiheavenly.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 38.935,
+  "Longitude": -119.939,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575887/PowAlert/ResortImages/ki6upwzixnineketkowh.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a90"
+  },
+  "Ski Resort Name": "Northstar California",
+  "State": "California",
+  "City": "Truckee",
+  "Website": "https://www.northstarcalifornia.com/",
+  "Snow Stick": "https://www.northstarcalifornia.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 39.274,
+  "Longitude": -120.1209,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575886/PowAlert/ResortImages/ulcfc2n0zm4vsrdw98f5.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a91"
+  },
+  "Ski Resort Name": "Kirkwood Mountain Resort",
+  "State": "California",
+  "City": "Kirkwood",
+  "Website": "https://www.kirkwood.com/",
+  "Snow Stick": "https://www.kirkwood.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 38.684,
+  "Longitude": -120.065,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575889/PowAlert/ResortImages/o8rzsbqxeang276th76h.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a92"
+  },
+  "Ski Resort Name": "Sugar Bowl Resort",
+  "State": "California",
+  "City": "Norden",
+  "Website": "https://www.sugarbowl.com/",
+  "Snow Stick": "https://www.sugarbowl.com/snow-report",
+  "Latitude": 39.304,
+  "Longitude": -120.333,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575887/PowAlert/ResortImages/kkyjjlpecefls4zlh1wz.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a93"
+  },
+  "Ski Resort Name": "Big Bear Mountain Resort",
+  "State": "California",
+  "City": "Big Bear Lake",
+  "Website": "https://www.bigbearmountainresort.com/",
+  "Snow Stick": "https://www.bigbearmountainresort.com/winter/snow-report",
+  "Latitude": 34.227,
+  "Longitude": -116.86,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575889/PowAlert/ResortImages/alcfxeih9rrpomvuet0u.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a94"
+  },
+  "Ski Resort Name": "Snow Summit",
+  "State": "California",
+  "City": "Big Bear Lake",
+  "Website": "https://www.bigbearmountainresort.com/",
+  "Snow Stick": "https://www.bigbearmountainresort.com/winter/snow-report",
+  "Latitude": 34.228,
+  "Longitude": -116.89,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/a5vpjhc5gdinv7quad3f.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a95"
+  },
+  "Ski Resort Name": "Mountain High",
+  "State": "California",
+  "City": "Wrightwood",
+  "Website": "https://www.mthigh.com/",
+  "Snow Stick": "https://www.mthigh.com/site/mountain/snow-reports",
+  "Latitude": 34.377,
+  "Longitude": -117.693,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575884/PowAlert/ResortImages/hdxpt9gcs2vluqy03owx.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a96"
+  },
+  "Ski Resort Name": "June Mountain",
+  "State": "California",
+  "City": "June Lake",
+  "Website": "https://www.junemountain.com/",
+  "Snow Stick": "https://www.junemountain.com/mountain/mountain-info/mountain-conditions.aspx",
+  "Latitude": 37.765,
+  "Longitude": -119.09,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575888/PowAlert/ResortImages/hmnjcdnottimzl51inwa.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a97"
+  },
+  "Ski Resort Name": "Sierra-at-Tahoe",
+  "State": "California",
+  "City": "Twin Bridges",
+  "Website": "https://www.sierraattahoe.com/",
+  "Snow Stick": "https://www.sierraattahoe.com/mountain/webcams/",
+  "Latitude": 38.8005,
+  "Longitude": -120.0807,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575889/PowAlert/ResortImages/lxrcavwvihybwkhxrqaj.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a98"
+  },
+  "Ski Resort Name": "Mt. Shasta Ski Park",
+  "State": "California",
+  "City": "McCloud",
+  "Website": "https://www.skipark.com/",
+  "Snow Stick": "https://www.skipark.com/weather-cams/",
+  "Latitude": 41.3225,
+  "Longitude": -122.2032,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575883/PowAlert/ResortImages/ac9hxb0yn5zldzxffvt9.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a99"
+  },
+  "Ski Resort Name": "Dodge Ridge",
+  "State": "California",
+  "City": "Pinecrest",
+  "Website": "https://www.dodgeridge.com/",
+  "Snow Stick": "https://www.dodgeridge.com/mountain/snow-report/",
+  "Latitude": 38.1907,
+  "Longitude": -119.9544,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575884/PowAlert/ResortImages/bzf6yae0a1g20hhda5d5.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a9a"
+  },
+  "Ski Resort Name": "Badger Pass Ski Area",
+  "State": "California",
+  "City": "Yosemite National Park",
+  "Website": "https://www.travelyosemite.com/winter/badger-pass-ski-area/",
+  "Snow Stick": "https://www.travelyosemite.com/winter/badger-pass-ski-area/snow-report/",
+  "Latitude": 37.6645,
+  "Longitude": -119.6635,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/ibt05drnj8qta1ewja7s.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a9b"
+  },
+  "Ski Resort Name": "Bear Valley",
+  "State": "California",
+  "City": "Bear Valley",
+  "Website": "https://www.bearvalley.com/",
+  "Snow Stick": "https://www.bearvalley.com/mountain/snow-report",
+  "Latitude": 38.4896,
+  "Longitude": -120.0386,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/nzzdtiatzyvgxb3xej1p.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a9c"
+  },
+  "Ski Resort Name": "China Peak Mountain Resort",
+  "State": "California",
+  "City": "Lakeshore",
+  "Website": "https://www.skichinapeak.com/",
+  "Snow Stick": "https://www.skichinapeak.com/snow-report",
+  "Latitude": 37.2417,
+  "Longitude": -119.1675,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575884/PowAlert/ResortImages/z9sjxisgrw1u4ipjqpua.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a9d"
+  },
+  "Ski Resort Name": "Crystal Mountain",
+  "State": "Washington",
+  "City": "Enumclaw",
+  "Website": "https://www.crystalmountainresort.com/",
+  "Snow Stick": "https://www.crystalmountainresort.com/the-mountain/mountain-cams",
+  "Latitude": 46.9357,
+  "Longitude": -121.4745,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/wlp5ltu4c11sfgajdc46.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a9e"
+  },
+  "Ski Resort Name": "Stevens Pass",
+  "State": "Washington",
+  "City": "Skykomish",
+  "Website": "https://www.stevenspass.com/",
+  "Snow Stick": "https://www.stevenspass.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 47.7444,
+  "Longitude": -121.0894,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/zfsihms0r1p7yzkaoxgw.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63a9f"
+  },
+  "Ski Resort Name": "Mount Baker",
+  "State": "Washington",
+  "City": "Bellingham",
+  "Website": "https://www.mtbaker.us/",
+  "Snow Stick": "https://www.mtbaker.us/snow-report",
+  "Latitude": 48.8588,
+  "Longitude": -121.6827,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575890/PowAlert/ResortImages/py0jztps7qswlxanquzs.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa0"
+  },
+  "Ski Resort Name": "The Summit at Snoqualmie",
+  "State": "Washington",
+  "City": "Snoqualmie Pass",
+  "Website": "https://summitatsnoqualmie.com/",
+  "Snow Stick": "https://summitatsnoqualmie.com/snow-report",
+  "Latitude": 47.4281,
+  "Longitude": -121.4135,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575886/PowAlert/ResortImages/dc5p8dl2dip8vgsquudp.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa1"
+  },
+  "Ski Resort Name": "White Pass Ski Resort",
+  "State": "Washington",
+  "City": "Naches",
+  "Website": "https://skiwhitepass.com/",
+  "Snow Stick": "https://skiwhitepass.com/weather-conditions",
+  "Latitude": 46.6362,
+  "Longitude": -121.3916,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575884/PowAlert/ResortImages/u5gqlzxc1zm4ayuvhghm.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa2"
+  },
+  "Ski Resort Name": "Mission Ridge Ski & Board Resort",
+  "State": "Washington",
+  "City": "Wenatchee",
+  "Website": "https://www.missionridge.com/",
+  "Snow Stick": "https://www.missionridge.com/snow-report",
+  "Latitude": 47.2925,
+  "Longitude": -120.3993,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575887/PowAlert/ResortImages/hzftf6mfsso2ijp5t7yb.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa3"
+  },
+  "Ski Resort Name": "49 Degrees North",
+  "State": "Washington",
+  "City": "Chewelah",
+  "Website": "https://www.ski49n.com/",
+  "Snow Stick": "https://www.ski49n.com/snow-report",
+  "Latitude": 48.3025,
+  "Longitude": -117.5721,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575890/PowAlert/ResortImages/muglgpimhnhjvagodiwv.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa4"
+  },
+  "Ski Resort Name": "Hurricane Ridge Ski & Snowboard Area",
+  "State": "Washington",
+  "City": "Port Angeles",
+  "Website": "https://hurricaneridge.com/",
+  "Snow Stick": "https://hurricaneridge.com/snow-report/",
+  "Latitude": 47.9714,
+  "Longitude": -123.4982,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575884/PowAlert/ResortImages/d52ho2paztygugknp4uy.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa5"
+  },
+  "Ski Resort Name": "Mt. Bachelor",
+  "State": "Oregon",
+  "City": "Bend",
+  "Website": "https://www.mtbachelor.com/",
+  "Snow Stick": "https://www.mtbachelor.com/conditions-report/",
+  "Latitude": 43.9794,
+  "Longitude": -121.6882,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575886/PowAlert/ResortImages/nzo7mzyyzyg2b3sysiq5.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa6"
+  },
+  "Ski Resort Name": "Timberline Lodge",
+  "State": "Oregon",
+  "City": "Government Camp",
+  "Website": "https://www.timberlinelodge.com/",
+  "Snow Stick": "https://www.timberlinelodge.com/mountain/snow-report",
+  "Latitude": 45.3312,
+  "Longitude": -121.7117,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575899/PowAlert/ResortImages/gdhfwzg5ze47rtmvvc4u.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa7"
+  },
+  "Ski Resort Name": "Mt. Hood Meadows",
+  "State": "Oregon",
+  "City": "Mount Hood",
+  "Website": "https://www.skihood.com/",
+  "Snow Stick": "https://www.skihood.com/en/the-mountain/conditions",
+  "Latitude": 45.3312,
+  "Longitude": -121.6629,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575897/PowAlert/ResortImages/ad23obtr2cxkrjok5fok.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa8"
+  },
+  "Ski Resort Name": "Hoodoo Ski Area",
+  "State": "Oregon",
+  "City": "Sisters",
+  "Website": "https://skihoodoo.com/",
+  "Snow Stick": "https://skihoodoo.com/snow-report/",
+  "Latitude": 44.4023,
+  "Longitude": -121.8721,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575898/PowAlert/ResortImages/rftrz9osy1p7k7ml9vkq.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aa9"
+  },
+  "Ski Resort Name": "Anthony Lakes Mountain Resort",
+  "State": "Oregon",
+  "City": "North Powder",
+  "Website": "https://www.anthonylakes.com/",
+  "Snow Stick": "https://www.anthonylakes.com/snow-report/",
+  "Latitude": 45.0465,
+  "Longitude": -118.2276,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575899/PowAlert/ResortImages/ebxsfwbsrvathboq5aw2.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aaa"
+  },
+  "Ski Resort Name": "Mt. Ashland",
+  "State": "Oregon",
+  "City": "Ashland",
+  "Website": "https://www.mtashland.com/",
+  "Snow Stick": "https://www.mtashland.com/snow-report/",
+  "Latitude": 42.0831,
+  "Longitude": -122.7162,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575900/PowAlert/ResortImages/spzhwgds5dxx71t5hl6d.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aab"
+  },
+  "Ski Resort Name": "Willamette Pass Resort",
+  "State": "Oregon",
+  "City": "Odell Lake",
+  "Website": "https://www.willamettepass.com/",
+  "Snow Stick": "https://www.willamettepass.com/snow-report",
+  "Latitude": 43.6016,
+  "Longitude": -122.0365,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575901/PowAlert/ResortImages/jjlbgqo8yqxgvzgk4xft.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aac"
+  },
+  "Ski Resort Name": "Sun Valley",
+  "State": "Idaho",
+  "City": "Ketchum",
+  "Website": "https://www.sunvalley.com/",
+  "Snow Stick": "https://www.sunvalley.com/ski-ride/mountain-conditions",
+  "Latitude": 43.695,
+  "Longitude": -114.354,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575897/PowAlert/ResortImages/d6s6d2inll3ua6stobzf.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aad"
+  },
+  "Ski Resort Name": "Schweitzer Mountain Resort",
+  "State": "Idaho",
+  "City": "Sandpoint",
+  "Website": "https://www.schweitzer.com/",
+  "Snow Stick": "https://www.schweitzer.com/snow-report/",
+  "Latitude": 48.3706,
+  "Longitude": -116.6223,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575892/PowAlert/ResortImages/iwfmdwi95b4fzuqaejnu.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aae"
+  },
+  "Ski Resort Name": "Brundage Mountain Resort",
+  "State": "Idaho",
+  "City": "McCall",
+  "Website": "https://brundage.com/",
+  "Snow Stick": "https://brundage.com/snow-report/",
+  "Latitude": 45.0045,
+  "Longitude": -116.1451,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575899/PowAlert/ResortImages/mnzseoxjy3mn5lvevudp.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aaf"
+  },
+  "Ski Resort Name": "Tamarack Resort",
+  "State": "Idaho",
+  "City": "Donnelly",
+  "Website": "https://tamarackidaho.com/",
+  "Snow Stick": "https://tamarackidaho.com/conditions-report",
+  "Latitude": 44.6695,
+  "Longitude": -116.1233,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575903/PowAlert/ResortImages/llsa8wg5oya9mtkcbgkz.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab0"
+  },
+  "Ski Resort Name": "Bogus Basin",
+  "State": "Idaho",
+  "City": "Boise",
+  "Website": "https://bogusbasin.org/",
+  "Snow Stick": "https://bogusbasin.org/snow-report/",
+  "Latitude": 43.765,
+  "Longitude": -116.1017,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575899/PowAlert/ResortImages/paarhbdvgzkhv1mipkbf.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab1"
+  },
+  "Ski Resort Name": "Silver Mountain",
+  "State": "Idaho",
+  "City": "Kellogg",
+  "Website": "https://www.silvermt.com/",
+  "Snow Stick": "https://www.silvermt.com/snow-report/",
+  "Latitude": 47.5396,
+  "Longitude": -116.1332,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575902/PowAlert/ResortImages/ttnvqnp4lynytmajywfd.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab2"
+  },
+  "Ski Resort Name": "Lookout Pass Ski Area",
+  "State": "Idaho",
+  "City": "Mullan",
+  "Website": "https://www.skilookout.com/",
+  "Snow Stick": "https://www.skilookout.com/snow-report",
+  "Latitude": 47.4559,
+  "Longitude": -115.6958,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575901/PowAlert/ResortImages/w9opxjcmknffuqvb07r0.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab3"
+  },
+  "Ski Resort Name": "Pebble Creek Ski Area",
+  "State": "Idaho",
+  "City": "Inkom",
+  "Website": "https://pebblecreekskiarea.com/",
+  "Snow Stick": "https://pebblecreekskiarea.com/snow-report/",
+  "Latitude": 42.7798,
+  "Longitude": -112.1594,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575900/PowAlert/ResortImages/sc8wzok6cm9winz1uioy.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab4"
+  },
+  "Ski Resort Name": "Cottonwood Butte",
+  "State": "Idaho",
+  "City": "Cottonwood",
+  "Website": "https://cottonwoodbutte.org/",
+  "Snow Stick": "https://cottonwoodbutte.org/snow-report",
+  "Latitude": 46.0453,
+  "Longitude": -116.3547,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575901/PowAlert/ResortImages/gc7uryl38yjsm34bculc.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab5"
+  },
+  "Ski Resort Name": "Taos Ski Valley",
+  "State": "New Mexico",
+  "City": "Taos Ski Valley",
+  "Website": "https://www.skitaos.com/",
+  "Snow Stick": "https://www.skitaos.com/conditions/webcams",
+  "Latitude": 36.5969,
+  "Longitude": -105.4545,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575901/PowAlert/ResortImages/wzawlc4jeorgqwra1eac.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab6"
+  },
+  "Ski Resort Name": "Angel Fire Resort",
+  "State": "New Mexico",
+  "City": "Angel Fire",
+  "Website": "https://www.angelfireresort.com/",
+  "Snow Stick": "https://www.angelfireresort.com/snow-report/",
+  "Latitude": 36.3934,
+  "Longitude": -105.2859,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575893/PowAlert/ResortImages/tuzgdpsatoocee35fjsv.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab7"
+  },
+  "Ski Resort Name": "Ski Santa Fe",
+  "State": "New Mexico",
+  "City": "Santa Fe",
+  "Website": "https://skisantafe.com/",
+  "Snow Stick": "https://skisantafe.com/conditions/",
+  "Latitude": 35.7964,
+  "Longitude": -105.8025,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575895/PowAlert/ResortImages/mcad1eegwjsymj6n5gov.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab8"
+  },
+  "Ski Resort Name": "Red River Ski Area",
+  "State": "New Mexico",
+  "City": "Red River",
+  "Website": "https://www.redriverskiarea.com/",
+  "Snow Stick": "https://www.redriverskiarea.com/snow-report/",
+  "Latitude": 36.7078,
+  "Longitude": -105.4052,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575902/PowAlert/ResortImages/n36rbswwa0q8jcw1lmio.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ab9"
+  },
+  "Ski Resort Name": "Sipapu Ski & Summer Resort",
+  "State": "New Mexico",
+  "City": "Vadito",
+  "Website": "https://www.sipapu.ski/",
+  "Snow Stick": "https://www.sipapu.ski/snow-report",
+  "Latitude": 36.1542,
+  "Longitude": -105.5397,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575900/PowAlert/ResortImages/bwwn1uqewzos6cztrkae.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aba"
+  },
+  "Ski Resort Name": "Pajarito Mountain Ski Area",
+  "State": "New Mexico",
+  "City": "Los Alamos",
+  "Website": "https://www.pajarito.ski/",
+  "Snow Stick": "https://www.pajarito.ski/snow-report",
+  "Latitude": 35.8828,
+  "Longitude": -106.3914,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575900/PowAlert/ResortImages/lths6nopooff5nz9pszo.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63abb"
+  },
+  "Ski Resort Name": "Sandia Peak Ski Area",
+  "State": "New Mexico",
+  "City": "Albuquerque",
+  "Website": "https://sandiapeak.com/",
+  "Snow Stick": "https://sandiapeak.com/ski-report/",
+  "Latitude": 35.2094,
+  "Longitude": -106.4142,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575901/PowAlert/ResortImages/qfnse4vwucejmmobifvf.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63abc"
+  },
+  "Ski Resort Name": "Jackson Hole Mountain Resort",
+  "State": "Wyoming",
+  "City": "Teton Village",
+  "Website": "https://www.jacksonhole.com/",
+  "Snow Stick": "https://www.jacksonhole.com/weather-snow-report.html",
+  "Latitude": 43.5875,
+  "Longitude": -110.8274,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575902/PowAlert/ResortImages/sfql06tnrato6f4gfmlp.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63abd"
+  },
+  "Ski Resort Name": "Grand Targhee Resort",
+  "State": "Wyoming",
+  "City": "Alta",
+  "Website": "https://www.grandtarghee.com/",
+  "Snow Stick": "https://www.grandtarghee.com/the-mountain/snow-report/",
+  "Latitude": 43.7889,
+  "Longitude": -110.9586,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575898/PowAlert/ResortImages/j2kztla10amqsu4vdygi.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63abe"
+  },
+  "Ski Resort Name": "Snow King Mountain Resort",
+  "State": "Wyoming",
+  "City": "Jackson",
+  "Website": "https://snowkingmountain.com/",
+  "Snow Stick": "https://snowkingmountain.com/mountain-cams/",
+  "Latitude": 43.4779,
+  "Longitude": -110.7581,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575899/PowAlert/ResortImages/qlfqztss3h8v1hsw8d9o.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63abf"
+  },
+  "Ski Resort Name": "Hogadon Basin Ski Area",
+  "State": "Wyoming",
+  "City": "Casper",
+  "Website": "https://www.hogadon.net/",
+  "Snow Stick": "https://www.hogadon.net/snow-report",
+  "Latitude": 42.7731,
+  "Longitude": -106.3616,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575896/PowAlert/ResortImages/njzdfywygtvprxmqgcf8.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac0"
+  },
+  "Ski Resort Name": "Meadowlark Ski Lodge",
+  "State": "Wyoming",
+  "City": "Ten Sleep",
+  "Website": "https://meadowlarkskilodge.com/",
+  "Snow Stick": "https://meadowlarkskilodge.com/snow-report",
+  "Latitude": 44.1255,
+  "Longitude": -107.3777,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575898/PowAlert/ResortImages/zpg4g5xtroteczdp93lw.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac1"
+  },
+  "Ski Resort Name": "Big Sky Resort",
+  "State": "Montana",
+  "City": "Big Sky",
+  "Website": "https://bigskyresort.com/",
+  "Snow Stick": "https://bigskyresort.com/snow-report",
+  "Latitude": 45.284,
+  "Longitude": -111.401,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575898/PowAlert/ResortImages/oxtriqp0iamuj9phjz5e.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac2"
+  },
+  "Ski Resort Name": "Whitefish Mountain Resort",
+  "State": "Montana",
+  "City": "Whitefish",
+  "Website": "https://skiwhitefish.com/",
+  "Snow Stick": "https://skiwhitefish.com/snow-report/",
+  "Latitude": 48.4814,
+  "Longitude": -114.3506,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575902/PowAlert/ResortImages/o5tvqqirs7ddsa5hgter.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac3"
+  },
+  "Ski Resort Name": "Red Lodge Mountain",
+  "State": "Montana",
+  "City": "Red Lodge",
+  "Website": "https://www.redlodgemountain.com/",
+  "Snow Stick": "https://www.redlodgemountain.com/mountain/snow-report/",
+  "Latitude": 45.1852,
+  "Longitude": -109.2954,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575903/PowAlert/ResortImages/vieu8fatdvmqcjyucowi.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac4"
+  },
+  "Ski Resort Name": "Bridger Bowl",
+  "State": "Montana",
+  "City": "Bozeman",
+  "Website": "https://bridgerbowl.com/",
+  "Snow Stick": "https://bridgerbowl.com/snow-report",
+  "Latitude": 45.817,
+  "Longitude": -110.8969,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575902/PowAlert/ResortImages/n36rbswwa0q8jcw1lmio.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac5"
+  },
+  "Ski Resort Name": "Discovery Ski Area",
+  "State": "Montana",
+  "City": "Anaconda",
+  "Website": "https://www.skidiscovery.com/",
+  "Snow Stick": "https://www.skidiscovery.com/snow-report/",
+  "Latitude": 46.2569,
+  "Longitude": -113.2397,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575900/PowAlert/ResortImages/yoikrrz7nthv8ltgdvax.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac6"
+  },
+  "Ski Resort Name": "Great Divide Ski Area",
+  "State": "Montana",
+  "City": "Marysville",
+  "Website": "https://skigd.com/",
+  "Snow Stick": "https://skigd.com/snow-report/",
+  "Latitude": 46.6658,
+  "Longitude": -112.3034,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575899/PowAlert/ResortImages/a8pphemrdsixgf9ipbdo.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac7"
+  },
+  "Ski Resort Name": "Lost Trail Powder Mountain",
+  "State": "Montana",
+  "City": "Sula",
+  "Website": "https://www.losttrail.com/",
+  "Snow Stick": "https://www.losttrail.com/snow-report/",
+  "Latitude": 45.6923,
+  "Longitude": -113.9426,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575901/PowAlert/ResortImages/voscmsnyoji01c8orgtr.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac8"
+  },
+  "Ski Resort Name": "Showdown Montana",
+  "State": "Montana",
+  "City": "Neihart",
+  "Website": "https://www.showdownmontana.com/",
+  "Snow Stick": "https://www.showdownmontana.com/snow-report",
+  "Latitude": 46.8377,
+  "Longitude": -110.7066,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575902/PowAlert/ResortImages/bg2qryznovmh6jxxeoxz.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ac9"
+  },
+  "Ski Resort Name": "Maverick Mountain",
+  "State": "Montana",
+  "City": "Polaris",
+  "Website": "https://skimaverick.com/",
+  "Snow Stick": "https://skimaverick.com/snow-report/",
+  "Latitude": 45.3909,
+  "Longitude": -113.1146,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575897/PowAlert/ResortImages/n0y72evlezegmpmio81m.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aca"
+  },
+  "Ski Resort Name": "Yellowstone Club",
+  "State": "Montana",
+  "City": "Big Sky",
+  "Website": "https://yellowstoneclub.com/",
+  "Latitude": 45.2257,
+  "Longitude": -111.3799,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575898/PowAlert/ResortImages/n37bvplb1jfwzxansbdy.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63acb"
+  },
+  "Ski Resort Name": "Blacktail Mountain Ski Area",
+  "State": "Montana",
+  "City": "Lakeside",
+  "Website": "https://blacktailmountain.com/",
+  "Snow Stick": "https://blacktailmountain.com/snow-report/",
+  "Latitude": 47.9753,
+  "Longitude": -114.2883,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575899/PowAlert/ResortImages/hks22tf6ndujo1ysjdbe.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63acc"
+  },
+  "Ski Resort Name": "Stowe Mountain Resort",
+  "State": "Vermont",
+  "City": "Stowe",
+  "Website": "https://www.stowe.com/",
+  "Snow Stick": "https://www.stowe.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 44.535,
+  "Longitude": -72.7801,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575901/PowAlert/ResortImages/ar9kb1le48ea7ptbwjcp.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63acd"
+  },
+  "Ski Resort Name": "Killington Resort",
+  "State": "Vermont",
+  "City": "Killington",
+  "Website": "https://www.killington.com/",
+  "Snow Stick": "https://www.killington.com/conditions",
+  "Latitude": 43.6266,
+  "Longitude": -72.7967,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575900/PowAlert/ResortImages/qgwsto0x1opbpxm6sixd.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ace"
+  },
+  "Ski Resort Name": "Sugarbush Resort",
+  "State": "Vermont",
+  "City": "Warren",
+  "Website": "https://www.sugarbush.com/",
+  "Snow Stick": "https://www.sugarbush.com/conditions/",
+  "Latitude": 44.135,
+  "Longitude": -72.8946,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575883/PowAlert/ResortImages/ci0wzhdwrttxthtwf0yw.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63acf"
+  },
+  "Ski Resort Name": "Jay Peak Resort",
+  "State": "Vermont",
+  "City": "Jay",
+  "Website": "https://jaypeakresort.com/",
+  "Snow Stick": "https://jaypeakresort.com/skiing-riding/conditions",
+  "Latitude": 44.9376,
+  "Longitude": -72.5045,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575895/PowAlert/ResortImages/ntjdippfxxv8lviw76ty.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad0"
+  },
+  "Ski Resort Name": "Okemo Mountain Resort",
+  "State": "Vermont",
+  "City": "Ludlow",
+  "Website": "https://www.okemo.com/",
+  "Snow Stick": "https://www.okemo.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 43.4014,
+  "Longitude": -72.7179,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/au11mfd9nwoudp3ijzik.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad1"
+  },
+  "Ski Resort Name": "Loon Mountain Resort",
+  "State": "New Hampshire",
+  "City": "Lincoln",
+  "Website": "https://www.loonmtn.com/",
+  "Snow Stick": "https://www.loonmtn.com/conditions",
+  "Latitude": 44.0453,
+  "Longitude": -71.6271,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/i5xutx1mtkxlyd3vkf7l.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad2"
+  },
+  "Ski Resort Name": "Cannon Mountain",
+  "State": "New Hampshire",
+  "City": "Franconia",
+  "Website": "https://www.cannonmt.com/",
+  "Snow Stick": "https://www.cannonmt.com/snow-report",
+  "Latitude": 44.1568,
+  "Longitude": -71.6983,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575896/PowAlert/ResortImages/ylswrgmika17pijwne6o.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad3"
+  },
+  "Ski Resort Name": "Bretton Woods",
+  "State": "New Hampshire",
+  "City": "Bretton Woods",
+  "Website": "https://www.brettonwoods.com/",
+  "Snow Stick": "https://www.brettonwoods.com/Ski-Board/Mountain-Report",
+  "Latitude": 44.2549,
+  "Longitude": -71.4519,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575896/PowAlert/ResortImages/wkmalu0mionm2yi7xir2.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad4"
+  },
+  "Ski Resort Name": "Sugarloaf Mountain",
+  "State": "Maine",
+  "City": "Carrabassett Valley",
+  "Website": "https://www.sugarloaf.com/",
+  "Snow Stick": "https://www.sugarloaf.com/conditions",
+  "Latitude": 45.0316,
+  "Longitude": -70.3134,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/vbyvncbqeune9ick0rzv.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad5"
+  },
+  "Ski Resort Name": "Sunday River",
+  "State": "Maine",
+  "City": "Newry",
+  "Website": "https://www.sundayriver.com/",
+  "Snow Stick": "https://www.sundayriver.com/conditions",
+  "Latitude": 44.4739,
+  "Longitude": -70.856,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575892/PowAlert/ResortImages/iagqalzwpmcg8gbdqlnl.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad6"
+  },
+  "Ski Resort Name": "Saddleback Mountain",
+  "State": "Maine",
+  "City": "Rangeley",
+  "Website": "https://www.saddlebackmaine.com/",
+  "Snow Stick": "https://www.saddlebackmaine.com/snow-report",
+  "Latitude": 44.9364,
+  "Longitude": -70.5322,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/rb0zozsmsyhuqqcxssil.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad7"
+  },
+  "Ski Resort Name": "Whiteface Mountain",
+  "State": "New York",
+  "City": "Wilmington",
+  "Website": "https://whiteface.com/",
+  "Snow Stick": "https://whiteface.com/mountain-conditions/snow-report/",
+  "Latitude": 44.3653,
+  "Longitude": -73.919,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575895/PowAlert/ResortImages/zbsjfcxgymxqm9qoh4wy.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad8"
+  },
+  "Ski Resort Name": "Hunter Mountain",
+  "State": "New York",
+  "City": "Hunter",
+  "Website": "https://www.huntermtn.com/",
+  "Snow Stick": "https://www.huntermtn.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 42.2076,
+  "Longitude": -74.2324,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575897/PowAlert/ResortImages/st5dmldpzt9df0gz4l2a.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ad9"
+  },
+  "Ski Resort Name": "Gore Mountain",
+  "State": "New York",
+  "City": "North Creek",
+  "Website": "https://goremountain.com/",
+  "Snow Stick": "https://goremountain.com/mountain-conditions/snow-report/",
+  "Latitude": 43.6735,
+  "Longitude": -73.9841,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575897/PowAlert/ResortImages/tir2rpzdq3ia0nxh7v6f.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ada"
+  },
+  "Ski Resort Name": "Jiminy Peak Mountain Resort",
+  "State": "Massachusetts",
+  "City": "Hancock",
+  "Website": "https://www.jiminypeak.com/",
+  "Snow Stick": "https://www.jiminypeak.com/snow-report",
+  "Latitude": 42.5579,
+  "Longitude": -73.2928,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575895/PowAlert/ResortImages/wp8c8gmsr25vvmvc4z0z.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63adb"
+  },
+  "Ski Resort Name": "Berkshire East Mountain Resort",
+  "State": "Massachusetts",
+  "City": "Charlemont",
+  "Website": "https://berkshireeast.com/",
+  "Snow Stick": "https://berkshireeast.com/snow-report",
+  "Latitude": 42.6217,
+  "Longitude": -72.8756,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/n3oasjmzkauq15tmlo32.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63adc"
+  },
+  "Ski Resort Name": "Granite Peak Ski Area",
+  "State": "Wisconsin",
+  "City": "Wausau",
+  "Website": "https://www.skigranitepeak.com/",
+  "Snow Stick": "https://www.skigranitepeak.com/snow-report/",
+  "Latitude": 44.9312,
+  "Longitude": -89.6304,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63add"
+  },
+  "Ski Resort Name": "Alpine Valley Resort",
+  "State": "Wisconsin",
+  "City": "East Troy",
+  "Website": "https://www.alpinevalleyresort.com/",
+  "Snow Stick": "https://www.alpinevalleyresort.com/snow-report",
+  "Latitude": 42.7364,
+  "Longitude": -88.4237,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575895/PowAlert/ResortImages/gxaiwuyuekjmdgpbclog.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ade"
+  },
+  "Ski Resort Name": "Lutsen Mountains",
+  "State": "Minnesota",
+  "City": "Lutsen",
+  "Website": "https://www.lutsen.com/",
+  "Snow Stick": "https://www.lutsen.com/conditions",
+  "Latitude": 47.6539,
+  "Longitude": -90.7135,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575890/PowAlert/ResortImages/ivxxrfthxibwojniiqxr.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63adf"
+  },
+  "Ski Resort Name": "Spirit Mountain",
+  "State": "Minnesota",
+  "City": "Duluth",
+  "Website": "https://spiritmt.com/",
+  "Snow Stick": "https://spiritmt.com/snow-report",
+  "Latitude": 46.7183,
+  "Longitude": -92.2172,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575896/PowAlert/ResortImages/n9w7wytr0yqhidwumcqo.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae0"
+  },
+  "Ski Resort Name": "Boyne Mountain Resort",
+  "State": "Michigan",
+  "City": "Boyne Falls",
+  "Website": "https://www.boynemountain.com/",
+  "Snow Stick": "https://www.boynemountain.com/snow-report",
+  "Latitude": 45.1679,
+  "Longitude": -84.9303,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575888/PowAlert/ResortImages/j0ownr2qnybtf3qh05oh.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae1"
+  },
+  "Ski Resort Name": "Crystal Mountain",
+  "State": "Michigan",
+  "City": "Thompsonville",
+  "Website": "https://www.crystalmountain.com/",
+  "Snow Stick": "https://www.crystalmountain.com/snow-report",
+  "Latitude": 44.5208,
+  "Longitude": -85.9878,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae2"
+  },
+  "Ski Resort Name": "Mount Bohemia",
+  "State": "Michigan",
+  "City": "Mohawk",
+  "Website": "https://www.mtbohemia.com/",
+  "Snow Stick": "https://www.mtbohemia.com/snow-report",
+  "Latitude": 47.3717,
+  "Longitude": -88.0375,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575899/PowAlert/ResortImages/khpauspsvmnwhlvkl27m.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae3"
+  },
+  "Ski Resort Name": "Huff Hills Ski Area",
+  "State": "North Dakota",
+  "City": "Mandan",
+  "Website": "https://huffhills.com/",
+  "Snow Stick": "https://huffhills.com/snow-report",
+  "Latitude": 46.6163,
+  "Longitude": -100.7542,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575897/PowAlert/ResortImages/oqofoziu5k9vjsv9pcyq.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae4"
+  },
+  "Ski Resort Name": "Terry Peak Ski Area",
+  "State": "South Dakota",
+  "City": "Lead",
+  "Website": "https://www.terrypeak.com/",
+  "Snow Stick": "https://www.terrypeak.com/snow-report",
+  "Latitude": 44.3514,
+  "Longitude": -103.8312,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/hqpdxcyacvlhpqgohcnm.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae5"
+  },
+  "Ski Resort Name": "Alyeska Resort",
+  "State": "Alaska",
+  "City": "Girdwood",
+  "Website": "https://www.alyeskaresort.com/",
+  "Snow Stick": "https://www.alyeskaresort.com/mountain-report/",
+  "Latitude": 60.9701,
+  "Longitude": -149.0986,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575898/PowAlert/ResortImages/dvnz1gqbkz3xrg0m7i65.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae6"
+  },
+  "Ski Resort Name": "Eaglecrest Ski Area",
+  "State": "Alaska",
+  "City": "Juneau",
+  "Website": "https://skijuneau.com/",
+  "Snow Stick": "https://skijuneau.com/snow-report/",
+  "Latitude": 58.2964,
+  "Longitude": -134.5133,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575892/PowAlert/ResortImages/h0gm5m7s2ekendvne8hm.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae7"
+  },
+  "Ski Resort Name": "Arctic Valley Ski Area",
+  "State": "Alaska",
+  "City": "Anchorage",
+  "Website": "https://arcticvalley.org/",
+  "Snow Stick": "https://arcticvalley.org/snow-report/",
+  "Latitude": 61.2786,
+  "Longitude": -149.6103,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575883/PowAlert/ResortImages/obvbrqxc8v89to1tv19u.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae8"
+  },
+  "Ski Resort Name": "Hilltop Ski Area",
+  "State": "Alaska",
+  "City": "Anchorage",
+  "Website": "https://www.hilltopskiarea.org/",
+  "Snow Stick": "https://www.hilltopskiarea.org/snow-report",
+  "Latitude": 61.1718,
+  "Longitude": -149.7728,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575895/PowAlert/ResortImages/pfw44ajz8mwstssyfyk7.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63ae9"
+  },
+  "Ski Resort Name": "Moose Mountain Ski Resort",
+  "State": "Alaska",
+  "City": "Fairbanks",
+  "Website": "https://www.skimoosemountain.com/",
+  "Snow Stick": "https://www.skimoosemountain.com/snow-report",
+  "Latitude": 64.8964,
+  "Longitude": -147.8199,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575891/PowAlert/ResortImages/bm1jm9irwl83fuel2a3o.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aea"
+  },
+  "Ski Resort Name": "Mount Eyak Ski Area",
+  "State": "Alaska",
+  "City": "Cordova",
+  "Website": "https://www.meyak.org/",
+  "Snow Stick": "https://www.meyak.org/snow-report",
+  "Latitude": 60.5519,
+  "Longitude": -145.7522,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575898/PowAlert/ResortImages/ssxihm1upcwig95amo72.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aeb"
+  },
+  "Ski Resort Name": "Mt. Rose Ski Tahoe",
+  "State": "Nevada",
+  "City": "Reno",
+  "Website": "https://www.mtrose.com/",
+  "Snow Stick": "https://www.mtrose.com/snow-report/",
+  "Latitude": 39.3289,
+  "Longitude": -119.8833,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575897/PowAlert/ResortImages/ukuuy8rhrnwnjkwt1cs1.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aec"
+  },
+  "Ski Resort Name": "Diamond Peak Ski Resort",
+  "State": "Nevada",
+  "City": "Incline Village",
+  "Website": "https://www.diamondpeak.com/",
+  "Snow Stick": "https://www.diamondpeak.com/mountain/snow-report",
+  "Latitude": 39.2557,
+  "Longitude": -119.9267,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/uw0vwhqrozu2cjghwhvu.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aed"
+  },
+  "Ski Resort Name": "Lee Canyon",
+  "State": "Nevada",
+  "City": "Las Vegas",
+  "Website": "https://www.leecanyonlv.com/",
+  "Snow Stick": "https://www.leecanyonlv.com/the-mountain/conditions-report",
+  "Latitude": 36.3098,
+  "Longitude": -115.6781,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/iueycc9002u7xh99hjko.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aee"
+  },
+  "Ski Resort Name": "Whistler Blackcomb",
+  "State": "British Columbia",
+  "City": "Whistler",
+  "Website": "https://www.whistlerblackcomb.com/",
+  "Snow Stick": "https://www.whistlerblackcomb.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 50.1163,
+  "Longitude": -122.9574,
+  "Ikon": false,
+  "Epic": true,
+  "Mountain Collective": true,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575895/PowAlert/ResortImages/mjeywxwnrwrd7qrpz2to.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aef"
+  },
+  "Ski Resort Name": "Revelstoke Mountain Resort",
+  "State": "British Columbia",
+  "City": "Revelstoke",
+  "Website": "https://www.revelstokemountainresort.com/",
+  "Snow Stick": "https://www.revelstokemountainresort.com/conditions",
+  "Latitude": 51.0217,
+  "Longitude": -118.1973,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575891/PowAlert/ResortImages/akvslcmqvn53jxtihahn.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af0"
+  },
+  "Ski Resort Name": "Big White Ski Resort",
+  "State": "British Columbia",
+  "City": "Kelowna",
+  "Website": "https://www.bigwhite.com/",
+  "Snow Stick": "https://www.bigwhite.com/mountain-info/snow-report",
+  "Latitude": 49.7212,
+  "Longitude": -118.9306,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575896/PowAlert/ResortImages/zbagyylxi5blh8jxreyb.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af1"
+  },
+  "Ski Resort Name": "Sun Peaks Resort",
+  "State": "British Columbia",
+  "City": "Sun Peaks",
+  "Website": "https://www.sunpeaksresort.com/",
+  "Snow Stick": "https://www.sunpeaksresort.com/conditions",
+  "Latitude": 50.8842,
+  "Longitude": -119.8857,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575893/PowAlert/ResortImages/aclo4d1ejesztguwgc1m.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af2"
+  },
+  "Ski Resort Name": "SilverStar Mountain Resort",
+  "State": "British Columbia",
+  "City": "Vernon",
+  "Website": "https://www.skisilverstar.com/",
+  "Snow Stick": "https://www.skisilverstar.com/conditions-report/",
+  "Latitude": 50.3605,
+  "Longitude": -119.0593,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575891/PowAlert/ResortImages/aanul2g7bepjtyymoyy7.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af3"
+  },
+  "Ski Resort Name": "Lake Louise Ski Resort",
+  "State": "Alberta",
+  "City": "Lake Louise",
+  "Website": "https://www.skilouise.com/",
+  "Snow Stick": "https://www.skilouise.com/conditions/",
+  "Latitude": 51.4411,
+  "Longitude": -116.1637,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575896/PowAlert/ResortImages/fwargyo61tkouxlijae0.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af4"
+  },
+  "Ski Resort Name": "Sunshine Village",
+  "State": "Alberta",
+  "City": "Banff",
+  "Website": "https://www.skibanff.com/",
+  "Snow Stick": "https://www.skibanff.com/conditions",
+  "Latitude": 51.1155,
+  "Longitude": -115.7634,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575894/PowAlert/ResortImages/pmnxknepa4y3pgv4z4zt.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af5"
+  },
+  "Ski Resort Name": "Mont Tremblant",
+  "State": "Quebec",
+  "City": "Mont Tremblant",
+  "Website": "https://www.tremblant.ca/",
+  "Snow Stick": "https://www.tremblant.ca/ski-ride/conditions",
+  "Latitude": 46.2109,
+  "Longitude": -74.5856,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575891/PowAlert/ResortImages/hv4g0j5qp357gz6685tb.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af6"
+  },
+  "Ski Resort Name": "Le Massif de Charlevoix",
+  "State": "Quebec",
+  "City": "Petite-Rivière-Saint-François",
+  "Website": "https://www.lemassif.com/",
+  "Snow Stick": "https://www.lemassif.com/en/ski-ride/snow-report/",
+  "Latitude": 47.3222,
+  "Longitude": -70.5967,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575893/PowAlert/ResortImages/reiqbnv7dyhmcpuuzc6f.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af7"
+  },
+  "Ski Resort Name": "Blue Mountain",
+  "State": "Ontario",
+  "City": "The Blue Mountains",
+  "Website": "https://www.bluemountain.ca/",
+  "Snow Stick": "https://www.bluemountain.ca/mountain/conditions-report",
+  "Latitude": 44.5008,
+  "Longitude": -80.3163,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575891/PowAlert/ResortImages/v9idsrw2dd5absluo7hv.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af8"
+  },
+  "Ski Resort Name": "Kicking Horse Mountain Resort",
+  "State": "British Columbia",
+  "City": "Golden",
+  "Website": "https://kickinghorseresort.com/",
+  "Snow Stick": "https://kickinghorseresort.com/conditions/",
+  "Latitude": 51.2982,
+  "Longitude": -117.0478,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": true,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575893/PowAlert/ResortImages/bwrwhwmsxhxcnyr1olyf.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63af9"
+  },
+  "Ski Resort Name": "Fernie Alpine Resort",
+  "State": "British Columbia",
+  "City": "Fernie",
+  "Website": "https://skifernie.com/",
+  "Snow Stick": "https://skifernie.com/conditions/",
+  "Latitude": 49.4631,
+  "Longitude": -115.0884,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575892/PowAlert/ResortImages/lrrc2azpdozsb9l3qfoy.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63afa"
+  },
+  "Ski Resort Name": "Nakiska Ski Area",
+  "State": "Alberta",
+  "City": "Kananaskis",
+  "Website": "https://skinakiska.com/",
+  "Snow Stick": "https://skinakiska.com/conditions/",
+  "Latitude": 50.9449,
+  "Longitude": -115.1507,
+  "Ikon": true,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575891/PowAlert/ResortImages/uwavvrjtvfu5mral1f4z.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63afb"
+  },
+  "Ski Resort Name": "Stoneham Mountain Resort",
+  "State": "Quebec",
+  "City": "Stoneham-et-Tewkesbury",
+  "Website": "https://ski-stoneham.com/",
+  "Snow Stick": "https://ski-stoneham.com/snow-report/",
+  "Latitude": 47.1109,
+  "Longitude": -71.4039,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575891/PowAlert/ResortImages/burvlighhydtw4lgcbyu.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63afc"
+  },
+  "Ski Resort Name": "Horseshoe Resort",
+  "State": "Ontario",
+  "City": "Barrie",
+  "Website": "https://horseshoeresort.com/",
+  "Snow Stick": "https://horseshoeresort.com/snow-report/",
+  "Latitude": 44.5355,
+  "Longitude": -79.6894,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575892/PowAlert/ResortImages/uzc04jsmwkj18hhfy0jt.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63afd"
+  },
+  "Ski Resort Name": "Asessippi Ski Area & Resort",
+  "State": "Manitoba",
+  "City": "Inglis",
+  "Website": "https://www.asessippi.com/",
+  "Snow Stick": "https://www.asessippi.com/snow-report",
+  "Latitude": 50.9629,
+  "Longitude": -101.2499,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "Canada",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575885/PowAlert/ResortImages/jsvphptyvamvml86bnjd.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63aff"
+  },
+  "Ski Resort Name": "Snowshoe Mountain Resort",
+  "State": "West Virginia",
+  "City": "Snowshoe",
+  "Website": "https://www.snowshoemtn.com/",
+  "Snow Stick": "https://www.snowshoemtn.com/conditions",
+  "Latitude": 38.4109,
+  "Longitude": -79.9943,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575887/PowAlert/ResortImages/s8b35ynby6ahx9iwz6xk.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63b00"
+  },
+  "Ski Resort Name": "Canaan Valley Resort",
+  "State": "West Virginia",
+  "City": "Davis",
+  "Website": "https://www.canaanresort.com/",
+  "Snow Stick": "https://www.canaanresort.com/winter/ski/snow-report",
+  "Latitude": 39.0264,
+  "Longitude": -79.4463,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575889/PowAlert/ResortImages/wdror20drnq82zdjgsnc.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63b01"
+  },
+  "Ski Resort Name": "Timberline Mountain",
+  "State": "West Virginia",
+  "City": "Davis",
+  "Website": "https://timberlinemountain.com/",
+  "Snow Stick": "https://timberlinemountain.com/snow-report/",
+  "Latitude": 39.0436,
+  "Longitude": -79.4007,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575890/PowAlert/ResortImages/bdyjnkxlygorelnrvzz7.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63b02"
+  },
+  "Ski Resort Name": "Wintergreen Resort",
+  "State": "Virginia",
+  "City": "Nellysford",
+  "Website": "https://www.wintergreenresort.com/",
+  "Snow Stick": "https://www.wintergreenresort.com/Ski-Wintergreen/Conditions/",
+  "Latitude": 37.9119,
+  "Longitude": -78.9427,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575892/PowAlert/ResortImages/aqrrlwfitghwye2rkwpn.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63b03"
+  },
+  "Ski Resort Name": "Massanutten Resort",
+  "State": "Virginia",
+  "City": "McGaheysville",
+  "Website": "https://www.massresort.com/",
+  "Snow Stick": "https://www.massresort.com/play/snow-sports/snow-report/",
+  "Latitude": 38.4065,
+  "Longitude": -78.7367,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575891/PowAlert/ResortImages/gw6xpsqfip5kxhtdiau5.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63b04"
+  },
+  "Ski Resort Name": "Sky Valley Resort",
+  "State": "Georgia",
+  "City": "Sky Valley",
+  "Website": "https://www.skyvalleyresort.com/",
+  "Latitude": 34.9913,
+  "Longitude": -83.3306,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575900/PowAlert/ResortImages/te4qai37kpk5zpkwdkqv.png"
+},
+{
+  "_id": {
+    "$oid": "66eb1b97cbd1c8aacee63b05"
+  },
+  "Ski Resort Name": "Paoli Peaks",
+  "State": "Kentucky",
+  "City": "Paoli",
+  "Website": "https://www.paolipeaks.com/",
+  "Snow Stick": "https://www.paolipeaks.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+  "Latitude": 38.5559,
+  "Longitude": -86.4675,
+  "Ikon": false,
+  "Epic": false,
+  "Mountain Collective": false,
+  "Country": "United States",
+  "Image": "https://res.cloudinary.com/dsrmh2kkp/image/upload/v1732575902/PowAlert/ResortImages/mmi412dbxvn6de66vyun.png"
+}]
