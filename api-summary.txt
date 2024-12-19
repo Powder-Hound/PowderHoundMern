@@ -10,6 +10,10 @@ POST /verify-email-otp
 GET /find
 GET /list
 GET /
+GET /resortdataset
+POST /create
+POST /validateUsername
+POST /login
 
 Protected Routes:
 POST /create
@@ -17,10 +21,5 @@ GET /id/:id
 PUT /:id
 DELETE /:id
 GET /:id
-GET /getUserResorts
-PUT /addResorts
-PUT /addSkiPasses
-PUT /removeResorts
-PUT /removeSkiPasses
 PUT /alertThreshold
 DELETE /:id

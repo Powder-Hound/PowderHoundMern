@@ -1,19 +1,10 @@
-//production version
-
 import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
-// import { validationResult } from "express-validator";
 import twilio from "twilio";
 import dotenv from "dotenv";
 dotenv.config();
 
-console.log("TWILIO_ACCOUNT_SID:", process.env.TWILIO_ACCOUNT_SID);
-console.log("TWILIO_AUTH_TOKEN:", process.env.TWILIO_AUTH_TOKEN);
-console.log(
-  "TWILIO_VERIFY_SERVICE_SID:",
-  process.env.TWILIO_VERIFY_SERVICE_SID
-);
 const client = twilio(
   process.env.TWILIO_ACCOUNT_SID,
   process.env.TWILIO_AUTH_TOKEN
@@ -30,10 +21,8 @@ const hashPassword = async (password) => {
 
 export const createUser = async (req, res) => {
   const user = req.body;
-
   const newUser = new User(user);
 
-  // Hash password before database input
   if (newUser.password) {
     newUser.password = await hashPassword(user.password);
   }
@@ -54,14 +43,12 @@ export const createUser = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Error saving user", error: error });
   }
-  // }
 };
 
 export const validateUsername = async (req, res) => {
   const value = req.body.username;
   const userInDB = await User.findOne({ username: value });
   if (userInDB) {
-    console.log(userInDB);
     return res
       .status(400)
       .json({ success: false, error: "Username already exists" });
@@ -74,9 +61,6 @@ export const login = async (req, res) => {
   const { phoneNumber, code } = req.body;
 
   try {
-    console.log("Request Body:", req.body);
-
-    // Step 3: Find user in the database
     const userInDB = await User.findOne({ phoneNumber: phoneNumber });
     if (!userInDB) {
       return res.status(404).json({
@@ -85,7 +69,6 @@ export const login = async (req, res) => {
       });
     }
 
-    // Step 4: Generate JWT token
     const token = jwt.sign(
       {
         username: userInDB.name,
@@ -96,7 +79,6 @@ export const login = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    // Step 5: Return success response
     return res.status(200).json({
       success: true,
       message: "Login successful",
@@ -104,7 +86,6 @@ export const login = async (req, res) => {
       user: userInDB,
     });
   } catch (error) {
-    console.error("Login Error:", error.message);
     return res.status(500).json({
       success: false,
       message: "Error during login.",
@@ -126,109 +107,16 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const getUserResorts = async (req, res) => {
-  if (req.permissions === "admin" || req.userID === req.params.id) {
-    const userInDB = await User.findById(req.params.id);
-    if (userInDB) {
-      res.status(200).json({
-        success: true,
-        data: userInDB.resortPreference?.resorts,
-        status: 200,
-      });
+export const deleteUser = async (req, res) => {
+  try {
+    if (req.privileges === "admin" || req.userID === req.params.id) {
+      const deletedUser = await User.findByIdAndDelete(req.userID);
+      res.status(200).json({ success: true, data: deletedUser });
+    } else {
+      res.status(401).json({ success: false, message: "Unauthorized" });
     }
-  } else {
-    res
-      .status(401)
-      .json({ success: false, message: "Unauthorized", status: 401 });
-  }
-};
-
-// Locations provided will be an ObjectID referring to a resort
-export const addResorts = async (req, res) => {
-  let prefsAdded = {};
-
-  if (req.body?.resorts) {
-    prefsAdded["resortPreference.resorts"] = req.body.resorts;
-  }
-
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.userID,
-      {
-        $addToSet: { ...prefsAdded },
-      },
-      { new: true }
-    );
-    res.status(200).json({ success: true, data: updatedUser.resortPreference });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error updating user", error: error });
-  }
-};
-
-export const addSkiPasses = async (req, res) => {
-  let prefsAdded = {};
-
-  if (req.body?.skiPass) {
-    prefsAdded["resortPreference.skiPass"] = req.body.skiPass;
-  }
-
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.userID,
-      {
-        $addToSet: { ...prefsAdded },
-      },
-      { new: true }
-    );
-    res.status(200).json({ success: true, data: updatedUser.resortPreference });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error updating user", error: error });
-  }
-};
-
-export const removeResorts = async (req, res) => {
-  let prefsRemoved = [];
-  if (req.body?.resorts) {
-    prefsRemoved = req.body.resorts;
-  }
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.userID,
-      {
-        $pull: { "resortPreference.resorts": { $in: prefsRemoved } },
-      },
-      { new: true }
-    );
-    res.status(200).json({ success: true, data: updatedUser.resortPreference });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error updating user", error: error });
-  }
-};
-
-export const removeSkiPasses = async (req, res) => {
-  let prefsRemoved = [];
-  if (req.body?.skiPass) {
-    prefsRemoved = req.body.skiPass;
-  }
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.userID,
-      {
-        $pull: { "resortPreference.skiPass": { $in: prefsRemoved } },
-      },
-      { new: true }
-    );
-    res.status(200).json({ success: true, data: updatedUser.resortPreference });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error updating user", error: error });
+    res.status(500).json({ success: false, message: "Error deleting user" });
   }
 };
 
@@ -252,18 +140,5 @@ export const updateAlertThreshold = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Error updating user", error: error });
-  }
-};
-
-export const deleteUser = async (req, res) => {
-  try {
-    if (req.privileges === "admin" || req.userID === req.params.id) {
-      const deletedUser = await User.findByIdAndDelete(req.userID);
-      res.status(200).json({ success: true, data: deletedUser });
-    } else {
-      res.status(401).json({ success: false, message: "Unauthorized" });
-    }
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Error deleting user" });
   }
 };
