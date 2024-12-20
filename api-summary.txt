@@ -10,7 +10,6 @@ POST /verify-email-otp
 GET /find
 GET /list
 GET /
-GET /resortdataset
 POST /create
 POST /validateUsername
 POST /login
@@ -20,6 +19,7 @@ POST /create
 GET /id/:id
 PUT /:id
 DELETE /:id
+GET /dataset
 GET /:id
 PUT /alertThreshold
 DELETE /:id
