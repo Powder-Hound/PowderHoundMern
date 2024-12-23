@@ -20,6 +20,7 @@ GET /id/:id
 PUT /:id
 DELETE /:id
 GET /dataset
+GET /unlocked
 GET /:id
-PUT /alertThreshold
+PUT /:id
 DELETE /:id
