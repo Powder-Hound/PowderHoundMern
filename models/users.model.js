@@ -121,6 +121,38 @@ const userSchema = new mongoose.Schema({
       required: false,
     },
   },
+  signupSteps: {
+    init: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    chooseResort: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    setParams: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    notifications: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    lodging: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    allSet: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+  },
 });
 
 export const User = mongoose.model("User", userSchema);
