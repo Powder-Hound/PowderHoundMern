@@ -5,7 +5,7 @@ import {
   login,
   getUser,
   deleteUser,
-  updateAlertThreshold,
+  updateUser,
 } from "../controllers/user.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
@@ -15,7 +15,7 @@ userRouter.post("/create", createUser);
 userRouter.post("/validateUsername", validateUsername);
 userRouter.post("/login", login);
 userRouter.get("/:id", verifyToken, getUser);
-userRouter.put("/alertThreshold", verifyToken, updateAlertThreshold);
+userRouter.put("/:id", verifyToken, updateUser);
 userRouter.delete("/:id", verifyToken, deleteUser);
 
 export default userRouter;
