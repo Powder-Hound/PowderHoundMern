@@ -124,7 +124,7 @@ const userSchema = new mongoose.Schema({
   signupSteps: {
     init: {
       type: Boolean,
-      default: false,
+      default: true,
       required: true,
     },
     chooseResort: {

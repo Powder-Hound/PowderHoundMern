@@ -18,6 +18,7 @@ resortRouter.get("/list", findListOfResorts);
 resortRouter.get("/", getAllResorts);
 resortRouter.get("/id/:id", verifyToken, getResort);
 resortRouter.put("/:id", verifyToken, updateResort);
+
 resortRouter.delete("/:id", verifyToken, deleteResort);
 
 export default resortRouter;
