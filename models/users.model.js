@@ -47,10 +47,10 @@ const userSchema = new mongoose.Schema({
   },
   resortPreference: {
     skiPass: {
-      Ikon: { type: Boolean },
-      Epic: { type: Boolean },
-      Indy: { type: Boolean },
-      MountainCollective: { type: Boolean },
+      Ikon: { type: Boolean, default: false },
+      Epic: { type: Boolean, default: false },
+      Indy: { type: Boolean, default: false },
+      MountainCollective: { type: Boolean, default: false },
     },
     resorts: [
       {
