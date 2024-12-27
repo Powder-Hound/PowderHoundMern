@@ -52,10 +52,13 @@ const userSchema = new mongoose.Schema({
       Indy: { type: Boolean },
       MountainCollective: { type: Boolean },
     },
-    resorts: {
-      type: [String],
-      required: false,
-    },
+    resorts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Resort",
+        required: false,
+      },
+    ],
     lodging: {
       slopeside: {
         type: Boolean,
