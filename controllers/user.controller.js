@@ -2,12 +2,12 @@ import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-
 dotenv.config();
 
 const hashPassword = async (password) => {
   try {
-    return await argon2.hash(password);
+    const hash = await argon2.hash(password);
+    return hash;
   } catch (err) {
     console.error(err);
     throw new Error("Error hashing password");
@@ -15,63 +15,63 @@ const hashPassword = async (password) => {
 };
 
 export const createUser = async (req, res) => {
+  const user = req.body;
+  const newUser = new User(user);
+
+  if (newUser.password) {
+    newUser.password = await hashPassword(user.password);
+  }
+
+  const token = jwt.sign(
+    {
+      username: newUser.name,
+      userID: newUser._id,
+      permissions: newUser.permissions,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+
   try {
-    const user = req.body;
-
-    if (user.password) {
-      user.password = await hashPassword(user.password);
-    }
-
-    const newUser = new User(user);
     const savedUser = await newUser.save();
-
-    const token = jwt.sign(
-      {
-        username: savedUser.name,
-        userID: savedUser._id,
-        permissions: savedUser.permissions,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
-
     res.status(201).json({ success: true, user: savedUser, token });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error saving user", error });
+    res.status(500).json({
+      success: false,
+      message: "Error saving user",
+      error,
+    });
   }
 };
 
 export const validateUsername = async (req, res) => {
-  const value = req.body.name;
+  const value = req.body.username;
   try {
-    const userInDB = await User.findOne({ name: value });
+    const userInDB = await User.findOne({ username: value });
     if (userInDB) {
       return res
         .status(400)
         .json({ success: false, error: "Username already exists" });
+    } else {
+      return res.status(200).json({ success: true });
     }
-    res.status(200).json({ success: true });
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: "Error validating username", error });
+      .json({ success: false, message: "Error validating username" });
   }
 };
 
 export const login = async (req, res) => {
-  const { phoneNumber } = req.body;
+  const { phoneNumber, code } = req.body;
 
   try {
     const userInDB = await User.findOne({ phoneNumber });
     if (!userInDB) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "User not found. Please register first.",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "User not found. Please register first.",
+      });
     }
 
     const token = jwt.sign(
@@ -84,18 +84,18 @@ export const login = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Login successful",
-        token,
-        user: userInDB,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+      token,
+      user: userInDB,
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error during login.", error });
+    return res.status(500).json({
+      success: false,
+      message: "Error during login.",
+      error: error.message,
+    });
   }
 };
 
