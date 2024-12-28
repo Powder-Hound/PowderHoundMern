@@ -2,12 +2,9 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
-
 import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
 import resortRouter from "./api/resort.routes.js";
-import resortDatasetRouter from "./api/resortDatasetRoutes.js";
-import unlockedFakeRouter from "./api/unlockedFakeRoutes.js"; // Import the new router
 
 import { getAllNOAAData } from "./chron/noaaChron.js";
 import { getAllWeatherBitData } from "./chron/wbChron.js";
@@ -33,9 +30,7 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
-app.use("/api/resorts", resortRouter);
-app.use("/api/resorts", resortDatasetRouter); // Existing dataset router
-app.use("/api/resorts", unlockedFakeRouter); // Add unlockedFakeRouter under /api/resorts
+app.use("/api/resorts", resortRouter); // General resort routes
 
 // Uncomment these for manual fetch during testing
 // await getAllNOAAData();
