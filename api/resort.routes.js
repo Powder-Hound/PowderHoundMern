@@ -15,7 +15,7 @@ const resortRouter = express.Router();
 resortRouter.post("/create", verifyToken, createResort);
 resortRouter.get("/find", findResort);
 resortRouter.get("/list", findListOfResorts);
-resortRouter.get("/", getAllResorts);
+resortRouter.get("/", verifyToken, getAllResorts);
 resortRouter.get("/id/:id", verifyToken, getResort);
 resortRouter.put("/:id", verifyToken, updateResort);
 
