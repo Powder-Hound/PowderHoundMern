@@ -32,8 +32,8 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: false,
-    default: ""
-  }
+    default: "",
+  },
   notificationsActive: {
     phone: {
       type: Boolean,
