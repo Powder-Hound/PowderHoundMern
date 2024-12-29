@@ -38,12 +38,10 @@ const userSchema = new mongoose.Schema({
     phone: {
       type: Boolean,
       default: true,
-      required: true,
     },
     email: {
       type: Boolean,
       default: false,
-      required: true,
     },
   },
   resortPreference: {
@@ -57,105 +55,34 @@ const userSchema = new mongoose.Schema({
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Resort",
-        required: false,
       },
     ],
-    lodging: {
-      slopeside: {
-        type: Boolean,
-        required: false,
-      },
-      luxury: {
-        type: Boolean,
-        required: false,
-      },
-      budget: {
-        type: Boolean,
-        required: false,
-      },
-      value: {
-        type: Boolean,
-        required: false,
-      },
-    },
   },
   activityPreference: {
-    skiing: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-    snowboarding: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
+    skiing: { type: Boolean, default: false },
+    snowboarding: { type: Boolean, default: false },
   },
   alertThreshold: {
-    preferredResorts: {
-      type: Number,
-      default: 12,
-      required: false,
-    },
-    anyResort: {
-      type: Number,
-      default: 18,
-      required: false,
-    },
+    preferredResorts: { type: Number, default: 12 },
+    anyResort: { type: Number, default: 18 },
     snowfallPeriod: {
       type: Number,
       enum: [24, 48],
       default: 48,
-      required: true,
     },
     uom: {
       type: String,
       enum: ["cm", "mm", "in"],
       default: "in",
-      required: true,
-    },
-  },
-  travelInformation: {
-    zipCode: {
-      type: String,
-      required: false,
-    },
-    airport: {
-      type: String,
-      required: false,
     },
   },
   signupSteps: {
-    init: {
-      type: Boolean,
-      default: true,
-      required: true,
-    },
-    chooseResort: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
-    setParams: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
-    notifications: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
-    lodging: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
-    allSet: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
+    init: { type: Boolean, default: true },
+    chooseResort: { type: Boolean, default: false },
+    setParams: { type: Boolean, default: false },
+    notifications: { type: Boolean, default: false },
+    lodging: { type: Boolean, default: false },
+    allSet: { type: Boolean, default: false },
   },
 });
 

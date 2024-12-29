@@ -20,10 +20,10 @@ authRouter.post("/login", login);
 
 // Username and phone validations
 authRouter.post("/validate-username", validateUsername);
-authRouter.post("/validate-number", validatePhoneNumber);
+authRouter.post("/validate-phone", validatePhoneNumber);
 
 // Phone and Email verification
-authRouter.post("/send-verification", sendVerificationCode);
+authRouter.post("/send-verification-code", sendVerificationCode);
 authRouter.post("/verify-otp", verifyOTP);
 authRouter.post("/send-verification-email", sendVerificationEmail);
 authRouter.post("/verify-email-otp", emailVerificationCheck);
