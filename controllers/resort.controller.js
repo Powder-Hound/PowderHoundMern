@@ -95,33 +95,13 @@ export const findListOfResorts = async (req, res) => {
 };
 
 export const getAllResorts = async (req, res) => {
-  let page = Number(req.query.page) || 1;
-  let pageSize = Number(req.query.pageSize) || 25;
   try {
-    const resorts = await Resort.aggregate([
-      {
-        $facet: {
-          metadata: [{ $count: "totalCount" }],
-          data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize + 1 }],
-        },
-      },
-    ]);
+    const resorts = await Resort.find({});
 
-    let hasNextPage = false;
-    if (resorts[0].data.length > pageSize) {
-      hasNextPage = true;
-      resorts[0].data.pop();
-    }
     return res.status(200).json({
       success: true,
       resorts: {
-        metadata: {
-          totalCount: resorts[0].metadata[0].totalCount,
-          page,
-          pageSize,
-          hasNextPage,
-        },
-        data: resorts[0].data,
+        data: resorts,
       },
     });
   } catch (error) {
@@ -132,6 +112,46 @@ export const getAllResorts = async (req, res) => {
     });
   }
 };
+
+// DEPRECATED: Method for returning resorts that includes pagination (possibly implemented later)
+// export const getAllResorts = async (req, res) => {
+//   let page = Number(req.query.page) || 1;
+//   let pageSize = Number(req.query.pageSize) || 25;
+//   try {
+//     const resorts = await Resort.aggregate([
+//       {
+//         $facet: {
+//           metadata: [{ $count: "totalCount" }],
+//           data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize + 1 }],
+//         },
+//       },
+//     ]);
+
+//     let hasNextPage = false;
+//     if (resorts[0].data.length > pageSize) {
+//       hasNextPage = true;
+//       resorts[0].data.pop();
+//     }
+//     return res.status(200).json({
+//       success: true,
+//       resorts: {
+//         metadata: {
+//           totalCount: resorts[0].metadata[0].totalCount,
+//           page,
+//           pageSize,
+//           hasNextPage,
+//         },
+//         data: resorts[0].data,
+//       },
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Error retrieving resorts",
+//       error: error,
+//     });
+//   }
+// };
 
 export const updateResort = async (req, res) => {
   if (req.permissions === "admin") {
