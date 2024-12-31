@@ -57,6 +57,24 @@ const userSchema = new mongoose.Schema({
         ref: "Resort",
       },
     ],
+    lodging: {
+      slopeside: {
+        type: Boolean,
+        required: false,
+      },
+      luxury: {
+        type: Boolean,
+        required: false,
+      },
+      budget: {
+        type: Boolean,
+        required: false,
+      },
+      value: {
+        type: Boolean,
+        required: false,
+      },
+    },
   },
   activityPreference: {
     skiing: { type: Boolean, default: false },
