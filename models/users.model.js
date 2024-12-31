@@ -60,19 +60,19 @@ const userSchema = new mongoose.Schema({
     lodging: {
       slopeside: {
         type: Boolean,
-        required: false,
+        default: false,
       },
       luxury: {
         type: Boolean,
-        required: false,
+        default: false,
       },
       budget: {
         type: Boolean,
-        required: false,
+        default: false,
       },
       value: {
         type: Boolean,
-        required: false,
+        default: false,
       },
     },
   },
