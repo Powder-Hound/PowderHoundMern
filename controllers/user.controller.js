@@ -34,7 +34,7 @@ export const createUser = async (req, res) => {
 
   try {
     const savedUser = await newUser.save();
-    res.status(201).json({ success: true, user: savedUser, token });
+    res.status(201).send({ user: savedUser, token });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -84,9 +84,7 @@ export const login = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    return res.status(200).json({
-      success: true,
-      message: "Login successful",
+    return res.status(201).send({
       token,
       user: userInDB,
     });
