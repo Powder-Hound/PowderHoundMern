@@ -36,7 +36,7 @@ export const createUser = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(201).send({ user: savedUser, token });
   } catch (error) {
-    res.status(500).json({
+    res.status(500).send({
       success: false,
       message: "Error saving user",
       error,
@@ -51,14 +51,14 @@ export const validateUsername = async (req, res) => {
     if (userInDB) {
       return res
         .status(400)
-        .json({ success: false, error: "Username already exists" });
+        .send({ success: false, error: "Username already exists" });
     } else {
-      return res.status(200).json({ success: true });
+      return res.status(200).send({ success: true });
     }
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: "Error validating username" });
+      .send({ success: false, message: "Error validating username" });
   }
 };
 
@@ -68,7 +68,7 @@ export const login = async (req, res) => {
   try {
     const userInDB = await User.findOne({ phoneNumber });
     if (!userInDB) {
-      return res.status(404).json({
+      return res.status(404).send({
         success: false,
         message: "User not found. Please register first.",
       });
@@ -89,7 +89,7 @@ export const login = async (req, res) => {
       user: userInDB,
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.status(500).send({
       success: false,
       message: "Error during login.",
       error: error.message,
@@ -106,16 +106,16 @@ export const getUser = async (req, res) => {
       if (!userInDB) {
         return res
           .status(404)
-          .json({ success: false, message: "User not found" });
+          .send({ success: false, message: "User not found" });
       }
-      res.status(200).json({ success: true, data: userInDB });
+      res.status(200).send({ success: true, data: userInDB });
     } else {
-      res.status(401).json({ success: false, message: "Unauthorized" });
+      res.status(401).send({ success: false, message: "Unauthorized" });
     }
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: "Error fetching user", error });
+      .send({ success: false, message: "Error fetching user", error });
   }
 };
 
@@ -127,7 +127,7 @@ export const updateUser = async (req, res) => {
     if (req.permissions !== "admin" && req.userID !== id) {
       return res
         .status(401)
-        .json({ success: false, message: "Unauthorized to update this user" });
+        .send({ success: false, message: "Unauthorized to update this user" });
     }
 
     if (updateFields.password) {
@@ -143,14 +143,14 @@ export const updateUser = async (req, res) => {
     if (!updatedUser) {
       return res
         .status(404)
-        .json({ success: false, message: "User not found" });
+        .send({ success: false, message: "User not found" });
     }
 
-    res.status(200).json({ success: true, data: updatedUser });
+    res.status(200).send({ success: true, data: updatedUser });
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: "Error updating user", error });
+      .send({ success: false, message: "Error updating user", error });
   }
 };
 
@@ -163,15 +163,15 @@ export const deleteUser = async (req, res) => {
       if (!deletedUser) {
         return res
           .status(404)
-          .json({ success: false, message: "User not found" });
+          .send({ success: false, message: "User not found" });
       }
-      res.status(200).json({ success: true, data: deletedUser });
+      res.status(200).send({ success: true, data: deletedUser });
     } else {
-      res.status(401).json({ success: false, message: "Unauthorized" });
+      res.status(401).send({ success: false, message: "Unauthorized" });
     }
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: "Error deleting user", error });
+      .send({ success: false, message: "Error deleting user", error });
   }
 };
