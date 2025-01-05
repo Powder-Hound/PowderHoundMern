@@ -5,12 +5,8 @@ import { connectDB } from "./config/db.js";
 import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
 import resortRouter from "./api/resort.routes.js";
+import visualCrossingRouter from "./api/visualCrossing.routes.js";
 import testRoute from "./api/weatherUnlockedTestRoute.js";
-
-import { getAllNOAAData } from "./chron/noaaChron.js";
-import { getAllWeatherBitData } from "./chron/wbChron.js";
-import { getAllVisualCrossingData } from "./chron/visualCrossingChron.js";
-import { checkResorts } from "./chron/notifyUsers.js";
 
 dotenv.config();
 
@@ -32,7 +28,8 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/resorts", resortRouter); // General resort routes
-app.use("/api/weather-unlocked/test", testRoute);
+app.use("/api/visual-crossing", visualCrossingRouter);
+// app.use("/api/weather-unlocked/test", testRoute);
 
 // Uncomment these for manual fetch during testing
 // await getAllNOAAData();
