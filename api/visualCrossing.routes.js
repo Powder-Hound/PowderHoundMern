@@ -5,12 +5,16 @@ import {
   getAllWeatherData,
 } from "../controllers/visualCrossingController.js";
 
-const router = express.Router();
+const visualCrossingRouter = express.Router();
 
 // Route to update all Visual Crossing data
-router.post("/weather/update-all", verifyToken, updateAllVisualCrossingData);
+visualCrossingRouter.post(
+  "/weather/update-all",
+  verifyToken,
+  updateAllVisualCrossingData
+);
 
 // Route to get all weather data
-router.get("/weather/all", verifyToken, getAllWeatherData);
+visualCrossingRouter.get("/weather/all", verifyToken, getAllWeatherData);
 
-export default router;
+export default visualCrossingRouter;
