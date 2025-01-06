@@ -30,8 +30,10 @@ export const updateAllVisualCrossingData = async (req, res) => {
           resort.Longitude
         );
 
+        const resortId = resort._id.toString(); // Use the _id as resortId
+
         await ResortWeatherData.findOneAndUpdate(
-          { resortId: resort.resortId },
+          { resortId }, // Match by correct resortId
           {
             $set: {
               "weatherData.visualCrossing.forecast": forecast,
@@ -42,16 +44,15 @@ export const updateAllVisualCrossingData = async (req, res) => {
           { upsert: true, new: true }
         );
 
-        console.log(`Updated weather data for: ${resort.name || "Unknown"}`);
-      } catch (err) {
-        console.error(
-          `Error updating data for resort ${resort.resortId}:`,
-          err
+        console.log(
+          `Updated weather data for resort: ${resort["Ski Resort Name"]}`
         );
+      } catch (err) {
+        console.error(`Error updating data for resortId ${resort._id}:`, err);
       }
     }
 
-    console.log("\nVisualCrossing Data update complete.");
+    console.log("VisualCrossing Data update complete.");
     if (res)
       res.status(200).json({ message: "Weather data updated for all resorts" });
   } catch (err) {

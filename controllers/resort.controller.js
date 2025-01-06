@@ -1,5 +1,30 @@
 import { Resort } from "../models/resorts.model.js";
+import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 
+// Helper function to attach weather data dynamically
+const attachWeatherData = async (resort) => {
+  const { Latitude, Longitude } = resort;
+
+  try {
+    const { forecast, uom } = await fetchVisualCrossing(Latitude, Longitude);
+
+    return {
+      ...resort.toObject(), // Convert Mongoose document to plain object
+      weatherData: {
+        forecast,
+        uom,
+      },
+    };
+  } catch (error) {
+    console.error(`Error fetching weather for resort ${resort._id}:`, error);
+    return {
+      ...resort.toObject(),
+      weatherData: null, // Add null weather data in case of failure
+    };
+  }
+};
+
+// Create Resort
 export const createResort = async (req, res) => {
   if (req.permissions === "admin") {
     try {
@@ -18,11 +43,13 @@ export const createResort = async (req, res) => {
   }
 };
 
+// Get Single Resort with Weather
 export const getResort = async (req, res) => {
   try {
     const resort = await Resort.findById(req.params.id);
     if (resort) {
-      res.status(200).json({ success: true, data: resort });
+      const resortWithWeather = await attachWeatherData(resort);
+      res.status(200).json({ success: true, data: resortWithWeather });
     } else {
       res.status(404).json({ success: false, message: "Resort not found" });
     }
@@ -35,6 +62,7 @@ export const getResort = async (req, res) => {
   }
 };
 
+// Find Resorts with Weather
 export const findResort = async (req, res) => {
   let query = {};
   if (req.query.state) {
@@ -44,65 +72,36 @@ export const findResort = async (req, res) => {
     query["Ski Resort Name"] = { $regex: req.query.name, $options: "i" };
   }
   if (req.query.id) {
-    query._id = req.query.state;
+    query._id = req.query.id;
   }
-  if (!req.query.name && !req.query.state) {
-    try {
-      const resort = await Resort.distinct("State");
-      if (resort) {
-        res.status(200).json({ success: true, data: resort });
-      }
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Error retrieving resort",
-        error: error,
-      });
-    }
-  } else {
-    try {
-      const resort = await Resort.find(query);
-      if (resort) {
-        res.status(200).json({ success: true, data: resort });
-      } else {
-        res.status(404).json({ success: false, message: "Resort not found" });
-      }
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Error retrieving resort",
-        error: error,
-      });
-    }
-  }
-};
 
-export const findListOfResorts = async (req, res) => {
-  let ids = req.query.ids;
   try {
-    const resorts = await Resort.find({ _id: { $in: ids } });
-    if (resorts) {
-      res.status(200).json({ success: true, data: resorts });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: "There was an error retrieving resorts",
-      });
-    }
+    const resorts = await Resort.find(query);
+    const resortsWithWeather = await Promise.all(
+      resorts.map((resort) => attachWeatherData(resort))
+    );
+
+    res.status(200).json({ success: true, data: resortsWithWeather });
   } catch (error) {
-    res.status(500).json({ success: false, message: error });
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving resort",
+      error: error,
+    });
   }
 };
 
+// Get All Resorts with Weather
 export const getAllResorts = async (req, res) => {
   try {
     const resorts = await Resort.find({});
+    const resortsWithWeather = await Promise.all(
+      resorts.map((resort) => attachWeatherData(resort))
+    );
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      resorts: {
-        data: resorts,
-      },
+      data: resortsWithWeather,
     });
   } catch (error) {
     res.status(500).json({
@@ -113,46 +112,26 @@ export const getAllResorts = async (req, res) => {
   }
 };
 
-// DEPRECATED: Method for returning resorts that includes pagination (possibly implemented later)
-// export const getAllResorts = async (req, res) => {
-//   let page = Number(req.query.page) || 1;
-//   let pageSize = Number(req.query.pageSize) || 25;
-//   try {
-//     const resorts = await Resort.aggregate([
-//       {
-//         $facet: {
-//           metadata: [{ $count: "totalCount" }],
-//           data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize + 1 }],
-//         },
-//       },
-//     ]);
+// Find List of Resorts with Weather
+export const findListOfResorts = async (req, res) => {
+  let ids = req.query.ids;
+  try {
+    const resorts = await Resort.find({ _id: { $in: ids } });
+    const resortsWithWeather = await Promise.all(
+      resorts.map((resort) => attachWeatherData(resort))
+    );
 
-//     let hasNextPage = false;
-//     if (resorts[0].data.length > pageSize) {
-//       hasNextPage = true;
-//       resorts[0].data.pop();
-//     }
-//     return res.status(200).json({
-//       success: true,
-//       resorts: {
-//         metadata: {
-//           totalCount: resorts[0].metadata[0].totalCount,
-//           page,
-//           pageSize,
-//           hasNextPage,
-//         },
-//         data: resorts[0].data,
-//       },
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Error retrieving resorts",
-//       error: error,
-//     });
-//   }
-// };
+    res.status(200).json({ success: true, data: resortsWithWeather });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving resorts",
+      error: error,
+    });
+  }
+};
 
+// Update Resort
 export const updateResort = async (req, res) => {
   if (req.permissions === "admin") {
     try {
@@ -178,6 +157,7 @@ export const updateResort = async (req, res) => {
   }
 };
 
+// Delete Resort
 export const deleteResort = async (req, res) => {
   if (req.permissions === "admin") {
     try {
