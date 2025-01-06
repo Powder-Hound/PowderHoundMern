@@ -1,16 +1,16 @@
 import express from "express";
-import { verifyToken } from "../middleware/authMiddleware.js"; // Import your verifyToken middleware
+import { verifyToken } from "../middleware/authMiddleware.js";
 import {
   updateAllVisualCrossingData,
-  getVisualCrossingDataByLocation,
+  getAllWeatherData,
 } from "../controllers/visualCrossingController.js";
 
 const router = express.Router();
 
-// Protected route to update all Visual Crossing data
+// Route to update all Visual Crossing data
 router.post("/weather/update-all", verifyToken, updateAllVisualCrossingData);
 
-// Protected route to fetch Visual Crossing data for a specific location
-router.get("/weather/:lat/:long", verifyToken, getVisualCrossingDataByLocation);
+// Route to get all weather data
+router.get("/weather/all", verifyToken, getAllWeatherData);
 
 export default router;

@@ -12,14 +12,37 @@ const resortWeatherDataSchema = new Schema(
     },
     weatherData: {
       visualCrossing: {
-        forecast: {
-          type: Map,
-          of: {
-            validTime: { type: String, required: true }, // Example of a forecast object
-            value: { type: Number, default: 0 }, // Snow forecast value (default to 0)
+        forecast: [
+          {
+            validTime: { type: String, required: true }, // Forecast date
+            snow: {
+              value: { type: Number, default: 0 }, // Snowfall amount
+              snowDepth: { type: Number, default: 0 }, // Snow depth
+            },
+            temperature: {
+              max: { type: Number, default: null }, // Maximum temperature
+              min: { type: Number, default: null }, // Minimum temperature
+              avg: { type: Number, default: null }, // Average temperature
+            },
+            wind: {
+              speed: { type: Number, default: null }, // Wind speed
+              gust: { type: Number, default: null }, // Wind gust
+              direction: { type: Number, default: null }, // Wind direction
+            },
+            precipitation: {
+              value: { type: Number, default: null }, // Precipitation amount
+              type: { type: [String], default: [] }, // Precipitation types
+              prob: { type: Number, default: null }, // Precipitation probability
+            },
+            humidity: { type: Number, default: null }, // Humidity percentage
+            pressure: { type: Number, default: null }, // Atmospheric pressure
+            visibility: { type: Number, default: null }, // Visibility in km/miles
+            cloudCover: { type: Number, default: null }, // Cloud cover percentage
+            uvIndex: { type: Number, default: null }, // UV Index
+            conditions: { type: String, default: "Unknown" }, // Weather conditions
           },
-        },
-        uom: { type: String, default: "cm" }, // Unit of measurement for snow
+        ],
+        uom: { type: String, default: "metric" }, // Unit of measurement for snow and temperatures
       },
     },
     lastChecked: {
