@@ -69,10 +69,10 @@ export const updateAllVisualCrossingData = async (req, res) => {
     }
 
     console.log("\nVisualCrossing Data updated");
-    res.status(200).json({ message: "Weather data updated for all resorts" });
+    res.status(200).send({ message: "Weather data updated for all resorts" });
   } catch (err) {
     console.error("Error in updating VisualCrossing data:", err);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).send({ message: "Internal server error" });
   }
 };
 
@@ -87,12 +87,12 @@ export const getVisualCrossingDataByLocation = async (req, res) => {
 
     if (data) {
       const [forecast, uom] = data;
-      return res.status(200).json({ forecast, uom });
+      return res.status(200).send({ forecast, uom });
     } else {
-      return res.status(404).json({ message: "No weather data found" });
+      return res.status(404).send({ message: "No weather data found" });
     }
   } catch (err) {
     console.error("Error fetching VisualCrossing data:", err);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).send({ message: "Internal server error" });
   }
 };
