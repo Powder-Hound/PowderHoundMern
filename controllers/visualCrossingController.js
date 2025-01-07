@@ -30,10 +30,8 @@ export const updateAllVisualCrossingData = async (req, res) => {
           resort.Longitude
         );
 
-        const resortId = resort._id.toString(); // Use the _id as resortId
-
         await ResortWeatherData.findOneAndUpdate(
-          { resortId }, // Match by correct resortId
+          { resortId: resort.resortId },
           {
             $set: {
               "weatherData.visualCrossing.forecast": forecast,
@@ -44,15 +42,16 @@ export const updateAllVisualCrossingData = async (req, res) => {
           { upsert: true, new: true }
         );
 
-        console.log(
-          `Updated weather data for resort: ${resort["Ski Resort Name"]}`
-        );
+        console.log(`Updated weather data for: ${resort.name || "Unknown"}`);
       } catch (err) {
-        console.error(`Error updating data for resortId ${resort._id}:`, err);
+        console.error(
+          `Error updating data for resort ${resort.resortId}:`,
+          err
+        );
       }
     }
 
-    console.log("VisualCrossing Data update complete.");
+    console.log("\nVisualCrossing Data update complete.");
     if (res)
       res.status(200).json({ message: "Weather data updated for all resorts" });
   } catch (err) {
@@ -61,7 +60,7 @@ export const updateAllVisualCrossingData = async (req, res) => {
   }
 };
 
-// Schedule cron job for updating every 5 minutes
+// Schedule cron job for updating every 3 hours
 cron.schedule("0 */3 * * *", async () => {
   console.log("Running scheduled weather data update (every 3 hours)...");
   await updateAllVisualCrossingData();

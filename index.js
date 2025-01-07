@@ -5,7 +5,7 @@ import { connectDB } from "./config/db.js";
 import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
 import resortRouter from "./api/resort.routes.js";
-// import visualCrossingRouter from "./api/visualCrossing.routes.js";
+import visualCrossingRouter from "./api/visualCrossing.routes.js";
 
 dotenv.config();
 
@@ -27,7 +27,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/resorts", resortRouter); // General resort routes
-// app.use("/api/visual-crossing", visualCrossingRouter);
+app.use("/api/visual-crossing", visualCrossingRouter);
 
 // Uncomment these for manual fetch during testing
 // await getAllNOAAData();
