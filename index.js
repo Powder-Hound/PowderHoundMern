@@ -6,6 +6,7 @@ import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
 import resortRouter from "./api/resort.routes.js";
 import visualCrossingRouter from "./api/visualCrossing.routes.js";
+import startVisualCrossingCron from "./cron/visualCrossingCron.js";
 
 dotenv.config();
 
@@ -26,16 +27,13 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
-app.use("/api/resorts", resortRouter); // General resort routes
+app.use("/api/resorts", resortRouter);
 app.use("/api/visual-crossing", visualCrossingRouter);
-
-// Uncomment these for manual fetch during testing
-// await getAllNOAAData();
-// await getAllWeatherBitData();
-// await getAllVisualCrossingData();
-// await checkResorts();
 
 app.listen(port, () => {
   connectDB();
   console.log(`Server running on port ${port}`);
+
+  // Start the cron job
+  startVisualCrossingCron();
 });
