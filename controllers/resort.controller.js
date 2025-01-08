@@ -5,16 +5,16 @@ export const createResort = async (req, res) => {
     try {
       const resort = new Resort(req.body);
       await resort.save();
-      res.status(201).json({ success: true, data: resort });
+      res.status(201).send({ success: true, data: resort });
     } catch (error) {
-      res.status(500).json({
+      res.status(500).send({
         success: false,
         message: "Error creating resort",
         error: error,
       });
     }
   } else {
-    res.status(401).json({ success: false, message: "Unauthorized" });
+    res.status(401).send({ success: false, message: "Unauthorized" });
   }
 };
 
@@ -22,12 +22,12 @@ export const getResort = async (req, res) => {
   try {
     const resort = await Resort.findById(req.params.id);
     if (resort) {
-      res.status(200).json({ success: true, data: resort });
+      res.status(200).send({ success: true, data: resort });
     } else {
-      res.status(404).json({ success: false, message: "Resort not found" });
+      res.status(404).send({ success: false, message: "Resort not found" });
     }
   } catch (error) {
-    res.status(500).json({
+    res.status(500).send({
       success: false,
       message: "Error retrieving resort",
       error: error,
@@ -50,10 +50,10 @@ export const findResort = async (req, res) => {
     try {
       const resort = await Resort.distinct("State");
       if (resort) {
-        res.status(200).json({ success: true, data: resort });
+        res.status(200).send({ success: true, data: resort });
       }
     } catch (error) {
-      res.status(500).json({
+      res.status(500).send({
         success: false,
         message: "Error retrieving resort",
         error: error,
@@ -63,12 +63,12 @@ export const findResort = async (req, res) => {
     try {
       const resort = await Resort.find(query);
       if (resort) {
-        res.status(200).json({ success: true, data: resort });
+        res.status(200).send({ success: true, data: resort });
       } else {
-        res.status(404).json({ success: false, message: "Resort not found" });
+        res.status(404).send({ success: false, message: "Resort not found" });
       }
     } catch (error) {
-      res.status(500).json({
+      res.status(500).send({
         success: false,
         message: "Error retrieving resort",
         error: error,
@@ -82,9 +82,9 @@ export const findListOfResorts = async (req, res) => {
   try {
     const resorts = await Resort.find({ _id: { $in: ids } });
     if (resorts) {
-      res.status(200).json({ success: true, data: resorts });
+      res.status(200).send({ success: true, data: resorts });
     } else {
-      res.status(500).json({
+      res.status(500).send({
         success: false,
         message: "There was an error retrieving resorts",
       });
@@ -98,14 +98,14 @@ export const getAllResorts = async (req, res) => {
   try {
     const resorts = await Resort.find({});
 
-    return res.status(200).json({
+    return res.status(200).send({
       success: true,
       resorts: {
         data: resorts,
       },
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(500).send({
       success: false,
       message: "Error retrieving resorts",
       error: error,
@@ -132,7 +132,7 @@ export const getAllResorts = async (req, res) => {
 //       hasNextPage = true;
 //       resorts[0].data.pop();
 //     }
-//     return res.status(200).json({
+//     return res.status(200).send({
 //       success: true,
 //       resorts: {
 //         metadata: {
@@ -145,7 +145,7 @@ export const getAllResorts = async (req, res) => {
 //       },
 //     });
 //   } catch (error) {
-//     res.status(500).json({
+//     res.status(500).send({
 //       success: false,
 //       message: "Error retrieving resorts",
 //       error: error,
@@ -162,19 +162,19 @@ export const updateResort = async (req, res) => {
         { new: true }
       );
       if (updatedResort) {
-        res.status(200).json({ success: true, data: updatedResort });
+        res.status(200).send({ success: true, data: updatedResort });
       } else {
-        res.status(404).json({ success: false, message: "Resort not found" });
+        res.status(404).send({ success: false, message: "Resort not found" });
       }
     } catch (error) {
-      res.status(500).json({
+      res.status(500).send({
         success: false,
         message: "Error updating resort",
         error: error,
       });
     }
   } else {
-    res.status(401).json({ success: false, message: "Unauthorized" });
+    res.status(401).send({ success: false, message: "Unauthorized" });
   }
 };
 
@@ -183,18 +183,18 @@ export const deleteResort = async (req, res) => {
     try {
       const deletedResort = await Resort.findByIdAndDelete(req.params.id);
       if (deletedResort) {
-        res.status(200).json({ success: true, data: deletedResort });
+        res.status(200).send({ success: true, data: deletedResort });
       } else {
-        res.status(404).json({ success: false, message: "Resort not found" });
+        res.status(404).send({ success: false, message: "Resort not found" });
       }
     } catch (error) {
-      res.status(500).json({
+      res.status(500).send({
         success: false,
         message: "Error deleting resort",
         error: error,
       });
     }
   } else {
-    res.status(401).json({ success: false, message: "Unauthorized" });
+    res.status(401).send({ success: false, message: "Unauthorized" });
   }
 };
