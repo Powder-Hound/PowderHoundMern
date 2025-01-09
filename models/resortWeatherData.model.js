@@ -6,9 +6,13 @@ const { Schema, model } = mongoose;
 const resortWeatherDataSchema = new Schema(
   {
     resortId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Resort", // Reference to the Resort collection
       required: true,
-      unique: true, // Assuming each resortId is unique
+    },
+    resortName: {
+      type: String,
+      required: false, // Not required initially, but will be populated
     },
     weatherData: {
       visualCrossing: {
@@ -42,8 +46,12 @@ const resortWeatherDataSchema = new Schema(
             conditions: { type: String, default: "Unknown" }, // Weather conditions
           },
         ],
-        uom: { type: String, default: "metric" }, // Unit of measurement for snow and temperatures
-      },
+        uom: {
+          type: String,
+          enum: ["metric", "inches"], // Allowed values
+          default: "inches", // Default value
+        },
+      }, // <--- Correctly closed this object
     },
     lastChecked: {
       type: Date,
