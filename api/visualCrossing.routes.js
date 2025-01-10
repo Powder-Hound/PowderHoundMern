@@ -3,6 +3,7 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 import {
   updateAllVisualCrossingData,
   getAllWeatherData,
+  findListOfWeatherData,
 } from "../controllers/visualCrossingController.js";
 
 const visualCrossingRouter = express.Router();
@@ -26,6 +27,17 @@ visualCrossingRouter.get("/all", verifyToken, async (req, res) => {
   } catch (err) {
     console.error("Error fetching weather data:", err);
     res.status(500).send({ message: "Error fetching weather data" });
+  }
+});
+
+// Route to fetch weather data for a list of ResortIDs
+visualCrossingRouter.get("/list", verifyToken, async (req, res) => {
+  try {
+    console.log("Fetching weather data for a list of resorts...");
+    await findListOfWeatherData(req, res);
+  } catch (err) {
+    console.error("Error fetching weather data for list:", err);
+    res.status(500).send({ message: "Error fetching weather data for list" });
   }
 });
 
