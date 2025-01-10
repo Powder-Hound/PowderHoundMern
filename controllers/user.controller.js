@@ -28,8 +28,7 @@ export const createUser = async (req, res) => {
       userID: newUser._id,
       permissions: newUser.permissions,
     },
-    process.env.JWT_SECRET,
-    { expiresIn: "1h" }
+    process.env.JWT_SECRET
   );
 
   try {

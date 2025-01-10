@@ -4,7 +4,7 @@ import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
 
 const startVisualCrossingCron = () => {
-  cron.schedule("0 */3 * * *", async () => {
+  cron.schedule("0 0 * * *", async () => {
     console.log("Running scheduled Visual Crossing weather data update...");
     try {
       // Fetch resorts

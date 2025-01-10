@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
+import morgan from "morgan"; // Import Morgan
 import { connectDB } from "./config/db.js";
 import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
@@ -21,6 +22,10 @@ const corsOptions = {
 const port = process.env.PORT || 5050;
 
 const app = express();
+
+// Morgan Middleware
+app.use(morgan("dev")); // Logs requests to the console in a concise format
+
 app.use(cors(corsOptions));
 app.use(express.json());
 
