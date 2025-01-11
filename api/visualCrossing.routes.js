@@ -4,41 +4,106 @@ import {
   updateAllVisualCrossingData,
   getAllWeatherData,
   findListOfWeatherData,
+  getLast24HoursWeatherData,
+  getWeatherAlerts,
+  getWeatherSummary,
+  getForecastByDate,
 } from "../controllers/visualCrossingController.js";
+import {
+  validateQuery,
+  validateIds,
+} from "../middleware/validationMiddleware.js";
 
 const visualCrossingRouter = express.Router();
 
-// Route to trigger the update of Visual Crossing weather data for all resorts
-visualCrossingRouter.post("/update-all", verifyToken, async (req, res) => {
-  try {
-    console.log("Triggering Visual Crossing data update...");
-    await updateAllVisualCrossingData(req, res);
-  } catch (err) {
-    console.error("Error triggering Visual Crossing data update:", err);
-    res.status(500).send({ message: "Error updating Visual Crossing data" });
+visualCrossingRouter.post(
+  "/update-all",
+  verifyToken,
+  async (req, res, next) => {
+    try {
+      await updateAllVisualCrossingData(req, res);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
-// Route to fetch all stored weather data
-visualCrossingRouter.get("/all", verifyToken, async (req, res) => {
-  try {
-    console.log("Fetching all Visual Crossing weather data...");
-    await getAllWeatherData(req, res);
-  } catch (err) {
-    console.error("Error fetching weather data:", err);
-    res.status(500).send({ message: "Error fetching weather data" });
+visualCrossingRouter.get(
+  "/all",
+  verifyToken,
+  validateQuery(["page", "limit", "resortName", "startDate", "endDate"]),
+  async (req, res, next) => {
+    try {
+      await getAllWeatherData(req, res);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
-// Route to fetch weather data for a list of ResortIDs
-visualCrossingRouter.get("/list", verifyToken, async (req, res) => {
-  try {
-    console.log("Fetching weather data for a list of resorts...");
-    await findListOfWeatherData(req, res);
-  } catch (err) {
-    console.error("Error fetching weather data for list:", err);
-    res.status(500).send({ message: "Error fetching weather data for list" });
+visualCrossingRouter.get(
+  "/list",
+  verifyToken,
+  validateIds,
+  async (req, res, next) => {
+    try {
+      await findListOfWeatherData(req, res);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
+
+visualCrossingRouter.get(
+  "/last-24-hours",
+  verifyToken,
+  validateQuery(["page", "limit"]),
+  async (req, res, next) => {
+    try {
+      await getLast24HoursWeatherData(req, res);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+visualCrossingRouter.get(
+  "/alerts",
+  verifyToken,
+  validateQuery(["page", "limit"]),
+  async (req, res, next) => {
+    try {
+      await getWeatherAlerts(req, res);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+visualCrossingRouter.get(
+  "/summary",
+  verifyToken,
+  validateQuery(["startDate", "endDate"]),
+  async (req, res, next) => {
+    try {
+      await getWeatherSummary(req, res);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+visualCrossingRouter.get(
+  "/forecast",
+  verifyToken,
+  validateQuery(["date"]),
+  async (req, res, next) => {
+    try {
+      await getForecastByDate(req, res);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 export default visualCrossingRouter;
