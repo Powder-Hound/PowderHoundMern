@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+import ResortWeatherData from "../models/resortWeatherData.model.js";
 import express from "express";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import {
@@ -105,5 +107,32 @@ visualCrossingRouter.get(
     }
   }
 );
+
+visualCrossingRouter.get("/:resortId", verifyToken, async (req, res, next) => {
+  try {
+    const { resortId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(resortId)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid resortId format." });
+    }
+
+    const weatherData = await ResortWeatherData.find({ resortId });
+
+    if (!weatherData.length) {
+      return res.status(200).json({
+        success: true,
+        data: [],
+        message: `No weather data found for resortId: ${resortId}.`,
+      });
+    }
+
+    res.status(200).json({ success: true, data: weatherData });
+  } catch (err) {
+    console.error("Error fetching weather data by resortId:", err); // Log the full error
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
 
 export default visualCrossingRouter;
