@@ -218,7 +218,7 @@ export const getWeatherSummary = async (req, res) => {
       },
       {
         $group: {
-          _id: null,
+          _id: "$resortName",
           avgTemperature: {
             $avg: "$weatherData.visualCrossing.forecast.temperature.avg",
           },
@@ -228,11 +228,24 @@ export const getWeatherSummary = async (req, res) => {
           totalPrecipitation: {
             $sum: "$weatherData.visualCrossing.forecast.precipitation.value",
           },
+          dates: {
+            $addToSet: "$weatherData.visualCrossing.forecast.validTime",
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          resortName: "$_id",
+          avgTemperature: 1,
+          totalSnowfall: 1,
+          totalPrecipitation: 1,
+          dates: 1,
         },
       },
     ]);
 
-    console.log("Weather Summary:", summary);
+    console.log("Weather Summary by Resort:", summary);
 
     if (!summary.length) {
       return res.status(200).json({
@@ -242,7 +255,7 @@ export const getWeatherSummary = async (req, res) => {
       });
     }
 
-    res.status(200).json({ success: true, data: summary[0] });
+    res.status(200).json({ success: true, data: summary });
   } catch (err) {
     console.error("Error fetching weather summary:", err);
     res.status(500).json({ success: false, message: "Internal server error." });
