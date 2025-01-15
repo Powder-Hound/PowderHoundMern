@@ -6,7 +6,7 @@ import {
   updateAllVisualCrossingData,
   getAllWeatherData,
   findListOfWeatherData,
-  getLast24HoursWeatherData,
+  // getLast24HoursWeatherData,
   getWeatherAlerts,
   getWeatherSummary,
   getForecastByDate,
@@ -56,18 +56,18 @@ visualCrossingRouter.get(
   }
 );
 
-visualCrossingRouter.get(
-  "/last-24-hours",
-  verifyToken,
-  validateQuery(["page", "limit"]),
-  async (req, res, next) => {
-    try {
-      await getLast24HoursWeatherData(req, res);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
+// visualCrossingRouter.get(
+//   "/last-24-hours",
+//   verifyToken,
+//   validateQuery(["page", "limit"]),
+//   async (req, res, next) => {
+//     try {
+//       await getLast24HoursWeatherData(req, res);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
 
 visualCrossingRouter.get(
   "/alerts",

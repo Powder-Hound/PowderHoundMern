@@ -107,50 +107,50 @@ export const findListOfWeatherData = async (req, res) => {
 };
 
 // Function to fetch weather data from the last 24 hours
-export const getLast24HoursWeatherData = async (req, res) => {
-  try {
-    const now = new Date();
-    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+// export const getLast24HoursWeatherData = async (req, res) => {
+//   try {
+//     const now = new Date();
+//     const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
-    const { page = 1, limit = 10 } = req.query;
-    const parsedPage = Math.max(1, parseInt(page));
-    const parsedLimit = Math.min(100, Math.max(1, parseInt(limit)));
+//     const { page = 1, limit = 10 } = req.query;
+//     const parsedPage = Math.max(1, parseInt(page));
+//     const parsedLimit = Math.min(100, Math.max(1, parseInt(limit)));
 
-    console.log("Time Range:", { from: twentyFourHoursAgo, to: now });
-    console.log("Pagination:", { page: parsedPage, limit: parsedLimit });
+//     console.log("Time Range:", { from: twentyFourHoursAgo, to: now });
+//     console.log("Pagination:", { page: parsedPage, limit: parsedLimit });
 
-    const weatherData = await ResortWeatherData.find({
-      lastChecked: { $gte: twentyFourHoursAgo, $lte: now },
-    })
-      .skip((parsedPage - 1) * parsedLimit)
-      .limit(parsedLimit);
+//     const weatherData = await ResortWeatherData.find({
+//       lastChecked: { $gte: twentyFourHoursAgo, $lte: now },
+//     })
+//       .skip((parsedPage - 1) * parsedLimit)
+//       .limit(parsedLimit);
 
-    console.log("Weather Data Retrieved:", weatherData);
+//     console.log("Weather Data Retrieved:", weatherData);
 
-    if (!weatherData.length) {
-      return res.status(200).json({
-        success: true,
-        data: [],
-        message: "No data found for the last 24 hours.",
-      });
-    }
+//     if (!weatherData.length) {
+//       return res.status(200).json({
+//         success: true,
+//         data: [],
+//         message: "No data found for the last 24 hours.",
+//       });
+//     }
 
-    const total = await ResortWeatherData.countDocuments({
-      lastChecked: { $gte: twentyFourHoursAgo, $lte: now },
-    });
+//     const total = await ResortWeatherData.countDocuments({
+//       lastChecked: { $gte: twentyFourHoursAgo, $lte: now },
+//     });
 
-    res.status(200).json({
-      success: true,
-      total,
-      page: parsedPage,
-      limit: parsedLimit,
-      data: weatherData,
-    });
-  } catch (err) {
-    console.error("Error fetching last 24 hours of weather data:", err);
-    res.status(500).json({ success: false, message: "Internal server error." });
-  }
-};
+//     res.status(200).json({
+//       success: true,
+//       total,
+//       page: parsedPage,
+//       limit: parsedLimit,
+//       data: weatherData,
+//     });
+//   } catch (err) {
+//     console.error("Error fetching last 24 hours of weather data:", err);
+//     res.status(500).json({ success: false, message: "Internal server error." });
+//   }
+// };
 
 // Function to fetch weather alerts
 export const getWeatherAlerts = async (req, res) => {

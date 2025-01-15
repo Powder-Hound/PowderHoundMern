@@ -23,7 +23,7 @@ export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
 
         // Validate and clean fetched forecast data
         const forecast = weatherData.forecast.map((day) => ({
-          validTime: day.datetime || null, // Log this to verify its value
+          validTime: day.validTime, // Use the updated data structure with yesterday
           snow: day.snow || { value: 0, snowDepth: 0 },
           temperature: day.temperature || { max: null, min: null, avg: null },
           wind: day.wind || { speed: null, gust: null, direction: null },
