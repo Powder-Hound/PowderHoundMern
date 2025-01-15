@@ -1,13 +1,14 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import morgan from "morgan"; // Import Morgan
+import morgan from "morgan";
 import { connectDB } from "./config/db.js";
 import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
 import resortRouter from "./api/resort.routes.js";
 import visualCrossingRouter from "./api/visualCrossing.routes.js";
 import startVisualCrossingCron from "./cron/visualCrossingCron.js";
+import { errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 
@@ -23,9 +24,8 @@ const port = process.env.PORT || 5050;
 
 const app = express();
 
-// Morgan Middleware
-app.use(morgan("dev")); // Logs requests to the console in a concise format
-
+// Middleware
+app.use(morgan("dev")); // Logs requests to the console
 app.use(cors(corsOptions));
 app.use(express.json());
 
@@ -33,12 +33,16 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/resorts", resortRouter); // General resort routes
-app.use("/api/visual-crossing", visualCrossingRouter);
+app.use("/api/visual-crossing", visualCrossingRouter); // Visual Crossing routes
 
+// Error Handling Middleware
+app.use(errorHandler); // Always include after all routes
+
+// Start Server
 app.listen(port, () => {
-  connectDB();
+  connectDB(); // Initialize database connection
   console.log(`Server running on port ${port}`);
 
-  // Start the cron job
+  // Start Visual Crossing Cron Job
   startVisualCrossingCron();
 });
