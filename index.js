@@ -2,6 +2,10 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerOptions from "./swaggerConfig.js";
+import { swaggerAuth } from "./middleware/swaggerAuth.js";
 import { connectDB } from "./config/db.js";
 import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
@@ -24,10 +28,21 @@ const port = process.env.PORT || 5050;
 
 const app = express();
 
+// Swagger configuration
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
 // Middleware
 app.use(morgan("dev")); // Logs requests to the console
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Swagger UI
+app.use(
+  "/api-docs",
+  swaggerAuth,
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocs)
+);
 
 // Routes
 app.use("/api/auth", authRouter);

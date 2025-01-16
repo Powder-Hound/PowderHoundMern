@@ -30,6 +30,8 @@
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "postmark": "^4.0.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "twilio": "^5.3.1"
   },
   "devDependencies": {
