@@ -7,7 +7,7 @@ import { updateWeatherData } from "../utils/updateWeatherData.js";
 // Function to get all weather data
 export const getAllWeatherData = async (req, res) => {
   try {
-    const { page = 1, limit = 10, resortName, startDate, endDate } = req.query;
+    const { resortName, startDate, endDate } = req.query;
 
     const query = {};
     if (resortName) query.resortName = new RegExp(resortName, "i");
@@ -19,17 +19,10 @@ export const getAllWeatherData = async (req, res) => {
         query["weatherData.visualCrossing.forecast.validTime"].$lte = endDate;
     }
 
-    const weatherData = await ResortWeatherData.find(query)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
-
-    const total = await ResortWeatherData.countDocuments(query);
+    const weatherData = await ResortWeatherData.find(query);
 
     res.status(200).send({
       success: true,
-      total,
-      page: parseInt(page),
-      limit: parseInt(limit),
       data: weatherData,
     });
   } catch (err) {
@@ -72,7 +65,7 @@ export const updateAllVisualCrossingData = async (req, res) => {
 // Function to fetch weather data for a list of ResortIDs
 export const findListOfWeatherData = async (req, res) => {
   try {
-    let { ids, page = 1, limit = 10 } = req.query;
+    let { ids } = req.query;
 
     if (!ids) {
       return res
@@ -87,17 +80,10 @@ export const findListOfWeatherData = async (req, res) => {
     const objectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
     const query = { resortId: { $in: objectIds } };
 
-    const weatherData = await ResortWeatherData.find(query)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
-
-    const total = await ResortWeatherData.countDocuments(query);
+    const weatherData = await ResortWeatherData.find(query);
 
     res.status(200).send({
       success: true,
-      total,
-      page: parseInt(page),
-      limit: parseInt(limit),
       data: weatherData,
     });
   } catch (err) {
@@ -109,10 +95,6 @@ export const findListOfWeatherData = async (req, res) => {
 // Function to fetch weather alerts
 export const getWeatherAlerts = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const parsedPage = Math.max(1, parseInt(page));
-    const parsedLimit = Math.min(100, Math.max(1, parseInt(limit)));
-
     const query = {
       "weatherData.visualCrossing.forecast.conditions": { $regex: /alert/i },
     };
@@ -129,13 +111,8 @@ export const getWeatherAlerts = async (req, res) => {
         .send({ success: true, data: [], message: "No weather alerts found." });
     }
 
-    const total = await ResortWeatherData.countDocuments(query);
-
     res.status(200).send({
       success: true,
-      total,
-      page: parsedPage,
-      limit: parsedLimit,
       data: weatherData,
     });
   } catch (err) {
