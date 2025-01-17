@@ -5,34 +5,110 @@ dotenv.config();
 const swaggerDefinition = {
   openapi: "3.0.0",
   info: {
-    title: "Your API",
+    title: "PowAlert API",
     version: "1.0.0",
-    description: "API documentation",
+    description: `
+      ### API Documentation
+
+      This documentation provides details on the available endpoints in the API, including the required request payloads and example responses.
+
+      **Note:** This documentation is for informational purposes only. API interaction is disabled.
+    `,
   },
-  servers: [{ url: "http://localhost:5050/api" }],
+  servers: [
+    {
+      url: "http://localhost:5050/api",
+      description: "Local server",
+    },
+    {
+      url: "https://powderhoundmern.onrender.com/api",
+      description: "Production",
+    },
+  ],
   components: {
-    securitySchemes: {
-      basicAuth: {
-        type: "http",
-        scheme: "basic",
+    schemas: {
+      User: {
+        type: "object",
+        properties: {
+          name: { type: "string", example: "Doctor Flavor" },
+          username: { type: "string", example: "docflav" },
+          email: { type: "string", example: "doctaflav@email.com" },
+          phoneNumber: { type: "string", example: "15098675309" },
+          permissions: { type: "string", example: "user" },
+        },
       },
     },
   },
-  security: [{ basicAuth: [] }],
   paths: {
-    "/api/users": {
-      get: {
-        summary: "Get user details",
+    "/api/auth/signup": {
+      post: {
+        summary: "Sign up a new user",
+        description: `
+          Create a new user account.
+
+          **Example Request Payload**:
+          \`\`\`json
+          {
+            "name": "Doctor Flavor",
+            "username": "docflav",
+            "email": "doctaflav@email.com",
+            "password": "SecurePass123!",
+            "phoneNumber": "15098675309",
+            "phoneVerifySID": "123456abcdef"
+          }
+          \`\`\`
+        `,
         responses: {
-          200: {
-            description: "A list of users",
+          201: {
+            description: "User created successfully",
             content: {
               "application/json": {
                 example: {
-                  name: process.env.FAKE_USER_NAME,
-                  username: process.env.SWAGGER_USERNAME,
-                  phone: process.env.FAKE_USER_PHONE,
-                  state: process.env.FAKE_USER_STATE,
+                  user: {
+                    name: "Doctor Flavor",
+                    username: "docflav",
+                    email: "doctaflav@email.com",
+                    phoneNumber: "15098675309",
+                    permissions: "user",
+                    _id: "unique-user-id",
+                  },
+                  token: "JWT-TOKEN",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/api/auth/login": {
+      post: {
+        summary: "Login a user",
+        description: `
+          Authenticate an existing user using \`phoneNumber\` and a placeholder \`code\`. 
+
+          **Example Request Payload**:
+          \`\`\`json
+          {
+            "phoneNumber": "15098675309",
+            "code": "123456"
+          }
+          \`\`\`
+        `,
+        responses: {
+          201: {
+            description: "User logged in successfully",
+            content: {
+              "application/json": {
+                example: {
+                  token: "JWT-TOKEN",
+                  user: {
+                    name: "Doctor Flavor",
+                    username: "docflav",
+                    email: "doctaflav@email.com",
+                    phoneNumber: "15098675309",
+                    permissions: "user",
+                    _id: "unique-user-id",
+                  },
                 },
               },
             },
@@ -45,7 +121,10 @@ const swaggerDefinition = {
 
 const swaggerOptions = {
   definition: swaggerDefinition,
-  apis: ["./api/**/*.js"], // Adjust the path as per your routes
+  apis: ["./api/**/*.js"], // Adjust this path as needed for your route files
+  swaggerOptions: {
+    supportedSubmitMethods: [], // Disable "Try it out" functionality
+  },
 };
 
 export default swaggerOptions;
