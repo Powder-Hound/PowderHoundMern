@@ -282,23 +282,23 @@ visualCrossingRouter.get("/:resortId", verifyToken, async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(resortId)) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid resortId format." });
+        .send({ success: false, message: "Invalid resortId format." });
     }
 
     const weatherData = await ResortWeatherData.find({ resortId });
 
     if (!weatherData.length) {
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         data: [],
         message: `No weather data found for resortId: ${resortId}.`,
       });
     }
 
-    res.status(200).json({ success: true, data: weatherData });
+    res.status(200).send({ success: true, data: weatherData });
   } catch (err) {
     console.error("Error fetching weather data by resortId:", err); // Log the full error
-    res.status(500).json({ success: false, message: "Internal server error." });
+    res.status(500).send({ success: false, message: "Internal server error." });
   }
 });
 

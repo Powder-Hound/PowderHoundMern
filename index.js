@@ -5,7 +5,6 @@ import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerOptions from "./swaggerConfig.js";
-import { swaggerAuth } from "./middleware/swaggerAuth.js";
 import { connectDB } from "./config/db.js";
 import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
@@ -39,7 +38,7 @@ app.use(express.json());
 // Swagger UI
 app.use(
   "/api-docs",
-  swaggerAuth,
+
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocs)
 );
