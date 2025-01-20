@@ -7,7 +7,7 @@ import { updateWeatherData } from "../utils/updateWeatherData.js";
 // Function to get all weather data
 export const getAllWeatherData = async (req, res) => {
   try {
-    const { page = 1, limit = 10, resortName, startDate, endDate } = req.query;
+    const { resortName, startDate, endDate } = req.query;
 
     const query = {};
     if (resortName) query.resortName = new RegExp(resortName, "i");
@@ -19,22 +19,15 @@ export const getAllWeatherData = async (req, res) => {
         query["weatherData.visualCrossing.forecast.validTime"].$lte = endDate;
     }
 
-    const weatherData = await ResortWeatherData.find(query)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
+    const weatherData = await ResortWeatherData.find(query);
 
-    const total = await ResortWeatherData.countDocuments(query);
-
-    res.status(200).json({
+    res.status(200).send({
       success: true,
-      total,
-      page: parseInt(page),
-      limit: parseInt(limit),
       data: weatherData,
     });
   } catch (err) {
     console.error("Error fetching all weather data:", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
 
@@ -46,7 +39,7 @@ export const updateAllVisualCrossingData = async (req, res) => {
     if (!resorts || resorts.length === 0) {
       return res
         .status(404)
-        .json({ success: false, message: "No resorts found." });
+        .send({ success: false, message: "No resorts found." });
     }
 
     const results = await updateWeatherData(
@@ -58,26 +51,26 @@ export const updateAllVisualCrossingData = async (req, res) => {
     const successCount = results.success.length;
     const failedCount = results.failed.length;
 
-    res.status(200).json({
+    res.status(200).send({
       success: true,
       message: `Weather data update completed: ${successCount} succeeded, ${failedCount} failed.`,
       results,
     });
   } catch (err) {
     console.error("Error updating Visual Crossing data:", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
 
 // Function to fetch weather data for a list of ResortIDs
 export const findListOfWeatherData = async (req, res) => {
   try {
-    let { ids, page = 1, limit = 10 } = req.query;
+    let { ids } = req.query;
 
     if (!ids) {
       return res
         .status(400)
-        .json({ success: false, message: "No resort IDs provided." });
+        .send({ success: false, message: "No resort IDs provided." });
     }
 
     if (typeof ids === "string") {
@@ -87,78 +80,21 @@ export const findListOfWeatherData = async (req, res) => {
     const objectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
     const query = { resortId: { $in: objectIds } };
 
-    const weatherData = await ResortWeatherData.find(query)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
+    const weatherData = await ResortWeatherData.find(query);
 
-    const total = await ResortWeatherData.countDocuments(query);
-
-    res.status(200).json({
+    res.status(200).send({
       success: true,
-      total,
-      page: parseInt(page),
-      limit: parseInt(limit),
       data: weatherData,
     });
   } catch (err) {
     console.error("Error fetching weather data for list:", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
-
-// Function to fetch weather data from the last 24 hours
-// export const getLast24HoursWeatherData = async (req, res) => {
-//   try {
-//     const now = new Date();
-//     const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-
-//     const { page = 1, limit = 10 } = req.query;
-//     const parsedPage = Math.max(1, parseInt(page));
-//     const parsedLimit = Math.min(100, Math.max(1, parseInt(limit)));
-
-//     console.log("Time Range:", { from: twentyFourHoursAgo, to: now });
-//     console.log("Pagination:", { page: parsedPage, limit: parsedLimit });
-
-//     const weatherData = await ResortWeatherData.find({
-//       lastChecked: { $gte: twentyFourHoursAgo, $lte: now },
-//     })
-//       .skip((parsedPage - 1) * parsedLimit)
-//       .limit(parsedLimit);
-
-//     console.log("Weather Data Retrieved:", weatherData);
-
-//     if (!weatherData.length) {
-//       return res.status(200).json({
-//         success: true,
-//         data: [],
-//         message: "No data found for the last 24 hours.",
-//       });
-//     }
-
-//     const total = await ResortWeatherData.countDocuments({
-//       lastChecked: { $gte: twentyFourHoursAgo, $lte: now },
-//     });
-
-//     res.status(200).json({
-//       success: true,
-//       total,
-//       page: parsedPage,
-//       limit: parsedLimit,
-//       data: weatherData,
-//     });
-//   } catch (err) {
-//     console.error("Error fetching last 24 hours of weather data:", err);
-//     res.status(500).json({ success: false, message: "Internal server error." });
-//   }
-// };
 
 // Function to fetch weather alerts
 export const getWeatherAlerts = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const parsedPage = Math.max(1, parseInt(page));
-    const parsedLimit = Math.min(100, Math.max(1, parseInt(limit)));
-
     const query = {
       "weatherData.visualCrossing.forecast.conditions": { $regex: /alert/i },
     };
@@ -172,21 +108,16 @@ export const getWeatherAlerts = async (req, res) => {
     if (!weatherData.length) {
       return res
         .status(200)
-        .json({ success: true, data: [], message: "No weather alerts found." });
+        .send({ success: true, data: [], message: "No weather alerts found." });
     }
 
-    const total = await ResortWeatherData.countDocuments(query);
-
-    res.status(200).json({
+    res.status(200).send({
       success: true,
-      total,
-      page: parsedPage,
-      limit: parsedLimit,
       data: weatherData,
     });
   } catch (err) {
     console.error("Error fetching weather alerts:", err);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    res.status(500).send({ success: false, message: "Internal server error." });
   }
 };
 
@@ -203,7 +134,7 @@ export const getWeatherSummary = async (req, res) => {
     ) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid start or end date." });
+        .send({ success: false, message: "Invalid start or end date." });
     }
 
     const summary = await ResortWeatherData.aggregate([
@@ -248,17 +179,17 @@ export const getWeatherSummary = async (req, res) => {
     console.log("Weather Summary by Resort:", summary);
 
     if (!summary.length) {
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         data: [],
         message: "No data found for the specified date range.",
       });
     }
 
-    res.status(200).json({ success: true, data: summary });
+    res.status(200).send({ success: true, data: summary });
   } catch (err) {
     console.error("Error fetching weather summary:", err);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    res.status(500).send({ success: false, message: "Internal server error." });
   }
 };
 
@@ -268,7 +199,7 @@ export const getForecastByDate = async (req, res) => {
     const { date } = req.query;
 
     if (!date || isNaN(Date.parse(date))) {
-      return res.status(400).json({
+      return res.status(400).send({
         success: false,
         message: "Invalid date format. Use YYYY-MM-DD.",
       });
@@ -285,16 +216,16 @@ export const getForecastByDate = async (req, res) => {
     console.log("Query Results:", weatherData);
 
     if (!weatherData.length) {
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         data: [],
         message: `No forecast found for date: ${date}.`,
       });
     }
 
-    res.status(200).json({ success: true, data: weatherData });
+    res.status(200).send({ success: true, data: weatherData });
   } catch (err) {
     console.error("Error fetching forecast by date:", err);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    res.status(500).send({ success: false, message: "Internal server error." });
   }
 };

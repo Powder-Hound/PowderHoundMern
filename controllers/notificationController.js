@@ -6,13 +6,11 @@ exports.triggerSnowNotifications = async (req, res) => {
     await fetchSnowAlerts();
     res
       .status(200)
-      .json({ message: "Snowstorm notifications triggered successfully" });
+      .send({ message: "Snowstorm notifications triggered successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error triggering notifications",
-        error: error.message,
-      });
+    res.status(500).send({
+      message: "Error triggering notifications",
+      error: error.message,
+    });
   }
 };
