@@ -1,3 +1,5 @@
+// Usage: node utils/geoSeeder.js
+// This script reads the ski_areas.geojson file and seeds the data to MongoDB
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs-extra";
@@ -62,14 +64,60 @@ const seedGeoJSON = async () => {
       // Skip if the region is not applicable
       if (!regionModel) continue;
 
-      // Prepare the document for insertion
+      // Transform the GeoJSON data to match the schema
       const newFeature = {
-        name: properties.name || "Unnamed Ski Area",
+        resortName: properties.name || "Unnamed Ski Area",
         type: properties.type || "skiArea",
+        State: properties.location?.localized?.en?.region || null,
+        City: properties.location?.localized?.en?.locality || null,
+        Website: properties.websites || [],
+        snowStick: properties.snowStick || null,
         Latitude: geometry.coordinates[1],
         Longitude: geometry.coordinates[0],
+        passAffiliation: properties.passAffiliation || {
+          Ikon: false,
+          Epic: false,
+          Indy: false,
+          MountainCollective: false,
+        },
+        travelInfo: properties.travelInfo || { airport: null, lodging: null },
+        season: properties.season || { start: null, end: null },
+        statistics: properties.statistics || {
+          runs: {
+            byActivity: {
+              nordic: {
+                byDifficulty: {
+                  novice: {
+                    count: 0,
+                    lengthInKm: 0,
+                    minElevation: 0,
+                    maxElevation: 0,
+                    combinedElevationChange: 0,
+                  },
+                  easy: {
+                    count: 0,
+                    lengthInKm: 0,
+                    minElevation: 0,
+                    maxElevation: 0,
+                    combinedElevationChange: 0,
+                  },
+                  other: {
+                    count: 0,
+                    lengthInKm: 0,
+                    minElevation: 0,
+                    maxElevation: 0,
+                    combinedElevationChange: 0,
+                  },
+                },
+              },
+            },
+            minElevation: 0,
+            maxElevation: 0,
+          },
+          lifts: { byType: {} },
+        },
+        sources: properties.sources || [],
         location: properties.location || {},
-        statistics: properties.statistics || {},
         geometry,
       };
 

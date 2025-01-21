@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Updated schema for ski-areas (Feature model)
 const featureSchema = new Schema({
-  name: {
+  resortName: {
     type: String,
     required: true,
   },

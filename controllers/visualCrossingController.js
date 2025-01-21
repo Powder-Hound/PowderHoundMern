@@ -1,13 +1,16 @@
 import mongoose from "mongoose";
+import { getRegionModel } from "../utils/regionHelper.js";
 import ResortWeatherData from "../models/resortWeatherData.model.js";
-import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
-import { getAllResorts } from "../utils/mongoResortHelper.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
+import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 
-// Function to get all weather data
-export const getAllWeatherData = async (req, res) => {
+// Get all weather data for a specific region
+export const getAllWeatherDataByRegion = async (req, res) => {
   try {
+    const { region } = req.params;
     const { resortName, startDate, endDate } = req.query;
+
+    const RegionModel = getRegionModel(region);
 
     const query = {};
     if (resortName) query.resortName = new RegExp(resortName, "i");
@@ -19,33 +22,40 @@ export const getAllWeatherData = async (req, res) => {
         query["weatherData.visualCrossing.forecast.validTime"].$lte = endDate;
     }
 
-    const weatherData = await ResortWeatherData.find(query);
+    const weatherData = await ResortWeatherData.find(query).populate({
+      path: "resortId",
+      model: RegionModel,
+    });
 
     res.status(200).send({
       success: true,
       data: weatherData,
     });
   } catch (err) {
-    console.error("Error fetching all weather data:", err);
+    console.error("Error fetching weather data for region:", err);
     res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
 
-// Function to update Visual Crossing data
-export const updateAllVisualCrossingData = async (req, res) => {
+// Update weather data for all locations in a region
+export const updateAllVisualCrossingDataByRegion = async (req, res) => {
   try {
-    const resorts = await getAllResorts();
+    const { region } = req.params;
+    const RegionModel = getRegionModel(region);
 
-    if (!resorts || resorts.length === 0) {
+    const locations = await RegionModel.find();
+
+    if (!locations || locations.length === 0) {
       return res
         .status(404)
-        .send({ success: false, message: "No resorts found." });
+        .send({ success: false, message: `No locations found in ${region}.` });
     }
 
     const results = await updateWeatherData(
-      resorts,
+      locations,
       fetchVisualCrossing,
-      "visualCrossing"
+      "visualCrossing",
+      "Feature"
     );
 
     const successCount = results.success.length;
@@ -53,24 +63,25 @@ export const updateAllVisualCrossingData = async (req, res) => {
 
     res.status(200).send({
       success: true,
-      message: `Weather data update completed: ${successCount} succeeded, ${failedCount} failed.`,
+      message: `Weather data update completed for ${region}: ${successCount} succeeded, ${failedCount} failed.`,
       results,
     });
   } catch (err) {
-    console.error("Error updating Visual Crossing data:", err);
+    console.error("Error updating Visual Crossing data by region:", err);
     res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
 
-// Function to fetch weather data for a list of ResortIDs
-export const findListOfWeatherData = async (req, res) => {
+// Get weather data for a list of IDs in a region
+export const findListOfWeatherDataByRegion = async (req, res) => {
   try {
+    const { region } = req.params;
     let { ids } = req.query;
 
     if (!ids) {
       return res
         .status(400)
-        .send({ success: false, message: "No resort IDs provided." });
+        .send({ success: false, message: "No IDs provided." });
     }
 
     if (typeof ids === "string") {
@@ -78,37 +89,44 @@ export const findListOfWeatherData = async (req, res) => {
     }
 
     const objectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
-    const query = { resortId: { $in: objectIds } };
+    const RegionModel = getRegionModel(region);
 
-    const weatherData = await ResortWeatherData.find(query);
+    const query = { resortId: { $in: objectIds } };
+    const weatherData = await ResortWeatherData.find(query).populate({
+      path: "resortId",
+      model: RegionModel,
+    });
 
     res.status(200).send({
       success: true,
       data: weatherData,
     });
   } catch (err) {
-    console.error("Error fetching weather data for list:", err);
+    console.error("Error fetching weather data for list by region:", err);
     res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
 
-// Function to fetch weather alerts
-export const getWeatherAlerts = async (req, res) => {
+// Get weather alerts for a specific region
+export const getWeatherAlertsByRegion = async (req, res) => {
   try {
+    const { region } = req.params;
+
     const query = {
       "weatherData.visualCrossing.forecast.conditions": { $regex: /alert/i },
     };
 
-    console.log("Querying for Weather Alerts:", query);
-
-    const weatherData = await ResortWeatherData.find(query);
-
-    console.log("Weather Alerts Retrieved:", weatherData);
+    const weatherData = await ResortWeatherData.find(query).populate({
+      path: "resortId",
+      model: getRegionModel(region),
+    });
 
     if (!weatherData.length) {
-      return res
-        .status(200)
-        .send({ success: true, data: [], message: "No weather alerts found." });
+      return res.status(200).send({
+        success: true,
+        data: [],
+        message: "No weather alerts found.",
+      });
     }
 
     res.status(200).send({
@@ -116,14 +134,61 @@ export const getWeatherAlerts = async (req, res) => {
       data: weatherData,
     });
   } catch (err) {
-    console.error("Error fetching weather alerts:", err);
+    console.error("Error fetching weather alerts by region:", err);
     res.status(500).send({ success: false, message: "Internal server error." });
   }
 };
 
-// Function to fetch weather summary for a date range
-export const getWeatherSummary = async (req, res) => {
+export const getForecastByDateAndRegion = async (req, res) => {
   try {
+    const { region } = req.params; // Extract the region from the URL
+    const { date } = req.query; // Extract the date from the query parameters
+
+    if (!date || isNaN(Date.parse(date))) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid date format. Use YYYY-MM-DD.",
+      });
+    }
+
+    const RegionModel = getRegionModel(region); // Dynamically get the region model
+
+    if (!RegionModel) {
+      return res.status(400).send({
+        success: false,
+        message: `Invalid region: ${region}.`,
+      });
+    }
+
+    // Query weather data for the specified date
+    const weatherData = await ResortWeatherData.find({
+      "weatherData.visualCrossing.forecast": {
+        $elemMatch: { validTime: date },
+      },
+    }).populate({
+      path: "resortId",
+      model: RegionModel,
+    });
+
+    if (!weatherData.length) {
+      return res.status(200).send({
+        success: true,
+        data: [],
+        message: `No forecast found for date: ${date} in region: ${region}.`,
+      });
+    }
+
+    res.status(200).send({ success: true, data: weatherData });
+  } catch (err) {
+    console.error("Error fetching forecast by date and region:", err);
+    res.status(500).send({ success: false, message: "Internal server error." });
+  }
+};
+
+// Get weather summary for a specific date range in a region
+export const getWeatherSummaryByRegion = async (req, res) => {
+  try {
+    const { region } = req.params;
     const { startDate, endDate } = req.query;
 
     if (
@@ -137,6 +202,8 @@ export const getWeatherSummary = async (req, res) => {
         .send({ success: false, message: "Invalid start or end date." });
     }
 
+    const RegionModel = getRegionModel(region);
+
     const summary = await ResortWeatherData.aggregate([
       { $unwind: "$weatherData.visualCrossing.forecast" },
       {
@@ -148,8 +215,17 @@ export const getWeatherSummary = async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: RegionModel.collection.name,
+          localField: "resortId",
+          foreignField: "_id",
+          as: "resortInfo",
+        },
+      },
+      { $unwind: "$resortInfo" },
+      {
         $group: {
-          _id: "$resortName",
+          _id: "$resortInfo.resortName",
           avgTemperature: {
             $avg: "$weatherData.visualCrossing.forecast.temperature.avg",
           },
@@ -176,8 +252,6 @@ export const getWeatherSummary = async (req, res) => {
       },
     ]);
 
-    console.log("Weather Summary by Resort:", summary);
-
     if (!summary.length) {
       return res.status(200).send({
         success: true,
@@ -188,44 +262,7 @@ export const getWeatherSummary = async (req, res) => {
 
     res.status(200).send({ success: true, data: summary });
   } catch (err) {
-    console.error("Error fetching weather summary:", err);
-    res.status(500).send({ success: false, message: "Internal server error." });
-  }
-};
-
-// Function to fetch forecast for a specific date
-export const getForecastByDate = async (req, res) => {
-  try {
-    const { date } = req.query;
-
-    if (!date || isNaN(Date.parse(date))) {
-      return res.status(400).send({
-        success: false,
-        message: "Invalid date format. Use YYYY-MM-DD.",
-      });
-    }
-
-    console.log("Querying for forecast with date:", date);
-
-    const weatherData = await ResortWeatherData.find({
-      "weatherData.visualCrossing.forecast": {
-        $elemMatch: { validTime: date },
-      },
-    });
-
-    console.log("Query Results:", weatherData);
-
-    if (!weatherData.length) {
-      return res.status(200).send({
-        success: true,
-        data: [],
-        message: `No forecast found for date: ${date}.`,
-      });
-    }
-
-    res.status(200).send({ success: true, data: weatherData });
-  } catch (err) {
-    console.error("Error fetching forecast by date:", err);
+    console.error("Error fetching weather summary by region:", err);
     res.status(500).send({ success: false, message: "Internal server error." });
   }
 };

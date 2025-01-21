@@ -1,23 +1,35 @@
 import ResortWeatherData from "../models/resortWeatherData.model.js";
 import { Resort } from "../models/resorts.model.js";
+import { Feature } from "../models/Feature.js";
 
-export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
+export const updateWeatherData = async (
+  locations,
+  fetchFn,
+  dataKey,
+  modelType = "Resort"
+) => {
   const lastChecked = new Date();
+  const isFeatureModel = modelType === "Feature";
 
-  console.log(`Starting weather data update for ${resorts.length} resorts...`);
+  console.log(
+    `Starting weather data update for ${locations.length} locations (${modelType})...`
+  );
 
   const results = await Promise.allSettled(
-    resorts.map(async (resort) => {
+    locations.map(async (location) => {
       try {
-        // Fetch weather data for the resort's coordinates
+        // Fetch weather data for the location's coordinates
         console.log(
-          `Fetching weather data for coordinates: ${resort.Latitude}, ${resort.Longitude}`
+          `Fetching weather data for coordinates: ${location.Latitude}, ${location.Longitude}`
         );
-        const weatherData = await fetchFn(resort.Latitude, resort.Longitude);
+        const weatherData = await fetchFn(
+          location.Latitude,
+          location.Longitude
+        );
 
         if (!weatherData || !weatherData.forecast) {
           throw new Error(
-            `No forecast data fetched for coordinates: ${resort.Latitude}, ${resort.Longitude}`
+            `No forecast data fetched for coordinates: ${location.Latitude}, ${location.Longitude}`
           );
         }
 
@@ -43,31 +55,40 @@ export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
         // Ensure the uom defaults to 'metric'
         const uom = weatherData.uom || "metric";
 
-        // Find the matching resort in the database
+        // Find the matching location in the database
         console.log(
-          `Finding matching resort for coordinates: ${resort.Latitude}, ${resort.Longitude}`
+          `Finding matching ${modelType} for coordinates: ${location.Latitude}, ${location.Longitude}`
         );
-        const matchedResort = await Resort.findOne({
-          Latitude: resort.Latitude,
-          Longitude: resort.Longitude,
-        });
 
-        if (!matchedResort) {
+        const matchedLocation = await (isFeatureModel
+          ? Feature.findOne({
+              Latitude: location.Latitude,
+              Longitude: location.Longitude,
+            })
+          : Resort.findOne({
+              Latitude: location.Latitude,
+              Longitude: location.Longitude,
+            }));
+
+        if (!matchedLocation) {
           throw new Error(
-            `No matching resort found for coordinates: ${resort.Latitude}, ${resort.Longitude}`
+            `No matching ${modelType} found for coordinates: ${location.Latitude}, ${location.Longitude}`
           );
         }
 
-        // Update or insert weather data for the matched resort
+        // Update or insert weather data for the matched location
         console.log(
-          `Updating weather data for resort: ${matchedResort.resortName}`
+          `Updating weather data for ${modelType}: ${
+            matchedLocation.resortName || matchedLocation.name
+          }`
         );
+
         await ResortWeatherData.findOneAndUpdate(
-          { resortId: matchedResort._id },
+          { resortId: matchedLocation._id },
           {
             $set: {
-              resortId: matchedResort._id,
-              resortName: matchedResort.resortName,
+              resortId: matchedLocation._id,
+              resortName: matchedLocation.resortName || matchedLocation.name,
               [`weatherData.${dataKey}.forecast`]: forecast,
               [`weatherData.${dataKey}.uom`]: uom,
               lastChecked,
@@ -77,16 +98,19 @@ export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
         );
 
         console.log(
-          `Successfully updated weather data for resort: ${matchedResort.resortName}`
+          `Successfully updated weather data for ${modelType}: ${
+            matchedLocation.resortName || matchedLocation.name
+          }`
         );
-        return { resortId: matchedResort._id, success: true };
+
+        return { locationId: matchedLocation._id, success: true };
       } catch (error) {
         console.error(
-          `Error updating weather data for coordinates: ${resort.Latitude}, ${resort.Longitude}:`,
+          `Error updating weather data for coordinates: ${location.Latitude}, ${location.Longitude}:`,
           error.message
         );
         return {
-          resortId: resort._id || null,
+          locationId: location._id || null,
           success: false,
           error: error.message,
         };
