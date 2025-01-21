@@ -1,40 +1,40 @@
-const Feature = require("../models/Feature");
+import { Feature } from "../models/Feature.js";
 
 // Get all ski areas
-exports.getAllSkiAreas = async (req, res) => {
+export const getAllSkiAreas = async (req, res) => {
   try {
     const skiAreas = await Feature.find();
-    res.json(skiAreas);
+    res.send(skiAreas);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).send({ message: err.message });
   }
 };
 
 // Get a single ski area by ID
-exports.getSkiAreaById = async (req, res) => {
+export const getSkiAreaById = async (req, res) => {
   try {
     const skiArea = await Feature.findById(req.params.id);
     if (!skiArea)
-      return res.status(404).json({ message: "Ski area not found" });
-    res.json(skiArea);
+      return res.status(404).send({ message: "Ski area not found" });
+    res.send(skiArea);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).send({ message: err.message });
   }
 };
 
 // Create a new ski area
-exports.createSkiArea = async (req, res) => {
+export const createSkiArea = async (req, res) => {
   try {
     const newSkiArea = new Feature(req.body);
     const savedSkiArea = await newSkiArea.save();
-    res.status(201).json(savedSkiArea);
+    res.status(201).send(savedSkiArea);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).send({ message: err.message });
   }
 };
 
 // Update a ski area
-exports.updateSkiArea = async (req, res) => {
+export const updateSkiArea = async (req, res) => {
   try {
     const updatedSkiArea = await Feature.findByIdAndUpdate(
       req.params.id,
@@ -42,21 +42,21 @@ exports.updateSkiArea = async (req, res) => {
       { new: true }
     );
     if (!updatedSkiArea)
-      return res.status(404).json({ message: "Ski area not found" });
-    res.json(updatedSkiArea);
+      return res.status(404).send({ message: "Ski area not found" });
+    res.send(updatedSkiArea);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).send({ message: err.message });
   }
 };
 
 // Delete a ski area
-exports.deleteSkiArea = async (req, res) => {
+export const deleteSkiArea = async (req, res) => {
   try {
     const deletedSkiArea = await Feature.findByIdAndDelete(req.params.id);
     if (!deletedSkiArea)
-      return res.status(404).json({ message: "Ski area not found" });
-    res.json({ message: "Ski area deleted" });
+      return res.status(404).send({ message: "Ski area not found" });
+    res.send({ message: "Ski area deleted" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).send({ message: err.message });
   }
 };
