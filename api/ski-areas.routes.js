@@ -10,11 +10,11 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Define routes
-router.get("/", verifyToken, getAllSkiAreas);
-router.get("/:id", verifyToken, getSkiAreaById);
-router.post("/", verifyToken, createSkiArea);
-router.put("/:id", verifyToken, updateSkiArea);
-router.delete("/:id", verifyToken, deleteSkiArea);
+// Define dynamic routes for regions
+router.get("/:region", verifyToken, getAllSkiAreas);
+router.get("/:region/:id", verifyToken, getSkiAreaById);
+router.post("/:region", verifyToken, createSkiArea);
+router.put("/:region/:id", verifyToken, updateSkiArea);
+router.delete("/:region/:id", verifyToken, deleteSkiArea);
 
 export default router;
