@@ -7,10 +7,10 @@ export const getRegionModel = (region) => {
     japan: "ski_japan",
   }[region];
 
-  if (!collectionName) throw new Error("Invalid region specified");
+  if (!collectionName) throw new Error(`Invalid region specified: ${region}`);
 
   return mongoose.model(
-    region,
+    collectionName,
     new mongoose.Schema({}, { strict: false }),
     collectionName
   );
