@@ -1,0 +1,201 @@
+{
+    "info": {
+        "name": "Visual Crossing API Tests",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_postman_id": "unique-id-for-collection"
+    },
+    "item": [
+        {
+            "name": "Update All Weather Data",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/api/visual-crossing/{{region}}/update-all",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "visual-crossing",
+                        "{{region}}",
+                        "update-all"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get All Weather Data",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/api/visual-crossing/{{region}}/all?resortName={{resortName}}&startDate={{startDate}}&endDate={{endDate}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "visual-crossing",
+                        "{{region}}",
+                        "all"
+                    ],
+                    "query": [
+                        {
+                            "key": "resortName",
+                            "value": "{{resortName}}"
+                        },
+                        {
+                            "key": "startDate",
+                            "value": "{{startDate}}"
+                        },
+                        {
+                            "key": "endDate",
+                            "value": "{{endDate}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get List of Weather Data",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/api/visual-crossing/{{region}}/list?ids={{ids}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "visual-crossing",
+                        "{{region}}",
+                        "list"
+                    ],
+                    "query": [
+                        {
+                            "key": "ids",
+                            "value": "{{ids}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Weather Alerts",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/api/visual-crossing/{{region}}/alerts",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "visual-crossing",
+                        "{{region}}",
+                        "alerts"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Weather Summary",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/api/visual-crossing/{{region}}/summary?startDate={{startDate}}&endDate={{endDate}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "visual-crossing",
+                        "{{region}}",
+                        "summary"
+                    ],
+                    "query": [
+                        {
+                            "key": "startDate",
+                            "value": "{{startDate}}"
+                        },
+                        {
+                            "key": "endDate",
+                            "value": "{{endDate}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Forecast by Date",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/api/visual-crossing/{{region}}/forecast?date={{date}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "visual-crossing",
+                        "{{region}}",
+                        "forecast"
+                    ],
+                    "query": [
+                        {
+                            "key": "date",
+                            "value": "{{date}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
