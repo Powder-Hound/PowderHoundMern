@@ -5,12 +5,12 @@ import { Notification } from "../models/Notification.js";
 export const triggerSnowNotifications = async (req, res) => {
   try {
     await fetchSnowAlerts();
-    res.status(200).json({
+    res.status(200).send({
       message: "Snow notifications triggered successfully.",
     });
   } catch (error) {
     console.error("Error triggering snow notifications:", error);
-    res.status(500).json({
+    res.status(500).send({
       message: "Error triggering notifications.",
       error: error.message,
     });
@@ -23,7 +23,7 @@ export const createNotification = async (req, res) => {
     const { userId, resortId, message } = req.body;
 
     if (!userId || !resortId || !message) {
-      return res.status(400).json({
+      return res.status(400).send({
         message: "All fields (userId, resortId, message) are required.",
       });
     }
@@ -35,10 +35,10 @@ export const createNotification = async (req, res) => {
     });
 
     const savedNotification = await newNotification.save();
-    res.status(201).json(savedNotification);
+    res.status(201).send(savedNotification);
   } catch (error) {
     console.error("Error creating notification:", error);
-    res.status(500).json({
+    res.status(500).send({
       message: "Error creating notification.",
       error: error.message,
     });
@@ -55,10 +55,10 @@ export const getNotifications = async (req, res) => {
       "userId resortId"
     );
 
-    res.status(200).json(notifications);
+    res.status(200).send(notifications);
   } catch (error) {
     console.error("Error fetching notifications:", error);
-    res.status(500).json({
+    res.status(500).send({
       message: "Error fetching notifications.",
       error: error.message,
     });
@@ -73,18 +73,18 @@ export const deleteNotification = async (req, res) => {
     const deletedNotification = await Notification.findByIdAndDelete(id);
 
     if (!deletedNotification) {
-      return res.status(404).json({
+      return res.status(404).send({
         message: "Notification not found.",
       });
     }
 
-    res.status(200).json({
+    res.status(200).send({
       message: "Notification deleted successfully.",
       notification: deletedNotification,
     });
   } catch (error) {
     console.error("Error deleting notification:", error);
-    res.status(500).json({
+    res.status(500).send({
       message: "Error deleting notification.",
       error: error.message,
     });
