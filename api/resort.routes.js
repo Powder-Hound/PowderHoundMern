@@ -1,30 +1,45 @@
 import express from "express";
 import {
-  createResort,
-  getResort,
-  getAllResorts,
-  updateResort,
-  deleteResort,
-  findResort,
-  findListOfResorts,
-} from "../controllers/resort.controller.js";
+  triggerSnowNotifications,
+  createNotification,
+  getNotifications,
+  deleteNotification,
+} from "../controllers/notificationController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
-const resortRouter = express.Router();
+const notificationRouter = express.Router();
 
 /**
  * @swagger
  * tags:
- *   name: Resorts
- *   description: Resort management routes
+ *   name: Notifications
+ *   description: Notification management routes
  */
 
 /**
  * @swagger
- * /api/resorts/create:
+ * /api/notifications/trigger:
  *   post:
- *     tags: [Resorts]
- *     summary: Create a new resort
+ *     tags: [Notifications]
+ *     summary: Trigger snow notifications manually
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Snow notifications triggered successfully
+ *       500:
+ *         description: Error triggering notifications
+ */
+notificationRouter.post("/trigger", verifyToken, triggerSnowNotifications);
+
+/**
+ * @swagger
+ * /api/notifications:
+ *   post:
+ *     tags: [Notifications]
+ *     summary: Create a new notification manually
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -32,139 +47,103 @@ const resortRouter = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               userId:
  *                 type: string
- *               location:
+ *                 description: ID of the user receiving the notification
+ *                 example: "63f2c0eb2e9e4d3a6c3b1234"
+ *               resortId:
  *                 type: string
+ *                 description: ID of the associated resort
+ *                 example: "63f2c0eb2e9e4d3a6c3b5678"
+ *               message:
+ *                 type: string
+ *                 description: Notification message
+ *                 example: "Custom alert! Heavy snowfall expected at Snowy Peaks Resort."
  *     responses:
  *       201:
- *         description: Resort created successfully
+ *         description: Notification created successfully
  *       400:
- *         description: Invalid data provided
+ *         description: Missing required fields
+ *       500:
+ *         description: Error creating notification
  */
-resortRouter.post("/create", verifyToken, createResort);
+notificationRouter.post("/", verifyToken, createNotification);
 
 /**
  * @swagger
- * /api/resorts/find:
+ * /api/notifications:
  *   get:
- *     tags: [Resorts]
- *     summary: Find a resort by query
+ *     tags: [Notifications]
+ *     summary: Retrieve all notifications or filter by user ID
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
- *       - name: name
+ *       - name: userId
  *         in: query
- *         required: true
+ *         required: false
  *         schema:
  *           type: string
- *         description: Resort name
+ *           description: Filter notifications by user ID
+ *           example: "63f2c0eb2e9e4d3a6c3b1234"
  *     responses:
  *       200:
- *         description: Resort found
- *       404:
- *         description: Resort not found
+ *         description: Notifications retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   userId:
+ *                     type: string
+ *                   resortId:
+ *                     type: string
+ *                   message:
+ *                     type: string
+ *                   sentAt:
+ *                     type: string
+ *                     format: date-time
+ *                   responseStatus:
+ *                     type: string
+ *                     enum: ["sent", "failed"]
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                   updatedAt:
+ *                     type: string
+ *                     format: date-time
+ *       500:
+ *         description: Error retrieving notifications
  */
-resortRouter.get("/find", verifyToken, findResort);
+notificationRouter.get("/", verifyToken, getNotifications);
 
 /**
  * @swagger
- * /api/resorts/list:
- *   get:
- *     tags: [Resorts]
- *     summary: Get a list of resorts
- *     responses:
- *       200:
- *         description: List retrieved successfully
- *       404:
- *         description: No resorts found
- */
-resortRouter.get("/list", verifyToken, findListOfResorts);
-
-/**
- * @swagger
- * /api/resorts/:
- *   get:
- *     tags: [Resorts]
- *     summary: Get all resorts
- *     responses:
- *       200:
- *         description: Resorts retrieved successfully
- *       404:
- *         description: No resorts found
- */
-resortRouter.get("/", verifyToken, getAllResorts);
-
-/**
- * @swagger
- * /api/resorts/id/{id}:
- *   get:
- *     tags: [Resorts]
- *     summary: Get a resort by ID
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *         description: Resort ID
- *     responses:
- *       200:
- *         description: Resort details retrieved
- *       404:
- *         description: Resort not found
- */
-resortRouter.get("/id/:id", verifyToken, getResort);
-
-/**
- * @swagger
- * /api/resorts/{id}:
- *   put:
- *     tags: [Resorts]
- *     summary: Update a resort by ID
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *         description: Resort ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               location:
- *                 type: string
- *     responses:
- *       200:
- *         description: Resort updated successfully
- *       404:
- *         description: Resort not found
- */
-resortRouter.put("/:id", verifyToken, updateResort);
-
-/**
- * @swagger
- * /api/resorts/{id}:
+ * /api/notifications/{id}:
  *   delete:
- *     tags: [Resorts]
- *     summary: Delete a resort by ID
+ *     tags: [Notifications]
+ *     summary: Delete a notification by ID
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: string
- *         description: Resort ID
+ *           description: Notification ID
+ *           example: "63f2c0eb2e9e4d3a6c3b9101"
  *     responses:
  *       200:
- *         description: Resort deleted successfully
+ *         description: Notification deleted successfully
  *       404:
- *         description: Resort not found
+ *         description: Notification not found
+ *       500:
+ *         description: Error deleting notification
  */
-resortRouter.delete("/:id", verifyToken, deleteResort);
+notificationRouter.delete("/:id", verifyToken, deleteNotification);
 
-export default resortRouter;
+export default notificationRouter;
