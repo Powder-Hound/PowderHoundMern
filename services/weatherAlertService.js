@@ -1,76 +1,60 @@
-const axios = require("axios");
-const Resort = require("../models/Resort");
-const Notification = require("../models/Notification");
-const User = require("../models/User");
-const twilio = require("twilio");
+import { User } from "../models/users.model.js";
+import { getResortWeatherDataModel } from "../models/resortWeatherData.model.js";
+import { Notification } from "../models/Notification.js";
+import { sendTextMessage } from "../utils/twilioService.js";
+import { sendEmail } from "../utils/sendgridService.js";
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = twilio(accountSid, authToken);
-
-const fetchSnowAlerts = async () => {
+export const fetchSnowAlerts = async () => {
   try {
-    // Fetch weather data from NOAA or OpenWeatherMap
-    const weatherResponse = await axios.get(`WEATHER_API_URL`);
-    const snowstormRegions = parseSnowData(weatherResponse.data);
+    // Fetch all users with active notifications
+    const users = await User.find({ "notificationsActive.phone": true });
 
-    // Identify ski resorts in affected regions
-    const resorts = await Resort.find({
-      location: { $in: snowstormRegions },
-    });
+    for (const user of users) {
+      const region = "us"; // Example: Replace with user's region if applicable
+      const ResortWeatherData = getResortWeatherDataModel(region);
 
-    // Find users to alert
-    const users = await User.find({});
+      // Fetch weather data for user's preferred resorts
+      const preferredResorts = user.resortPreference.resorts;
+      const weatherData = await ResortWeatherData.find({
+        resortId: { $in: preferredResorts },
+      });
 
-    // Create and send notifications
-    users.forEach(async (user) => {
-      resorts.forEach(async (resort) => {
-        const message = `❄️ Snowstorm Alert! ❄️  
-Heavy snowfall expected near ${resort.name}. Check available lodges here: ${resort.websiteLink}`;
+      // Check snow levels against user thresholds
+      for (const data of weatherData) {
+        const { forecast } = data.weatherData.visualCrossing;
 
-        try {
-          // Send SMS notification
-          await client.messages.create({
-            body: message,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: user.phoneNumber,
-          });
+        // Calculate total snowfall in the user’s selected period
+        const snowfall = forecast
+          .slice(0, user.alertThreshold.snowfallPeriod / 24) // E.g., 48h -> 2 days
+          .reduce((total, day) => total + day.snow.value, 0);
 
-          // Save notification log
+        if (snowfall >= user.alertThreshold.preferredResorts) {
+          // Create a notification
+          const message = `Snow alert! ${snowfall} inches of snow expected at ${data.resortName}.`;
+
+          // Send via SMS
+          if (user.notificationsActive.phone) {
+            await sendTextMessage(
+              `+${user.areaCode}${user.phoneNumber}`,
+              message
+            );
+          }
+
+          // Send via email
+          if (user.notificationsActive.email) {
+            await sendEmail(user.email, "Snow Alert", message);
+          }
+
+          // Log notification
           await Notification.create({
             userId: user._id,
-            resortId: resort._id,
+            resortId: data.resortId,
             message,
-            responseStatus: "sent",
-          });
-        } catch (error) {
-          console.error("Failed to send SMS:", error.message);
-          await Notification.create({
-            userId: user._id,
-            resortId: resort._id,
-            message,
-            responseStatus: "failed",
           });
         }
-      });
-    });
-
-    console.log("Notifications processed successfully");
+      }
+    }
   } catch (error) {
-    console.error("Error processing snow alerts:", error.message);
+    console.error("Error fetching snow alerts:", error);
   }
 };
-
-// Parse relevant snowstorm data from weather API response
-function parseSnowData(data) {
-  const regions = [];
-  // Example parsing logic for snowstorm regions
-  data.forecasts.forEach((forecast) => {
-    if (forecast.snowfall > 10) {
-      regions.push(forecast.region);
-    }
-  });
-  return regions;
-}
-
-module.exports = { fetchSnowAlerts };

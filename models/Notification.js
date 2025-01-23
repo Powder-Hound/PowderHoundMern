@@ -1,11 +1,41 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-const NotificationSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  resortId: { type: mongoose.Schema.Types.ObjectId, ref: "Resort" },
-  message: String,
-  sentAt: { type: Date, default: Date.now },
-  responseStatus: { type: String, enum: ["sent", "failed"], default: "sent" },
-});
+// Define the schema
+const notificationSchema = new Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    resortId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Resort",
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
+    sentAt: {
+      type: Date,
+      default: Date.now,
+    },
+    responseStatus: {
+      type: String,
+      enum: ["sent", "failed"],
+      default: "sent",
+    },
+  },
+  {
+    timestamps: true, // Adds createdAt and updatedAt fields automatically
+  }
+);
 
-module.exports = mongoose.model("Notification", NotificationSchema);
+// Create the model
+export const Notification = mongoose.model(
+  "Notification",
+  notificationSchema,
+  "notifications"
+);

@@ -1,16 +1,17 @@
-const { fetchSnowAlerts } = require("../services/weatherAlertService");
+import { fetchSnowAlerts } from "../services/weatherAlertService.js";
 
-// @desc    Trigger Snowstorm Notifications
-exports.triggerSnowNotifications = async (req, res) => {
+export const triggerSnowNotifications = async (req, res) => {
   try {
     await fetchSnowAlerts();
     res
       .status(200)
-      .send({ message: "Snowstorm notifications triggered successfully" });
+      .send({ message: "Snow notifications triggered successfully." });
   } catch (error) {
-    res.status(500).send({
-      message: "Error triggering notifications",
-      error: error.message,
-    });
+    res
+      .status(500)
+      .send({
+        message: "Error triggering notifications",
+        error: error.message,
+      });
   }
 };

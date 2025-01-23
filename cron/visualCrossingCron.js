@@ -2,6 +2,7 @@ import cron from "node-cron";
 import { getRegionModel } from "../utils/regionHelper.js";
 import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
+import { fetchSnowAlerts } from "../services/weatherAlertService.js";
 
 const startVisualCrossingCron = () => {
   const scheduleCronForRegion = (region, cronTime) => {
@@ -64,7 +65,20 @@ const startVisualCrossingCron = () => {
   scheduleCronForRegion("europe", "30 0 * * *"); // 12:30 AM
   scheduleCronForRegion("japan", "0 1 * * *"); // 1:00 AM
 
-  console.log("Visual Crossing cron jobs initialized for all regions.");
+  // New Snow Alerts Cron Job
+  cron.schedule("0 */6 * * *", async () => {
+    console.log("Running scheduled snow alert task...");
+    try {
+      await fetchSnowAlerts();
+      console.log("Snow alerts sent successfully.");
+    } catch (err) {
+      console.error("Error during scheduled snow alert task:", err.message);
+    }
+  });
+
+  console.log(
+    "Visual Crossing cron jobs initialized for all regions and snow alerts."
+  );
 };
 
 export default startVisualCrossingCron;
