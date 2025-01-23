@@ -10,6 +10,7 @@ import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
 import resortRouter from "./api/resort.routes.js";
 import visualCrossingRouter from "./api/visualCrossing.routes.js";
+import skiAreaRouter from "./api/ski-areas.routes.js";
 import startVisualCrossingCron from "./cron/visualCrossingCron.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 
@@ -48,6 +49,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/resorts", resortRouter); // General resort routes
 app.use("/api/visual-crossing", visualCrossingRouter); // Visual Crossing routes
+app.use("/api/ski-areas", skiAreaRouter);
 
 // Error Handling Middleware
 app.use(errorHandler); // Always include after all routes
