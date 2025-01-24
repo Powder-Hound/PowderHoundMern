@@ -54,9 +54,15 @@ const seedGeoJSON = async () => {
       // Get the appropriate model using the dynamic model loader
       const Model = getRegionModel(region);
 
+      // Use `properties.name` for resortName and add fallback validation
+      const resortName =
+        properties.name && properties.name.trim()
+          ? properties.name.trim()
+          : "Unnamed Ski Area";
+
       // Transform the GeoJSON data to match the schema
       const newFeature = {
-        resortName: properties.name || "Unnamed Ski Area",
+        resortName, // Use the validated resortName
         type: properties.type || "skiArea",
         State: properties.location?.localized?.en?.region || null,
         City: properties.location?.localized?.en?.locality || null,
@@ -115,9 +121,7 @@ const seedGeoJSON = async () => {
       try {
         await Model.create(newFeature);
         console.log(
-          `Inserted feature in ${Model.collection.collectionName}: ${
-            properties.name || "Unnamed Ski Area"
-          }`
+          `Inserted feature in ${Model.collection.collectionName}: ${resortName}`
         );
       } catch (err) {
         console.error(`Error inserting feature: ${err.message}`);
