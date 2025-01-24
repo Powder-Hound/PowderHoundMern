@@ -1,3 +1,4 @@
+//updateWeatherData.js
 import { getResortWeatherDataModel } from "../models/resortWeatherData.model.js";
 
 export const updateWeatherData = async (
@@ -11,6 +12,7 @@ export const updateWeatherData = async (
     `Starting weather data update for ${locations.length} locations in ${region}...`
   );
 
+  // Get the region-specific model
   const ResortWeatherData = getResortWeatherDataModel(region);
 
   const results = await Promise.allSettled(
@@ -21,14 +23,29 @@ export const updateWeatherData = async (
         console.log(
           `Fetching weather data for coordinates: ${Latitude}, ${Longitude}`
         );
+
+        // Fetch weather data
         const weatherData = await fetchFn(Latitude, Longitude);
 
-        if (!weatherData || !weatherData.forecast) {
-          throw new Error(
-            `No forecast data fetched for coordinates: ${Latitude}, ${Longitude}`
+        // SCRUB: Skip locations with invalid or missing weather data
+        if (
+          !weatherData ||
+          !weatherData.forecast ||
+          !weatherData.forecast.length
+        ) {
+          console.warn(
+            `Skipping location (${
+              resortName || "Unknown"
+            }) - No valid weather data found.`
           );
+          return {
+            locationId: _id,
+            success: false,
+            error: "No valid weather data",
+          };
         }
 
+        // Format and filter forecast data
         const forecast = weatherData.forecast.map((day) => ({
           validTime: day.validTime,
           snow: day.snow || { value: 0, snowDepth: 0 },
@@ -50,6 +67,8 @@ export const updateWeatherData = async (
         const uom = weatherData.uom || "metric";
 
         console.log(`Updating weather data for resort: ${resortName} (${_id})`);
+
+        // Update or insert valid weather data into the database
         await ResortWeatherData.findOneAndUpdate(
           { resortId: _id },
           {
@@ -67,21 +86,29 @@ export const updateWeatherData = async (
         console.log(
           `Successfully updated weather data for resort: ${resortName} (${_id})`
         );
+
         return { locationId: _id, success: true };
       } catch (error) {
         console.error(
-          `Error updating weather data for coordinates: ${Latitude}, ${Longitude}:`,
+          `Error updating weather data for coordinates: ${location.Latitude}, ${location.Longitude}:`,
           error.message
         );
-        return { locationId: _id, success: false, error: error.message };
+        return {
+          locationId: location._id || null,
+          success: false,
+          error: error.message,
+        };
       }
     })
   );
 
   const summary = results.reduce(
     (acc, result) => {
-      if (result.status === "fulfilled") acc.success.push(result.value);
-      else acc.failed.push(result.reason);
+      if (result.status === "fulfilled" && result.value.success) {
+        acc.success.push(result.value);
+      } else {
+        acc.failed.push(result.reason || result.value);
+      }
       return acc;
     },
     { success: [], failed: [] }

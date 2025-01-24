@@ -1,9 +1,12 @@
+//regionHelper.js
 import mongoose from "mongoose";
+import { featureSchema } from "../models/featureSchema.js";
 
 /**
- * Dynamically get the model for a region
- * @param {string} region - The region (e.g., 'us', 'europe', 'japan')
- * @returns {mongoose.Model} - The Mongoose model for the region
+ * Dynamically get the model for a region.
+ * Ensures models are reused and not redefined.
+ * @param {string} region - The region (e.g., 'us', 'europe', 'japan').
+ * @returns {mongoose.Model} - The Mongoose model for the region.
  */
 export const getRegionModel = (region) => {
   const collectionMapping = {
@@ -13,21 +16,17 @@ export const getRegionModel = (region) => {
   };
 
   const collectionName = collectionMapping[region];
-
   if (!collectionName) {
     throw new Error(`Invalid region specified: ${region}`);
   }
 
-  // Check if the model already exists to avoid OverwriteModelError
-  if (mongoose.models[collectionName]) {
-    console.log(`Using existing model for ${collectionName}`);
-    return mongoose.models[collectionName];
+  const modelName = `Model_${region}`; // Ensure unique model names
+
+  // Check if the model already exists
+  if (mongoose.models[modelName]) {
+    return mongoose.models[modelName];
   }
 
-  console.log(`Defining new model for ${collectionName}`);
-  return mongoose.model(
-    collectionName,
-    new mongoose.Schema({}, { strict: false }),
-    collectionName
-  );
+  // Define and cache the model if it does not exist
+  return mongoose.model(modelName, featureSchema, collectionName);
 };

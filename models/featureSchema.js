@@ -1,41 +1,17 @@
+//featureSchema.js
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-// Updated schema for ski-areas (Feature model)
-const featureSchema = new Schema({
-  resortName: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: true,
-    enum: ["skiArea"], // Specific to ski areas
-  },
-  State: {
-    type: String, // Added from the Resort model
-    required: false,
-  },
-  City: {
-    type: String, // Added from the Resort model
-    required: false,
-  },
-  Website: {
-    type: [String], // Updated to accommodate multiple websites
-    required: false,
-  },
-  snowStick: {
-    type: String, // Added from the Resort model
-    required: false,
-  },
-  Latitude: {
-    type: Number,
-    required: true,
-  },
-  Longitude: {
-    type: Number,
-    required: true,
-  },
+// Define the schema for ski areas
+export const featureSchema = new Schema({
+  resortName: { type: String, required: true },
+  type: { type: String, required: true, enum: ["skiArea"] },
+  State: { type: String },
+  City: { type: String },
+  Website: { type: [String] },
+  snowStick: { type: String },
+  Latitude: { type: Number, required: true },
+  Longitude: { type: Number, required: true },
   passAffiliation: {
     Ikon: { type: Boolean, default: false },
     Epic: { type: Boolean, default: false },
@@ -43,14 +19,13 @@ const featureSchema = new Schema({
     MountainCollective: { type: Boolean, default: false },
   },
   travelInfo: {
-    airport: { type: String, required: false },
-    lodging: { type: String, required: false },
+    airport: { type: String },
+    lodging: { type: String },
   },
   season: {
-    start: { type: Date, required: false },
-    end: { type: Date, required: false },
+    start: { type: Date },
+    end: { type: Date },
   },
-  // Fields specific to ski areas
   statistics: {
     runs: {
       byActivity: {
@@ -83,27 +58,23 @@ const featureSchema = new Schema({
       minElevation: { type: Number, default: 0 },
       maxElevation: { type: Number, default: 0 },
     },
-    lifts: {
-      byType: mongoose.Schema.Types.Mixed, // Preserved from ski-areas
-    },
+    lifts: { byType: mongoose.Schema.Types.Mixed },
   },
   sources: [
     {
-      type: { type: String, required: false },
-      id: { type: String, required: false },
+      type: { type: String },
+      id: { type: String },
     },
   ],
   location: {
-    iso3166_1Alpha2: { type: String, required: false },
-    iso3166_2: { type: String, required: false },
+    iso3166_1Alpha2: { type: String },
+    iso3166_2: { type: String },
     localized: {
       en: {
-        country: { type: String, required: false },
-        region: { type: String, required: false },
-        locality: { type: String, required: false },
+        country: { type: String },
+        region: { type: String },
+        locality: { type: String },
       },
     },
   },
 });
-
-export const Feature = mongoose.model("Feature", featureSchema, "ski-areas");
