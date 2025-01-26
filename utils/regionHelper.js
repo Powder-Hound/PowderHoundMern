@@ -1,6 +1,6 @@
 //regionHelper.js
 import mongoose from "mongoose";
-import { featureSchema } from "../models/featureSchema.js";
+import { featureSchema } from "../models/featureSchema.model.js";
 
 /**
  * Dynamically get the model for a region.

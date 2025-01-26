@@ -1,6 +1,6 @@
 import { User } from "../models/users.model.js";
 import { getResortWeatherDataModel } from "../models/resortWeatherData.model.js";
-import { Notification } from "../models/Notification.js";
+import { Notification } from "../models/notification.model.js";
 import { sendTextMessage } from "../utils/twilioService.js";
 import { sendEmail } from "../utils/sendgridService.js";
 
