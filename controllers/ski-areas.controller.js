@@ -1,31 +1,33 @@
+//ski-areas.controller.js
 import mongoose from "mongoose";
+import { getRegionModel } from "../utils/regionHelper.js";
 
-// Dynamically get the appropriate collection
-const getRegionModel = (region) => {
-  const collectionName = {
-    us: "ski_us",
-    europe: "ski_europe",
-    japan: "ski_japan",
-  }[region];
+// // Dynamically get the appropriate collection
+// const getRegionModel = (region) => {
+//   const collectionName = {
+//     us: "ski_us",
+//     europe: "ski_europe",
+//     japan: "ski_japan",
+//   }[region];
 
-  if (!collectionName) throw new Error("Invalid region specified");
+//   if (!collectionName) throw new Error("Invalid region specified");
 
-  return mongoose.model(
-    region,
-    new mongoose.Schema({}, { strict: false }),
-    collectionName
-  );
-};
+//   return mongoose.model(
+//     region,
+//     new mongoose.Schema({}, { strict: false }),
+//     collectionName
+//   );
+// };
 
 // Get all ski areas for a region
 export const getAllSkiAreas = async (req, res) => {
   try {
     const { region } = req.params; // Extract the region from the route
-    const Model = getRegionModel(region); // Dynamically switch to the correct collection
-
-    const skiAreas = await Model.find();
-    res.send(skiAreas);
+    const Model = getRegionModel(region); // Use the updated helper function
+    const skiAreas = await Model.find(); // Query the correct collection
+    res.status(200).send(skiAreas);
   } catch (err) {
+    console.error(err);
     res.status(500).send({ message: err.message });
   }
 };

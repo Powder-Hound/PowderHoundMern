@@ -1,11 +1,10 @@
 // Usage: node utils/geoSeeder.js
-// This script reads the ski_areas.geojson file and seeds the data to MongoDB
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs-extra";
 import { fileURLToPath } from "url";
 import { connectDB } from "../config/db.js";
-import mongoose from "mongoose";
+import { getRegionModel } from "./regionHelper.js"; // Reuse dynamic model loader
 
 // Emulate __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -16,25 +15,6 @@ dotenv.config({ path: path.join(__dirname, "../.env") });
 
 // Path to GeoJSON file
 const geojsonPath = path.join(__dirname, "../data/ski_areas.geojson");
-
-// Database models for each region
-const RegionModels = {
-  UnitedStates: mongoose.model(
-    "UnitedStates",
-    new mongoose.Schema({}, { strict: false }),
-    "ski_us"
-  ),
-  EuropeAllies: mongoose.model(
-    "EuropeAllies",
-    new mongoose.Schema({}, { strict: false }),
-    "ski_europe"
-  ),
-  Japan: mongoose.model(
-    "Japan",
-    new mongoose.Schema({}, { strict: false }),
-    "ski_japan"
-  ),
-};
 
 const seedGeoJSON = async () => {
   try {
@@ -49,24 +29,40 @@ const seedGeoJSON = async () => {
       const { properties, geometry } = feature;
       const country = properties.location?.localized?.en?.country;
 
-      // Determine target collection based on country
-      let regionModel = null;
+      // Determine region based on country
+      let region;
       if (country === "United States") {
-        regionModel = RegionModels.UnitedStates;
+        region = "us";
       } else if (
         ["France", "Germany", "United Kingdom", "Italy"].includes(country)
       ) {
-        regionModel = RegionModels.EuropeAllies;
+        region = "europe";
       } else if (country === "Japan") {
-        regionModel = RegionModels.Japan;
+        region = "japan";
       }
 
       // Skip if the region is not applicable
-      if (!regionModel) continue;
+      if (!region) {
+        console.log(
+          `Skipping feature: ${
+            properties.name || "Unnamed Ski Area"
+          } (Unknown region)`
+        );
+        continue;
+      }
+
+      // Get the appropriate model using the dynamic model loader
+      const Model = getRegionModel(region);
+
+      // Use `properties.name` for resortName and add fallback validation
+      const resortName =
+        properties.name && properties.name.trim()
+          ? properties.name.trim()
+          : "Unnamed Ski Area";
 
       // Transform the GeoJSON data to match the schema
       const newFeature = {
-        resortName: properties.name || "Unnamed Ski Area",
+        resortName, // Use the validated resortName
         type: properties.type || "skiArea",
         State: properties.location?.localized?.en?.region || null,
         City: properties.location?.localized?.en?.locality || null,
@@ -118,22 +114,21 @@ const seedGeoJSON = async () => {
         },
         sources: properties.sources || [],
         location: properties.location || {},
+        country, // Extracted country name
         geometry,
       };
 
       try {
-        await regionModel.create(newFeature);
+        await Model.create(newFeature);
         console.log(
-          `Inserted feature in ${regionModel.collection.collectionName}: ${
-            properties.name || "Unnamed Ski Area"
-          }`
+          `Inserted feature in ${Model.collection.collectionName}: ${resortName}`
         );
       } catch (err) {
         console.error(`Error inserting feature: ${err.message}`);
       }
     }
 
-    console.log("GeoJSON data successfully sharded and seeded to MongoDB!");
+    console.log("GeoJSON data successfully seeded to MongoDB!");
     process.exit(0);
   } catch (err) {
     console.error("Error seeding GeoJSON data:", err.message);
