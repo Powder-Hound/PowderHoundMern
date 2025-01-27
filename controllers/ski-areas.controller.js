@@ -1,6 +1,7 @@
 //ski-areas.controller.js
 import mongoose from "mongoose";
 import { getRegionModel } from "../utils/regionHelper.js";
+import { getResortWeatherDataModel } from "../models/resortWeatherData.model.js";
 
 // // Dynamically get the appropriate collection
 // const getRegionModel = (region) => {
@@ -94,5 +95,52 @@ export const deleteSkiArea = async (req, res) => {
     res.send({ message: "Ski area deleted" });
   } catch (err) {
     res.status(500).send({ message: err.message });
+  }
+};
+
+export const findListOfSkiAreas = async (req, res) => {
+  try {
+    const { region } = req.params; // Extract region
+    let { ids } = req.query; // Comma-separated list of IDs
+
+    if (!ids) {
+      return res.status(400).send({
+        success: false,
+        message: "No IDs provided.",
+      });
+    }
+
+    // Parse and validate IDs
+    ids = ids.split(",").map((id) => id.trim());
+    const objectIds = ids.map((id) => {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new Error(`Invalid ID format: ${id}`);
+      }
+      return new mongoose.Types.ObjectId(id);
+    });
+
+    // Get the model for the specified region
+    const RegionModel = getRegionModel(region);
+
+    // Fetch ski areas from the database
+    const skiAreas = await RegionModel.find({ _id: { $in: objectIds } });
+
+    if (!skiAreas.length) {
+      return res.status(404).send({
+        success: false,
+        message: "No ski areas found for the provided IDs.",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      data: skiAreas,
+    });
+  } catch (err) {
+    console.error("Error fetching ski areas:", err.message);
+    res.status(500).send({
+      success: false,
+      message: err.message || "Internal server error",
+    });
   }
 };

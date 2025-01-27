@@ -5,6 +5,7 @@ import {
   createSkiArea,
   updateSkiArea,
   deleteSkiArea,
+  findListOfSkiAreas, // Import the findListOfSkiAreas controller
 } from "../controllers/ski-areas.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
@@ -16,6 +17,62 @@ const router = express.Router();
  *   name: Ski Areas
  *   description: CRUD operations for ski areas by region
  */
+
+/**
+ * @swagger
+ * /api/ski-areas/{region}/list:
+ *   get:
+ *     tags: [Ski Areas]
+ *     summary: Get a list of ski areas by IDs for a specific region
+ *     parameters:
+ *       - name: region
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [us, europe, japan]
+ *         description: The region to fetch ski areas from
+ *       - name: ids
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Comma-separated list of ski area IDs
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of ski areas retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         example: "VAxxxx9999999"
+ *                       name:
+ *                         type: string
+ *                         example: "Snowy Mountain"
+ *                       state:
+ *                         type: string
+ *                         example: "Virginia"
+ *       400:
+ *         description: IDs parameter is required
+ *       404:
+ *         description: Ski areas not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/:region/list", verifyToken, findListOfSkiAreas); // Ensure this is above dynamic :id route
 
 /**
  * @swagger
