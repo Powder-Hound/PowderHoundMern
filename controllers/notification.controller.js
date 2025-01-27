@@ -1,5 +1,5 @@
 import { fetchSnowAlerts } from "../services/weatherAlertService.js";
-import { Notification } from "../models/Notification.js";
+import { Notification } from "../models/notification.model.js";
 
 // Trigger snow notifications (cron or manual trigger)
 export const triggerSnowNotifications = async (req, res) => {

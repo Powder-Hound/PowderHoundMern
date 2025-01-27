@@ -7,7 +7,7 @@ import {
   getWeatherAlertsByRegion,
   getWeatherSummaryByRegion,
   getForecastByDateAndRegion,
-} from "../controllers/visualCrossingController.js";
+} from "../controllers/visual-crossing.controller.js";
 import {
   validateQuery,
   validateIds,
