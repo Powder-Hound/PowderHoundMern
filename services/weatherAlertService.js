@@ -6,8 +6,13 @@ import { sendEmail } from "../utils/sendgridService.js";
 
 export const fetchSnowAlerts = async () => {
   try {
-    // Fetch all users with active notifications
-    const users = await User.find({ "notificationsActive.phone": true });
+    // Fetch all users with active notifications (phone or email enabled)
+    const users = await User.find({
+      $or: [
+        { "notificationsActive.phone": true },
+        { "notificationsActive.email": true },
+      ],
+    });
 
     for (const user of users) {
       const region = "us"; // Example: Replace with user's region if applicable
@@ -29,19 +34,22 @@ export const fetchSnowAlerts = async () => {
           .reduce((total, day) => total + day.snow.value, 0);
 
         if (snowfall >= user.alertThreshold.preferredResorts) {
-          // Create a notification
+          // Create a notification message
           const message = `Snow alert! ${snowfall} inches of snow expected at ${data.resortName}.`;
 
-          // Send via SMS
-          if (user.notificationsActive.phone) {
+          // Determine notification method (SMS or Email)
+          if (
+            user.notificationsActive.phone &&
+            !user.notificationsActive.email
+          ) {
             await sendTextMessage(
               `+${user.areaCode}${user.phoneNumber}`,
               message
             );
-          }
-
-          // Send via email
-          if (user.notificationsActive.email) {
+          } else if (
+            user.notificationsActive.email &&
+            !user.notificationsActive.phone
+          ) {
             await sendEmail(user.email, "Snow Alert", message);
           }
 
