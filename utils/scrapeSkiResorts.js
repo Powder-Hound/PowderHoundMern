@@ -100,6 +100,7 @@ const BASE_URL = "https://www.skiresort.info/ski-resorts/usa/";
         Latitude: latitude,
         Longitude: longitude,
         Ikon: getBoolean("Ikon Pass"),
+        Indy: getBoolean("Indy Pass"),
         Epic: getBoolean("Epic Pass"),
         "Mountain Collective": getBoolean("Mountain Collective"),
         Country: "USA",
