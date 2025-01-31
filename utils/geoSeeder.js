@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs-extra";
 import { fileURLToPath } from "url";
 import { connectDB } from "../config/db.js";
-import { getRegionModel } from "./regionHelper.js"; // Reuse dynamic model loader
+import { getCountryModel } from "./getCountryModel.js"; // Updated for country-based storage
 
 // Emulate __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -18,58 +18,69 @@ const geojsonPath = path.join(__dirname, "../data/ski_areas.geojson");
 
 const seedGeoJSON = async () => {
   try {
-    console.log("Connecting to MongoDB...");
+    console.log("🚀 Connecting to MongoDB...");
     await connectDB();
 
-    // Read GeoJSON file
+    // Read and parse GeoJSON file
     const data = await fs.readFile(geojsonPath, "utf-8");
     const geojson = JSON.parse(data);
 
-    for (const feature of geojson.features) {
-      const { properties, geometry } = feature;
-      const country = properties.location?.localized?.en?.country;
+    let totalSkiAreas = 0;
+    let insertedCount = 0;
+    let skippedNoCoords = 0;
+    let skippedNoCountry = 0;
 
-      // Determine region based on country
-      let region;
-      if (country === "United States") {
-        region = "us";
-      } else if (
-        ["France", "Germany", "United Kingdom", "Italy"].includes(country)
-      ) {
-        region = "europe";
-      } else if (country === "Japan") {
-        region = "japan";
+    for (const feature of geojson.features) {
+      totalSkiAreas++;
+
+      const { properties, geometry } = feature;
+
+      if (!properties || typeof properties !== "object") {
+        console.warn("⚠️ Skipping feature due to missing properties:", feature);
+        continue;
       }
 
-      // Skip if the region is not applicable
-      if (!region) {
-        console.log(
-          `Skipping feature: ${
-            properties.name || "Unnamed Ski Area"
-          } (Unknown region)`
+      const country = properties.location?.localized?.en?.country;
+      if (!country || typeof country !== "string") {
+        skippedNoCountry++;
+        console.warn("⚠️ Skipping feature due to missing country:", properties);
+        continue;
+      }
+
+      const CountryModel = getCountryModel(country);
+      if (!CountryModel) {
+        console.warn(
+          `⚠️ No valid CountryModel found for country: ${country}, skipping.`
         );
         continue;
       }
 
-      // Get the appropriate model using the dynamic model loader
-      const Model = getRegionModel(region);
+      // ✅ Extract Latitude & Longitude properly
+      let latitude = null;
+      let longitude = null;
 
-      // Use `properties.name` for resortName and add fallback validation
-      const resortName =
-        properties.name && properties.name.trim()
-          ? properties.name.trim()
-          : "Unnamed Ski Area";
+      if (geometry?.type === "Point" && Array.isArray(geometry.coordinates)) {
+        [longitude, latitude] = geometry.coordinates; // GeoJSON uses [lng, lat]
+      }
 
-      // Transform the GeoJSON data to match the schema
+      if (latitude === null || longitude === null) {
+        skippedNoCoords++;
+        console.warn(
+          `⚠️ Skipping ${properties.name} - Missing Latitude/Longitude`
+        );
+        continue;
+      }
+
+      // ✅ Transform GeoJSON data to match schema
       const newFeature = {
-        resortName, // Use the validated resortName
+        resortName: properties.name || "Unnamed Ski Area",
         type: properties.type || "skiArea",
         State: properties.location?.localized?.en?.region || null,
         City: properties.location?.localized?.en?.locality || null,
         Website: properties.websites || [],
         snowStick: properties.snowStick || null,
-        Latitude: geometry.coordinates[1],
-        Longitude: geometry.coordinates[0],
+        Latitude: latitude, // ✅ Properly mapped
+        Longitude: longitude, // ✅ Properly mapped
         passAffiliation: properties.passAffiliation || {
           Ikon: false,
           Epic: false,
@@ -114,24 +125,29 @@ const seedGeoJSON = async () => {
         },
         sources: properties.sources || [],
         location: properties.location || {},
-        country, // Extracted country name
-        geometry,
+        country, // ✅ Store country name explicitly
+        geometry, // ✅ Keep GeoJSON structure
       };
 
       try {
-        await Model.create(newFeature);
-        console.log(
-          `Inserted feature in ${Model.collection.collectionName}: ${resortName}`
-        );
+        await CountryModel.create(newFeature);
+        insertedCount++;
+        console.log(`✅ Inserted: ${newFeature.resortName}`);
       } catch (err) {
-        console.error(`Error inserting feature: ${err.message}`);
+        console.error(`❌ Error inserting: ${err.message}`);
       }
     }
 
-    console.log("GeoJSON data successfully seeded to MongoDB!");
+    console.log(`🎉 GeoJSON data successfully seeded to MongoDB!`);
+    console.log(`📊 Summary:`);
+    console.log(`  - Total Ski Areas Processed: ${totalSkiAreas}`);
+    console.log(`  - Inserted: ${insertedCount}`);
+    console.log(`  - Skipped (No Country): ${skippedNoCountry}`);
+    console.log(`  - Skipped (No Coordinates): ${skippedNoCoords}`);
+
     process.exit(0);
   } catch (err) {
-    console.error("Error seeding GeoJSON data:", err.message);
+    console.error("❌ Error seeding GeoJSON data:", err.message);
     process.exit(1);
   }
 };
