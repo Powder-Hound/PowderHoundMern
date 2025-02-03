@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
@@ -129,9 +130,31 @@ export const updateUser = async (req, res) => {
         .send({ success: false, message: "Unauthorized to update this user" });
     }
 
+    console.log("Incoming update data:", updateFields);
+
+    // 🔹 Convert `resortPreference.resorts` to an array of ObjectIds
+    if (
+      updateFields.resortPreference &&
+      updateFields.resortPreference.resorts
+    ) {
+      if (!Array.isArray(updateFields.resortPreference.resorts)) {
+        return res
+          .status(400)
+          .send({ success: false, message: "Resorts must be an array" });
+      }
+
+      updateFields.resortPreference.resorts =
+        updateFields.resortPreference.resorts.map(
+          (resortId) => new mongoose.Types.ObjectId(resortId)
+        );
+    }
+
+    // 🔹 Hash new password if provided
     if (updateFields.password) {
       updateFields.password = await hashPassword(updateFields.password);
     }
+
+    console.log("Processed update fields:", updateFields);
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
@@ -145,8 +168,10 @@ export const updateUser = async (req, res) => {
         .send({ success: false, message: "User not found" });
     }
 
+    console.log("User updated successfully:", updatedUser);
     res.status(200).send({ success: true, data: updatedUser });
   } catch (error) {
+    console.error("Update Error:", error);
     res
       .status(500)
       .send({ success: false, message: "Error updating user", error });

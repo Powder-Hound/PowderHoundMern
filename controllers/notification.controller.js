@@ -1,67 +1,81 @@
-import { fetchSnowAlerts } from "../services/weatherAlertService.js";
+import mongoose from "mongoose";
 import { Notification } from "../models/notification.model.js";
+import { User } from "../models/users.model.js";
+import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
 
-// Trigger snow notifications (cron or manual trigger)
-export const triggerSnowNotifications = async (req, res) => {
+// API to manually trigger snow alerts
+export const triggerVisualCrossingNotifications = async (req, res) => {
   try {
-    await fetchSnowAlerts();
-    res.status(200).send({
-      message: "Snow notifications triggered successfully.",
+    const alerts = await fetchVisualCrossingAlerts(); // ✅ CORRECT FUNCTION NAME
+    res.status(200).json({
+      success: true,
+      message: "Visual Crossing notifications triggered successfully.",
+      data: alerts,
     });
   } catch (error) {
-    console.error("Error triggering snow notifications:", error);
-    res.status(500).send({
+    console.error("❌ Error triggering notifications:", error);
+    res.status(500).json({
+      success: false,
       message: "Error triggering notifications.",
       error: error.message,
     });
   }
 };
 
-// Create a custom notification manually
+// Manually create a notification
 export const createNotification = async (req, res) => {
   try {
-    const { userId, resortId, message } = req.body;
+    let { userId, resortId, message } = req.body;
 
     if (!userId || !resortId || !message) {
-      return res.status(400).send({
+      return res.status(400).json({
         message: "All fields (userId, resortId, message) are required.",
       });
     }
 
-    const newNotification = new Notification({
-      userId,
-      resortId,
+    console.log("📌 Creating notification for user:", userId);
+
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log("❌ User not found:", userId);
+      return res.status(400).json({ message: "Invalid userId provided." });
+    }
+
+    const notification = await Notification.create({
+      userId: new mongoose.Types.ObjectId(userId),
+      resortId: new mongoose.Types.ObjectId(resortId),
       message,
     });
 
-    const savedNotification = await newNotification.save();
-    res.status(201).send(savedNotification);
+    console.log("✅ Notification created:", notification);
+
+    res.status(201).json(notification);
   } catch (error) {
-    console.error("Error creating notification:", error);
-    res.status(500).send({
-      message: "Error creating notification.",
-      error: error.message,
-    });
+    console.error("❌ Error creating notification:", error);
+    res
+      .status(500)
+      .json({ message: "Error creating notification.", error: error.message });
   }
 };
 
-// Fetch notifications (all or filtered by userId)
+// Fetch notifications for a user
 export const getNotifications = async (req, res) => {
   try {
     const { userId } = req.query;
+    const query = userId ? { userId: new mongoose.Types.ObjectId(userId) } : {};
 
-    const query = userId ? { userId } : {};
-    const notifications = await Notification.find(query).populate(
-      "userId resortId"
-    );
+    console.log("🔍 Fetching notifications...");
 
-    res.status(200).send(notifications);
+    const notifications = await Notification.find(query);
+
+    console.log(`📌 Retrieved ${notifications.length} notifications.`);
+
+    res.status(200).json(notifications);
   } catch (error) {
-    console.error("Error fetching notifications:", error);
-    res.status(500).send({
-      message: "Error fetching notifications.",
-      error: error.message,
-    });
+    console.error("❌ Error fetching notifications:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching notifications.", error: error.message });
   }
 };
 
@@ -70,23 +84,24 @@ export const deleteNotification = async (req, res) => {
   try {
     const { id } = req.params;
 
+    console.log("🗑️ Deleting notification ID:", id);
+
     const deletedNotification = await Notification.findByIdAndDelete(id);
 
     if (!deletedNotification) {
-      return res.status(404).send({
-        message: "Notification not found.",
-      });
+      return res.status(404).json({ message: "Notification not found." });
     }
 
-    res.status(200).send({
+    console.log("✅ Notification deleted:", deletedNotification);
+
+    res.status(200).json({
       message: "Notification deleted successfully.",
       notification: deletedNotification,
     });
   } catch (error) {
-    console.error("Error deleting notification:", error);
-    res.status(500).send({
-      message: "Error deleting notification.",
-      error: error.message,
-    });
+    console.error("❌ Error deleting notification:", error);
+    res
+      .status(500)
+      .json({ message: "Error deleting notification.", error: error.message });
   }
 };

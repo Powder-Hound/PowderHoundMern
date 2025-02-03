@@ -76,9 +76,7 @@ const startVisualCrossingCron = () => {
     }
   });
 
-  console.log(
-    "Visual Crossing cron jobs initialized for all regions and snow alerts."
-  );
+  console.log("Visual Crossing cron jobs initialized for all snow alerts.");
 };
 
 export default startVisualCrossingCron;

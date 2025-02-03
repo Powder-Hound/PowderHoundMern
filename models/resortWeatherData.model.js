@@ -68,6 +68,9 @@ const resortWeatherDataSchema = new Schema(
 resortWeatherDataSchema.index({ resortId: 1 });
 
 // Export the model
-const ResortWeatherData = model("ResortWeatherData", resortWeatherDataSchema);
+export const ResortWeatherData = model(
+  "ResortWeatherData",
+  resortWeatherDataSchema
+);
 
 export default ResortWeatherData;

@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  triggerSnowNotifications,
+  triggerVisualCrossingNotifications, // ✅ CORRECT FUNCTION
   createNotification,
   getNotifications,
   deleteNotification,
@@ -30,7 +30,11 @@ const notificationRouter = express.Router();
  *       500:
  *         description: Error triggering notifications
  */
-notificationRouter.post("/trigger", verifyToken, triggerSnowNotifications);
+notificationRouter.post(
+  "/trigger",
+  verifyToken,
+  triggerVisualCrossingNotifications
+);
 
 /**
  * @swagger

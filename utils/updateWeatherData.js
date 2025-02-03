@@ -1,4 +1,4 @@
-import ResortWeatherData from "../models/skiarea/resortWeatherData.model_area.js";
+import ResortWeatherData from "../models/resortWeatherData.model.js";
 import { Resort } from "../models/resorts.model.js";
 
 export const updateWeatherData = async (resorts, fetchFn, dataKey) => {

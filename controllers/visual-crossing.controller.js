@@ -2,12 +2,13 @@ import mongoose from "mongoose";
 import ResortWeatherData from "../models/resortWeatherData.model.js";
 import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { getAllResorts } from "../utils/mongoResortHelper.js";
-import { updateWeatherData } from "../utils/skiarea/updateWeatherData_area.js";
+import { updateWeatherData } from "../utils/updateWeatherData.js";
+import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
 
 // Function to get all weather data
 export const getAllWeatherData = async (req, res) => {
   try {
-    const { page = 1, limit = 10, resortName, startDate, endDate } = req.query;
+    const { resortName, startDate, endDate } = req.query;
 
     const query = {};
     if (resortName) query.resortName = new RegExp(resortName, "i");
@@ -19,19 +20,8 @@ export const getAllWeatherData = async (req, res) => {
         query["weatherData.visualCrossing.forecast.validTime"].$lte = endDate;
     }
 
-    const weatherData = await ResortWeatherData.find(query)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
-
-    const total = await ResortWeatherData.countDocuments(query);
-
-    res.status(200).send({
-      success: true,
-      total,
-      page: parseInt(page),
-      limit: parseInt(limit),
-      data: weatherData,
-    });
+    const weatherData = await ResortWeatherData.find(query);
+    res.status(200).send({ success: true, data: weatherData });
   } catch (err) {
     console.error("Error fetching all weather data:", err);
     res.status(500).send({ success: false, message: "Internal server error" });
@@ -72,7 +62,7 @@ export const updateAllVisualCrossingData = async (req, res) => {
 // Function to fetch weather data for a list of ResortIDs
 export const findListOfWeatherData = async (req, res) => {
   try {
-    let { ids, page = 1, limit = 10 } = req.query;
+    let { ids } = req.query;
 
     if (!ids) {
       return res
@@ -87,19 +77,8 @@ export const findListOfWeatherData = async (req, res) => {
     const objectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
     const query = { resortId: { $in: objectIds } };
 
-    const weatherData = await ResortWeatherData.find(query)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
-
-    const total = await ResortWeatherData.countDocuments(query);
-
-    res.status(200).send({
-      success: true,
-      total,
-      page: parseInt(page),
-      limit: parseInt(limit),
-      data: weatherData,
-    });
+    const weatherData = await ResortWeatherData.find(query);
+    res.status(200).send({ success: true, data: weatherData });
   } catch (err) {
     console.error("Error fetching weather data for list:", err);
     res.status(500).send({ success: false, message: "Internal server error" });
@@ -109,38 +88,20 @@ export const findListOfWeatherData = async (req, res) => {
 // Function to fetch weather alerts
 export const getWeatherAlerts = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const parsedPage = Math.max(1, parseInt(page));
-    const parsedLimit = Math.min(100, Math.max(1, parseInt(limit)));
+    const alerts = await fetchVisualCrossingAlerts();
 
-    const query = {
-      "weatherData.visualCrossing.forecast.conditions": { $regex: /alert/i },
-    };
-
-    console.log("Querying for Weather Alerts:", query);
-
-    const weatherData = await ResortWeatherData.find(query);
-
-    console.log("Weather Alerts Retrieved:", weatherData);
-
-    if (!weatherData.length) {
-      return res
-        .status(200)
-        .send({ success: true, data: [], message: "No weather alerts found." });
+    if (!alerts.length) {
+      return res.status(200).json({
+        success: true,
+        data: [],
+        message: "No weather alerts found.",
+      });
     }
 
-    const total = await ResortWeatherData.countDocuments(query);
-
-    res.status(200).send({
-      success: true,
-      total,
-      page: parsedPage,
-      limit: parsedLimit,
-      data: weatherData,
-    });
+    res.status(200).json({ success: true, data: alerts });
   } catch (err) {
     console.error("Error fetching weather alerts:", err);
-    res.status(500).send({ success: false, message: "Internal server error." });
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 };
 
@@ -199,16 +160,6 @@ export const getWeatherSummary = async (req, res) => {
       },
     ]);
 
-    console.log("Weather Summary by Resort:", summary);
-
-    if (!summary.length) {
-      return res.status(200).send({
-        success: true,
-        data: [],
-        message: "No data found for the specified date range.",
-      });
-    }
-
     res.status(200).send({ success: true, data: summary });
   } catch (err) {
     console.error("Error fetching weather summary:", err);
@@ -228,23 +179,11 @@ export const getForecastByDate = async (req, res) => {
       });
     }
 
-    console.log("Querying for forecast with date:", date);
-
     const weatherData = await ResortWeatherData.find({
       "weatherData.visualCrossing.forecast": {
         $elemMatch: { validTime: date },
       },
     });
-
-    console.log("Query Results:", weatherData);
-
-    if (!weatherData.length) {
-      return res.status(200).send({
-        success: true,
-        data: [],
-        message: `No forecast found for date: ${date}.`,
-      });
-    }
 
     res.status(200).send({ success: true, data: weatherData });
   } catch (err) {
