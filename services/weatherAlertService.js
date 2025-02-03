@@ -42,47 +42,51 @@ export const fetchVisualCrossingAlerts = async () => {
 
         const { forecast } = data.weatherData.visualCrossing;
 
-        // Check snowfall threshold within user's preferred timeframe
-        const snowfall = forecast
-          .slice(0, user.alertThreshold.snowfallPeriod / 24)
-          .reduce((total, day) => total + (day.snow.value || 0), 0);
+        // Iterate through forecast data to find the first date exceeding the threshold
+        for (const day of forecast) {
+          const { validTime, snow } = day;
+          const snowfall = snow?.value || 0;
 
-        if (snowfall >= user.alertThreshold.preferredResorts) {
-          const message = `❄️ Snow Alert: ${snowfall} inches expected at ${data.resortName}.`;
+          if (snowfall >= user.alertThreshold.preferredResorts) {
+            const message = `❄️ Snow Alert: ${snowfall} inches expected at ${data.resortName} on ${validTime}.`;
 
-          alerts.push({
-            userId: user._id,
-            resortId: data.resortId,
-            message,
-          });
-
-          // Check if notification already sent today
-          const lastNotification = await Notification.findOne({
-            userId: user._id,
-            resortId: data.resortId,
-            createdAt: { $gte: new Date().setHours(0, 0, 0, 0) },
-          });
-
-          if (!lastNotification) {
-            // Send notifications via preferred method
-            if (user.notificationsActive.phone) {
-              await sendTextMessage(
-                `+${user.areaCode}${user.phoneNumber}`,
-                message
-              );
-            }
-            if (user.notificationsActive.email) {
-              await sendEmail(user.email, "Snow Alert", message);
-            }
-
-            // Store notification in DB
-            await Notification.create({
+            alerts.push({
               userId: user._id,
               resortId: data.resortId,
+              alertDate: validTime, // ✅ Attach predicted date
               message,
             });
 
-            notificationsSent++;
+            // Check if notification for this date was already sent
+            const existingNotification = await Notification.findOne({
+              userId: user._id,
+              resortId: data.resortId,
+              alertDate: validTime, // ✅ Now checking by date too!
+            });
+
+            if (!existingNotification) {
+              // Send notifications via preferred method
+              if (user.notificationsActive.phone) {
+                await sendTextMessage(
+                  `+${user.areaCode}${user.phoneNumber}`,
+                  message
+                );
+              }
+              if (user.notificationsActive.email) {
+                await sendEmail(user.email, "Snow Alert", message);
+              }
+
+              // Store notification in DB with alertDate
+              await Notification.create({
+                userId: user._id,
+                resortId: data.resortId,
+                alertDate: validTime, // ✅ Save alert date
+                message,
+              });
+
+              notificationsSent++;
+            }
+            break; // Exit loop after first valid alert
           }
         }
       }
