@@ -57,14 +57,14 @@ const startVisualCrossingCron = () => {
     }
   });
 
-  // ⏳ Snow Alert Notification Every 6 Hours
-  cron.schedule("0 */6 * * *", async () => {
-    console.log("Running scheduled Visual Crossing alert task...");
+  // ⏳ Snow Alert Notification **Once per Day at 08:00 UTC**
+  cron.schedule("0 8 * * *", async () => {
+    console.log("🚀 Running scheduled Visual Crossing notification task...");
     try {
-      await fetchVisualCrossingAlerts(); // ✅ UPDATED FUNCTION NAME
-      console.log("Visual Crossing alerts sent successfully.");
+      await fetchVisualCrossingAlerts(); // ✅ Fetch and send alerts once per day
+      console.log("✅ Visual Crossing alerts sent successfully.");
     } catch (err) {
-      console.error("Error during scheduled alert task:", err.message);
+      console.error("❌ Error during scheduled alert task:", err.message);
     }
   });
 
