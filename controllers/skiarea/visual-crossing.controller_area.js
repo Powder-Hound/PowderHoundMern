@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { getRegionModel } from "../utils/regionHelper.js";
-import { getResortWeatherDataModel } from "../models/resortWeatherData.model.js";
-import { updateWeatherData } from "../utils/updateWeatherData.js";
-import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
+import { getRegionModel } from "../../utils/regionHelper.js";
+import { getResortWeatherDataModel } from "../../models/resortWeatherData.model.js";
+import { updateWeatherData } from "../../utils/skiarea/updateWeatherData_area.js";
+import { fetchVisualCrossing } from "../../externalAPI/visualCrossingAPI.js";
 
 // Get all weather data for a specific region
 export const getAllWeatherDataByRegion = async (req, res) => {

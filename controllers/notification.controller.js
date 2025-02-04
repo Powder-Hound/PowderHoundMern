@@ -1,0 +1,107 @@
+import mongoose from "mongoose";
+import { Notification } from "../models/notification.model.js";
+import { User } from "../models/users.model.js";
+import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
+
+// API to manually trigger snow alerts
+export const triggerVisualCrossingNotifications = async (req, res) => {
+  try {
+    const alerts = await fetchVisualCrossingAlerts(); // ✅ CORRECT FUNCTION NAME
+    res.status(200).json({
+      success: true,
+      message: "Visual Crossing notifications triggered successfully.",
+      data: alerts,
+    });
+  } catch (error) {
+    console.error("❌ Error triggering notifications:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error triggering notifications.",
+      error: error.message,
+    });
+  }
+};
+
+// Manually create a notification
+export const createNotification = async (req, res) => {
+  try {
+    let { userId, resortId, message } = req.body;
+
+    if (!userId || !resortId || !message) {
+      return res.status(400).json({
+        message: "All fields (userId, resortId, message) are required.",
+      });
+    }
+
+    console.log("📌 Creating notification for user:", userId);
+
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log("❌ User not found:", userId);
+      return res.status(400).json({ message: "Invalid userId provided." });
+    }
+
+    const notification = await Notification.create({
+      userId: new mongoose.Types.ObjectId(userId),
+      resortId: new mongoose.Types.ObjectId(resortId),
+      message,
+    });
+
+    console.log("✅ Notification created:", notification);
+
+    res.status(201).json(notification);
+  } catch (error) {
+    console.error("❌ Error creating notification:", error);
+    res
+      .status(500)
+      .json({ message: "Error creating notification.", error: error.message });
+  }
+};
+
+// Fetch notifications for a user
+export const getNotifications = async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const query = userId ? { userId: new mongoose.Types.ObjectId(userId) } : {};
+
+    console.log("🔍 Fetching notifications...");
+
+    const notifications = await Notification.find(query);
+
+    console.log(`📌 Retrieved ${notifications.length} notifications.`);
+
+    res.status(200).json(notifications);
+  } catch (error) {
+    console.error("❌ Error fetching notifications:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching notifications.", error: error.message });
+  }
+};
+
+// Delete a notification by ID
+export const deleteNotification = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    console.log("🗑️ Deleting notification ID:", id);
+
+    const deletedNotification = await Notification.findByIdAndDelete(id);
+
+    if (!deletedNotification) {
+      return res.status(404).json({ message: "Notification not found." });
+    }
+
+    console.log("✅ Notification deleted:", deletedNotification);
+
+    res.status(200).json({
+      message: "Notification deleted successfully.",
+      notification: deletedNotification,
+    });
+  } catch (error) {
+    console.error("❌ Error deleting notification:", error);
+    res
+      .status(500)
+      .json({ message: "Error deleting notification.", error: error.message });
+  }
+};

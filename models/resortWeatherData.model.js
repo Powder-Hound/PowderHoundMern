@@ -1,90 +1,76 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
 
 // Define the schema
 const resortWeatherDataSchema = new Schema(
   {
     resortId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Resort",
+      ref: "Resort", // Reference to the Resort collection
       required: true,
     },
     resortName: {
       type: String,
-      required: false,
+      required: false, // Not required initially, but will be populated
     },
     weatherData: {
       visualCrossing: {
         forecast: [
           {
-            validTime: { type: String, required: true },
+            validTime: { type: String, required: true }, // Forecast date
             snow: {
-              value: { type: Number, default: 0 },
-              snowDepth: { type: Number, default: 0 },
+              value: { type: Number, default: 0 }, // Snowfall amount (default in inches)
+              snowDepth: { type: Number, default: 0 }, // Snow depth (default in inches)
             },
             temperature: {
-              max: { type: Number, default: null },
-              min: { type: Number, default: null },
-              avg: { type: Number, default: null },
+              max: { type: Number, default: null }, // Max temp (default in Fahrenheit)
+              min: { type: Number, default: null }, // Min temp (default in Fahrenheit)
+              avg: { type: Number, default: null }, // Avg temp (default in Fahrenheit)
             },
             wind: {
-              speed: { type: Number, default: null },
-              gust: { type: Number, default: null },
-              direction: { type: Number, default: null },
+              speed: { type: Number, default: null }, // Wind speed (default in mph)
+              gust: { type: Number, default: null }, // Wind gust (default in mph)
+              direction: { type: Number, default: null }, // Wind direction
             },
             precipitation: {
-              value: { type: Number, default: null },
-              type: { type: [String], default: [] },
-              prob: { type: Number, default: null },
+              value: { type: Number, default: null }, // Precipitation (default in inches)
+              type: { type: [String], default: [] }, // Precipitation types
+              prob: { type: Number, default: null }, // Probability
             },
-            humidity: { type: Number, default: null },
-            pressure: { type: Number, default: null },
-            visibility: { type: Number, default: null },
-            cloudCover: { type: Number, default: null },
-            uvIndex: { type: Number, default: null },
-            conditions: { type: String, default: "Unknown" },
+            humidity: { type: Number, default: null }, // Humidity percentage
+            pressure: { type: Number, default: null }, // Atmospheric pressure (default in inHg)
+            visibility: { type: Number, default: null }, // Visibility (default in miles)
+            cloudCover: { type: Number, default: null }, // Cloud cover percentage
+            uvIndex: { type: Number, default: null }, // UV Index
+            conditions: { type: String, default: "Unknown" }, // Weather conditions
           },
         ],
         uom: {
           type: String,
-          enum: ["metric", "standard"],
-          default: "standard",
+          enum: ["metric", "standard"], // Allowed values: metric or standard
+          default: "standard", // Default is standard (inches, Fahrenheit, mph)
         },
       },
     },
     lastChecked: {
       type: Date,
-      default: Date.now,
+      default: Date.now, // Automatically set lastChecked on creation
     },
   },
   {
-    timestamps: true,
+    timestamps: true, // Adds createdAt and updatedAt fields
+    collection: "resortWeatherData", // Explicitly define the collection name
   }
 );
 
+// Index for faster queries
 resortWeatherDataSchema.index({ resortId: 1 });
 
-/**
- * Get or create a region-specific Mongoose model
- * @param {string} region - Region name
- * @returns {mongoose.Model}
- */
-export const getResortWeatherDataModel = (region) => {
-  const collectionMapping = {
-    us: "ski_us_weather",
-    europe: "ski_europe_weather",
-    japan: "ski_japan_weather",
-  };
+// Export the model
+export const ResortWeatherData = model(
+  "ResortWeatherData",
+  resortWeatherDataSchema
+);
 
-  const collectionName = collectionMapping[region];
-  if (!collectionName) throw new Error(`Invalid region specified: ${region}`);
-
-  const modelName = `${region}_ResortWeatherData`;
-
-  if (mongoose.models[modelName]) {
-    return mongoose.models[modelName];
-  }
-
-  return mongoose.model(modelName, resortWeatherDataSchema, collectionName);
-};
+export default ResortWeatherData;

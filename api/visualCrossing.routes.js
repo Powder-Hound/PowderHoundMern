@@ -1,13 +1,15 @@
 import express from "express";
+import mongoose from "mongoose";
+import ResortWeatherData from "../models/resortWeatherData.model.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import {
-  updateAllVisualCrossingDataByRegion,
-  getAllWeatherDataByRegion,
-  findListOfWeatherDataByRegion,
-  getWeatherAlertsByRegion,
-  getWeatherSummaryByRegion,
-  getForecastByDateAndRegion,
-} from "../controllers/visualCrossingController.js";
+  updateAllVisualCrossingData,
+  getAllWeatherData,
+  findListOfWeatherData,
+  getWeatherAlerts,
+  getWeatherSummary,
+  getForecastByDate,
+} from "../controllers/visual-crossing.controller.js";
 import {
   validateQuery,
   validateIds,
@@ -19,262 +21,120 @@ const visualCrossingRouter = express.Router();
  * @swagger
  * tags:
  *   name: Weather
- *   description: Weather data management routes for specific regions
+ *   description: Weather data management routes
  */
 
-/**
- * @swagger
- * /api/visual-crossing/{region}/update-all:
- *   post:
- *     tags: [Weather]
- *     summary: Update all Visual Crossing data for a specific region
- *     parameters:
- *       - name: region
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *           enum: [us, europe, japan]
- *         description: The region to update weather data for
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Data updated successfully
- *       500:
- *         description: Internal server error
- */
+// ✅ Update all weather data
 visualCrossingRouter.post(
-  "/:region/update-all",
+  "/update-all",
   verifyToken,
   async (req, res, next) => {
     try {
-      await updateAllVisualCrossingDataByRegion(req, res);
+      await updateAllVisualCrossingData(req, res);
     } catch (err) {
       next(err);
     }
   }
 );
 
-/**
- * @swagger
- * /api/visual-crossing/{region}/all:
- *   get:
- *     tags: [Weather]
- *     summary: Get all weather data for a specific region
- *     parameters:
- *       - name: region
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *           enum: [us, europe, japan]
- *         description: The region to fetch weather data for
- *       - name: resortName
- *         in: query
- *         required: false
- *         schema:
- *           type: string
- *         description: Name of the resort
- *       - name: startDate
- *         in: query
- *         required: false
- *         schema:
- *           type: string
- *           format: date
- *         description: Start date for the data
- *       - name: endDate
- *         in: query
- *         required: false
- *         schema:
- *           type: string
- *           format: date
- *         description: End date for the data
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Weather data retrieved successfully
- *       500:
- *         description: Internal server error
- */
+// ✅ Get all weather data with optional filtering
 visualCrossingRouter.get(
-  "/:region/all",
+  "/all",
   verifyToken,
-  validateQuery(["resortName", "startDate", "endDate"]),
+  validateQuery(["page", "limit", "resortName", "startDate", "endDate"]),
   async (req, res, next) => {
     try {
-      await getAllWeatherDataByRegion(req, res);
+      await getAllWeatherData(req, res);
     } catch (err) {
       next(err);
     }
   }
 );
 
-/**
- * @swagger
- * /api/visual-crossing/{region}/list:
- *   get:
- *     tags: [Weather]
- *     summary: Get a list of weather data by IDs for a specific region
- *     parameters:
- *       - name: region
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *           enum: [us, europe, japan]
- *         description: The region to fetch weather data for
- *       - name: ids
- *         in: query
- *         required: true
- *         schema:
- *           type: string
- *         description: Comma-separated list of IDs
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: List retrieved successfully
- *       400:
- *         description: Invalid IDs provided
- */
+// ✅ Get weather data by multiple IDs
 visualCrossingRouter.get(
-  "/:region/list",
+  "/list",
   verifyToken,
   validateIds,
   async (req, res, next) => {
     try {
-      await findListOfWeatherDataByRegion(req, res);
+      await findListOfWeatherData(req, res);
     } catch (err) {
       next(err);
     }
   }
 );
 
-/**
- * @swagger
- * /api/visual-crossing/{region}/alerts:
- *   get:
- *     tags: [Weather]
- *     summary: Get weather alerts for a specific region
- *     parameters:
- *       - name: region
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *           enum: [us, europe, japan]
- *         description: The region to fetch weather alerts for
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Weather alerts retrieved successfully
- *       500:
- *         description: Internal server error
- */
+// ✅ Get weather alerts
 visualCrossingRouter.get(
-  "/:region/alerts",
+  "/alerts",
   verifyToken,
+  validateQuery(["page", "limit"]),
   async (req, res, next) => {
     try {
-      await getWeatherAlertsByRegion(req, res);
+      await getWeatherAlerts(req, res);
     } catch (err) {
       next(err);
     }
   }
 );
 
-/**
- * @swagger
- * /api/visual-crossing/{region}/summary:
- *   get:
- *     tags: [Weather]
- *     summary: Get weather summary for a date range in a specific region
- *     parameters:
- *       - name: region
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *           enum: [us, europe, japan]
- *         description: The region to fetch the summary for
- *       - name: startDate
- *         in: query
- *         required: true
- *         schema:
- *           type: string
- *           format: date
- *         description: Start date for the summary
- *       - name: endDate
- *         in: query
- *         required: true
- *         schema:
- *           type: string
- *           format: date
- *         description: End date for the summary
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Weather summary retrieved successfully
- *       400:
- *         description: Invalid date range provided
- */
+// ✅ Get weather summary for a date range
 visualCrossingRouter.get(
-  "/:region/summary",
+  "/summary",
   verifyToken,
   validateQuery(["startDate", "endDate"]),
   async (req, res, next) => {
     try {
-      await getWeatherSummaryByRegion(req, res);
+      await getWeatherSummary(req, res);
     } catch (err) {
       next(err);
     }
   }
 );
 
-/**
- * @swagger
- * /api/visual-crossing/{region}/forecast:
- *   get:
- *     tags: [Weather]
- *     summary: Get weather forecast for a specific date in a region
- *     parameters:
- *       - name: region
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *           enum: [us, europe, japan]
- *         description: The region to fetch the forecast for
- *       - name: date
- *         in: query
- *         required: true
- *         schema:
- *           type: string
- *           format: date
- *         description: Date for the forecast
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Forecast retrieved successfully
- *       400:
- *         description: Invalid date provided
- */
+// ✅ Get weather forecast for a specific date
 visualCrossingRouter.get(
-  "/:region/forecast",
+  "/forecast",
   verifyToken,
   validateQuery(["date"]),
   async (req, res, next) => {
     try {
-      await getForecastByDateAndRegion(req, res);
+      await getForecastByDate(req, res);
     } catch (err) {
       next(err);
     }
   }
 );
+
+// ✅ Get weather data by a single resort ID
+visualCrossingRouter.get("/:resortId", verifyToken, async (req, res, next) => {
+  try {
+    const { resortId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(resortId)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid resortId format." });
+    }
+
+    const weatherData = await ResortWeatherData.find({ resortId });
+
+    if (!weatherData.length) {
+      return res
+        .status(200)
+        .json({
+          success: true,
+          data: [],
+          message: `No weather data found for resortId: ${resortId}.`,
+        });
+    }
+
+    res.status(200).json({ success: true, data: weatherData });
+  } catch (err) {
+    console.error("Error fetching weather data by resortId:", err);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
 
 export default visualCrossingRouter;
