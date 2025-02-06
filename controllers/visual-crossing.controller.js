@@ -91,17 +91,17 @@ export const getWeatherAlerts = async (req, res) => {
     const alerts = await fetchVisualCrossingAlerts();
 
     if (!alerts.length) {
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         data: [],
         message: "No weather alerts found.",
       });
     }
 
-    res.status(200).json({ success: true, data: alerts });
+    res.status(200).send({ success: true, data: alerts });
   } catch (err) {
     console.error("Error fetching weather alerts:", err);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    res.status(500).send({ success: false, message: "Internal server error." });
   }
 };
 

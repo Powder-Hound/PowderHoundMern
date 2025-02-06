@@ -10,9 +10,9 @@ import authRouter from "./api/auth.routes.js";
 import userRouter from "./api/user.routes.js";
 import resortRouter from "./api/resort.routes.js";
 import visualCrossingRouter from "./api/visualCrossing.routes.js";
-// import skiAreaRouter from "./api/ski-areas.routes.js";
-import startVisualCrossingCron from "./cron/visualCrossingCron.js";
 import notificationRouter from "./api/notification.routes.js";
+import expediaLinkRouter from "./api/expediaLink.routes.js";
+import startVisualCrossingCron from "./cron/visualCrossingCron.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -38,20 +38,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Swagger UI
-app.use(
-  "/api-docs",
-
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocs)
-);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/resorts", resortRouter);
 app.use("/api/visual-crossing", visualCrossingRouter);
-// app.use("/api/ski-areas", skiAreaRouter);
 app.use("/api/notifications", notificationRouter);
+app.use("/api/expedia-links", expediaLinkRouter); // ✅ NEW ROUTE
 
 // Error Handling Middleware
 app.use(errorHandler); // Always include after all routes

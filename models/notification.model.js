@@ -27,6 +27,15 @@ const notificationSchema = new Schema(
       enum: ["sent", "failed"],
       default: "sent",
     },
+    expediaLinksSent: {
+      type: Boolean,
+      default: false,
+    },
+    expediaLinkId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ExpediaLink",
+      default: null, // Stores the reference to the ExpediaLink document
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields automatically
