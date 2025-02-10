@@ -7,14 +7,14 @@ import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
 export const triggerVisualCrossingNotifications = async (req, res) => {
   try {
     const alerts = await fetchVisualCrossingAlerts(); // ✅ CORRECT FUNCTION NAME
-    res.status(200).json({
+    res.status(200).send({
       success: true,
       message: "Visual Crossing notifications triggered successfully.",
       data: alerts,
     });
   } catch (error) {
     console.error("❌ Error triggering notifications:", error);
-    res.status(500).json({
+    res.status(500).send({
       success: false,
       message: "Error triggering notifications.",
       error: error.message,
@@ -28,7 +28,7 @@ export const createNotification = async (req, res) => {
     let { userId, resortId, message } = req.body;
 
     if (!userId || !resortId || !message) {
-      return res.status(400).json({
+      return res.status(400).send({
         message: "All fields (userId, resortId, message) are required.",
       });
     }
@@ -38,7 +38,7 @@ export const createNotification = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) {
       console.log("❌ User not found:", userId);
-      return res.status(400).json({ message: "Invalid userId provided." });
+      return res.status(400).send({ message: "Invalid userId provided." });
     }
 
     const notification = await Notification.create({
@@ -49,12 +49,12 @@ export const createNotification = async (req, res) => {
 
     console.log("✅ Notification created:", notification);
 
-    res.status(201).json(notification);
+    res.status(201).send(notification);
   } catch (error) {
     console.error("❌ Error creating notification:", error);
     res
       .status(500)
-      .json({ message: "Error creating notification.", error: error.message });
+      .send({ message: "Error creating notification.", error: error.message });
   }
 };
 
@@ -70,12 +70,12 @@ export const getNotifications = async (req, res) => {
 
     console.log(`📌 Retrieved ${notifications.length} notifications.`);
 
-    res.status(200).json(notifications);
+    res.status(200).send(notifications);
   } catch (error) {
     console.error("❌ Error fetching notifications:", error);
     res
       .status(500)
-      .json({ message: "Error fetching notifications.", error: error.message });
+      .send({ message: "Error fetching notifications.", error: error.message });
   }
 };
 
@@ -89,12 +89,12 @@ export const deleteNotification = async (req, res) => {
     const deletedNotification = await Notification.findByIdAndDelete(id);
 
     if (!deletedNotification) {
-      return res.status(404).json({ message: "Notification not found." });
+      return res.status(404).send({ message: "Notification not found." });
     }
 
     console.log("✅ Notification deleted:", deletedNotification);
 
-    res.status(200).json({
+    res.status(200).send({
       message: "Notification deleted successfully.",
       notification: deletedNotification,
     });
@@ -102,6 +102,6 @@ export const deleteNotification = async (req, res) => {
     console.error("❌ Error deleting notification:", error);
     res
       .status(500)
-      .json({ message: "Error deleting notification.", error: error.message });
+      .send({ message: "Error deleting notification.", error: error.message });
   }
 };

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { User } from "../models/users.model.js";
 import { ResortWeatherData } from "../models/resortWeatherData.model.js";
 import { Notification } from "../models/notification.model.js";
+import { ExpediaLink } from "../models/expediaLink.model.js";
 import { sendTextMessage } from "../utils/twilioService.js";
 import { sendEmail } from "../utils/sendgridService.js";
 
@@ -32,20 +33,16 @@ export const fetchVisualCrossingAlerts = async () => {
 
     // Get timestamp for 24 hours ago
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    console.log(
-      `🕒 Checking for notifications sent after: ${twentyFourHoursAgo.toISOString()}`
-    );
 
     for (const user of users) {
       console.log(`🔎 Checking user: ${user._id}`);
 
-      // Validate resort preferences
       if (
         !user.resortPreference ||
         !Array.isArray(user.resortPreference.resorts)
       ) {
         console.warn(
-          `⚠️ Skipping user ${user._id} due to missing or invalid resortPreference.`
+          `⚠️ Skipping user ${user._id} due to invalid resortPreference.`
         );
         continue;
       }
@@ -63,21 +60,11 @@ export const fetchVisualCrossingAlerts = async () => {
         createdAt: { $gte: twentyFourHoursAgo },
       });
 
-      console.log(
-        `📌 Found ${recentNotifications.length} recent notifications.`
-      );
-
-      // Create a unique Set for recent notifications (to prevent duplicates)
       const recentNotificationSet = new Set(
         recentNotifications.map(
           (notif) =>
             `${notif.userId}-${notif.resortId}-${notif.alertDate.toISOString()}`
         )
-      );
-
-      console.log(
-        "🛑 Existing Notification Keys in Set:",
-        recentNotificationSet.size
       );
 
       // Fetch weather data for the user's preferred resorts
@@ -95,24 +82,52 @@ export const fetchVisualCrossingAlerts = async () => {
           continue;
         }
 
+        // ✅ Fetch Expedia links for the resort
+        const expediaData = await ExpediaLink.findOne({
+          resortId: data.resortId,
+        });
+        console.log(
+          `🛎️ Expedia Data for Resort (${data.resortId}):`,
+          expediaData
+        );
+
+        const expediaLinksSent = !!expediaData; // True if Expedia links exist
+        const expediaLinkId = expediaData ? expediaData._id : null;
+
+        if (expediaData) {
+          console.log(
+            `✅ Found Expedia links for ${data.resortId}:`,
+            expediaData.links
+          );
+        } else {
+          console.warn(`⚠️ No Expedia links found for ${data.resortId}`);
+        }
+
         for (const day of data.weatherData.visualCrossing.forecast) {
           const snowfall = day.snow?.value || 0;
           const alertDate = new Date(day.validTime);
 
           if (snowfall >= user.alertThreshold.preferredResorts) {
-            const message = `❄️ Snow Alert: ${snowfall} inches expected at ${
-              data.resortName
-            } on ${alertDate.toISOString()}.`;
             const notificationKey = `${user._id}-${
               data.resortId
             }-${alertDate.toISOString()}`;
 
-            console.log(
-              `🔎 Checking if notification exists: ${notificationKey}`
-            );
             if (recentNotificationSet.has(notificationKey)) {
-              console.log(`⏳ Skipping duplicate notification: ${message}`);
+              console.log(`⏳ Skipping duplicate notification.`);
               continue;
+            }
+
+            // Construct message with Expedia links
+            let message = `❄️ Snow Alert: ${snowfall} inches expected at ${
+              data.resortName
+            } on ${alertDate.toISOString()}.`;
+
+            if (expediaData) {
+              message += `\n\n🏨 Lodging options:\n${expediaData.links.join(
+                "\n"
+              )}`;
+            } else {
+              message += `\n\nNo Expedia lodging links available.`;
             }
 
             console.log(`🚀 Alert Created: ${message}`);
@@ -125,22 +140,16 @@ export const fetchVisualCrossingAlerts = async () => {
               message,
             });
 
-            // Ensure phone number format is valid before sending SMS
+            // Send SMS and Email Notifications
             const formattedPhoneNumber = `+${user.areaCode}${user.phoneNumber}`;
-            if (!/^\+\d{10,15}$/.test(formattedPhoneNumber)) {
-              console.error(
-                `❌ Invalid phone number: ${formattedPhoneNumber}, skipping SMS.`
-              );
-            } else {
-              try {
-                if (user.notificationsActive.phone) {
-                  await sendTextMessage(formattedPhoneNumber, message);
-                }
-              } catch (error) {
-                console.warn(
-                  `⚠️ SMS failed for ${formattedPhoneNumber}: ${error.message}`
-                );
+            try {
+              if (user.notificationsActive.phone) {
+                await sendTextMessage(formattedPhoneNumber, message);
               }
+            } catch (error) {
+              console.warn(
+                `⚠️ SMS failed for ${formattedPhoneNumber}: ${error.message}`
+              );
             }
 
             try {
@@ -153,12 +162,17 @@ export const fetchVisualCrossingAlerts = async () => {
               );
             }
 
-            await Notification.create({
+            // ✅ Save the notification with a proper reference to ExpediaLink
+            const newNotification = await Notification.create({
               userId: user._id,
               resortId: data.resortId,
               alertDate,
               message,
+              expediaLinksSent,
+              expediaLinkId, // ✅ Ensure this is assigned correctly
             });
+
+            console.log("📨 Saved notification:", newNotification);
 
             notificationsSent++;
             break; // Exit loop after first valid alert
