@@ -7,50 +7,59 @@ const passwordLength = {
   max: 128,
 };
 
+// Token Verification Middleware
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader) {
-    return res.status(401).json({ message: "No token provided" });
+  // Check for Authorization header with 'Bearer' format
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Malformed or missing token" });
   }
 
-  // Extract the token after "Bearer"
   const token = authHeader.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ message: "Malformed token" });
-  }
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userID = decoded.userID; // Assuming userID exists in the payload
-    req.permissions = decoded.permissions; // Assuming permissions exist
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // No expiration time limit
+
+    // Validate and attach user data to request
+    if (!decoded.userID) {
+      return res.status(400).json({ message: "Invalid token payload" });
+    }
+
+    req.userID = decoded.userID;
+    req.permissions = decoded.permissions || []; // Optional, default to an empty array
     next();
   } catch (err) {
     console.error("JWT Error:", err.message);
-    return res.status(403).json({ message: "Invalid or expired token" });
+    const message =
+      err.name === "JsonWebTokenError" ? "Invalid token" : "Token error";
+    return res.status(403).json({ message });
   }
 };
 
-// export const signupValidation = [
+// Signup Validation Middleware
+export const signupValidation = [
+  body("countryCode")
+    .trim()
+    .escape()
+    .isNumeric()
+    .withMessage("Country code must be a number"),
 
-//   body('countryCode')
-//   .trim()
-//   .escape()
-//   .isNumeric()
-//   .withMessage('Country code must be a number'),
+  body("phoneNumber")
+    .trim()
+    .customSanitizer((value) => value.replace(/[^0-9]/g, "")) // Remove non-numeric characters
+    .isMobilePhone("en-US")
+    .withMessage("Phone number is not valid")
+    .custom(async (value) => {
+      const phonenumberInDB = await User.findOne({ phoneNumber: value });
+      if (phonenumberInDB) {
+        throw new Error("Phone number already exists");
+      }
+    }),
 
-//   body('phoneNumber')
-//   .trim()
-//   .isMobilePhone('en-US')
-//   .withMessage('Phone number is not valid')
-//   .replace(/[^0-9]/g, '')
-//   .custom(async value => {
-//     const phonenumberInDB = await User.findOne({
-//       phoneNumber: value,
-//     });
-//     if (phonenumberInDB) {
-//       throw new Error("Phone number already exists");
-//     }
-//   })
-// ]
+  body("password")
+    .isLength(passwordLength)
+    .withMessage(
+      `Password must be between ${passwordLength.min} and ${passwordLength.max} characters`
+    ),
+];

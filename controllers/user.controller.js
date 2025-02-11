@@ -3,105 +3,105 @@ import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const hashPassword = async (password) => {
+  if (typeof password !== "string" || password.length < 8) {
+    throw new Error("Invalid password format");
+  }
   try {
-    const hash = await argon2.hash(password);
-    return hash;
+    return await argon2.hash(password);
   } catch (err) {
-    console.error(err);
+    console.error("Hashing error:", err);
     throw new Error("Error hashing password");
   }
 };
 
+// Create User
 export const createUser = async (req, res) => {
   const user = req.body;
   const newUser = new User(user);
 
   if (newUser.password) {
-    newUser.password = await hashPassword(user.password);
+    newUser.password = await hashPassword(newUser.password);
   }
 
   const token = jwt.sign(
     {
-      username: newUser.name,
+      username: newUser.username || "User",
       userID: newUser._id,
-      permissions: newUser.permissions,
+      permissions: newUser.permissions || [],
     },
     process.env.JWT_SECRET
   );
 
   try {
     const savedUser = await newUser.save();
-    res.status(201).send({ user: savedUser, token });
+    res.status(201).send({ success: true, user: savedUser, token });
   } catch (error) {
-    res.status(500).send({
-      success: false,
-      message: "Error saving user",
-      error,
-    });
+    console.error("User creation error:", error);
+    res.status(500).send({ success: false, message: "Error saving user" });
   }
 };
 
+// Validate Username
 export const validateUsername = async (req, res) => {
-  const value = req.body.username;
+  const { username } = req.body;
+
   try {
-    const userInDB = await User.findOne({ username: value });
+    const userInDB = await User.findOne({ username });
     if (userInDB) {
       return res
         .status(400)
-        .send({ success: false, error: "Username already exists" });
-    } else {
-      return res.status(200).send({ success: true });
+        .send({ success: false, message: "Username already exists" });
     }
+    res.status(200).send({ success: true });
   } catch (error) {
+    console.error("Username validation error:", error);
     res
       .status(500)
       .send({ success: false, message: "Error validating username" });
   }
 };
 
+// Login
 export const login = async (req, res) => {
-  const { phoneNumber, code } = req.body;
+  const { phoneNumber } = req.body;
 
   try {
     const userInDB = await User.findOne({ phoneNumber });
     if (!userInDB) {
-      return res.status(404).send({
-        success: false,
-        message: "User not found. Please register first.",
-      });
+      return res
+        .status(404)
+        .send({
+          success: false,
+          message: "User not found. Please register first.",
+        });
     }
 
     const token = jwt.sign(
       {
-        username: userInDB.name,
+        username: userInDB.username,
         userID: userInDB._id,
         permissions: userInDB.permissions,
       },
-      process.env.JWT_SECRET || "default_secret",
-      { expiresIn: "1h" }
+      process.env.JWT_SECRET
     );
 
-    return res.status(201).send({
-      token,
-      user: userInDB,
-    });
+    res.status(201).send({ success: true, token, user: userInDB });
   } catch (error) {
-    return res.status(500).send({
-      success: false,
-      message: "Error during login.",
-      error: error.message,
-    });
+    console.error("Login error:", error);
+    res.status(500).send({ success: false, message: "Error during login" });
   }
 };
 
+// Get User
 export const getUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    if (req.permissions === "admin" || req.userID === id) {
+    if (req.permissions.includes("admin") || req.userID === id) {
       const userInDB = await User.findById(id);
       if (!userInDB) {
         return res
@@ -113,76 +113,63 @@ export const getUser = async (req, res) => {
       res.status(401).send({ success: false, message: "Unauthorized" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .send({ success: false, message: "Error fetching user", error });
+    console.error("Get user error:", error);
+    res.status(500).send({ success: false, message: "Error fetching user" });
   }
 };
 
+// Update User
 export const updateUser = async (req, res) => {
   const { id } = req.params;
   const updateFields = req.body;
 
   try {
-    if (req.permissions !== "admin" && req.userID !== id) {
+    if (!req.permissions.includes("admin") && req.userID !== id) {
       return res
         .status(401)
         .send({ success: false, message: "Unauthorized to update this user" });
     }
 
-    console.log("Incoming update data:", updateFields);
+    if (updateFields.password) {
+      updateFields.password = await hashPassword(updateFields.password);
+    }
 
-    // 🔹 Convert `resortPreference.resorts` to an array of ObjectIds
-    if (
-      updateFields.resortPreference &&
-      updateFields.resortPreference.resorts
-    ) {
+    if (updateFields.resortPreference?.resorts) {
       if (!Array.isArray(updateFields.resortPreference.resorts)) {
         return res
           .status(400)
           .send({ success: false, message: "Resorts must be an array" });
       }
-
       updateFields.resortPreference.resorts =
-        updateFields.resortPreference.resorts.map(
-          (resortId) => new mongoose.Types.ObjectId(resortId)
+        updateFields.resortPreference.resorts.map((resortId) =>
+          mongoose.Types.ObjectId(resortId)
         );
     }
-
-    // 🔹 Hash new password if provided
-    if (updateFields.password) {
-      updateFields.password = await hashPassword(updateFields.password);
-    }
-
-    console.log("Processed update fields:", updateFields);
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { $set: updateFields },
       { new: true, runValidators: true }
     );
-
     if (!updatedUser) {
       return res
         .status(404)
         .send({ success: false, message: "User not found" });
     }
 
-    console.log("User updated successfully:", updatedUser);
     res.status(200).send({ success: true, data: updatedUser });
   } catch (error) {
-    console.error("Update Error:", error);
-    res
-      .status(500)
-      .send({ success: false, message: "Error updating user", error });
+    console.error("Update error:", error);
+    res.status(500).send({ success: false, message: "Error updating user" });
   }
 };
 
+// Delete User
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    if (req.permissions === "admin" || req.userID === id) {
+    if (req.permissions.includes("admin") || req.userID === id) {
       const deletedUser = await User.findByIdAndDelete(id);
       if (!deletedUser) {
         return res
@@ -194,8 +181,7 @@ export const deleteUser = async (req, res) => {
       res.status(401).send({ success: false, message: "Unauthorized" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .send({ success: false, message: "Error deleting user", error });
+    console.error("Delete user error:", error);
+    res.status(500).send({ success: false, message: "Error deleting user" });
   }
 };
