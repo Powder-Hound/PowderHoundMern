@@ -33,7 +33,7 @@ const app = express();
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 // Middleware
-app.use(morgan("dev")); // Logs requests to the console
+app.use(morgan()); // Logs requests to the console
 app.use(cors(corsOptions));
 app.use(express.json());
 

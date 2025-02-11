@@ -2,16 +2,10 @@ import jwt from "jsonwebtoken";
 import { body } from "express-validator";
 import { User } from "../models/users.model.js";
 
-const passwordLength = {
-  min: 8,
-  max: 128,
-};
-
-// Token Verification Middleware
+// Token Verification Middleware (No Expiration)
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  // Check for Authorization header with 'Bearer' format
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Malformed or missing token" });
   }
@@ -19,15 +13,17 @@ export const verifyToken = (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // No expiration time limit
+    // Verify the token with no expiration check
+    const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+      ignoreExpiration: true, // This bypasses the expiration check
+    });
 
-    // Validate and attach user data to request
     if (!decoded.userID) {
       return res.status(400).json({ message: "Invalid token payload" });
     }
 
     req.userID = decoded.userID;
-    req.permissions = decoded.permissions || []; // Optional, default to an empty array
+    req.permissions = decoded.permissions || []; // Optional: Defaults to an empty array if not present
     next();
   } catch (err) {
     console.error("JWT Error:", err.message);
@@ -58,8 +54,6 @@ export const signupValidation = [
     }),
 
   body("password")
-    .isLength(passwordLength)
-    .withMessage(
-      `Password must be between ${passwordLength.min} and ${passwordLength.max} characters`
-    ),
+    .isLength({ min: 8, max: 128 })
+    .withMessage("Password must be between 8 and 128 characters"),
 ];
