@@ -141,7 +141,7 @@ export const fetchVisualCrossingAlerts = async () => {
             });
 
             // Send SMS and Email Notifications
-            const formattedPhoneNumber = `+${user.areaCode}${user.phoneNumber}`;
+            const formattedPhoneNumber = `${user.phoneNumber}`;
             try {
               if (user.notificationsActive.phone) {
                 await sendTextMessage(formattedPhoneNumber, message);
