@@ -20,7 +20,7 @@ export const createResort = async (req, res) => {
 
 export const getResort = async (req, res) => {
   try {
-    const resort = await Resort.findById(req.params.id);
+    const resort = await Resort.findById(req.params.id).populate("expediaLink");
     if (resort) {
       res.status(200).send({ success: true, data: resort });
     } else {
@@ -61,7 +61,7 @@ export const findResort = async (req, res) => {
     }
   } else {
     try {
-      const resort = await Resort.find(query);
+      const resort = await Resort.find(query).populate("expediaLink");
       if (resort) {
         res.status(200).send({ success: true, data: resort });
       } else {
@@ -79,25 +79,31 @@ export const findResort = async (req, res) => {
 
 export const findListOfResorts = async (req, res) => {
   let ids = req.query.ids;
+
+  if (!ids) {
+    return res
+      .status(400)
+      .send({ success: false, message: "No ids provided in query" });
+  }
+
+  // If ids is not already an array, split the comma-separated string
+  if (!Array.isArray(ids)) {
+    ids = ids.split(",").map((id) => id.trim());
+  }
+
   try {
-    const resorts = await Resort.find({ _id: { $in: ids } });
-    if (resorts) {
-      res.status(200).send({ success: true, data: resorts });
-    } else {
-      res.status(500).send({
-        success: false,
-        message: "There was an error retrieving resorts",
-      });
-    }
+    const resorts = await Resort.find({ _id: { $in: ids } }).populate(
+      "expediaLink"
+    );
+    res.status(200).send({ success: true, data: resorts });
   } catch (error) {
-    res.status(500).send({ success: false, message: error });
+    res.status(500).send({ success: false, message: error.message || error });
   }
 };
 
 export const getAllResorts = async (req, res) => {
   try {
-    const resorts = await Resort.find({});
-
+    const resorts = await Resort.find({}).populate("expediaLink");
     return res.status(200).send({
       success: true,
       resorts: {
@@ -113,46 +119,6 @@ export const getAllResorts = async (req, res) => {
   }
 };
 
-// DEPRECATED: Method for returning resorts that includes pagination (possibly implemented later)
-// export const getAllResorts = async (req, res) => {
-//   let page = Number(req.query.page) || 1;
-//   let pageSize = Number(req.query.pageSize) || 25;
-//   try {
-//     const resorts = await Resort.aggregate([
-//       {
-//         $facet: {
-//           metadata: [{ $count: "totalCount" }],
-//           data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize + 1 }],
-//         },
-//       },
-//     ]);
-
-//     let hasNextPage = false;
-//     if (resorts[0].data.length > pageSize) {
-//       hasNextPage = true;
-//       resorts[0].data.pop();
-//     }
-//     return res.status(200).send({
-//       success: true,
-//       resorts: {
-//         metadata: {
-//           totalCount: resorts[0].metadata[0].totalCount,
-//           page,
-//           pageSize,
-//           hasNextPage,
-//         },
-//         data: resorts[0].data,
-//       },
-//     });
-//   } catch (error) {
-//     res.status(500).send({
-//       success: false,
-//       message: "Error retrieving resorts",
-//       error: error,
-//     });
-//   }
-// };
-
 export const updateResort = async (req, res) => {
   if (req.permissions === "admin") {
     try {
@@ -160,7 +126,7 @@ export const updateResort = async (req, res) => {
         req.params.id,
         req.body,
         { new: true }
-      );
+      ).populate("expediaLink");
       if (updatedResort) {
         res.status(200).send({ success: true, data: updatedResort });
       } else {

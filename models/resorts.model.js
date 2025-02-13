@@ -1,49 +1,40 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-// Define the schema
 const resortSchema = new Schema({
-  resortName: {
-    type: String,
-    required: true,
-  },
-  State: {
-    type: String,
-    required: true,
-  },
-  City: {
-    type: String,
-    required: true,
-  },
-  Website: {
-    type: String,
-    required: false,
-  },
-  snowStick: {
-    type: String,
-    required: false,
-  },
+  resortName: { type: String, required: true },
+  State: { type: String, required: true },
+  City: { type: String, required: true },
+  Website: { type: String },
+  snowStick: { type: String },
   Latitude: { type: Number, required: true },
   Longitude: { type: Number, required: true },
-
-  // Pass affiliation as a list of strings
   passAffiliation: {
     Ikon: { type: Boolean },
     Epic: { type: Boolean },
     Indy: { type: Boolean },
     MountainCollective: { type: Boolean },
   },
-  // Travel information including airport and lodging details
   travelInfo: {
     airport: String,
     lodging: String,
   },
-  // Season with start and end dates
   season: {
     start: { type: Date },
     end: { type: Date },
   },
 });
 
-// Create the model
+// Create a virtual property 'expediaLink' to populate ExpediaLink data
+resortSchema.virtual("expediaLink", {
+  ref: "ExpediaLink", // The model to use
+  localField: "_id", // Find expedia links where 'resortId' equals '_id'
+  foreignField: "resortId", // The field in ExpediaLink that relates to Resort
+  justOne: true, // Return a single document rather than an array
+});
+
+// Ensure virtual fields are included when converting documents to objects/JSON
+resortSchema.set("toObject", { virtuals: true });
+resortSchema.set("toJSON", { virtuals: true });
+
 export const Resort = mongoose.model("Resort", resortSchema, "resorts");
