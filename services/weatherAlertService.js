@@ -103,6 +103,7 @@ export const fetchVisualCrossingAlerts = async () => {
           console.warn(`⚠️ No Expedia links found for ${data.resortId}`);
         }
 
+        // Iterate over each forecast day for this resort
         for (const day of data.weatherData.visualCrossing.forecast) {
           const snowfall = day.snow?.value || 0;
           const alertDate = new Date(day.validTime);
@@ -169,13 +170,13 @@ export const fetchVisualCrossingAlerts = async () => {
               alertDate,
               message,
               expediaLinksSent,
-              expediaLinkId, // ✅ Ensure this is assigned correctly
+              expediaLinkId,
             });
 
             console.log("📨 Saved notification:", newNotification);
 
             notificationsSent++;
-            break; // Exit loop after first valid alert
+            // Note: The 'break' statement has been removed so that all forecast days are processed.
           }
         }
       }
