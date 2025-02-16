@@ -126,7 +126,7 @@ export const fetchVisualCrossingAlerts = async () => {
             }
 
             // Build the alert message for this resort/day
-            let message = `❄️ Snow Alert: ${snowfall} inches expected at ${
+            let message = `❄️ PowAlert: ${snowfall} inches expected at ${
               data.resortName
             } on ${alertDate.toDateString()}.`;
 
@@ -201,7 +201,7 @@ export const fetchVisualCrossingAlerts = async () => {
         // Send Email if the user has email notifications enabled
         try {
           if (user.notificationsActive.email) {
-            await sendEmail(user.email, "Snow Alerts", combinedMessage);
+            await sendEmail(user.email, "PowAlerts", combinedMessage);
           }
         } catch (error) {
           console.warn(`⚠️ Email failed for ${user.email}: ${error.message}`);
