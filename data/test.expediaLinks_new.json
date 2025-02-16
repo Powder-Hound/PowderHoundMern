@@ -1,0 +1,5922 @@
+[{
+  "_id": {
+    "$oid": "67a54e5b29ce461a1d84b6be"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/49degreesnorth"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:05:47.381Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:05:47.381Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a54eaa29ce461a1d84b6c0"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a77"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/beavermountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:07:06.062Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:07:06.062Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a54f4f29ce461a1d84b6c3"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a79"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/cherrypeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:09:51.288Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:09:51.288Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a54f8229ce461a1d84b6c5"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a82"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/coppermountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:10:42.994Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:10:42.994Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a54fb029ce461a1d84b6c7"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a83"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/winterpark"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:11:28.899Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:11:28.899Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a54fd729ce461a1d84b6c9"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a90"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/northstarcali"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:12:07.163Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:12:07.163Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5500129ce461a1d84b6cb"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a97"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sierraattahoe"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:12:49.429Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:12:49.429Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5502329ce461a1d84b6cd"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a98"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountshasta"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:13:23.755Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:13:23.755Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5504d29ce461a1d84b6cf"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a9a"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/badgerpass"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:14:05.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:14:05.796Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5523629ce461a1d84b6d1"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a9d"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/crystalmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:22:14.689Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:22:14.689Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5525529ce461a1d84b6d3"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/missionridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:22:45.331Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:22:45.331Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5527d29ce461a1d84b6d5"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/cottonwoodbutte"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:23:25.844Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:23:25.844Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5529f29ce461a1d84b6d7"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/redriver"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:23:59.751Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:23:59.751Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a552c629ce461a1d84b6d9"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aba"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/pajaritomountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:24:38.519Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:24:38.519Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a552e629ce461a1d84b6db"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/redlodgemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:25:10.940Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:25:10.940Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5531529ce461a1d84b6dd"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/showdown"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:25:57.814Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:25:57.814Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5532e29ce461a1d84b6df"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63acb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/blacktailmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:26:22.630Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:26:22.630Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5535729ce461a1d84b6e2"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63acc"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/stowemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:27:03.031Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:27:03.031Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5537029ce461a1d84b6e4"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sundayriver"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:27:28.430Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:27:28.430Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5538f29ce461a1d84b6e6"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63adc"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/granitepeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:27:59.279Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:27:59.279Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a553a929ce461a1d84b6e8"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63adf"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/spiritmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:28:25.841Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:28:25.841Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a553c429ce461a1d84b6ea"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/huffhills"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:28:52.837Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:28:52.837Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a553dd29ce461a1d84b6ec"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/alyeskaresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:29:17.349Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:29:17.349Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a553f329ce461a1d84b6ee"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/eaglecrest"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:29:39.477Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:29:39.477Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5540a29ce461a1d84b6f0"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/arcticvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:30:02.748Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:30:02.748Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5542929ce461a1d84b6f2"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aef"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/revelstoke"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:30:33.347Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:30:33.347Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5544529ce461a1d84b6f4"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bigwhite"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:31:01.703Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:31:01.703Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5546429ce461a1d84b6f6"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sunpeaks"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:31:32.021Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:31:32.021Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5548029ce461a1d84b6f8"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/lakelouise"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:32:00.312Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:32:00.312Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a554a529ce461a1d84b6fa"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a70"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/lakelouise"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:32:37.995Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:32:37.995Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a554bd29ce461a1d84b6fc"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a70"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowbird"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:33:01.726Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:33:01.726Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a554d529ce461a1d84b6fe"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a74"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/solitudemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:33:25.129Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:33:25.129Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a554ef29ce461a1d84b700"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a75"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/powdermountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:33:51.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:33:51.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5550629ce461a1d84b702"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a7d"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/vail"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:34:14.677Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:34:14.677Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5552b29ce461a1d84b705"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a84"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/arapahoebasin"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:34:51.551Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:34:51.551Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5555129ce461a1d84b707"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a85"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/beavercreek"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:35:29.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:35:29.669Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5556d29ce461a1d84b709"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a89"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/loveland"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:35:57.518Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:35:57.518Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5558b29ce461a1d84b70b"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a8e"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/palisades"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:36:27.112Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:36:27.112Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a555a529ce461a1d84b70d"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a91"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/kirkwood"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:36:53.544Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:36:53.544Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a555ca29ce461a1d84b710"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a94"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowsummit"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:37:30.764Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:37:30.764Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a555e629ce461a1d84b712"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a95"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountainhigh"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:37:58.913Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:37:58.913Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a555fe29ce461a1d84b714"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a99"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/dodgeridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:38:22.794Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:38:22.794Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5561629ce461a1d84b716"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a9e"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/stevenspass"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:38:46.051Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:38:46.051Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5563029ce461a1d84b718"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountbachelor"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:39:12.435Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:39:12.435Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5564729ce461a1d84b71a"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/lookoutpass"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:39:35.352Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:39:35.352Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5565e29ce461a1d84b71c"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63abd"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/grandtarghee"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:39:58.900Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:39:58.900Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5567b29ce461a1d84b71e"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63abe"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowking"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:40:27.118Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:40:27.118Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5569a29ce461a1d84b720"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bigsky"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:40:58.275Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:40:58.275Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a556b629ce461a1d84b722"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/greatdivide"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:41:26.156Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:41:26.156Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a556cd29ce461a1d84b724"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/maverick"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:41:49.381Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:41:49.381Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a556ec29ce461a1d84b726"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ace"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sugarbush"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:42:20.256Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:42:20.256Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5570329ce461a1d84b728"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/cannonmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:42:43.466Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:42:43.466Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5572429ce461a1d84b72a"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sugarloaf"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:43:16.310Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:43:16.310Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5573929ce461a1d84b72c"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whitefacemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:43:37.046Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:43:37.046Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5579d29ce461a1d84b72e"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ada"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/jiminypeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:45:17.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:45:17.695Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a557b529ce461a1d84b730"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountbehomia"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:45:41.084Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:45:41.084Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a557cd29ce461a1d84b732"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hilltop"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:46:05.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:46:05.562Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a557ed29ce461a1d84b734"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aeb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountroseskitahoe"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:46:37.528Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:46:37.528Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5581729ce461a1d84b736"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bluemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T00:47:19.077Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T00:47:19.077Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55ceb29ce461a1d84b739"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63afa"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/nakiska"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:07:55.926Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:07:55.926Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55d0a29ce461a1d84b73b"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63afd"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/asessippi"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:08:26.623Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:08:26.623Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55d2329ce461a1d84b73d"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aff"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowshoemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:08:51.525Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:08:51.525Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55d3b29ce461a1d84b73f"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63b02"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/wintergreen"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:09:15.224Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:09:15.224Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55d5329ce461a1d84b741"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a71"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/deervalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:09:39.374Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:09:39.374Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55d6b29ce461a1d84b743"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a73"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/brightonresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:10:03.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:10:03.507Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55d7f29ce461a1d84b745"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a78"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/eaglepoint"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:10:23.524Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:10:23.524Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55d9629ce461a1d84b747"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a7a"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/nordicvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:10:46.932Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:10:46.932Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55dad29ce461a1d84b749"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a7b"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/aspen"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:11:09.843Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:11:09.843Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55dc329ce461a1d84b74b"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a7e"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/keystone"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:11:31.805Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:11:31.805Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55de629ce461a1d84b74d"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a7f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/telluride"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:12:06.837Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:12:06.837Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55dff29ce461a1d84b74f"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a8a"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/monarchmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:12:31.365Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:12:31.365Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55e1229ce461a1d84b751"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a8b"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/purgatoryresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:12:50.739Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:12:50.739Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55e2c29ce461a1d84b753"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a92"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sugarbowlresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:13:16.620Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:13:16.620Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55e4329ce461a1d84b755"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a96"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/junemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:13:39.607Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:13:39.607Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55e5929ce461a1d84b757"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a9f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountbaker"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:14:01.256Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:14:01.256Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55e8429ce461a1d84b759"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whitepass"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:14:44.559Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:14:44.559Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55e9b29ce461a1d84b75b"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hurricaneridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:15:07.780Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:15:07.780Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55ebc29ce461a1d84b75d"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/timberlinelodge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:15:40.290Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:15:40.290Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55ee329ce461a1d84b760"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mounthoodmeadows"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:16:19.947Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:16:19.947Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55efa29ce461a1d84b762"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hoodoo"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:16:42.792Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:16:42.792Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55f2829ce461a1d84b764"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/anthonylakes"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:17:28.982Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:17:28.982Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55f4129ce461a1d84b766"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aab"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/willamettepass"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:17:53.414Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:17:53.414Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55f5529ce461a1d84b768"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aac"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sunvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:18:13.276Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:18:13.276Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55f6c29ce461a1d84b76a"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/silvermountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:18:36.261Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:18:36.261Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55f8229ce461a1d84b76c"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/taosskivalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:18:58.824Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:18:58.824Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55fa529ce461a1d84b76e"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/angelfire"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:19:33.197Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:19:33.197Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55fbd29ce461a1d84b770"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63abb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sandiapeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:19:57.464Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:19:57.464Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55fdd29ce461a1d84b772"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/meadowlark"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:20:29.739Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:20:29.739Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a55ff529ce461a1d84b774"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bridgerbowl"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:20:53.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:20:53.507Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5623129ce461a1d84b776"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/discoveryridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:30:25.384Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:30:25.384Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5624b29ce461a1d84b778"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63acd"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/killington"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:30:51.185Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:30:51.185Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5626429ce461a1d84b77a"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/okemomountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:31:16.607Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:31:16.607Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5627e29ce461a1d84b77c"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/loonmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:31:42.558Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:31:42.558Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5629a29ce461a1d84b77e"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/brettonwoods"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:32:10.103Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:32:10.103Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a562b229ce461a1d84b780"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/saddleback"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:32:34.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:32:34.790Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a562cc29ce461a1d84b782"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/huntermountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:33:00.608Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:33:00.608Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a562e529ce461a1d84b784"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63add"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/alpinevalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:33:25.988Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:33:25.988Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5631c29ce461a1d84b786"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ade"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/lutsenmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:34:20.419Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:34:20.419Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5634c29ce461a1d84b788"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/crystalmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:35:08.521Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:35:08.521Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5636729ce461a1d84b78a"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/terrypeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:35:35.693Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:35:35.693Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5638b29ce461a1d84b78c"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aea"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mounteyak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:36:11.304Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:36:11.304Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a563a929ce461a1d84b78e"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aec"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/diamondpeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:36:41.107Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:36:41.107Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a563bf29ce461a1d84b790"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/silverstar"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:37:03.466Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:37:03.466Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a563de29ce461a1d84b792"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sunshinevillage"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:37:34.813Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:37:34.813Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a563f929ce461a1d84b794"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/monttremblant"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:38:01.222Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:38:01.222Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5641029ce461a1d84b796"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/leamassifdecharlevoix"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:38:24.482Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:38:24.482Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5642929ce461a1d84b798"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/ferniealpine"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:38:49.807Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:38:49.807Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5644529ce461a1d84b79a"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63afb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/stoneham"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:39:17.527Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:39:17.527Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5646f29ce461a1d84b79d"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63b00"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/canaanvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:39:59.291Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:39:59.291Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5648a29ce461a1d84b79f"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63b01"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/timberlinemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:40:26.142Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:40:26.142Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a564a229ce461a1d84b7a1"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a6f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/altaskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:40:50.018Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:40:50.018Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a564b929ce461a1d84b7a3"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a72"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/parkcity"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:41:13.543Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:41:13.543Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a564d129ce461a1d84b7a5"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a76"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowbasin"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:41:37.810Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:41:37.810Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a564ed29ce461a1d84b7a7"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a7c"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/breckenridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:42:05.806Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:42:05.806Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5652a29ce461a1d84b7aa"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a80"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/steamboat"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:43:06.485Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:43:06.485Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5655929ce461a1d84b7ac"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a8c"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/crestedbutte"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:43:53.134Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:43:53.134Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5656f29ce461a1d84b7ae"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a8d"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mammothmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:44:15.383Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:44:15.383Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5658629ce461a1d84b7b0"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a8f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/heavenly"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:44:38.940Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:44:38.940Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a565aa29ce461a1d84b7b2"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a93"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bigbearmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:45:14.034Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:45:14.034Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a565c429ce461a1d84b7b4"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a9b"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bearvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:45:40.135Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:45:40.135Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a565dd29ce461a1d84b7b6"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63a9c"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/chinapeakmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:46:05.152Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:46:05.152Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5660a29ce461a1d84b7b8"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/thesummitatsnoqualmie"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:46:50.290Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:46:50.290Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5663629ce461a1d84b7ba"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aa3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/49degreesnorth"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:47:34.431Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:47:34.431Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5664e29ce461a1d84b7bc"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aaa"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountashland"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:47:58.355Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:47:58.355Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5666f29ce461a1d84b7be"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aad"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/schweitzermountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:48:31.389Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:48:31.389Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5668529ce461a1d84b7c0"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aae"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/brundagemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:48:53.870Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:48:53.870Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a566a129ce461a1d84b7c2"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aaf"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/tamarackresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:49:21.168Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:49:21.168Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a566b829ce461a1d84b7c4"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bogusbasin"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:49:44.174Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:49:44.174Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a566cf29ce461a1d84b7c6"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/pebblecreek"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:50:07.061Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:50:07.061Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a566eb29ce461a1d84b7c8"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skisantefe"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:50:35.201Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:50:35.201Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5670129ce461a1d84b7ca"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ab9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sipapu"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:50:57.207Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:50:57.207Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5671829ce461a1d84b7cc"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63abc"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/jacksonhole"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:51:20.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:51:20.685Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5672f29ce461a1d84b7ce"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63abf"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hogadonbasin"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:51:43.437Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:51:43.437Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5674c29ce461a1d84b7d0"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whitefishmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:52:12.044Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:52:12.044Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5676229ce461a1d84b7d2"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ac7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/losttrailpowder"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:52:34.682Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:52:34.682Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a567bb29ce461a1d84b7d4"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aca"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/yellowstoneclub"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:54:03.673Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:54:03.673Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a567d429ce461a1d84b7d6"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63acf"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/jaypeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:54:28.414Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:54:28.414Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a567ec29ce461a1d84b7d8"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ad9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/goremountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:54:52.517Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:54:52.517Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5681629ce461a1d84b7da"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63adb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/berkshireeast"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:55:34.506Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:55:34.506Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5683429ce461a1d84b7dc"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/boynemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:56:04.040Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:56:04.040Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5684d29ce461a1d84b7de"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63ae9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/moosemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:56:29.464Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:56:29.464Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5686529ce461a1d84b7e0"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aed"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/leecanyon"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:56:53.514Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:56:53.514Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5688129ce461a1d84b7e2"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63aee"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whistlerblackcomb"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:57:21.818Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:57:21.818Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5689e29ce461a1d84b7e4"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63af8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/kickinghorse"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:57:50.983Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:57:50.983Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a568bb29ce461a1d84b7e6"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63afc"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/horseshoe"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:58:19.289Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:58:19.289Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a568d729ce461a1d84b7e8"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63b03"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/massanutten"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:58:47.221Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:58:47.221Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a568ee29ce461a1d84b7ea"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63b04"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skyvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:59:10.656Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:59:10.656Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a5690529ce461a1d84b7ec"
+  },
+  "resortId": {
+    "$oid": "66eb1b97cbd1c8aacee63b05"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/paolipeaks"
+  ],
+  "createdAt": {
+    "$date": "2025-02-07T01:59:33.783Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-07T01:59:33.783Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b0fe783c600b23bbc9b89c"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4465"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/aftonalps"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T20:52:08.404Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T20:52:08.404Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b0fef33c600b23bbc9b89f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4466"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/alpental"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T20:54:11.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T20:54:11.669Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b0ff2f3c600b23bbc9b8a1"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4467"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/alpinevalleyski"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T20:55:11.812Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T20:55:11.812Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b101c43c600b23bbc9b8a3"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4468"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/alpinevalleyskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T21:06:12.762Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T21:06:12.762Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b102233c600b23bbc9b8a5"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4469"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/appalachianskimountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T21:07:47.189Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T21:07:47.189Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b105af3c600b23bbc9b8a7"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea446a"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/arapahoebasinskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T21:22:55.611Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T21:22:55.611Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1129a0d3f64d697a68cf1"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea446b"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/arizonasnowbowl"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:18:02.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:18:02.796Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b112c00d3f64d697a68cf3"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea446c"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/attitash"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:18:40.953Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:18:40.953Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1152d0d3f64d697a68cf5"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea446d"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bearcreekmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:29:01.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:29:01.516Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b115720d3f64d697a68cf7"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea446e"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/beechmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:30:10.102Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:30:10.102Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b115870d3f64d697a68cf9"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea446f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/belleayre"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:30:31.577Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:30:31.577Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1159e0d3f64d697a68cfb"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4470"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bigboulder"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:30:54.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:30:54.796Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b115a70d3f64d697a68cfd"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4471"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bigmoosemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:31:03.015Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:31:03.015Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b115ad0d3f64d697a68cff"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4472"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bigpowderhornmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:31:09.905Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:31:09.905Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b115d80d3f64d697a68d01"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4473"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bittersweetskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:31:52.556Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:31:52.556Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b115df0d3f64d697a68d03"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4474"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/blackmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:31:59.884Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:31:59.884Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b115e60d3f64d697a68d05"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4475"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bluehillsskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:32:06.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:32:06.669Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b115f20d3f64d697a68d07"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4476"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/blueknob"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:32:18.686Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:32:18.686Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b116070d3f64d697a68d09"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4477"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bluemountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:32:39.476Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:32:39.476Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1160d0d3f64d697a68d0b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4478"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bluewood"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:32:45.114Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:32:45.114Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b116130d3f64d697a68d0d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4479"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/boltonvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:32:51.420Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:32:51.420Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1161a0d3f64d697a68d0f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea447a"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/borealmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:32:58.611Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:32:58.611Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b117a50d3f64d697a68d11"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea447b"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bostonmills"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:39:33.618Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:39:33.618Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b117ae0d3f64d697a68d13"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea447c"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bousquetskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:39:42.984Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:39:42.984Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b117b60d3f64d697a68d15"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea447d"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skibradford"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:39:50.256Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:39:50.256Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b117c10d3f64d697a68d17"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea447e"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/brandywine"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:40:01.127Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:40:01.127Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b117c60d3f64d697a68d19"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea447f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/brantlingskislopes"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:40:06.893Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:40:06.893Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b117cd0d3f64d697a68d1b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4480"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/brianheadresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:40:13.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:40:13.609Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b117f00d3f64d697a68d1d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4481"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bristolmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:40:48.284Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:40:48.284Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118000d3f64d697a68d1f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4482"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bromleymountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:41:04.807Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:41:04.807Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1180d0d3f64d697a68d21"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4483"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/bryceresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:41:17.755Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:41:17.755Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118160d3f64d697a68d23"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4484"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/buckhill"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:41:26.105Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:41:26.105Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1181d0d3f64d697a68d25"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4485"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/buffaloskiclubskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:41:33.653Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:41:33.653Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118330d3f64d697a68d27"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4486"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/burkemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:41:55.771Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:41:55.771Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1184d0d3f64d697a68d29"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4487"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/caberfaepeaks"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:42:21.476Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:42:21.476Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118b40d3f64d697a68d2b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4488"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/camdensnowbowl"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:44:04.008Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:44:04.008Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118bb0d3f64d697a68d2d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4489"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/camelbackmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:44:11.186Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:44:11.186Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118c20d3f64d697a68d2f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea448a"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/cannonsburg"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:44:18.108Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:44:18.108Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118c80d3f64d697a68d31"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea448b"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/cascademountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:44:24.988Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:44:24.988Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118d00d3f64d697a68d33"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea448c"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/cataloocheeskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:44:32.501Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:44:32.501Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b118fe0d3f64d697a68d35"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea448d"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/catamount"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:45:18.090Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:45:18.090Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119040d3f64d697a68d37"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea448e"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/chestnutmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:45:24.877Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:45:24.877Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1190e0d3f64d697a68d39"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea448f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skicooper"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:45:34.574Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:45:34.574Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119170d3f64d697a68d3b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4490"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/cranmoremountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:45:43.326Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:45:43.326Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1191e0d3f64d697a68d3d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4491"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/crtchedmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:45:50.946Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:45:50.946Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119260d3f64d697a68d3f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4492"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/dartmouthskiway"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:45:58.305Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:45:58.305Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1193b0d3f64d697a68d41"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4493"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/devilshead"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:46:19.087Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:46:19.087Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119430d3f64d697a68d43"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4494"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/donnerskiranch"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:46:27.001Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:46:27.001Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119490d3f64d697a68d45"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4495"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/dryhillskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:46:33.856Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:46:33.856Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1194f0d3f64d697a68d47"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4496"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/eldoramountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:46:39.997Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:46:39.997Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119560d3f64d697a68d49"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4497"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/elkmountainskiresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:46:46.533Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:46:46.533Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1195c0d3f64d697a68d4b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4498"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/giantsridgeresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:46:52.913Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:46:52.913Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119620d3f64d697a68d4d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4499"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/grandgeneva"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:46:58.953Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:46:58.953Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1196d0d3f64d697a68d4f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea449a"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/greekpeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:47:09.287Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:47:09.287Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119730d3f64d697a68d51"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea449b"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/gunstock"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:47:15.156Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:47:15.156Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1197a0d3f64d697a68d53"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea449c"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hatleypointe"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:47:22.257Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:47:22.257Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1197f0d3f64d697a68d55"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea449d"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hiddenvalleyskiresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:47:27.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:47:27.669Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119870d3f64d697a68d57"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea449e"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/holidaymountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:47:35.014Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:47:35.014Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1198e0d3f64d697a68d59"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea449f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/holidayvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:47:42.056Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:47:42.056Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119950d3f64d697a68d5b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/holimontskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:47:49.252Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:47:49.252Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1199c0d3f64d697a68d5d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/howelsenhill"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:47:56.178Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:47:56.178Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119a20d3f64d697a68d5f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hunthollowskiclub"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:02.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:02.526Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119a80d3f64d697a68d61"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hylandskisnowboardarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:08.410Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:08.410Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119ae0d3f64d697a68d63"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/jackfrost"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:14.392Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:14.392Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119b40d3f64d697a68d65"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/kellycanyonskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:20.680Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:20.680Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119ba0d3f64d697a68d67"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/kingpine"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:26.558Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:26.558Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119c00d3f64d697a68d69"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/kissingbridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:32.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:32.564Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119c60d3f64d697a68d6b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/libertyskiresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:38.855Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:38.855Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119ce0d3f64d697a68d6d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44a9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/littleswitzerland"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:46.079Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:46.079Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119d40d3f64d697a68d6f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44aa"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/losttrailpowdermtn"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:52.406Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:52.406Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119da0d3f64d697a68d71"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ab"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/lostvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:48:58.060Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:48:58.060Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119df0d3f64d697a68d73"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ac"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/madriverglen"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:49:03.804Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:49:03.804Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119e50d3f64d697a68d75"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ad"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/madrivermountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:49:09.871Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:49:09.871Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119ec0d3f64d697a68d77"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ae"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/magicmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:49:16.073Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:49:16.073Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119f30d3f64d697a68d79"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44af"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/magicmountainskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:49:23.004Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:49:23.004Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b119f80d3f64d697a68d7b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mapleskiridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:49:28.907Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:49:28.907Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11a000d3f64d697a68d7d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/marquettemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:49:36.910Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:49:36.910Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11a6d0d3f64d697a68d7f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mccauleymountainskicenter"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:51:25.230Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:51:25.230Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11a740d3f64d697a68d81"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mohawkmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:51:32.510Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:51:32.510Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11b500d3f64d697a68d83"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/montripley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:55:12.003Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:55:12.003Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11b5a0d3f64d697a68d85"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/montagemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:55:22.053Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:55:22.053Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11b610d3f64d697a68d87"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/montanasnowbowl"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:55:29.532Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:55:29.532Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11b8d0d3f64d697a68d89"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountholly"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:56:13.905Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:56:13.905Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11ba40d3f64d697a68d8b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountlacrosse"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:56:36.061Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:56:36.061Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bac0d3f64d697a68d8d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44b9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountpeterskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:56:44.193Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:56:44.193Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bb60d3f64d697a68d8f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ba"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountpleasantofedinboro"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:56:54.357Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:56:54.357Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bbd0d3f64d697a68d91"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44bb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountsnow"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:01.807Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:01.807Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bc50d3f64d697a68d93"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44bc"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountsouthingtonskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:09.487Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:09.487Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bcc0d3f64d697a68d95"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44bd"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountsunapee"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:16.126Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:16.126Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bd30d3f64d697a68d97"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44be"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mountaincreekresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:23.321Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:23.321Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bda0d3f64d697a68d99"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44bf"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mtabramskiresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:30.062Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:30.062Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11be10d3f64d697a68d9b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mtbaker"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:37.514Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:37.514Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11be80d3f64d697a68d9d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mtbrighton"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:44.540Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:44.540Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bef0d3f64d697a68d9f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mtcrescentskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:51.374Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:51.374Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bf50d3f64d697a68da1"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mthoodskibowl"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:57:57.859Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:57:57.859Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11bfc0d3f64d697a68da3"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mtroseskitahoe"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:58:04.472Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:58:04.472Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11c020d3f64d697a68da5"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/mtspokaneskiandsnowboardpark"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:58:10.873Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:58:10.873Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11c130d3f64d697a68da7"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/nashobavalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T22:58:27.370Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T22:58:27.370Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11c8a0d3f64d697a68da9"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/hermonmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:00:26.626Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:00:26.626Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d070d3f64d697a68dab"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:02:31.159Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:02:31.159Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d150d3f64d697a68dad"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44c9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/nordicvalleyresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:02:45.092Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:02:45.092Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d1c0d3f64d697a68daf"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ca"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/norwaymountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:02:52.756Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:02:52.756Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d240d3f64d697a68db1"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44cb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/nubsnobskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:03:00.531Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:03:00.531Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d2b0d3f64d697a68db3"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44cc"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/obermountainskiareaadventurepark"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:03:07.741Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:03:07.741Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d340d3f64d697a68db5"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44cd"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/otisridgeskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:03:16.005Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:03:16.005Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d480d3f64d697a68db7"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ce"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/patspeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:03:36.376Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:03:36.376Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d4f0d3f64d697a68db9"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44cf"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/peeknpeak"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:03:43.733Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:03:43.733Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d560d3f64d697a68dbb"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/perfectnorthslopes"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:03:50.809Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:03:50.809Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d5d0d3f64d697a68dbd"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/picomountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:03:57.894Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:03:57.894Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d640d3f64d697a68dbf"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/pineknobskiresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:04:04.741Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:04:04.741Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d6b0d3f64d697a68dc1"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/pinemountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:04:11.173Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:04:11.173Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11d710d3f64d697a68dc3"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/pleasantmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:04:17.324Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:04:17.324Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e030d3f64d697a68dc5"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/pomerellemountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:06:43.646Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:06:43.646Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e0b0d3f64d697a68dc7"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/porcupinemountainswintersportscomplex"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:06:51.590Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:06:51.590Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e110d3f64d697a68dc9"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/powderridgepark"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:06:57.993Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:06:57.993Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e180d3f64d697a68dcb"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/powderridgeskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:04.884Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:04.884Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e1f0d3f64d697a68dcd"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44d9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/powderhorn"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:11.847Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:11.847Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e260d3f64d697a68dcf"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44da"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/raggedmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:18.307Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:18.307Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e2c0d3f64d697a68dd1"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44db"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:24.925Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:24.925Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e340d3f64d697a68dd3"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44dc"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/roundtopmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:32.922Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:32.922Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e3b0d3f64d697a68dd5"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44dd"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/saskadenasix"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:39.605Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:39.605Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e410d3f64d697a68dd7"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44de"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/schussmountainatshantycreek"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:45.679Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:45.679Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e480d3f64d697a68dd9"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44df"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sevenoaks"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:52.425Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:52.425Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e4e0d3f64d697a68ddb"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sevensprings"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:07:58.107Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:07:58.107Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b11e530d3f64d697a68ddd"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/shawneemountainskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:08:03.908Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:08:03.908Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1240c0d3f64d697a68ddf"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/silvertonmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:32:28.943Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:32:28.943Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124130d3f64d697a68de1"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sipapuskiresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:32:35.611Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:32:35.611Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124190d3f64d697a68de3"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skibigbear"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:32:41.552Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:32:41.552Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1241f0d3f64d697a68de5"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skibrule"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:32:47.200Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:32:47.200Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124250d3f64d697a68de7"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skibutternut"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:32:53.078Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:32:53.078Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1242a0d3f64d697a68de9"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skigranbyranch"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:32:58.346Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:32:58.346Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124300d3f64d697a68deb"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:33:04.659Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:33:04.659Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124400d3f64d697a68ded"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44e9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/skiward"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:33:20.643Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:33:20.643Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124600d3f64d697a68def"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ea"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/smugglersnotchresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:33:52.184Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:33:52.184Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124650d3f64d697a68df1"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44eb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:33:57.740Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:33:57.740Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1246b0d3f64d697a68df3"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ec"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowsnakemountainskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:03.837Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:03.837Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124710d3f64d697a68df5"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ed"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowtrails"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:09.115Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:09.115Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124760d3f64d697a68df7"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ee"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:14.378Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:14.378Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1247b0d3f64d697a68df9"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ef"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowrivermountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:19.574Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:19.574Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124840d3f64d697a68dfb"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f0"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/snowyrangeskirecreationarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:28.025Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:28.025Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124890d3f64d697a68dfd"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f1"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sodasprings"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:33.398Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:33.398Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1248f0d3f64d697a68dff"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f2"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/springmountainskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:39.378Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:39.378Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124940d3f64d697a68e01"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f3"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/stevenspassresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:44.374Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:44.374Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1249c0d3f64d697a68e03"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f4"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/strattonmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:52.449Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:52.449Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b124a10d3f64d697a68e05"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f5"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sugarmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:34:57.830Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:34:57.830Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126aa0d3f64d697a68e07"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f6"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sunburst"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:43:38.342Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:43:38.342Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126b10d3f64d697a68e09"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f7"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sundance"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:43:45.680Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:43:45.680Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126b70d3f64d697a68e0b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f8"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sundownmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:43:51.429Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:43:51.429Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126bd0d3f64d697a68e0d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44f9"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sunlightmountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:43:57.559Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:43:57.559Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126c30d3f64d697a68e0f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44fa"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/sunriseparkresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:44:03.719Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:44:03.719Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126c90d3f64d697a68e11"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44fb"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/swain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:44:09.874Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:44:09.874Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126d00d3f64d697a68e13"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44fc"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/swissvalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:44:16.835Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:44:16.835Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126d70d3f64d697a68e15"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44fd"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/tahoedonner"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:44:23.012Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:44:23.012Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126e70d3f64d697a68e17"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44fe"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/tetonpassskiresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:44:39.095Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:44:39.095Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126ed0d3f64d697a68e19"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea44ff"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/thehighlands"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:44:45.102Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:44:45.102Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126f20d3f64d697a68e1b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4500"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/thunderridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:44:50.801Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:44:50.801Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b126f80d3f64d697a68e1d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4501"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/timberridge"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:44:56.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:44:56.685Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127030d3f64d697a68e1f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4502"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/titusmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:45:07.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:45:07.728Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1270a0d3f64d697a68e21"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4503"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/treetopsresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:45:14.998Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:45:14.998Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127370d3f64d697a68e23"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4504"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/trollhaugen"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:45:59.494Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:45:59.494Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1273f0d3f64d697a68e25"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4505"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/tusseymountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:46:07.324Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:46:07.324Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127590d3f64d697a68e27"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4506"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/tyrolbasin"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:46:33.614Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:46:33.614Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1275f0d3f64d697a68e29"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4507"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/wachusettmountainskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:46:39.346Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:46:39.346Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1277e0d3f64d697a68e2b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4508"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/watervillevalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:47:10.271Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:47:10.271Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1279a0d3f64d697a68e2d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4509"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/welchvillage"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:47:38.090Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:47:38.090Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127a00d3f64d697a68e2f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea450a"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/westmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:47:44.299Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:47:44.299Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127a50d3f64d697a68e31"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea450b"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whalebackmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:47:49.612Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:47:49.612Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127b50d3f64d697a68e33"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea450c"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whitepineskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:48:05.973Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:48:05.973Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127d30d3f64d697a68e35"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea450d"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whitecapmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:48:35.846Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:48:35.846Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127d90d3f64d697a68e37"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea450e"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whitefacemountainresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:48:41.637Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:48:41.637Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127e00d3f64d697a68e39"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea450f"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/whitetailresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:48:48.111Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:48:48.111Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127e60d3f64d697a68e3b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4510"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/wildmountainskisnowboardarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:48:54.495Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:48:54.495Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127f20d3f64d697a68e3d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4511"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/wildcatmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:49:06.178Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:49:06.178Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b127fb0d3f64d697a68e3f"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4512"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/willardmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:49:15.141Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:49:15.141Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b128020d3f64d697a68e41"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4513"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/wilmotmountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:49:22.020Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:49:22.020Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b128090d3f64d697a68e43"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4514"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/windhammountain"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:49:29.223Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:49:29.223Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b128100d3f64d697a68e45"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4515"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/winterplaceskiresort"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:49:36.260Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:49:36.260Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b128170d3f64d697a68e47"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4516"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/wisp"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:49:43.112Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:49:43.112Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b1281d0d3f64d697a68e49"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4517"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/wolfcreekskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:49:49.260Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:49:49.260Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b128230d3f64d697a68e4b"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4518"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/woodsvalleyskiarea"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:49:55.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:49:55.796Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67b128290d3f64d697a68e4d"
+  },
+  "resortId": {
+    "$oid": "67b0fae68ff4e2851cea4519"
+  },
+  "links": [
+    "https://expedia.com/affiliates/powalert/yawgoovalley"
+  ],
+  "createdAt": {
+    "$date": "2025-02-15T23:50:01.732Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-15T23:50:01.732Z"
+  },
+  "__v": 0
+}]
