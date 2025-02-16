@@ -5,15 +5,15 @@ import { updateWeatherData } from "../utils/updateWeatherData.js";
 import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
 
 const startVisualCrossingCron = () => {
-  // ⏳ Daily Weather Data Update at Midnight (00:00 UTC)
-  cron.schedule("0 0 * * *", async () => {
-    console.log("⏳ Running scheduled Visual Crossing weather data update...");
+  // Global Weather Data Update (averaged to ~6:30 UTC)
+  cron.schedule("30 6 * * *", async () => {
+    console.log("⏳ Running global Visual Crossing weather data update...");
 
     try {
       // Fetch all resorts
       const resorts = await getAllResorts();
       if (!resorts || resorts.length === 0) {
-        console.warn("⚠️ No resorts found for scheduled weather data update.");
+        console.warn("⚠️ No resorts found for global weather data update.");
         return;
       }
 
@@ -40,9 +40,7 @@ const startVisualCrossingCron = () => {
         { success: 0, failed: 0, errors: [] }
       );
 
-      console.log(
-        "✅ Scheduled Visual Crossing weather data update completed."
-      );
+      console.log("✅ Global Visual Crossing weather data update completed.");
       console.log(
         `✅ Success: ${summary.success}, ❌ Failed: ${summary.failed}`
       );
@@ -51,24 +49,24 @@ const startVisualCrossingCron = () => {
       }
     } catch (err) {
       console.error(
-        "❌ Error during scheduled Visual Crossing update:",
+        "❌ Error during global Visual Crossing update:",
         err.message
       );
     }
   });
 
-  // ⏳ Snow Alert Notification **Once per Day at 08:00 UTC**
-  cron.schedule("0 8 * * *", async () => {
-    console.log("🚀 Running scheduled Visual Crossing notification task...");
+  // Global Snow Alert Notification (averaged to ~14:30 UTC)
+  cron.schedule("30 14 * * *", async () => {
+    console.log("🚀 Running global Visual Crossing notification task...");
     try {
-      await fetchVisualCrossingAlerts(); // ✅ Fetch and send alerts once per day
-      console.log("✅ Visual Crossing alerts sent successfully.");
+      await fetchVisualCrossingAlerts();
+      console.log("✅ Global Visual Crossing alerts sent successfully.");
     } catch (err) {
-      console.error("❌ Error during scheduled alert task:", err.message);
+      console.error("❌ Error during global alert task:", err.message);
     }
   });
 
-  console.log("🚀 Visual Crossing cron jobs initialized.");
+  console.log("🚀 Global Visual Crossing cron jobs initialized.");
 };
 
 export default startVisualCrossingCron;
