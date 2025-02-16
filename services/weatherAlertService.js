@@ -5,6 +5,7 @@ import { Notification } from "../models/notification.model.js";
 import { ExpediaLink } from "../models/expediaLink.model.js";
 import { sendTextMessage } from "../utils/twilioService.js";
 import { sendEmail } from "../utils/sendgridService.js";
+import { AggregatedNotification } from "../models/aggregatedNotification.model.js";
 
 export const fetchVisualCrossingAlerts = async () => {
   try {
@@ -27,13 +28,13 @@ export const fetchVisualCrossingAlerts = async () => {
     }
 
     console.log(`📌 Found ${users.length} users to check for alerts.`);
-
     let notificationsSent = 0;
     let alerts = [];
 
     // Get timestamp for 24 hours ago
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
+    // Process each user
     for (const user of users) {
       console.log(`🔎 Checking user: ${user._id}`);
 
@@ -53,7 +54,7 @@ export const fetchVisualCrossingAlerts = async () => {
 
       console.log(`🎯 Mapped Preferred Resorts:`, preferredResorts);
 
-      // Fetch existing notifications from the last 24 hours
+      // Fetch existing notifications from the last 24 hours for this user and their resorts
       const recentNotifications = await Notification.find({
         userId: user._id,
         resortId: { $in: preferredResorts },
@@ -76,13 +77,19 @@ export const fetchVisualCrossingAlerts = async () => {
         `🌨️ Retrieved weather data for ${weatherData.length} resorts.`
       );
 
+      // Array to accumulate alert messages for this user
+      const userAlerts = [];
+      // Array to store individual notification IDs for the aggregated notification
+      const userNotificationIds = [];
+
+      // Loop through weather data for each resort
       for (const data of weatherData) {
         if (!data.weatherData || !data.weatherData.visualCrossing?.forecast) {
           console.warn(`⚠️ No forecast data for resort: ${data.resortId}`);
           continue;
         }
 
-        // ✅ Fetch Expedia links for the resort
+        // Fetch Expedia links for the resort
         const expediaData = await ExpediaLink.findOne({
           resortId: data.resortId,
         });
@@ -118,22 +125,26 @@ export const fetchVisualCrossingAlerts = async () => {
               continue;
             }
 
-            // Construct message with Expedia links
+            // Build the alert message for this resort/day
             let message = `❄️ Snow Alert: ${snowfall} inches expected at ${
               data.resortName
-            } on ${alertDate.toISOString()}.`;
+            } on ${alertDate.toDateString()}.`;
 
             if (expediaData) {
-              message += `\n\n🏨 Lodging options:\n${expediaData.links.join(
+              message += `\n🏨 Lodging options:\n${expediaData.links.join(
                 "\n"
               )}`;
             } else {
-              message += `\n\nNo Expedia lodging links available.`;
+              message += `\nNo Expedia lodging links available.`;
             }
 
             console.log(`🚀 Alert Created: ${message}`);
             recentNotificationSet.add(notificationKey);
 
+            // Add the message to the user's alert list
+            userAlerts.push(message);
+
+            // Also keep track of the alert details (if needed elsewhere)
             alerts.push({
               userId: user._id,
               resortId: data.resortId,
@@ -141,48 +152,82 @@ export const fetchVisualCrossingAlerts = async () => {
               message,
             });
 
-            // Send SMS and Email Notifications
-            const formattedPhoneNumber = `${user.phoneNumber}`;
+            // Save the individual notification record
             try {
-              if (user.notificationsActive.phone) {
-                await sendTextMessage(formattedPhoneNumber, message);
-              }
+              const newNotification = await Notification.create({
+                userId: user._id,
+                resortId: data.resortId,
+                alertDate,
+                message,
+                expediaLinksSent,
+                expediaLinkId,
+              });
+              console.log("✅ Individual Notification saved:", newNotification);
+              // Collect the notification ID for aggregated record
+              userNotificationIds.push(newNotification._id);
             } catch (error) {
-              console.warn(
-                `⚠️ SMS failed for ${formattedPhoneNumber}: ${error.message}`
+              console.error(
+                `❌ Error saving individual notification for user ${user._id}:`,
+                error
               );
             }
-
-            try {
-              if (user.notificationsActive.email) {
-                await sendEmail(user.email, "Snow Alert", message);
-              }
-            } catch (error) {
-              console.warn(
-                `⚠️ Email failed for ${user.email}: ${error.message}`
-              );
-            }
-
-            // ✅ Save the notification with a proper reference to ExpediaLink
-            const newNotification = await Notification.create({
-              userId: user._id,
-              resortId: data.resortId,
-              alertDate,
-              message,
-              expediaLinksSent,
-              expediaLinkId,
-            });
-
-            console.log("📨 Saved notification:", newNotification);
-
-            notificationsSent++;
-            // Note: The 'break' statement has been removed so that all forecast days are processed.
           }
         }
       }
+
+      // If the user has any alerts, bundle them into one message and send notifications
+      if (userAlerts.length > 0) {
+        const combinedMessage = userAlerts.join(
+          "\n\n----------------------\n\n"
+        );
+
+        console.log(
+          `📤 Sending combined notification to user ${user._id}:`,
+          combinedMessage
+        );
+
+        // Send SMS if the user has phone notifications enabled
+        const formattedPhoneNumber = `${user.phoneNumber}`;
+        try {
+          if (user.notificationsActive.phone) {
+            await sendTextMessage(formattedPhoneNumber, combinedMessage);
+          }
+        } catch (error) {
+          console.warn(
+            `⚠️ SMS failed for ${formattedPhoneNumber}: ${error.message}`
+          );
+        }
+
+        // Send Email if the user has email notifications enabled
+        try {
+          if (user.notificationsActive.email) {
+            await sendEmail(user.email, "Snow Alerts", combinedMessage);
+          }
+        } catch (error) {
+          console.warn(`⚠️ Email failed for ${user.email}: ${error.message}`);
+        }
+
+        // Save the aggregated notification record including individual notification IDs
+        try {
+          await AggregatedNotification.create({
+            userId: user._id,
+            notificationIds: userNotificationIds,
+            combinedMessage,
+            sentAt: new Date(),
+          });
+          console.log("✅ Aggregated Notification saved for user", user._id);
+        } catch (error) {
+          console.error(
+            `❌ Error saving aggregated notification for user ${user._id}:`,
+            error
+          );
+        }
+
+        notificationsSent++;
+      }
     }
 
-    console.log(`✅ Sent ${notificationsSent} notifications.`);
+    console.log(`✅ Sent notifications to ${notificationsSent} users.`);
     return alerts;
   } catch (error) {
     console.error("❌ Error fetching Visual Crossing alerts:", error);
