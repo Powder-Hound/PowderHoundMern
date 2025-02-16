@@ -125,17 +125,18 @@ export const fetchVisualCrossingAlerts = async () => {
               continue;
             }
 
-            // Build the alert message for this resort/day
-            let message = `❄️ PowAlert: ${snowfall} inches expected at ${
-              data.resortName
-            } on ${alertDate.toDateString()}.`;
+            // Format the date in a shorter format (e.g., "Feb 16")
+            const dateStr = alertDate.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            });
 
+            // Build the compact alert message for this resort/day with all affiliate links
+            let message = `❄️ PowAlert: ${snowfall}in @ ${data.resortName} on ${dateStr}.`;
             if (expediaData) {
-              message += `\n🏨 Lodging options:\n${expediaData.links.join(
-                "\n"
-              )}`;
+              message += ` | 🏨 ${expediaData.links.join(", ")}`;
             } else {
-              message += `\nNo Expedia lodging links available.`;
+              message += ` | No lodging links.`;
             }
 
             console.log(`🚀 Alert Created: ${message}`);
