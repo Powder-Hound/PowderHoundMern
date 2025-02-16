@@ -46,7 +46,7 @@ app.use("/api/users", userRouter);
 app.use("/api/resorts", resortRouter);
 app.use("/api/visual-crossing", visualCrossingRouter);
 app.use("/api/notifications", notificationRouter);
-app.use("/api/expedia-links", expediaLinkRouter); // ✅ NEW ROUTE
+app.use("/api/expedia-links", expediaLinkRouter);
 
 // Error Handling Middleware
 app.use(errorHandler); // Always include after all routes

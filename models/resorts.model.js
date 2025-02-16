@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const Schema = mongoose.Schema;
 
 const resortSchema = new Schema({
@@ -9,12 +10,12 @@ const resortSchema = new Schema({
   snowStick: { type: String },
   Latitude: { type: Number, required: true },
   Longitude: { type: Number, required: true },
-  passAffiliation: {
-    Ikon: { type: Boolean },
-    Epic: { type: Boolean },
-    Indy: { type: Boolean },
-    MountainCollective: { type: Boolean },
-  },
+  Ikon: { type: Boolean },
+  Epic: { type: Boolean },
+  Indy: { type: Boolean },
+  "Mountain Collective": { type: Boolean },
+  Country: { type: String },
+  Image: { type: String },
   travelInfo: {
     airport: String,
     lodging: String,
