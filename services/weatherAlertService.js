@@ -110,6 +110,9 @@ export const fetchVisualCrossingAlerts = async () => {
           console.warn(`⚠️ No Expedia links found for ${data.resortId}`);
         }
 
+        // Flag to ensure we add the lodging link only once per resort
+        let lodgingLinkAdded = false;
+
         // Iterate over each forecast day for this resort
         for (const day of data.weatherData.visualCrossing.forecast) {
           const snowfall = day.snow?.value || 0;
@@ -131,12 +134,22 @@ export const fetchVisualCrossingAlerts = async () => {
               day: "numeric",
             });
 
-            // Build the compact alert message for this resort/day with all affiliate links
+            // Build the compact alert message for this resort/day.
+            // Append the lodging link only once for this resort.
             let message = `❄️ PowAlert: ${snowfall}in @ ${data.resortName} on ${dateStr}.`;
-            if (expediaData) {
-              message += ` | 🏨 ${expediaData.links.join(", ")}`;
-            } else {
-              message += ` | No lodging links.`;
+
+            if (!lodgingLinkAdded) {
+              if (
+                expediaData &&
+                expediaData.links &&
+                expediaData.links.length > 0
+              ) {
+                // Use only the first lodging link
+                message += ` | 🏨 ${expediaData.links[0]}`;
+              } else {
+                message += ` | No lodging links.`;
+              }
+              lodgingLinkAdded = true;
             }
 
             console.log(`🚀 Alert Created: ${message}`);
