@@ -112,22 +112,22 @@ export const fetchVisualCrossingAlerts = async () => {
               day: "numeric",
             });
 
-            // Build the alert message for this resort/day.
-            let message = `❄️ PowAlert: ${snowfall}in @ ${data.resortName} on ${dateStr}.`;
-
+            let message = "";
+            // Prepend the "Book NOW!" line before the PowAlert message (once per resort)
             if (!lodgingLinkAdded) {
               if (
                 expediaData &&
                 expediaData.links &&
                 expediaData.links.length > 0
               ) {
-                // Use only the first lodging link
-                message += ` | 🏨 Book NOW! -->${expediaData.links[0]}`;
+                message += `🏨 Book NOW! --> ${expediaData.links[0]}\n`;
               } else {
-                message += ` | No lodging links.`;
+                message += `🏨 No lodging links available.\n`;
               }
               lodgingLinkAdded = true;
             }
+            // Append the PowAlert message
+            message += `❄️ PowAlert: ${snowfall}in @ ${data.resortName} on ${dateStr}.`;
 
             console.log(`🚀 Alert Created: ${message}`);
 
