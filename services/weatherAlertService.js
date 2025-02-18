@@ -32,7 +32,7 @@ export const fetchVisualCrossingAlerts = async () => {
     let notificationsSent = 0;
     let alerts = [];
 
-    // Get timestamp for 24 hours ago
+    // Get timestamp for 24 hours ago (if needed elsewhere)
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
     // Process each user
@@ -54,20 +54,6 @@ export const fetchVisualCrossingAlerts = async () => {
       );
 
       console.log(`🎯 Mapped Preferred Resorts:`, preferredResorts);
-
-      // Fetch existing notifications from the last 24 hours for this user and their resorts
-      const recentNotifications = await Notification.find({
-        userId: user._id,
-        resortId: { $in: preferredResorts },
-        createdAt: { $gte: twentyFourHoursAgo },
-      });
-
-      const recentNotificationSet = new Set(
-        recentNotifications.map(
-          (notif) =>
-            `${notif.userId}-${notif.resortId}-${notif.alertDate.toISOString()}`
-        )
-      );
 
       // Fetch weather data for the user's preferred resorts
       const weatherData = await ResortWeatherData.find({
@@ -120,23 +106,13 @@ export const fetchVisualCrossingAlerts = async () => {
           const alertDate = new Date(day.validTime);
 
           if (snowfall >= user.alertThreshold.preferredResorts) {
-            const notificationKey = `${user._id}-${
-              data.resortId
-            }-${alertDate.toISOString()}`;
-
-            if (recentNotificationSet.has(notificationKey)) {
-              console.log(`⏳ Skipping duplicate notification.`);
-              continue;
-            }
-
-            // Format the date in a shorter format (e.g., "Feb 16")
+            // Format the date (e.g., "Feb 16")
             const dateStr = alertDate.toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
             });
 
-            // Build the compact alert message for this resort/day.
-            // Append the lodging link only once for this resort.
+            // Build the alert message for this resort/day.
             let message = `❄️ PowAlert: ${snowfall}in @ ${data.resortName} on ${dateStr}.`;
 
             if (!lodgingLinkAdded) {
@@ -146,7 +122,7 @@ export const fetchVisualCrossingAlerts = async () => {
                 expediaData.links.length > 0
               ) {
                 // Use only the first lodging link
-                message += ` | 🏨 ${expediaData.links[0]}`;
+                message += ` | 🏨 Book NOW! -->${expediaData.links[0]}`;
               } else {
                 message += ` | No lodging links.`;
               }
@@ -154,7 +130,34 @@ export const fetchVisualCrossingAlerts = async () => {
             }
 
             console.log(`🚀 Alert Created: ${message}`);
-            recentNotificationSet.add(notificationKey);
+
+            // Upsert the individual notification record.
+            // This will update an existing notification (if any) or create a new one.
+            let notification;
+            try {
+              notification = await Notification.findOneAndUpdate(
+                {
+                  userId: user._id,
+                  resortId: data.resortId,
+                  alertDate,
+                },
+                {
+                  message,
+                  expediaLinksSent,
+                  expediaLinkId,
+                  createdAt: new Date(),
+                },
+                { upsert: true, new: true }
+              );
+              console.log("✅ Notification upserted:", notification);
+              userNotificationIds.push(notification._id);
+            } catch (error) {
+              console.error(
+                `❌ Error upserting notification for user ${user._id}:`,
+                error
+              );
+              continue;
+            }
 
             // Add the message to the user's alert list
             userAlerts.push(message);
@@ -166,36 +169,18 @@ export const fetchVisualCrossingAlerts = async () => {
               alertDate,
               message,
             });
-
-            // Save the individual notification record
-            try {
-              const newNotification = await Notification.create({
-                userId: user._id,
-                resortId: data.resortId,
-                alertDate,
-                message,
-                expediaLinksSent,
-                expediaLinkId,
-              });
-              console.log("✅ Individual Notification saved:", newNotification);
-              // Collect the notification ID for aggregated record
-              userNotificationIds.push(newNotification._id);
-            } catch (error) {
-              console.error(
-                `❌ Error saving individual notification for user ${user._id}:`,
-                error
-              );
-            }
           }
         }
       }
 
       // If the user has any alerts, bundle them into one message and send notifications
       if (userAlerts.length > 0) {
-        // Create a combined message for email (keeping the same separator)
-        const combinedMessage = userAlerts.join(
-          "\n\n----------------------\n\n"
-        );
+        // Header to be added to the top of each message
+        const header =
+          "Check your PowAlert Dashboard for live weather updates --> https://powalert.com/";
+        // For email, prepend the header to the combined message.
+        const combinedMessage =
+          header + "\n\n" + userAlerts.join("\n\n----------------------\n\n");
 
         console.log(
           `📤 Sending combined notification to user ${user._id}:`,
@@ -205,8 +190,10 @@ export const fetchVisualCrossingAlerts = async () => {
         // Send SMS if the user has phone notifications enabled
         const formattedPhoneNumber = `${user.phoneNumber}`;
         if (user.notificationsActive.phone) {
+          // For SMS, prepend the header as the first element of the alerts array
+          const smsAlerts = [header, ...userAlerts];
           // Use the utility function to split alerts if needed
-          const smsSegments = splitAggregatedMessages(userAlerts);
+          const smsSegments = splitAggregatedMessages(smsAlerts);
           for (const segment of smsSegments) {
             try {
               await sendTextMessage(formattedPhoneNumber, segment);

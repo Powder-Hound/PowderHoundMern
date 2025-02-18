@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-// Define the schema
 const notificationSchema = new Schema(
   {
     userId: {
@@ -16,6 +15,11 @@ const notificationSchema = new Schema(
     },
     message: {
       type: String,
+      required: true,
+    },
+    alertDate: {
+      // <-- Add this field
+      type: Date,
       required: true,
     },
     sentAt: {
@@ -34,7 +38,7 @@ const notificationSchema = new Schema(
     expediaLinkId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ExpediaLink",
-      default: null, // Stores the reference to the ExpediaLink document
+      default: null,
     },
   },
   {
@@ -42,7 +46,6 @@ const notificationSchema = new Schema(
   }
 );
 
-// Create the model
 export const Notification = mongoose.model(
   "Notification",
   notificationSchema,
