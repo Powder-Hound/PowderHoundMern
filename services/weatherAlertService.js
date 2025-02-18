@@ -33,9 +33,6 @@ export const fetchVisualCrossingAlerts = async () => {
     let notificationsSent = 0;
     let alerts = [];
 
-    // Get timestamp for 24 hours ago (if needed elsewhere)
-    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-
     // Process each user
     for (const user of users) {
       console.log(`🔎 Checking user: ${user._id}`);
@@ -98,7 +95,7 @@ export const fetchVisualCrossingAlerts = async () => {
           console.warn(`⚠️ No Expedia links found for ${data.resortId}`);
         }
 
-        // Flag to ensure we add the "Book NOW!" link only once per resort
+        // Flag to ensure we add the "Book Now!" link only once per resort
         let lodgingLinkAdded = false;
 
         // Iterate over each forecast day for this resort
@@ -114,14 +111,14 @@ export const fetchVisualCrossingAlerts = async () => {
             });
 
             let message = "";
-            // Prepend the "Book NOW!" line before the PowAlert message (only once per resort)
+            // Prepend the "Book Now!" line before the PowAlert message (only once per resort)
             if (!lodgingLinkAdded) {
               if (
                 expediaData &&
                 expediaData.links &&
                 expediaData.links.length > 0
               ) {
-                message += `🏨 Book NOW! --> ${expediaData.links[0]}\n`;
+                message += `🏨 Book Now! --> ${expediaData.links[0]}\n`;
               } else {
                 message += `🏨 No lodging links available.\n`;
               }
