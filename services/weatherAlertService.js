@@ -6,6 +6,7 @@ import { ExpediaLink } from "../models/expediaLink.model.js";
 import { sendTextMessage } from "../utils/twilioService.js";
 import { sendEmail } from "../utils/sendgridService.js";
 import { AggregatedNotification } from "../models/aggregatedNotification.model.js";
+import { splitAggregatedMessages } from "../utils/smsUtils.js"; // <-- Import the utility function
 
 export const fetchVisualCrossingAlerts = async () => {
   try {
@@ -191,6 +192,7 @@ export const fetchVisualCrossingAlerts = async () => {
 
       // If the user has any alerts, bundle them into one message and send notifications
       if (userAlerts.length > 0) {
+        // Create a combined message for email (keeping the same separator)
         const combinedMessage = userAlerts.join(
           "\n\n----------------------\n\n"
         );
@@ -202,14 +204,18 @@ export const fetchVisualCrossingAlerts = async () => {
 
         // Send SMS if the user has phone notifications enabled
         const formattedPhoneNumber = `${user.phoneNumber}`;
-        try {
-          if (user.notificationsActive.phone) {
-            await sendTextMessage(formattedPhoneNumber, combinedMessage);
+        if (user.notificationsActive.phone) {
+          // Use the utility function to split alerts if needed
+          const smsSegments = splitAggregatedMessages(userAlerts);
+          for (const segment of smsSegments) {
+            try {
+              await sendTextMessage(formattedPhoneNumber, segment);
+            } catch (error) {
+              console.warn(
+                `⚠️ SMS failed for ${formattedPhoneNumber} segment: ${error.message}`
+              );
+            }
           }
-        } catch (error) {
-          console.warn(
-            `⚠️ SMS failed for ${formattedPhoneNumber}: ${error.message}`
-          );
         }
 
         // Send Email if the user has email notifications enabled
