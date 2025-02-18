@@ -6,7 +6,8 @@ import { ExpediaLink } from "../models/expediaLink.model.js";
 import { sendTextMessage } from "../utils/twilioService.js";
 import { sendEmail } from "../utils/sendgridService.js";
 import { AggregatedNotification } from "../models/aggregatedNotification.model.js";
-import { splitAggregatedMessages } from "../utils/smsUtils.js"; // <-- Import the utility function
+import { splitAggregatedMessages } from "../utils/smsUtils.js"; // SMS splitting utility
+import { splitAggregatedEmailMessages } from "../utils/emailUtils.js"; // Email splitting utility
 
 export const fetchVisualCrossingAlerts = async () => {
   try {
@@ -97,7 +98,7 @@ export const fetchVisualCrossingAlerts = async () => {
           console.warn(`⚠️ No Expedia links found for ${data.resortId}`);
         }
 
-        // Flag to ensure we add the lodging link only once per resort
+        // Flag to ensure we add the "Book NOW!" link only once per resort
         let lodgingLinkAdded = false;
 
         // Iterate over each forecast day for this resort
@@ -113,7 +114,7 @@ export const fetchVisualCrossingAlerts = async () => {
             });
 
             let message = "";
-            // Prepend the "Book NOW!" line before the PowAlert message (once per resort)
+            // Prepend the "Book NOW!" line before the PowAlert message (only once per resort)
             if (!lodgingLinkAdded) {
               if (
                 expediaData &&
@@ -175,25 +176,26 @@ export const fetchVisualCrossingAlerts = async () => {
 
       // If the user has any alerts, bundle them into one message and send notifications
       if (userAlerts.length > 0) {
-        // Header to be added to the top of each message
+        // Header to be added at the top of every notification
         const header =
           "Check your PowAlert Dashboard for live weather updates --> https://powalert.com/";
-        // For email, prepend the header to the combined message.
-        const combinedMessage =
-          header + "\n\n" + userAlerts.join("\n\n----------------------\n\n");
+
+        // Build the combined message for email and SMS
+        const emailAlerts = [header, ...userAlerts];
+        const smsAlerts = [header, ...userAlerts];
+
+        // Split the messages into segments if needed
+        const emailSegments = splitAggregatedEmailMessages(emailAlerts);
+        const smsSegments = splitAggregatedMessages(smsAlerts);
 
         console.log(
-          `📤 Sending combined notification to user ${user._id}:`,
-          combinedMessage
+          `📤 Sending combined notification to user ${user._id}:\n`,
+          emailSegments.join("\n\n----------------------\n\n")
         );
 
         // Send SMS if the user has phone notifications enabled
         const formattedPhoneNumber = `${user.phoneNumber}`;
         if (user.notificationsActive.phone) {
-          // For SMS, prepend the header as the first element of the alerts array
-          const smsAlerts = [header, ...userAlerts];
-          // Use the utility function to split alerts if needed
-          const smsSegments = splitAggregatedMessages(smsAlerts);
           for (const segment of smsSegments) {
             try {
               await sendTextMessage(formattedPhoneNumber, segment);
@@ -206,20 +208,26 @@ export const fetchVisualCrossingAlerts = async () => {
         }
 
         // Send Email if the user has email notifications enabled
-        try {
-          if (user.notificationsActive.email) {
-            await sendEmail(user.email, "PowAlerts", combinedMessage);
+        if (user.notificationsActive.email) {
+          for (const segment of emailSegments) {
+            try {
+              await sendEmail(user.email, "PowAlerts", segment);
+            } catch (error) {
+              console.warn(
+                `⚠️ Email failed for ${user.email} segment: ${error.message}`
+              );
+            }
           }
-        } catch (error) {
-          console.warn(`⚠️ Email failed for ${user.email}: ${error.message}`);
         }
 
-        // Save the aggregated notification record including individual notification IDs
+        // Save the aggregated notification record,
+        // capturing both the full email copy and SMS copy.
         try {
           await AggregatedNotification.create({
             userId: user._id,
             notificationIds: userNotificationIds,
-            combinedMessage,
+            emailMessage: emailAlerts.join("\n\n----------------------\n\n"),
+            smsMessage: smsAlerts.join("\n\n----------------------\n\n"),
             sentAt: new Date(),
           });
           console.log("✅ Aggregated Notification saved for user", user._id);
