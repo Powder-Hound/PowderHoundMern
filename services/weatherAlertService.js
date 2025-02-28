@@ -19,6 +19,7 @@ export const fetchVisualCrossingAlerts = async () => {
         $or: [
           { "notificationsActive.phone": true },
           { "notificationsActive.email": true },
+          { "notificationsActive.pushNotification": true },
         ],
       },
       "resortPreference notificationsActive alertThreshold areaCode phoneNumber email"
