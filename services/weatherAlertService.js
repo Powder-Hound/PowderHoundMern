@@ -6,8 +6,8 @@ import { ExpediaLink } from "../models/expediaLink.model.js";
 import { sendTextMessage } from "../utils/twilioService.js";
 import { sendEmail } from "../utils/sendgridService.js";
 import { AggregatedNotification } from "../models/aggregatedNotification.model.js";
-import { splitAggregatedMessages } from "../utils/smsUtils.js"; // SMS splitting utility
-import { splitAggregatedEmailMessages } from "../utils/emailUtils.js"; // Email splitting utility
+import { splitAggregatedMessages } from "../utils/smsUtils.js";
+import { splitAggregatedEmailMessages } from "../utils/emailUtils.js";
 
 export const fetchVisualCrossingAlerts = async () => {
   try {
@@ -33,6 +33,15 @@ export const fetchVisualCrossingAlerts = async () => {
     console.log(`📌 Found ${users.length} users to check for alerts.`);
     let notificationsSent = 0;
     let alerts = [];
+
+    // Define a group of greeting messages to randomize
+    const greetings = [
+      "Hello PowAlert Enthusiast,",
+      "Hi there, snow lover!",
+      "Greetings from PowAlert!",
+      "Hey there, ready for fresh powder?",
+      "Good day, winter warrior!",
+    ];
 
     // Process each user
     for (const user of users) {
@@ -63,8 +72,8 @@ export const fetchVisualCrossingAlerts = async () => {
         `🌨️ Retrieved weather data for ${weatherData.length} resorts.`
       );
 
-      // Array to accumulate alert messages for this user
-      const userAlerts = [];
+      // Array to accumulate alert objects for this user
+      let userAlerts = [];
       // Array to store individual notification IDs for the aggregated notification
       const userNotificationIds = [];
 
@@ -131,7 +140,6 @@ export const fetchVisualCrossingAlerts = async () => {
             console.log(`🚀 Alert Created: ${message}`);
 
             // Upsert the individual notification record.
-            // This will update an existing notification (if any) or create a new one.
             let notification;
             try {
               notification = await Notification.findOneAndUpdate(
@@ -158,8 +166,18 @@ export const fetchVisualCrossingAlerts = async () => {
               continue;
             }
 
-            // Add the message to the user's alert list
-            userAlerts.push(message);
+            // Add the alert object to the user's alert list, storing the Expedia link if available.
+            const alertObj = {
+              resortName: data.resortName,
+              snowfall,
+              alertDate,
+              message,
+              expediaLink:
+                expediaData && expediaData.links && expediaData.links.length > 0
+                  ? expediaData.links[0]
+                  : null,
+            };
+            userAlerts.push(alertObj);
 
             // Also keep track of the alert details (if needed elsewhere)
             alerts.push({
@@ -174,26 +192,53 @@ export const fetchVisualCrossingAlerts = async () => {
 
       // If the user has any alerts, bundle them into one message and send notifications
       if (userAlerts.length > 0) {
-        // Header to be added at the top of every notification
-        const header =
-          "Check your PowAlert Dashboard for live weather updates --> https://powalert.com/";
+        // Sort alerts so that the resort with the highest snowfall comes first
+        userAlerts.sort((a, b) => b.snowfall - a.snowfall);
+        const topAlert = userAlerts[0];
 
-        // Build the combined message for email and SMS
-        const emailAlerts = [header, ...userAlerts];
-        const smsAlerts = [header, ...userAlerts];
+        // Create a standout header featuring the top alert and add a Book Now line if available
+        const topAlertHeader =
+          `❄️ PowAlert Extravaganza! ${topAlert.resortName} is reporting a massive ${topAlert.snowfall}in of fresh powder!` +
+          (topAlert.expediaLink
+            ? `\n🏨 Book Now! --> ${topAlert.expediaLink}`
+            : "");
 
-        // Split the messages into segments if needed
-        const emailSegments = splitAggregatedEmailMessages(emailAlerts);
-        const smsSegments = splitAggregatedMessages(smsAlerts);
+        // Randomize the greeting from the list of greetings
+        const greeting =
+          greetings[Math.floor(Math.random() * greetings.length)];
+
+        // Divider to separate sections
+        const divider = "\n----------------------\n";
+
+        // Build the detailed message:
+        // 1. Greeting
+        // 2. Top Alert section with header and top alert message
+        // 3. Additional alerts (if any)
+        // 4. Concluding dashboard call-to-action
+        let messageBody = `${greeting}\n\n🔥 Top Alert:\n${topAlertHeader}${divider}${topAlert.message}\n`;
+        if (userAlerts.length > 1) {
+          messageBody += "\nHere are more updates for you:\n";
+          userAlerts.slice(1).forEach((alert) => {
+            messageBody += `• ${alert.message}\n`;
+          });
+        }
+
+        const dashboardCall =
+          "\nFor more live weather updates, check your PowAlert Dashboard --> https://powalert.com/\nHappy slopes!";
+        const finalMessage = `${messageBody}${dashboardCall}`;
 
         console.log(
           `📤 Sending combined notification to user ${user._id}:\n`,
-          emailSegments.join("\n\n----------------------\n\n")
+          finalMessage
         );
+
+        // Prepare final message array for splitting utilities
+        const finalMessageArray = [finalMessage];
 
         // Send SMS if the user has phone notifications enabled
         const formattedPhoneNumber = `${user.phoneNumber}`;
         if (user.notificationsActive.phone) {
+          const smsSegments = splitAggregatedMessages(finalMessageArray);
           for (const segment of smsSegments) {
             try {
               await sendTextMessage(formattedPhoneNumber, segment);
@@ -207,6 +252,7 @@ export const fetchVisualCrossingAlerts = async () => {
 
         // Send Email if the user has email notifications enabled
         if (user.notificationsActive.email) {
+          const emailSegments = splitAggregatedEmailMessages(finalMessageArray);
           for (const segment of emailSegments) {
             try {
               await sendEmail(user.email, "PowAlerts", segment);
@@ -224,8 +270,8 @@ export const fetchVisualCrossingAlerts = async () => {
           await AggregatedNotification.create({
             userId: user._id,
             notificationIds: userNotificationIds,
-            emailMessage: emailAlerts.join("\n\n----------------------\n\n"),
-            smsMessage: smsAlerts.join("\n\n----------------------\n\n"),
+            emailMessage: finalMessage,
+            smsMessage: finalMessage,
             sentAt: new Date(),
           });
           console.log("✅ Aggregated Notification saved for user", user._id);
