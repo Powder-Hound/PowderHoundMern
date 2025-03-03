@@ -266,28 +266,45 @@ export const fetchVisualCrossingAlerts = async () => {
         }
 
         // Send Push Notification if the user has push notifications enabled and a valid pushToken
+        let pushNotificationSent = false;
         if (user.notificationsActive.pushNotification && user.pushToken) {
+          console.log(
+            "Attempting push notification for user",
+            user._id,
+            "with pushToken:",
+            user.pushToken
+          );
           const pushTitle = "PowAlert Update";
           const pushBody = `New snowfall alert at ${topAlert.resortName}: ${topAlert.snowfall}in. Tap for details.`;
           try {
             await sendPushNotification(user.pushToken, pushTitle, pushBody, {
               userId: user._id,
             });
+            pushNotificationSent = true;
+            console.log(
+              "Push notification successfully sent for user",
+              user._id
+            );
           } catch (error) {
             console.error(
               `⚠️ Push notification failed for user ${user._id}: ${error.message}`
             );
           }
+        } else {
+          console.warn(
+            `Push notification conditions not met for user ${user._id}. notificationsActive.pushNotification=${user.notificationsActive.pushNotification}, pushToken=${user.pushToken}`
+          );
         }
 
         // Save the aggregated notification record,
-        // capturing both the full email copy and SMS copy.
+        // capturing both the full email copy, SMS copy, and push notification status.
         try {
           await AggregatedNotification.create({
             userId: user._id,
             notificationIds: userNotificationIds,
             emailMessage: finalMessage,
             smsMessage: finalMessage,
+            pushNotificationSent,
             sentAt: new Date(),
           });
           console.log("✅ Aggregated Notification saved for user", user._id);
