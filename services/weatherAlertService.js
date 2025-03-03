@@ -8,12 +8,13 @@ import { sendEmail } from "../utils/sendgridService.js";
 import { AggregatedNotification } from "../models/aggregatedNotification.model.js";
 import { splitAggregatedMessages } from "../utils/smsUtils.js";
 import { splitAggregatedEmailMessages } from "../utils/emailUtils.js";
+import { sendPushNotification } from "../services/pushNotificationService.js";
 
 export const fetchVisualCrossingAlerts = async () => {
   try {
     console.log("🚀 Fetching Visual Crossing alerts...");
 
-    // Fetch users who have notifications enabled
+    // Fetch users who have notifications enabled, including pushToken
     const users = await User.find(
       {
         $or: [
@@ -22,7 +23,7 @@ export const fetchVisualCrossingAlerts = async () => {
           { "notificationsActive.pushNotification": true },
         ],
       },
-      "resortPreference notificationsActive alertThreshold areaCode phoneNumber email"
+      "resortPreference notificationsActive alertThreshold areaCode phoneNumber email pushToken"
     );
 
     if (!users.length) {
@@ -261,6 +262,21 @@ export const fetchVisualCrossingAlerts = async () => {
                 `⚠️ Email failed for ${user.email} segment: ${error.message}`
               );
             }
+          }
+        }
+
+        // Send Push Notification if the user has push notifications enabled and a valid pushToken
+        if (user.notificationsActive.pushNotification && user.pushToken) {
+          const pushTitle = "PowAlert Update";
+          const pushBody = `New snowfall alert at ${topAlert.resortName}: ${topAlert.snowfall}in. Tap for details.`;
+          try {
+            await sendPushNotification(user.pushToken, pushTitle, pushBody, {
+              userId: user._id,
+            });
+          } catch (error) {
+            console.error(
+              `⚠️ Push notification failed for user ${user._id}: ${error.message}`
+            );
           }
         }
 
