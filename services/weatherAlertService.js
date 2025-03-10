@@ -199,7 +199,7 @@ export const fetchVisualCrossingAlerts = async () => {
 
         // Create a standout header featuring the top alert and add a Book Now line if available
         const topAlertHeader =
-          `❄️ PowAlert Extravaganza! ${topAlert.resortName} is reporting a massive ${topAlert.snowfall}in of fresh powder!` +
+          `❄️ PowAlert Extravaganza! ${topAlert.resortName} is forecasting a massive ${topAlert.snowfall}in of fresh powder!` +
           (topAlert.expediaLink
             ? `\n🏨 Book Now! --> ${topAlert.expediaLink}`
             : "");
