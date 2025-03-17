@@ -18,7 +18,6 @@ const notificationSchema = new Schema(
       required: true,
     },
     alertDate: {
-      // <-- Add this field
       type: Date,
       required: true,
     },

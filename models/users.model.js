@@ -48,6 +48,11 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    pushToken: {
+      type: String,
+      default: "",
+    },
+
     notificationsActive: {
       phone: {
         type: Boolean,
