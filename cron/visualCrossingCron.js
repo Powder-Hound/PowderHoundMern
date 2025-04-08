@@ -53,6 +53,8 @@ const startVisualCrossingCron = () => {
         err.message
       );
     }
+  }, {
+    timezone: "MST/MDT"
   });
 
   // Global Snow Alert Notification (averaged to ~14:30 UTC)
