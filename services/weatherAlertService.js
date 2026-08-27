@@ -6,7 +6,7 @@ import { ExpediaLink } from "../models/expediaLink.model.js";
 import { sendTextMessage } from "../utils/twilioService.js";
 import { sendEmail } from "../utils/sendgridService.js";
 import { AggregatedNotification } from "../models/aggregatedNotification.model.js";
-import { splitAggregatedMessages } from "../utils/smsUtils.js";
+import { buildPowderAlertSms, splitAggregatedMessages } from "../utils/smsUtils.js";
 import { splitAggregatedEmailMessages } from "../utils/emailUtils.js";
 import { sendPushNotification } from "../services/pushNotificationService.js";
 
@@ -169,6 +169,7 @@ export const fetchVisualCrossingAlerts = async () => {
 
             // Add the alert object to the user's alert list, storing the Expedia link if available.
             const alertObj = {
+              resortId: data.resortId,
               resortName: data.resortName,
               snowfall,
               alertDate,
@@ -227,19 +228,22 @@ export const fetchVisualCrossingAlerts = async () => {
         const dashboardCall =
           "\nFor more live weather updates, check your PowAlert Dashboard --> https://powalert.com/\nHappy slopes!";
         const finalMessage = `${messageBody}${dashboardCall}`;
+        const smsBody = buildPowderAlertSms(userAlerts);
 
         console.log(
           `📤 Sending combined notification to user ${user._id}:\n`,
           finalMessage
         );
+        console.log(`📤 SMS body for user ${user._id}:\n`, smsBody);
 
         // Prepare final message array for splitting utilities
         const finalMessageArray = [finalMessage];
 
-        // Send SMS if the user has phone notifications enabled
+        // Send SMS if the user has phone notifications enabled.
+        // One aggregated Twilio send per user per run; splitAggregatedMessages is safety only.
         const formattedPhoneNumber = `${user.phoneNumber}`;
         if (user.notificationsActive.phone) {
-          const smsSegments = splitAggregatedMessages(finalMessageArray);
+          const smsSegments = splitAggregatedMessages([smsBody]);
           for (const segment of smsSegments) {
             try {
               await sendTextMessage(formattedPhoneNumber, segment);
@@ -303,7 +307,7 @@ export const fetchVisualCrossingAlerts = async () => {
             userId: user._id,
             notificationIds: userNotificationIds,
             emailMessage: finalMessage,
-            smsMessage: finalMessage,
+            smsMessage: smsBody,
             pushNotificationSent,
             sentAt: new Date(),
           });
