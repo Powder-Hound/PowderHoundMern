@@ -101,6 +101,32 @@ export const findListOfResorts = async (req, res) => {
   }
 };
 
+const HARVEST_RESORT_FIELDS = {
+  _id: 1,
+  resortName: 1,
+  State: 1,
+  Ikon: 1,
+  Epic: 1,
+  Indy: 1,
+  "Mountain Collective": 1,
+};
+
+export const getHarvestResorts = async (req, res) => {
+  try {
+    const resorts = await Resort.find({}, HARVEST_RESORT_FIELDS).lean();
+    return res.status(200).send({
+      success: true,
+      data: resorts,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error retrieving harvest resorts",
+      error: error,
+    });
+  }
+};
+
 export const getAllResorts = async (req, res) => {
   try {
     const resorts = await Resort.find({}).populate("expediaLink");
