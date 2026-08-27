@@ -16,8 +16,19 @@ const hashPassword = async (password) => {
 };
 
 export const createUser = async (req, res) => {
-  const user = req.body;
-  const newUser = new User(user);
+  const user = req.body || {};
+
+  if (!user.phoneNumber || !user.phoneVerifySID) {
+    return res.status(400).send({
+      success: false,
+      message: "phoneNumber and phoneVerifySID are required",
+    });
+  }
+
+  const newUser = new User({
+    ...user,
+    name: user.name ?? "",
+  });
 
   if (newUser.password) {
     newUser.password = await hashPassword(user.password);

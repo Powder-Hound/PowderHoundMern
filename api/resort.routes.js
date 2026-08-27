@@ -3,6 +3,7 @@ import {
   createResort,
   getResort,
   getAllResorts,
+  getHarvestResorts,
   updateResort,
   deleteResort,
   findResort,
@@ -64,6 +65,18 @@ resortRouter.post("/create", verifyToken, createResort);
  *         description: Resort not found
  */
 resortRouter.get("/find", verifyToken, findResort);
+
+/**
+ * @swagger
+ * /api/resorts/harvest:
+ *   get:
+ *     tags: [Resorts]
+ *     summary: Public harvest list for signup chips
+ *     responses:
+ *       200:
+ *         description: Harvest resorts retrieved successfully
+ */
+resortRouter.get("/harvest", getHarvestResorts);
 
 /**
  * @swagger

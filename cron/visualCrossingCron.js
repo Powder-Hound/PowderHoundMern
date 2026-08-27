@@ -57,16 +57,18 @@ const startVisualCrossingCron = () => {
     timezone: "MST"
   });
 
-  // Global Snow Alert Notification (averaged to ~14:30 UTC)
-  cron.schedule("30 14 * * *", async () => {
-    console.log("🚀 Running global Visual Crossing notification task...");
-    try {
-      await fetchVisualCrossingAlerts();
-      console.log("✅ Global Visual Crossing alerts sent successfully.");
-    } catch (err) {
-      console.error("❌ Error during global alert task:", err.message);
-    }
-  });
+  // Season alerts stay off until CoS sets ENABLE_POWDER_ALERT_CRON=true.
+  if (process.env.ENABLE_POWDER_ALERT_CRON === "true") {
+    cron.schedule("30 14 * * *", async () => {
+      console.log("🚀 Running global Visual Crossing notification task...");
+      try {
+        await fetchVisualCrossingAlerts();
+        console.log("✅ Global Visual Crossing alerts sent successfully.");
+      } catch (err) {
+        console.error("❌ Error during global alert task:", err.message);
+      }
+    });
+  }
 
   console.log("🚀 Global Visual Crossing cron jobs initialized.");
 };

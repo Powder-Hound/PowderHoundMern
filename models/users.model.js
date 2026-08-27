@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
+      required: false,
+      default: "",
     },
     password: {
       type: String,
@@ -109,7 +110,7 @@ const userSchema = new mongoose.Schema(
       snowfallPeriod: {
         type: Number,
         enum: [24, 48],
-        default: 48,
+        default: 24,
       },
       uom: {
         type: String,
