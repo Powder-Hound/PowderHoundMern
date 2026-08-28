@@ -136,4 +136,5 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-export const User = mongoose.model("User", userSchema);
+// Last-season collection. Do not add a second users table.
+export const User = mongoose.model("User", userSchema, "users");

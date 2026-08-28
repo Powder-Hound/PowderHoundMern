@@ -3,7 +3,18 @@ import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { digitsPhone } from "../utils/phone.js";
 dotenv.config();
+
+const phoneLookupFilter = (phoneNumber) => {
+  const digits = digitsPhone(phoneNumber);
+  const or = [];
+  if (phoneNumber) or.push({ phoneNumber });
+  if (digits) {
+    or.push({ phoneNumber: digits }, { phoneNumber: `+${digits}` });
+  }
+  return or.length ? { $or: or } : { phoneNumber: null };
+};
 
 const hashPassword = async (password) => {
   try {
@@ -17,8 +28,9 @@ const hashPassword = async (password) => {
 
 export const createUser = async (req, res) => {
   const user = req.body || {};
+  const phoneNumber = digitsPhone(user.phoneNumber);
 
-  if (!user.phoneNumber || !user.phoneVerifySID) {
+  if (!phoneNumber || !user.phoneVerifySID) {
     return res.status(400).send({
       success: false,
       message: "phoneNumber and phoneVerifySID are required",
@@ -28,6 +40,7 @@ export const createUser = async (req, res) => {
   const newUser = new User({
     ...user,
     name: user.name ?? "",
+    phoneNumber,
   });
 
   if (newUser.password) {
@@ -37,7 +50,7 @@ export const createUser = async (req, res) => {
   const token = jwt.sign(
     {
       username: newUser.name,
-      userID: newUser._id,
+      userID: String(newUser._id),
       permissions: newUser.permissions,
     },
     process.env.JWT_SECRET
@@ -47,10 +60,16 @@ export const createUser = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(201).send({ user: savedUser, token });
   } catch (error) {
+    if (error?.code === 11000) {
+      return res.status(409).send({
+        success: false,
+        message: "Phone number already registered",
+      });
+    }
     res.status(500).send({
       success: false,
       message: "Error saving user",
-      error,
+      error: error?.message || error,
     });
   }
 };
@@ -74,10 +93,10 @@ export const validateUsername = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { phoneNumber, code } = req.body;
+  const { phoneNumber } = req.body;
 
   try {
-    const userInDB = await User.findOne({ phoneNumber });
+    const userInDB = await User.findOne(phoneLookupFilter(phoneNumber));
     if (!userInDB) {
       return res.status(404).send({
         success: false,
@@ -88,7 +107,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       {
         username: userInDB.name,
-        userID: userInDB._id,
+        userID: String(userInDB._id),
         permissions: userInDB.permissions,
       },
       process.env.JWT_SECRET || "default_secret",
@@ -143,7 +162,18 @@ export const updateUser = async (req, res) => {
 
     console.log("Incoming update data:", updateFields);
 
-    // 🔹 Convert resortPreference.resorts to an array of ObjectIds
+    if (updateFields.phoneNumber) {
+      const digits = digitsPhone(updateFields.phoneNumber);
+      if (!digits) {
+        return res.status(400).send({
+          success: false,
+          message: "phoneNumber is invalid",
+        });
+      }
+      updateFields.phoneNumber = digits;
+    }
+
+    // Convert resortPreference.resorts to an array of ObjectIds
     if (
       updateFields.resortPreference &&
       updateFields.resortPreference.resorts
@@ -154,10 +184,17 @@ export const updateUser = async (req, res) => {
           .send({ success: false, message: "Resorts must be an array" });
       }
 
-      updateFields.resortPreference.resorts =
-        updateFields.resortPreference.resorts.map(
-          (resortId) => new mongoose.Types.ObjectId(resortId)
-        );
+      try {
+        updateFields.resortPreference.resorts =
+          updateFields.resortPreference.resorts.map(
+            (resortId) => new mongoose.Types.ObjectId(String(resortId))
+          );
+      } catch {
+        return res.status(400).send({
+          success: false,
+          message: "Resorts must be valid MongoDB ObjectIds",
+        });
+      }
     }
 
     // 🔹 Hash new password if provided
