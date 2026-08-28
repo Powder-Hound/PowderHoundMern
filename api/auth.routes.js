@@ -157,6 +157,8 @@ authRouter.post("/send-verification-code", sendVerificationCode);
  *             properties:
  *               phoneNumber:
  *                 type: string
+ *               code:
+ *                 type: string
  *               otp:
  *                 type: string
  *     responses:
