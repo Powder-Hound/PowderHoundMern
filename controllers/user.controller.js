@@ -4,6 +4,12 @@ import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { digitsPhone } from "../utils/phone.js";
+import {
+  applyContestOnUserSave,
+  clientIpFromReq,
+  isFinishedGo,
+  sanitizeUserWrite,
+} from "../utils/contest.js";
 dotenv.config();
 
 const phoneLookupFilter = (phoneNumber) => {
@@ -37,14 +43,18 @@ export const createUser = async (req, res) => {
     });
   }
 
+  const { referredBy, safeFields: safeUser } = sanitizeUserWrite(user);
+
   const newUser = new User({
-    ...user,
-    name: user.name ?? "",
+    ...safeUser,
+    name: safeUser.name ?? "",
     phoneNumber,
+    referredBy,
+    referralCreditEligible: true,
   });
 
   if (newUser.password) {
-    newUser.password = await hashPassword(user.password);
+    newUser.password = await hashPassword(safeUser.password);
   }
 
   const token = jwt.sign(
@@ -58,7 +68,12 @@ export const createUser = async (req, res) => {
 
   try {
     const savedUser = await newUser.save();
-    res.status(201).send({ user: savedUser, token });
+    const finalUser = await applyContestOnUserSave({
+      user: savedUser,
+      wasAlreadyFinished: false,
+      clientIp: clientIpFromReq(req),
+    });
+    res.status(201).send({ user: finalUser, token });
   } catch (error) {
     if (error?.code === 11000) {
       return res.status(409).send({
@@ -162,6 +177,12 @@ export const updateUser = async (req, res) => {
 
     console.log("Incoming update data:", updateFields);
 
+    const { referredBy, safeFields } = sanitizeUserWrite(updateFields);
+    for (const key of Object.keys(updateFields)) {
+      delete updateFields[key];
+    }
+    Object.assign(updateFields, safeFields);
+
     if (updateFields.phoneNumber) {
       const digits = digitsPhone(updateFields.phoneNumber);
       if (!digits) {
@@ -204,6 +225,19 @@ export const updateUser = async (req, res) => {
 
     console.log("Processed update fields:", updateFields);
 
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    if (referredBy && !existingUser.referredBy) {
+      updateFields.referredBy = referredBy;
+    }
+
+    const wasAlreadyFinished = isFinishedGo(existingUser);
+
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { $set: updateFields },
@@ -216,8 +250,14 @@ export const updateUser = async (req, res) => {
         .send({ success: false, message: "User not found" });
     }
 
-    console.log("User updated successfully:", updatedUser);
-    res.status(200).send({ success: true, data: updatedUser });
+    const finalUser = await applyContestOnUserSave({
+      user: updatedUser,
+      wasAlreadyFinished,
+      clientIp: clientIpFromReq(req),
+    });
+
+    console.log("User updated successfully:", finalUser);
+    res.status(200).send({ success: true, data: finalUser });
   } catch (error) {
     console.error("Update Error:", error);
     res

@@ -4,6 +4,11 @@ import {
   deleteUser,
   updateUser,
 } from "../controllers/user.controller.js";
+import {
+  drawContestWinner,
+  listContestEntries,
+  listContestEntriesCsv,
+} from "../controllers/contest.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
 const userRouter = express.Router();
@@ -34,6 +39,48 @@ const userRouter = express.Router();
  *       404:
  *         description: User not found
  */
+/**
+ * @swagger
+ * /api/users/contest/entries:
+ *   get:
+ *     tags: [Users]
+ *     summary: Admin JSON table of One Extra Storm entries
+ *     responses:
+ *       200:
+ *         description: Contest rows
+ *       401:
+ *         description: Admin token required
+ */
+userRouter.get("/contest/entries", verifyToken, listContestEntries);
+
+/**
+ * @swagger
+ * /api/users/contest/entries.csv:
+ *   get:
+ *     tags: [Users]
+ *     summary: Admin CSV of One Extra Storm entries
+ *     responses:
+ *       200:
+ *         description: CSV download
+ *       401:
+ *         description: Admin token required
+ */
+userRouter.get("/contest/entries.csv", verifyToken, listContestEntriesCsv);
+
+/**
+ * @swagger
+ * /api/users/contest/draw:
+ *   post:
+ *     tags: [Users]
+ *     summary: Admin weighted draw (probability proportional to entries)
+ *     responses:
+ *       200:
+ *         description: One eligible winner
+ *       401:
+ *         description: Admin token required
+ */
+userRouter.post("/contest/draw", verifyToken, drawContestWinner);
+
 userRouter.get("/:id", verifyToken, getUser);
 
 /**

@@ -130,6 +130,57 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+
+    // One Extra Storm — existing `users` collection only (no second table).
+    // refCode is omitted until a finished /go persist; sparse unique avoids
+    // colliding empty strings on last-season rows.
+    refCode: {
+      type: String,
+      required: false,
+      unique: true,
+      sparse: true,
+    },
+    referredBy: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    entries: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    referredCompleteCount: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    ipHash: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    fraudFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    fraudReasons: {
+      type: [String],
+      required: false,
+      default: [],
+    },
+    referralCredited: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    // true only on createUser (new phone). Last-season rows stay false.
+    referralCreditEligible: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields automatically

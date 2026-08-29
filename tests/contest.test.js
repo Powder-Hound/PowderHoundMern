@@ -1,0 +1,422 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { describe, it } from "node:test";
+import mongoose from "mongoose";
+import { User } from "../models/users.model.js";
+import { digitsPhone } from "../utils/phone.js";
+import {
+  ADMIN_CSV_COLUMNS,
+  CONTEST_END_LOCAL,
+  CONTEST_REFERRAL_ENTRIES,
+  CONTEST_START_LOCAL,
+  CONTEST_TIME_ZONE,
+  SAME_IP_CLUSTER_THRESHOLD,
+  adminEntriesToCsv,
+  contestShareUrl,
+  denverDateTime,
+  detectFraud,
+  hashIp,
+  isFinishedGo,
+  isSelfReferral,
+  isUrlSafeRefCode,
+  isWithinContestWindow,
+  maskPhone,
+  mintRefCode,
+  pickWeightedWinner,
+  planContestAfterSave,
+  readReferredBy,
+  sanitizeUserWrite,
+  shouldCreditReferral,
+  stripContestServerFields,
+  toAdminRow,
+} from "../utils/contest.js";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+const INSIDE_WINDOW = new Date("2026-09-10T18:00:00.000Z"); // 12:00 MDT
+const BEFORE_WINDOW = new Date("2026-08-29T12:00:00.000Z");
+const AFTER_WINDOW = new Date("2026-09-29T06:00:00.000Z"); // 00:00 MDT Sep 29
+
+const finishedFields = () => ({
+  name: "Pat",
+  phoneVerifySID: "VE_TEST_SID",
+  resortPreference: {
+    skiPass: {
+      Epic: true,
+      Ikon: false,
+      Indy: false,
+      MountainCollective: false,
+    },
+    resorts: [new mongoose.Types.ObjectId()],
+  },
+  alertThreshold: {
+    preferredResorts: 12,
+    anyResort: 18,
+    snowfallPeriod: 24,
+    uom: "in",
+  },
+});
+
+const finishedUser = (overrides = {}) => ({
+  _id: new mongoose.Types.ObjectId(),
+  phoneNumber: "17205550101",
+  referralCreditEligible: true,
+  referralCredited: false,
+  entries: 0,
+  referredCompleteCount: 0,
+  referredBy: "",
+  fraudFlag: false,
+  fraudReasons: [],
+  ...finishedFields(),
+  ...overrides,
+});
+
+describe("One Extra Storm stays on the existing users collection", () => {
+  it("does not introduce a second users table", () => {
+    assert.equal(User.collection.collectionName, "users");
+  });
+
+  it("keeps last-season digit-only phoneNumber", () => {
+    const user = new User({
+      phoneNumber: digitsPhone("+17205550100"),
+      phoneVerifySID: "VE_TEST_SID",
+    });
+    assert.equal(user.phoneNumber, "17205550100");
+    assert.equal(user.entries, 0);
+    assert.equal(user.refCode, undefined);
+    assert.equal(user.referralCreditEligible, false);
+  });
+
+  it("does not treat a bare phone+SID signup as a finished /go", () => {
+    const user = new User({
+      phoneNumber: "17205550100",
+      phoneVerifySID: "VE_TEST_SID",
+    });
+    assert.equal(isFinishedGo(user), false);
+    const plan = planContestAfterSave({
+      user: user.toObject(),
+      wasAlreadyFinished: false,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(plan.userSet.refCode, undefined);
+    assert.equal(plan.userSet.entries, undefined);
+    assert.equal(plan.referrerInc, null);
+  });
+});
+
+describe("finished /go eligibility gate", () => {
+  it("requires name, pass, ≥1 hill, both sticks, and OTP SID", () => {
+    const base = finishedUser();
+    assert.equal(isFinishedGo(base), true);
+    assert.equal(isFinishedGo({ ...base, name: "  " }), false);
+    assert.equal(
+      isFinishedGo({
+        ...base,
+        resortPreference: {
+          ...base.resortPreference,
+          skiPass: {
+            Epic: false,
+            Ikon: false,
+            Indy: false,
+            MountainCollective: false,
+          },
+        },
+      }),
+      false
+    );
+    assert.equal(
+      isFinishedGo({
+        ...base,
+        resortPreference: { ...base.resortPreference, resorts: [] },
+      }),
+      false
+    );
+    assert.equal(
+      isFinishedGo({
+        ...base,
+        alertThreshold: { preferredResorts: 12 },
+      }),
+      false
+    );
+    assert.equal(isFinishedGo({ ...base, phoneVerifySID: "" }), false);
+  });
+});
+
+describe("contest window constant (America/Denver)", () => {
+  it("documents 8 Sep 00:00 through 28 Sep 23:59 America/Denver", () => {
+    assert.equal(CONTEST_TIME_ZONE, "America/Denver");
+    assert.equal(CONTEST_START_LOCAL, "2026-09-08T00:00:00");
+    assert.equal(CONTEST_END_LOCAL, "2026-09-28T23:59:59");
+  });
+
+  it("is closed on 29 Aug 2026 and open on 10 Sep 2026", () => {
+    assert.equal(isWithinContestWindow(BEFORE_WINDOW), false);
+    assert.equal(isWithinContestWindow(INSIDE_WINDOW), true);
+    assert.equal(isWithinContestWindow(AFTER_WINDOW), false);
+    assert.equal(denverDateTime(INSIDE_WINDOW).startsWith("2026-09-10"), true);
+  });
+
+  it("opens at 8 Sep 2026 00:00 Denver and closes after 28 Sep 23:59 Denver", () => {
+    const open = new Date("2026-09-08T06:00:00.000Z"); // 00:00 MDT
+    const lastSecond = new Date("2026-09-29T05:59:59.000Z"); // 23:59:59 MDT Sep 28
+    const closed = new Date("2026-09-29T06:00:00.000Z"); // 00:00 MDT Sep 29
+    assert.equal(isWithinContestWindow(open), true);
+    assert.equal(isWithinContestWindow(lastSecond), true);
+    assert.equal(isWithinContestWindow(closed), false);
+  });
+});
+
+describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entries += 5)", () => {
+  it("mints a short URL-safe refCode and 1 base entry when A finishes /go", () => {
+    const a = finishedUser({ phoneNumber: "17205550101", name: "A" });
+    const planA = planContestAfterSave({
+      user: a,
+      wasAlreadyFinished: false,
+      now: INSIDE_WINDOW,
+    });
+    assert.ok(planA.userSet.refCode);
+    assert.equal(isUrlSafeRefCode(planA.userSet.refCode), true);
+    assert.equal(planA.userSet.refCode.length, 8);
+    assert.equal(planA.userSet.entries, 1);
+    assert.equal(planA.referrerInc, null);
+    assert.equal(
+      contestShareUrl(planA.userSet.refCode),
+      `https://powalert.com/go?from=win&ref=${planA.userSet.refCode}`
+    );
+  });
+
+  it("credits A +5 when B finishes /go with referredBy=CODE inside the window", () => {
+    const a = finishedUser({
+      phoneNumber: "17205550101",
+      name: "A",
+      refCode: "Ab3Cd4Ef",
+      entries: 1,
+    });
+    const b = finishedUser({
+      phoneNumber: "17205550102",
+      name: "B",
+      referredBy: "Ab3Cd4Ef",
+      referralCreditEligible: true,
+    });
+    const planB = planContestAfterSave({
+      user: b,
+      referrer: a,
+      wasAlreadyFinished: false,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(planB.userSet.entries, 1);
+    assert.ok(planB.userSet.refCode);
+    assert.equal(planB.referrerInc.entries, CONTEST_REFERRAL_ENTRIES);
+    assert.equal(planB.referrerInc.referredCompleteCount, 1);
+    assert.equal(planB.creditReason, "credited");
+    assert.equal(a.entries + planB.referrerInc.entries, 6);
+  });
+
+  it("does not credit a page view or unfinished persist", () => {
+    const a = finishedUser({
+      refCode: "Ab3Cd4Ef",
+      entries: 1,
+      name: "A",
+    });
+    const b = {
+      ...finishedUser({
+        phoneNumber: "17205550102",
+        referredBy: "Ab3Cd4Ef",
+        name: "",
+      }),
+    };
+    const plan = planContestAfterSave({
+      user: b,
+      referrer: a,
+      wasAlreadyFinished: false,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(plan.referrerInc, null);
+    assert.equal(plan.userSet.refCode, undefined);
+    assert.equal(shouldCreditReferral({
+      user: b,
+      referrer: a,
+      now: INSIDE_WINDOW,
+    }).reason, "not_finished");
+  });
+
+  it("does not credit outside the Denver window, on self-ref, or when the phone already existed", () => {
+    const a = finishedUser({
+      refCode: "Ab3Cd4Ef",
+      entries: 1,
+      name: "A",
+      phoneNumber: "17205550101",
+    });
+
+    const outside = shouldCreditReferral({
+      user: finishedUser({ referredBy: "Ab3Cd4Ef" }),
+      referrer: a,
+      now: BEFORE_WINDOW,
+    });
+    assert.equal(outside.ok, false);
+    assert.equal(outside.reason, "outside_window");
+
+    const existingPhone = shouldCreditReferral({
+      user: finishedUser({
+        referredBy: "Ab3Cd4Ef",
+        referralCreditEligible: false,
+      }),
+      referrer: a,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(existingPhone.ok, false);
+    assert.equal(existingPhone.reason, "phone_already_existed");
+
+    const self = shouldCreditReferral({
+      user: finishedUser({
+        _id: a._id,
+        phoneNumber: a.phoneNumber,
+        referredBy: "Ab3Cd4Ef",
+        refCode: "Ab3Cd4Ef",
+      }),
+      referrer: a,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(self.ok, false);
+    assert.equal(self.reason, "self_referral");
+    assert.equal(
+      isSelfReferral({
+        user: { _id: a._id, phoneNumber: a.phoneNumber, refCode: "Ab3Cd4Ef" },
+        referrer: a,
+        referredBy: "Ab3Cd4Ef",
+      }),
+      true
+    );
+  });
+
+  it("accepts referredBy or ref and blocks client-set entries/refCode", () => {
+    assert.equal(readReferredBy({ referredBy: "Ab3Cd4Ef" }), "Ab3Cd4Ef");
+    assert.equal(readReferredBy({ ref: "Ab3Cd4Ef" }), "Ab3Cd4Ef");
+    assert.equal(readReferredBy({ ref: "../not-a-code" }), "");
+    const stripped = stripContestServerFields({
+      name: "Pat",
+      entries: 99,
+      refCode: "HACK",
+      referredCompleteCount: 9,
+      ipHash: "abc",
+      fraudFlag: true,
+      referralCredited: true,
+      referralCreditEligible: true,
+    });
+    assert.equal(stripped.name, "Pat");
+    assert.equal(stripped.entries, undefined);
+    assert.equal(stripped.refCode, undefined);
+    assert.equal(stripped.fraudFlag, undefined);
+    const write = sanitizeUserWrite({
+      name: "Pat",
+      ref: "Ab3Cd4Ef",
+      entries: 99,
+      permissions: "admin",
+    });
+    assert.equal(write.referredBy, "Ab3Cd4Ef");
+    assert.equal(write.safeFields.entries, undefined);
+    assert.equal(write.safeFields.permissions, undefined);
+    assert.equal(write.safeFields.ref, undefined);
+  });
+});
+
+describe("admin CSV + weighted draw", () => {
+  it("masks phones and emits the documented CSV columns", () => {
+    assert.equal(maskPhone("17205550100"), "*******0100");
+    const rows = [
+      toAdminRow({
+        phoneNumber: "17205550101",
+        createdAt: "2026-09-10T18:00:00.000Z",
+        refCode: "Ab3Cd4Ef",
+        entries: 6,
+        referredCompleteCount: 1,
+        referredBy: "",
+        ipHash: "deadbeef",
+        fraudFlag: false,
+      }),
+      toAdminRow({
+        phoneNumber: "17205550102",
+        createdAt: "2026-09-11T18:00:00.000Z",
+        refCode: "Xy9Zt8Uv",
+        entries: 1,
+        referredCompleteCount: 0,
+        referredBy: "Ab3Cd4Ef",
+        ipHash: "cafebabe",
+        fraudFlag: true,
+      }),
+    ];
+    const csv = adminEntriesToCsv(rows);
+    assert.equal(csv.split("\n")[0], ADMIN_CSV_COLUMNS.join(","));
+    assert.match(csv, /\*{7}0101/);
+    assert.match(csv, /Ab3Cd4Ef,6,1/);
+    assert.match(csv, /Xy9Zt8Uv,1,0,Ab3Cd4Ef/);
+  });
+
+  it("picks 1 row with probability proportional to entries", () => {
+    const a = finishedUser({ name: "A", refCode: "AAAAAAA1", entries: 1 });
+    const b = finishedUser({ name: "B", refCode: "BBBBBBB2", entries: 5 });
+    const unfinished = {
+      ...finishedUser({ name: "", entries: 99, refCode: "NOPE0000" }),
+    };
+    const first = pickWeightedWinner([a, b, unfinished], () => 0);
+    assert.equal(first.winner.refCode, "AAAAAAA1");
+    assert.equal(first.eligibleCount, 2);
+    assert.equal(first.totalEntries, 6);
+
+    const second = pickWeightedWinner([a, b], () => 0.2);
+    assert.equal(second.winner.refCode, "BBBBBBB2");
+  });
+});
+
+describe("fraud flags (no auto-ban)", () => {
+  it("flags same-IP clusters and disposable-looking email, without banning", () => {
+    const cluster = detectFraud({
+      sameIpCount: SAME_IP_CLUSTER_THRESHOLD,
+      email: "pat@mailinator.com",
+    });
+    assert.equal(cluster.flag, true);
+    assert.ok(cluster.reasons.includes("same_ip_cluster"));
+    assert.ok(cluster.reasons.includes("disposable_email"));
+
+    const clean = detectFraud({ sameIpCount: 1, email: "pat@example.com" });
+    assert.equal(clean.flag, false);
+
+    const hashed = hashIp("203.0.113.10", "test-secret");
+    assert.equal(hashed.length, 64);
+    assert.notEqual(hashed, "203.0.113.10");
+  });
+});
+
+describe("refCode mint is collision-retryable and URL-safe", () => {
+  it("returns short alphabet codes and never includes + or /", () => {
+    const codes = new Set(Array.from({ length: 40 }, () => mintRefCode()));
+    assert.equal(codes.size, 40);
+    for (const code of codes) {
+      assert.equal(isUrlSafeRefCode(code), true);
+      assert.doesNotMatch(code, /[+/=]/);
+    }
+  });
+});
+
+describe("ENABLE_POWDER_ALERT_CRON stays gated off", () => {
+  it("does not schedule the 14:30 blast unless the env is exactly true", () => {
+    const cron = readFileSync(join(root, "cron/visualCrossingCron.js"), "utf8");
+    assert.match(cron, /ENABLE_POWDER_ALERT_CRON === "true"/);
+    assert.doesNotMatch(cron, /ENABLE_POWDER_ALERT_CRON\s*=\s*"true"/);
+  });
+
+  it("admin contest routes are registered before /:id and require verifyToken", () => {
+    const routes = readFileSync(join(root, "api/user.routes.js"), "utf8");
+    const entriesAt = routes.indexOf('"/contest/entries"');
+    const csvAt = routes.indexOf('"/contest/entries.csv"');
+    const drawAt = routes.indexOf('"/contest/draw"');
+    const idAt = routes.indexOf('"/:id"');
+    assert.ok(entriesAt > 0 && entriesAt < idAt);
+    assert.ok(csvAt > 0 && csvAt < idAt);
+    assert.ok(drawAt > 0 && drawAt < idAt);
+    assert.match(routes, /verifyToken, listContestEntries/);
+    assert.match(routes, /verifyToken, drawContestWinner/);
+  });
+});
