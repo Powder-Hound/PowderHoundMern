@@ -38,6 +38,10 @@ const swaggerDefinition = {
           refCode: { type: "string", example: "Ab3Cd4Ef" },
           entries: { type: "number", example: 1 },
           referredBy: { type: "string", example: "" },
+          followClaims: {
+            type: "array",
+            example: [{ network: "x", handle: "@pow_alert" }],
+          },
         },
       },
     },
