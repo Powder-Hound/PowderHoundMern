@@ -4,8 +4,8 @@ import {
   adminEntriesToCsv,
   contestCohortFilter,
   contestWindowMeta,
-  isDrawEligible,
-  pickWeightedWinner,
+  formatLockedDraw,
+  resolveDraw,
   toAdminRow,
 } from "../utils/contest.js";
 
@@ -18,7 +18,7 @@ const requireAdmin = (req, res) => {
 };
 
 const ADMIN_SELECT =
-  "phoneNumber createdAt refCode entries referredCompleteCount referredBy ipHash fraudFlag fraudReasons followClaims name resortPreference alertThreshold phoneVerifySID";
+  "phoneNumber createdAt refCode entries referredCompleteCount referredBy ipHash fraudFlag fraudReasons followClaims name resortPreference alertThreshold phoneVerifySID contestEnteredAt contestDrawLocked contestDrawnAt contestEntriesAtDraw";
 
 export const listContestEntries = async (req, res) => {
   if (!requireAdmin(req, res)) return;
@@ -77,28 +77,92 @@ export const listContestEntriesCsv = async (req, res) => {
  *     -H "Authorization: Bearer $ADMIN_TOKEN" \
  *     https://powderhoundmern.onrender.com/api/users/contest/draw
  *
- * Picks 1 finished /go row with P(user) = user.entries / sum(entries).
- * Eligible = finished /go (name + pass + ≥1 hill + both sticks + OTP) and entries ≥ 1.
+ * Picks 1 in-window finished /go row with P(user) = user.entries / sum(entries).
+ * Eligible = refCode (window mint) + finished /go + entries ≥ 1 + not fraudFlag.
+ * First successful POST locks the winner; later POSTs return that lock (no re-roll).
  */
 export const drawContestWinner = async (req, res) => {
   if (!requireAdmin(req, res)) return;
 
   try {
-    const users = await User.find({ entries: { $gte: 1 } })
+    const lockedWinner = await User.findOne({ contestDrawLocked: true })
+      .select(ADMIN_SELECT)
+      .sort({ contestDrawnAt: 1 })
+      .lean();
+
+    if (lockedWinner) {
+      const locked = formatLockedDraw(lockedWinner);
+      console.log("[contest-draw] already locked", {
+        winnerUserId: locked.winnerUserId,
+        drawnAt: locked.drawnAt,
+        entriesAtDraw: locked.entriesAtDraw,
+      });
+      return res.status(200).send({
+        success: true,
+        alreadyLocked: true,
+        window: contestWindowMeta(),
+        eligibleCount: null,
+        totalEntries: null,
+        ...locked,
+      });
+    }
+
+    const users = await User.find({
+      entries: { $gte: 1 },
+      refCode: { $exists: true, $nin: [null, ""] },
+      fraudFlag: { $ne: true },
+    })
       .select(ADMIN_SELECT)
       .lean();
-    const { winner, eligibleCount, totalEntries } = pickWeightedWinner(users);
-    res.status(200).send({
+
+    const resolved = resolveDraw({ rows: users });
+    if (!resolved.winner) {
+      return res.status(200).send({
+        success: true,
+        alreadyLocked: false,
+        window: contestWindowMeta(),
+        eligibleCount: resolved.eligibleCount,
+        totalEntries: resolved.totalEntries,
+        winner: null,
+        winnerUserId: null,
+        drawnAt: null,
+        entriesAtDraw: null,
+      });
+    }
+
+    const drawnAt = new Date();
+    const entriesAtDraw = Number(resolved.winner.entries) || 0;
+    await User.findOneAndUpdate(
+      { _id: resolved.winner._id, contestDrawLocked: { $ne: true } },
+      {
+        $set: {
+          contestDrawLocked: true,
+          contestDrawnAt: drawnAt,
+          contestEntriesAtDraw: entriesAtDraw,
+        },
+      }
+    );
+
+    const official = await User.findOne({ contestDrawLocked: true })
+      .select(ADMIN_SELECT)
+      .sort({ contestDrawnAt: 1 })
+      .lean();
+    const locked = formatLockedDraw(official);
+    console.log("[contest-draw] locked", {
+      winnerUserId: locked.winnerUserId,
+      drawnAt: locked.drawnAt,
+      entriesAtDraw: locked.entriesAtDraw,
+      eligibleCount: resolved.eligibleCount,
+      totalEntries: resolved.totalEntries,
+    });
+
+    return res.status(200).send({
       success: true,
+      alreadyLocked: false,
       window: contestWindowMeta(),
-      eligibleCount,
-      totalEntries,
-      winner: winner
-        ? {
-            ...toAdminRow(winner),
-            finishedGo: isDrawEligible(winner),
-          }
-        : null,
+      eligibleCount: resolved.eligibleCount,
+      totalEntries: resolved.totalEntries,
+      ...locked,
     });
   } catch (error) {
     res.status(500).send({

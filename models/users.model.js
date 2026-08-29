@@ -202,6 +202,26 @@ const userSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    contestEnteredAt: {
+      type: Date,
+      required: false,
+      default: null,
+    },
+    contestDrawLocked: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    contestDrawnAt: {
+      type: Date,
+      required: false,
+      default: null,
+    },
+    contestEntriesAtDraw: {
+      type: Number,
+      required: false,
+      default: null,
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields automatically

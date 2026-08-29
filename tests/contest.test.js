@@ -15,6 +15,7 @@ import {
   FOLLOW_EXTRA_MAX,
   FOLLOW_NETWORKS,
   FOLLOW_V1_CONFIRMED,
+  REF_CODE,
   SAME_IP_CLUSTER_THRESHOLD,
   adminEntriesToCsv,
   contestShareUrl,
@@ -22,6 +23,7 @@ import {
   extractRefCode,
   detectFraud,
   hashIp,
+  isDrawEligible,
   isFinishedGo,
   isSelfReferral,
   isUrlSafeRefCode,
@@ -30,6 +32,8 @@ import {
   mintRefCode,
   pickWeightedWinner,
   planContestAfterSave,
+  resolveDraw,
+  sameIpInclusiveCount,
   planFollowClaim,
   readReferredBy,
   sanitizeUserWrite,
@@ -173,6 +177,58 @@ describe("contest window constant (America/Denver)", () => {
     assert.equal(isWithinContestWindow(lastSecond), true);
     assert.equal(isWithinContestWindow(closed), false);
   });
+
+  it("does not mint refCode/base entry or enter the draw pool before the window", () => {
+    const a = finishedUser({ phoneNumber: "17205550101", name: "A" });
+    const plan = planContestAfterSave({
+      user: a,
+      wasAlreadyFinished: false,
+      now: BEFORE_WINDOW,
+    });
+    assert.equal(plan.userSet.refCode, undefined);
+    assert.equal(plan.userSet.entries, undefined);
+    assert.equal(plan.userSet.baseEntryGranted, undefined);
+    assert.equal(plan.referrerInc, null);
+    assert.equal(
+      isDrawEligible({ ...a, ...plan.userSet }),
+      false
+    );
+  });
+
+  it("mints +1 inside the window and keeps in-window rows eligible after close", () => {
+    const a = finishedUser({ phoneNumber: "17205550101", name: "A" });
+    const plan = planContestAfterSave({
+      user: a,
+      wasAlreadyFinished: false,
+      now: INSIDE_WINDOW,
+    });
+    assert.ok(plan.userSet.refCode);
+    assert.equal(plan.userSet.entries, 1);
+    const inWindowRow = {
+      ...a,
+      ...plan.userSet,
+    };
+    assert.equal(isDrawEligible(inWindowRow), true);
+
+    const after = planContestAfterSave({
+      user: finishedUser({ name: "Late" }),
+      wasAlreadyFinished: false,
+      now: AFTER_WINDOW,
+    });
+    assert.equal(after.userSet.refCode, undefined);
+    assert.equal(after.userSet.entries, undefined);
+    assert.equal(
+      isDrawEligible({
+        ...inWindowRow,
+        now: AFTER_WINDOW,
+      }),
+      true
+    );
+    assert.equal(
+      isDrawEligible({ ...inWindowRow, fraudFlag: true }),
+      false
+    );
+  });
 });
 
 describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entries += 5)", () => {
@@ -185,7 +241,7 @@ describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entri
     });
     assert.ok(planA.userSet.refCode);
     assert.equal(isUrlSafeRefCode(planA.userSet.refCode), true);
-    assert.equal(planA.userSet.refCode.length, 8);
+    assert.equal(planA.userSet.refCode.length, REF_CODE.length);
     assert.equal(planA.userSet.entries, 1);
     assert.equal(planA.referrerInc, null);
     assert.equal(
@@ -445,18 +501,45 @@ describe("admin CSV + weighted draw", () => {
   });
 
   it("picks 1 row with probability proportional to entries", () => {
-    const a = finishedUser({ name: "A", refCode: "AAAAAAA1", entries: 1 });
-    const b = finishedUser({ name: "B", refCode: "BBBBBBB2", entries: 5 });
+    const a = finishedUser({ name: "A", refCode: "AAAAAAA2", entries: 1 });
+    const b = finishedUser({ name: "B", refCode: "BBBBBBB3", entries: 5 });
     const unfinished = {
-      ...finishedUser({ name: "", entries: 99, refCode: "NOPE0000" }),
+      ...finishedUser({ name: "", entries: 99, refCode: "NOPE0002" }),
     };
-    const first = pickWeightedWinner([a, b, unfinished], () => 0);
-    assert.equal(first.winner.refCode, "AAAAAAA1");
+    const flagged = finishedUser({
+      name: "Fraud",
+      refCode: "FRAUDDD2",
+      entries: 99,
+      fraudFlag: true,
+    });
+    const first = pickWeightedWinner([a, b, unfinished, flagged], () => 0);
+    assert.equal(first.winner.refCode, "AAAAAAA2");
     assert.equal(first.eligibleCount, 2);
     assert.equal(first.totalEntries, 6);
 
     const second = pickWeightedWinner([a, b], () => 0.2);
-    assert.equal(second.winner.refCode, "BBBBBBB2");
+    assert.equal(second.winner.refCode, "BBBBBBB3");
+  });
+
+  it("returns the locked winner on a second draw instead of re-rolling", () => {
+    const a = finishedUser({
+      name: "A",
+      refCode: "AAAAAAA2",
+      entries: 1,
+      contestDrawLocked: true,
+      contestDrawnAt: INSIDE_WINDOW,
+      contestEntriesAtDraw: 1,
+    });
+    const b = finishedUser({ name: "B", refCode: "BBBBBBB3", entries: 5 });
+    const again = resolveDraw({
+      lockedWinner: a,
+      rows: [a, b],
+      random: () => 0.9,
+    });
+    assert.equal(again.alreadyLocked, true);
+    assert.equal(again.winnerUserId, String(a._id));
+    assert.equal(again.entriesAtDraw, 1);
+    assert.equal(again.winner.refCode, "AAAAAAA2");
   });
 });
 
@@ -477,15 +560,58 @@ describe("fraud flags (no auto-ban)", () => {
     assert.equal(hashed.length, 64);
     assert.notEqual(hashed, "203.0.113.10");
   });
+
+  it("flags the Nth same-ipHash signup (threshold 3 = third, not fourth)", () => {
+    assert.equal(SAME_IP_CLUSTER_THRESHOLD, 3);
+    assert.equal(
+      sameIpInclusiveCount({ existingWithHash: 0, alreadyHasThisHash: false }),
+      1
+    );
+    assert.equal(
+      sameIpInclusiveCount({ existingWithHash: 2, alreadyHasThisHash: false }),
+      3
+    );
+    assert.equal(detectFraud({ sameIpCount: 1 }).flag, false);
+    assert.equal(detectFraud({ sameIpCount: 2 }).flag, false);
+    assert.equal(detectFraud({ sameIpCount: 3 }).flag, true);
+
+    const third = planContestAfterSave({
+      user: finishedUser({ name: "Third" }),
+      sameIpCount: 3,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(third.userSet.fraudFlag, true);
+    assert.ok(third.userSet.fraudReasons.includes("same_ip_cluster"));
+
+    const second = planContestAfterSave({
+      user: finishedUser({ name: "Second" }),
+      sameIpCount: 2,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(second.userSet.fraudFlag, undefined);
+  });
 });
 
 describe("refCode mint is collision-retryable and URL-safe", () => {
+  it("exports one REF_CODE constant that mint and sanitize share", () => {
+    assert.equal(REF_CODE.length, 8);
+    assert.equal(
+      REF_CODE.alphabet,
+      "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789"
+    );
+    assert.equal(isUrlSafeRefCode("Ab3Cd4Ef"), true);
+    assert.equal(isUrlSafeRefCode("Ab3Cd4E"), false);
+    assert.equal(isUrlSafeRefCode("Ab3Cd4Ef0"), false);
+    assert.equal(isUrlSafeRefCode("O0Ilxxxx"), false);
+  });
+
   it("returns short alphabet codes and never includes + or /", () => {
     const codes = new Set(Array.from({ length: 40 }, () => mintRefCode()));
     assert.equal(codes.size, 40);
     for (const code of codes) {
       assert.equal(isUrlSafeRefCode(code), true);
-      assert.doesNotMatch(code, /[+/=]/);
+      assert.equal(code.length, REF_CODE.length);
+      assert.doesNotMatch(code, /[+/=01IOl]/);
     }
   });
 });

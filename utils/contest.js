@@ -13,9 +13,9 @@ import { digitsPhone } from "./phone.js";
  * Also accepted:      https://powalert.com/go?from=win&ref=CODE
  * Persist field: `ref` or `referredBy` (same code).
  *
- * Referral +5 is credited only when a NEW phone finishes OTP + full /go
- * persist on that code, inside this window. No self-ref. No page-view credit.
- * No credit if the phone already exists. Admin CSV/draw unchanged. Cron off.
+ * Contest mint (refCode + 1 base entry), referral +5, and draw eligibility
+ * are window-gated. Finished /go outside the window still persists the watch.
+ * In-window rows stay draw-eligible after close if not fraudFlag. Cron off.
  *
  * Prize (do not implement payment): one 2026/27 adult Epic or Ikon.
  * Honor-system follow extras: +1 per network (x/tiktok/instagram/facebook),
@@ -30,9 +30,13 @@ export const CONTEST_BASE_ENTRIES = 1;
 export const CONTEST_REFERRAL_ENTRIES = 5;
 export const CONTEST_SHARE_ORIGIN = "https://powalert.com/go";
 export const SAME_IP_CLUSTER_THRESHOLD = 3;
-export const REF_CODE_LENGTH = 8;
-export const REF_CODE_ALPHABET =
-  "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+/** SPA + mint + sanitize share this exact alphabet and length. Do not change minted format. */
+export const REF_CODE = Object.freeze({
+  alphabet: "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789",
+  length: 8,
+});
+export const REF_CODE_LENGTH = REF_CODE.length;
+export const REF_CODE_ALPHABET = REF_CODE.alphabet;
 
 export const CONTEST_SERVER_FIELDS = [
   "refCode",
@@ -45,6 +49,10 @@ export const CONTEST_SERVER_FIELDS = [
   "referralCreditEligible",
   "baseEntryGranted",
   "followClaims",
+  "contestEnteredAt",
+  "contestDrawLocked",
+  "contestDrawnAt",
+  "contestEntriesAtDraw",
 ];
 
 export const FOLLOW_NETWORKS = ["x", "tiktok", "instagram", "facebook"];
@@ -79,7 +87,7 @@ export function contestWindowMeta() {
     end: CONTEST_END_LOCAL,
     referralEntries: CONTEST_REFERRAL_ENTRIES,
     baseEntries: CONTEST_BASE_ENTRIES,
-    note: "Referral +5 is credited only inside this America/Denver window. Base entry + refCode mint on first finished /go at any time.",
+    note: "refCode + base entry + referral +5 mint only inside this America/Denver window. In-window rows stay draw-eligible after close if not fraudFlag.",
   };
 }
 
@@ -133,17 +141,24 @@ export function isFinishedGo(user) {
   );
 }
 
-export function mintRefCode(length = REF_CODE_LENGTH) {
+export function mintRefCode(length = REF_CODE.length) {
+  const { alphabet } = REF_CODE;
   const bytes = randomBytes(length);
   let out = "";
   for (let i = 0; i < length; i += 1) {
-    out += REF_CODE_ALPHABET[bytes[i] % REF_CODE_ALPHABET.length];
+    out += alphabet[bytes[i] % alphabet.length];
   }
   return out;
 }
 
 export function isUrlSafeRefCode(code) {
-  return typeof code === "string" && /^[A-Za-z0-9]{4,16}$/.test(code);
+  if (typeof code !== "string" || code.length !== REF_CODE.length) {
+    return false;
+  }
+  for (const char of code) {
+    if (!REF_CODE.alphabet.includes(char)) return false;
+  }
+  return true;
 }
 
 /**
@@ -218,6 +233,18 @@ export function emailDomain(email) {
   const at = value.lastIndexOf("@");
   if (at < 0) return "";
   return value.slice(at + 1);
+}
+
+/**
+ * Inclusive count of rows that share this ipHash, including the user
+ * being saved when their hash is not in the collection yet.
+ * Threshold 3 must flag the 3rd signup (not the 4th).
+ */
+export function sameIpInclusiveCount({
+  existingWithHash = 0,
+  alreadyHasThisHash = false,
+} = {}) {
+  return existingWithHash + (alreadyHasThisHash ? 0 : 1);
 }
 
 export function detectFraud({ sameIpCount = 0, email } = {}) {
@@ -300,13 +327,17 @@ export function planContestAfterSave({
 
   const merged = { ...user, ...userSet };
   const finished = isFinishedGo(merged);
+  const inWindow = isWithinContestWindow(now);
 
-  if (finished && !user.refCode) {
+  // Contest mint only inside the Denver window. Watch persist still happens
+  // on the user row; we just skip refCode / base entry / draw eligibility.
+  if (finished && inWindow && !user.refCode) {
     userSet.refCode = mintRefCode();
+    userSet.contestEnteredAt = now instanceof Date ? now : new Date(now);
   }
   // Follow extras increment `entries` too; do not treat that as the base entry.
   // Users who already have a refCode were granted the base before this flag.
-  if (finished && !user.baseEntryGranted) {
+  if (finished && inWindow && !user.baseEntryGranted) {
     if (!user.refCode) {
       userSet.entries = (Number(user.entries) || 0) + CONTEST_BASE_ENTRIES;
     }
@@ -362,9 +393,13 @@ export async function applyContestOnUserSave({
 
   const plain = typeof user.toObject === "function" ? user.toObject() : { ...user };
   const ipHash = hashIp(clientIp) || plain.ipHash || "";
-  const sameIpCount = ipHash
+  const existingWithHash = ipHash
     ? await User.countDocuments({ ipHash })
     : 0;
+  const sameIpCount = sameIpInclusiveCount({
+    existingWithHash,
+    alreadyHasThisHash: Boolean(ipHash && plain.ipHash === ipHash),
+  });
 
   let referrer = null;
   if (plain.referredBy) {
@@ -542,7 +577,51 @@ export function contestCohortFilter() {
 }
 
 export function isDrawEligible(user) {
-  return isFinishedGo(user) && Number(user.entries) >= 1;
+  return Boolean(
+    user?.refCode &&
+      isFinishedGo(user) &&
+      Number(user.entries) >= 1 &&
+      !user.fraudFlag
+  );
+}
+
+export function formatLockedDraw(user) {
+  if (!user) return null;
+  return {
+    winnerUserId: String(user._id),
+    drawnAt: user.contestDrawnAt ?? null,
+    entriesAtDraw: user.contestEntriesAtDraw ?? (Number(user.entries) || 0),
+    winner: {
+      ...toAdminRow(user),
+      finishedGo: isFinishedGo(user),
+    },
+  };
+}
+
+/**
+ * If a winner is already locked, return it (no re-roll).
+ * Otherwise pick 1 eligible row. Caller persists the lock.
+ */
+export function resolveDraw({
+  lockedWinner = null,
+  rows = [],
+  random = secureUnitRandom,
+} = {}) {
+  if (lockedWinner) {
+    const locked = formatLockedDraw(lockedWinner);
+    return {
+      alreadyLocked: true,
+      winner: lockedWinner,
+      eligibleCount: null,
+      totalEntries: null,
+      ...locked,
+    };
+  }
+  const picked = pickWeightedWinner(rows, random);
+  return {
+    alreadyLocked: false,
+    ...picked,
+  };
 }
 
 export function secureUnitRandom() {
@@ -551,7 +630,7 @@ export function secureUnitRandom() {
 
 /**
  * Pick 1 row with probability proportional to entries.
- * Eligible = finished /go AND entries ≥ 1.
+ * Eligible = in-window mint (refCode) + finished /go + entries ≥ 1 + not fraudFlag.
  * On-camera: POST /api/users/contest/draw with an admin Bearer token.
  */
 export function pickWeightedWinner(rows, random = secureUnitRandom) {
