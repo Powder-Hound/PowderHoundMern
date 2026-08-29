@@ -12,6 +12,9 @@ import {
   CONTEST_REFERRAL_ENTRIES,
   CONTEST_START_LOCAL,
   CONTEST_TIME_ZONE,
+  FOLLOW_EXTRA_MAX,
+  FOLLOW_NETWORKS,
+  FOLLOW_V1_CONFIRMED,
   SAME_IP_CLUSTER_THRESHOLD,
   adminEntriesToCsv,
   contestShareUrl,
@@ -27,6 +30,7 @@ import {
   mintRefCode,
   pickWeightedWinner,
   planContestAfterSave,
+  planFollowClaim,
   readReferredBy,
   sanitizeUserWrite,
   shouldCreditReferral,
@@ -88,6 +92,8 @@ describe("One Extra Storm stays on the existing users collection", () => {
     assert.equal(user.entries, 0);
     assert.equal(user.refCode, undefined);
     assert.equal(user.referralCreditEligible, false);
+    assert.deepEqual(user.followClaims, []);
+    assert.equal(user.baseEntryGranted, false);
   });
 
   it("does not treat a bare phone+SID signup as a finished /go", () => {
@@ -326,11 +332,80 @@ describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entri
       ref: "Ab3Cd4Ef",
       entries: 99,
       permissions: "admin",
+      followClaims: [{ network: "x" }],
+      baseEntryGranted: true,
     });
     assert.equal(write.referredBy, "Ab3Cd4Ef");
     assert.equal(write.safeFields.entries, undefined);
     assert.equal(write.safeFields.permissions, undefined);
     assert.equal(write.safeFields.ref, undefined);
+    assert.equal(write.safeFields.followClaims, undefined);
+    assert.equal(write.safeFields.baseEntryGranted, undefined);
+  });
+});
+
+describe("honor-system follow extras (not verified)", () => {
+  it("accepts x/tiktok/instagram/facebook and confirms only X in v1", () => {
+    assert.deepEqual(FOLLOW_NETWORKS, ["x", "tiktok", "instagram", "facebook"]);
+    assert.equal(FOLLOW_V1_CONFIRMED.x, "@pow_alert");
+    assert.equal(FOLLOW_EXTRA_MAX, 4);
+  });
+
+  it("adds +1 once per network, max 4, and is idempotent", () => {
+    const user = { entries: 1, followClaims: [] };
+    const first = planFollowClaim({ user, network: "x", handle: "@ski" });
+    assert.equal(first.ok, true);
+    assert.equal(first.noop, false);
+    assert.equal(first.entries, 2);
+    assert.equal(first.followClaims[0].network, "x");
+    assert.equal(first.followClaims[0].handle, "@ski");
+
+    const again = planFollowClaim({
+      user: { ...user, entries: first.entries, followClaims: first.followClaims },
+      network: "x",
+    });
+    assert.equal(again.noop, true);
+    assert.equal(again.entriesDelta, 0);
+
+    let current = { entries: first.entries, followClaims: first.followClaims };
+    for (const network of ["tiktok", "instagram", "facebook"]) {
+      const next = planFollowClaim({ user: current, network });
+      assert.equal(next.noop, false);
+      current = { entries: next.entries, followClaims: next.followClaims };
+    }
+    assert.equal(current.entries, 5);
+    assert.equal(current.followClaims.length, 4);
+
+    const overflow = planFollowClaim({ user: current, network: "x" });
+    assert.equal(overflow.noop, true);
+    assert.equal(overflow.entriesDelta, 0);
+  });
+
+  it("rejects an unknown network and does not require a handle", () => {
+    const missing = planFollowClaim({ user: { entries: 1, followClaims: [] }, network: "threads" });
+    assert.equal(missing.ok, false);
+    assert.equal(missing.reason, "invalid_network");
+
+    const noHandle = planFollowClaim({ user: { entries: 0, followClaims: [] }, network: "tiktok" });
+    assert.equal(noHandle.ok, true);
+    assert.equal(noHandle.followClaims[0].handle, "");
+  });
+
+  it("does not steal the finished-/go base entry after a follow claim", () => {
+    const afterFollow = finishedUser({
+      name: "A",
+      entries: 1,
+      followClaims: [{ network: "x", handle: "@pow_alert" }],
+      baseEntryGranted: false,
+    });
+    const plan = planContestAfterSave({
+      user: afterFollow,
+      wasAlreadyFinished: false,
+      now: INSIDE_WINDOW,
+    });
+    assert.ok(plan.userSet.refCode);
+    assert.equal(plan.userSet.entries, 2);
+    assert.equal(plan.userSet.baseEntryGranted, true);
   });
 });
 
@@ -347,6 +422,7 @@ describe("admin CSV + weighted draw", () => {
         referredBy: "",
         ipHash: "deadbeef",
         fraudFlag: false,
+        followClaims: [{ network: "x" }, { network: "tiktok" }],
       }),
       toAdminRow({
         phoneNumber: "17205550102",
@@ -364,6 +440,8 @@ describe("admin CSV + weighted draw", () => {
     assert.match(csv, /\*{7}0101/);
     assert.match(csv, /Ab3Cd4Ef,6,1/);
     assert.match(csv, /Xy9Zt8Uv,1,0,Ab3Cd4Ef/);
+    assert.match(csv, /followClaimCount,followNetworks/);
+    assert.match(csv, /2,x\|tiktok/);
   });
 
   it("picks 1 row with probability proportional to entries", () => {
@@ -430,5 +508,7 @@ describe("ENABLE_POWDER_ALERT_CRON stays gated off", () => {
     assert.ok(drawAt > 0 && drawAt < idAt);
     assert.match(routes, /verifyToken, listContestEntries/);
     assert.match(routes, /verifyToken, drawContestWinner/);
+    assert.match(routes, /"\/:id\/follow-claim"/);
+    assert.match(routes, /verifyToken, claimFollowExtra/);
   });
 });

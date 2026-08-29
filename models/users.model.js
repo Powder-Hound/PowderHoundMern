@@ -181,6 +181,27 @@ const userSchema = new mongoose.Schema(
       required: false,
       default: false,
     },
+    // Set when the finished-/go base entry (1) is granted. Follow extras
+    // must not be mistaken for that base entry.
+    baseEntryGranted: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    // Honor-system follow extras. One per network, max 4. Not verified.
+    followClaims: {
+      type: [
+        {
+          network: {
+            type: String,
+            enum: ["x", "tiktok", "instagram", "facebook"],
+          },
+          handle: { type: String, default: "" },
+          claimedAt: { type: Date, default: Date.now },
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields automatically

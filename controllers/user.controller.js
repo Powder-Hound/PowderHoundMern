@@ -8,6 +8,7 @@ import {
   applyContestOnUserSave,
   clientIpFromReq,
   isFinishedGo,
+  planFollowClaim,
   sanitizeUserWrite,
 } from "../utils/contest.js";
 dotenv.config();
@@ -263,6 +264,60 @@ export const updateUser = async (req, res) => {
     res
       .status(500)
       .send({ success: false, message: "Error updating user", error });
+  }
+};
+
+export const claimFollowExtra = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    if (req.permissions !== "admin" && req.userID !== id) {
+      return res
+        .status(401)
+        .send({ success: false, message: "Unauthorized to claim follows for this user" });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    const plan = planFollowClaim({
+      user: user.toObject(),
+      network: req.body?.network,
+      handle: req.body?.handle,
+    });
+
+    if (!plan.ok) {
+      return res.status(plan.status || 400).send({
+        success: false,
+        message: "network must be x, tiktok, instagram, or facebook",
+        reason: plan.reason,
+      });
+    }
+
+    if (!plan.noop) {
+      user.followClaims = plan.followClaims;
+      user.entries = plan.entries;
+      await user.save();
+    }
+
+    return res.status(200).send({
+      success: true,
+      claimed: true,
+      noop: Boolean(plan.noop),
+      network: req.body?.network,
+      reason: plan.reason,
+      data: user,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      success: false,
+      message: "Error claiming follow extra",
+      error: error?.message || error,
+    });
   }
 };
 

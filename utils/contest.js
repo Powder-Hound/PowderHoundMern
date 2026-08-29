@@ -18,8 +18,9 @@ import { digitsPhone } from "./phone.js";
  * No credit if the phone already exists. Admin CSV/draw unchanged. Cron off.
  *
  * Prize (do not implement payment): one 2026/27 adult Epic or Ikon.
- * Social actions (TikTok, tags, Facebook, Stories, follows) are not credited.
- * No OAuth. No second users collection. Cron stays off.
+ * Honor-system follow extras: +1 per network (x/tiktok/instagram/facebook),
+ * max 4, idempotent, not API-verified. Referral +5 on finished OTP is the
+ * only verified multiplier. No Gleam. No OAuth. Cron stays off.
  */
 
 export const CONTEST_TIME_ZONE = "America/Denver";
@@ -42,7 +43,15 @@ export const CONTEST_SERVER_FIELDS = [
   "fraudReasons",
   "referralCredited",
   "referralCreditEligible",
+  "baseEntryGranted",
+  "followClaims",
 ];
+
+export const FOLLOW_NETWORKS = ["x", "tiktok", "instagram", "facebook"];
+export const FOLLOW_EXTRA_PER_NETWORK = 1;
+export const FOLLOW_EXTRA_MAX = 4;
+/** v1: only X is confirmed in the SPA. Other keys are accepted for later. */
+export const FOLLOW_V1_CONFIRMED = { x: "@pow_alert" };
 
 const SKI_PASSES = ["Epic", "Ikon", "Indy", "MountainCollective"];
 
@@ -295,8 +304,13 @@ export function planContestAfterSave({
   if (finished && !user.refCode) {
     userSet.refCode = mintRefCode();
   }
-  if (finished && !(Number(user.entries) >= CONTEST_BASE_ENTRIES)) {
-    userSet.entries = (Number(user.entries) || 0) + CONTEST_BASE_ENTRIES;
+  // Follow extras increment `entries` too; do not treat that as the base entry.
+  // Users who already have a refCode were granted the base before this flag.
+  if (finished && !user.baseEntryGranted) {
+    if (!user.refCode) {
+      userSet.entries = (Number(user.entries) || 0) + CONTEST_BASE_ENTRIES;
+    }
+    userSet.baseEntryGranted = true;
   }
 
   const fraud = detectFraud({
@@ -399,7 +413,80 @@ export async function applyContestOnUserSave({
   return User.findById(user._id);
 }
 
+export function followClaimList(user) {
+  if (!Array.isArray(user?.followClaims)) return [];
+  return user.followClaims.filter((claim) =>
+    FOLLOW_NETWORKS.includes(claim?.network)
+  );
+}
+
+export function followClaimSummary(user) {
+  const networks = followClaimList(user).map((claim) => claim.network);
+  return {
+    followClaimCount: networks.length,
+    followNetworks: networks.join("|"),
+  };
+}
+
+export function normalizeFollowNetwork(network) {
+  const key = String(network ?? "").trim().toLowerCase();
+  return FOLLOW_NETWORKS.includes(key) ? key : "";
+}
+
+export function normalizeFollowHandle(handle) {
+  return String(handle ?? "").trim().slice(0, 64);
+}
+
+/**
+ * Honor-system follow extra. +1 once per network, max 4.
+ * Second claim for the same network is a no-op. Not API-verified.
+ */
+export function planFollowClaim({ user, network, handle, now = new Date() } = {}) {
+  const key = normalizeFollowNetwork(network);
+  if (!key) {
+    return { ok: false, status: 400, reason: "invalid_network" };
+  }
+
+  const claims = followClaimList(user);
+  if (claims.some((claim) => claim.network === key)) {
+    return {
+      ok: true,
+      noop: true,
+      reason: "already_claimed",
+      entriesDelta: 0,
+      followClaims: user.followClaims || claims,
+    };
+  }
+  if (claims.length >= FOLLOW_EXTRA_MAX) {
+    return {
+      ok: true,
+      noop: true,
+      reason: "max_follow_extras",
+      entriesDelta: 0,
+      followClaims: user.followClaims || claims,
+    };
+  }
+
+  const nextClaims = [
+    ...claims,
+    {
+      network: key,
+      handle: normalizeFollowHandle(handle),
+      claimedAt: now instanceof Date ? now : new Date(now),
+    },
+  ];
+  return {
+    ok: true,
+    noop: false,
+    reason: "claimed",
+    entriesDelta: FOLLOW_EXTRA_PER_NETWORK,
+    entries: (Number(user?.entries) || 0) + FOLLOW_EXTRA_PER_NETWORK,
+    followClaims: nextClaims,
+  };
+}
+
 export function toAdminRow(user) {
+  const follows = followClaimSummary(user);
   return {
     phoneMasked: maskPhone(user.phoneNumber),
     createdAt: user.createdAt ?? null,
@@ -409,6 +496,8 @@ export function toAdminRow(user) {
     referredBy: user.referredBy || "",
     ipHash: user.ipHash || "",
     fraudFlag: Boolean(user.fraudFlag),
+    followClaimCount: follows.followClaimCount,
+    followNetworks: follows.followNetworks,
   };
 }
 
@@ -429,6 +518,8 @@ export const ADMIN_CSV_COLUMNS = [
   "referredBy",
   "ipHash",
   "fraudFlag",
+  "followClaimCount",
+  "followNetworks",
 ];
 
 export function adminEntriesToCsv(rows) {

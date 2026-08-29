@@ -18,7 +18,7 @@ const requireAdmin = (req, res) => {
 };
 
 const ADMIN_SELECT =
-  "phoneNumber createdAt refCode entries referredCompleteCount referredBy ipHash fraudFlag fraudReasons name resortPreference alertThreshold phoneVerifySID";
+  "phoneNumber createdAt refCode entries referredCompleteCount referredBy ipHash fraudFlag fraudReasons followClaims name resortPreference alertThreshold phoneVerifySID";
 
 export const listContestEntries = async (req, res) => {
   if (!requireAdmin(req, res)) return;

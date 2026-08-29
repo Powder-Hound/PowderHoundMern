@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  claimFollowExtra,
   getUser,
   deleteUser,
   updateUser,
@@ -114,6 +115,38 @@ userRouter.get("/:id", verifyToken, getUser);
  *         description: User not found
  */
 userRouter.put("/:id", verifyToken, updateUser);
+
+/**
+ * @swagger
+ * /api/users/{id}/follow-claim:
+ *   post:
+ *     tags: [Users]
+ *     summary: Honor-system follow extra (+1 per network, max 4, idempotent)
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               network:
+ *                 type: string
+ *                 enum: [x, tiktok, instagram, facebook]
+ *               handle:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Claim recorded or already claimed (no-op)
+ *       400:
+ *         description: Invalid network
+ */
+userRouter.post("/:id/follow-claim", verifyToken, claimFollowExtra);
 
 /**
  * @swagger
