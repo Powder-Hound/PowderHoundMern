@@ -9,9 +9,13 @@ import { digitsPhone } from "./phone.js";
  *   CONTEST_START_LOCAL  2026-09-08T00:00:00
  *   CONTEST_END_LOCAL    2026-09-28T23:59:59
  *
- * Referral +5 is credited only when the referred user finishes /go
- * inside this window. Base entry (1) + refCode mint on first finished
- * persist at any time, so share links work before 8 Sep.
+ * Public unique link: https://powalert.com/go?ref={CODE}
+ * Also accepted:      https://powalert.com/go?from=win&ref=CODE
+ * Persist field: `ref` or `referredBy` (same code).
+ *
+ * Referral +5 is credited only when a NEW phone finishes OTP + full /go
+ * persist on that code, inside this window. No self-ref. No page-view credit.
+ * No credit if the phone already exists. Admin CSV/draw unchanged. Cron off.
  *
  * Prize (do not implement payment): one 2026/27 adult Epic or Ikon.
  * Social actions (TikTok, tags, Facebook, Stories, follows) are not credited.
@@ -133,10 +137,28 @@ export function isUrlSafeRefCode(code) {
   return typeof code === "string" && /^[A-Za-z0-9]{4,16}$/.test(code);
 }
 
+/**
+ * Pull a ref code from a bare code, `?ref=CODE`, or `?from=win&ref=CODE`.
+ * `from=win` is accepted and ignored. Scoring is unchanged.
+ */
+export function extractRefCode(value) {
+  const raw = String(value ?? "").trim();
+  if (isUrlSafeRefCode(raw)) return raw;
+  try {
+    const url = raw.includes("://")
+      ? new URL(raw)
+      : raw.startsWith("?") || /(?:^|[?&])ref=/.test(raw)
+        ? new URL(raw.startsWith("?") ? raw : `?${raw}`, CONTEST_SHARE_ORIGIN)
+        : null;
+    const code = url?.searchParams.get("ref");
+    return isUrlSafeRefCode(code) ? code : "";
+  } catch {
+    return "";
+  }
+}
+
 export function readReferredBy(body = {}) {
-  const raw = body.referredBy ?? body.ref ?? "";
-  const code = String(raw).trim();
-  return isUrlSafeRefCode(code) ? code : "";
+  return extractRefCode(body.referredBy ?? body.ref ?? "");
 }
 
 export function stripContestServerFields(body = {}) {
@@ -158,7 +180,7 @@ export function sanitizeUserWrite(body = {}) {
 
 export function contestShareUrl(refCode) {
   if (!refCode) return "";
-  return `${CONTEST_SHARE_ORIGIN}?from=win&ref=${refCode}`;
+  return `${CONTEST_SHARE_ORIGIN}?ref=${refCode}`;
 }
 
 export function clientIpFromReq(req) {

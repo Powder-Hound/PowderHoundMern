@@ -16,6 +16,7 @@ import {
   adminEntriesToCsv,
   contestShareUrl,
   denverDateTime,
+  extractRefCode,
   detectFraud,
   hashIp,
   isFinishedGo,
@@ -183,7 +184,7 @@ describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entri
     assert.equal(planA.referrerInc, null);
     assert.equal(
       contestShareUrl(planA.userSet.refCode),
-      `https://powalert.com/go?from=win&ref=${planA.userSet.refCode}`
+      `https://powalert.com/go?ref=${planA.userSet.refCode}`
     );
   });
 
@@ -291,10 +292,21 @@ describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entri
     );
   });
 
-  it("accepts referredBy or ref and blocks client-set entries/refCode", () => {
+  it("accepts referredBy or ref and both public link shapes", () => {
     assert.equal(readReferredBy({ referredBy: "Ab3Cd4Ef" }), "Ab3Cd4Ef");
     assert.equal(readReferredBy({ ref: "Ab3Cd4Ef" }), "Ab3Cd4Ef");
     assert.equal(readReferredBy({ ref: "../not-a-code" }), "");
+    assert.equal(extractRefCode("https://powalert.com/go?ref=Ab3Cd4Ef"), "Ab3Cd4Ef");
+    assert.equal(
+      extractRefCode("https://powalert.com/go?from=win&ref=Ab3Cd4Ef"),
+      "Ab3Cd4Ef"
+    );
+    assert.equal(extractRefCode("from=win&ref=Ab3Cd4Ef"), "Ab3Cd4Ef");
+    assert.equal(readReferredBy({ ref: "https://powalert.com/go?ref=Ab3Cd4Ef" }), "Ab3Cd4Ef");
+    assert.equal(
+      readReferredBy({ referredBy: "https://powalert.com/go?from=win&ref=Ab3Cd4Ef" }),
+      "Ab3Cd4Ef"
+    );
     const stripped = stripContestServerFields({
       name: "Pat",
       entries: 99,
