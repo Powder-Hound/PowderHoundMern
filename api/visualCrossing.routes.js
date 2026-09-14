@@ -65,6 +65,37 @@ visualCrossingRouter.get(
   }
 );
 
+/**
+ * @swagger
+ * /api/visual-crossing/public:
+ *   get:
+ *     tags: [Weather]
+ *     summary: Public forecast rows for PowAlert pilot pages (no auth)
+ *     parameters:
+ *       - name: ids
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Comma-separated resort ObjectIds
+ *     responses:
+ *       200:
+ *         description: Weather rows for the requested ids
+ *       400:
+ *         description: Missing or invalid ids
+ */
+visualCrossingRouter.get(
+  "/public",
+  validateIds,
+  async (req, res, next) => {
+    try {
+      await findListOfWeatherData(req, res);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 // ✅ Get weather alerts
 visualCrossingRouter.get(
   "/alerts",
