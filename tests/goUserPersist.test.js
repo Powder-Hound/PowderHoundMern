@@ -115,6 +115,31 @@ describe("ENABLE_POWDER_ALERT_CRON stays gated off", () => {
     assert.doesNotMatch(cron, /ENABLE_POWDER_ALERT_CRON\s*=\s*"true"/);
   });
 
+  it("hard-gates storm SMS send + HTTP trigger/alerts behind the same env", () => {
+    const service = readFileSync(
+      join(root, "services/weatherAlertService.js"),
+      "utf8"
+    );
+    const notify = readFileSync(
+      join(root, "controllers/notification.controller.js"),
+      "utf8"
+    );
+    const visual = readFileSync(
+      join(root, "controllers/visual-crossing.controller.js"),
+      "utf8"
+    );
+    const index = readFileSync(join(root, "index.js"), "utf8");
+
+    assert.match(service, /isPowderAlertCronEnabled/);
+    assert.match(service, /openingAlertWindowStatus/);
+    assert.match(service, /STORM_ALERT_LEAD_DAYS/);
+    assert.match(notify, /isPowderAlertCronEnabled/);
+    assert.match(notify, /status\(403\)/);
+    assert.match(visual, /isPowderAlertCronEnabled/);
+    assert.match(visual, /status\(403\)/);
+    assert.doesNotMatch(index, /liveWeatherMonitor/);
+  });
+
   it("Twilio Verify send no longer prepends + onto E.164", () => {
     const middleware = readFileSync(
       join(root, "middleware/twilioMiddleware.js"),

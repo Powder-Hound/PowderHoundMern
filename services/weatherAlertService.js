@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { User } from "../models/users.model.js";
+import { Resort } from "../models/resorts.model.js";
 import { ResortWeatherData } from "../models/resortWeatherData.model.js";
 import { Notification } from "../models/notification.model.js";
 import { ExpediaLink } from "../models/expediaLink.model.js";
@@ -9,10 +10,23 @@ import { AggregatedNotification } from "../models/aggregatedNotification.model.j
 import { splitAggregatedMessages } from "../utils/smsUtils.js";
 import { splitAggregatedEmailMessages } from "../utils/emailUtils.js";
 import { sendPushNotification } from "../services/pushNotificationService.js";
+import {
+  STORM_ALERT_LEAD_DAYS,
+  isPowderAlertCronEnabled,
+  openingAlertWindowStatus,
+} from "../utils/stormAlertGate.js";
 
 export const fetchVisualCrossingAlerts = async () => {
   try {
     console.log("🚀 Fetching Visual Crossing alerts...");
+
+    // CoS lock: mass / stick / storm SMS cannot fire unless the cron env is on.
+    if (!isPowderAlertCronEnabled()) {
+      console.warn(
+        "⛔ CoS lock: storm/stick SMS off (ENABLE_POWDER_ALERT_CRON !== true). No sends."
+      );
+      return [];
+    }
 
     // Fetch users who have notifications enabled, including pushToken
     const users = await User.find(
@@ -64,6 +78,14 @@ export const fetchVisualCrossingAlerts = async () => {
 
       console.log(`🎯 Mapped Preferred Resorts:`, preferredResorts);
 
+      const followedResorts = await Resort.find(
+        { _id: { $in: preferredResorts } },
+        "season resortName"
+      );
+      const seasonByResortId = new Map(
+        followedResorts.map((resort) => [resort._id.toString(), resort.season])
+      );
+
       // Fetch weather data for the user's preferred resorts
       const weatherData = await ResortWeatherData.find({
         resortId: { $in: preferredResorts },
@@ -82,6 +104,16 @@ export const fetchVisualCrossingAlerts = async () => {
       for (const data of weatherData) {
         if (!data.weatherData || !data.weatherData.visualCrossing?.forecast) {
           console.warn(`⚠️ No forecast data for resort: ${data.resortId}`);
+          continue;
+        }
+
+        const window = openingAlertWindowStatus(
+          seasonByResortId.get(String(data.resortId))
+        );
+        if (!window.allowed) {
+          console.log(
+            `⛔ Skipping ${data.resortName || data.resortId}: not within ${STORM_ALERT_LEAD_DAYS} days of opening (${window.reason}).`
+          );
           continue;
         }
 

@@ -4,6 +4,10 @@ import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { getAllResorts } from "../utils/mongoResortHelper.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
 import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
+import {
+  STORM_ALERTS_LOCKED_MESSAGE,
+  isPowderAlertCronEnabled,
+} from "../utils/stormAlertGate.js";
 
 // Function to get all weather data
 export const getAllWeatherData = async (req, res) => {
@@ -85,9 +89,15 @@ export const findListOfWeatherData = async (req, res) => {
   }
 };
 
-// Function to fetch weather alerts
+// Function to fetch weather alerts (this path also sends SMS — CoS-locked)
 export const getWeatherAlerts = async (req, res) => {
   try {
+    if (!isPowderAlertCronEnabled()) {
+      return res.status(403).send({
+        success: false,
+        message: STORM_ALERTS_LOCKED_MESSAGE,
+      });
+    }
     const alerts = await fetchVisualCrossingAlerts();
 
     if (!alerts.length) {
