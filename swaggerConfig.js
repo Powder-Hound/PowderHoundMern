@@ -35,6 +35,13 @@ const swaggerDefinition = {
           email: { type: "string", example: "doctaflav@email.com" },
           phoneNumber: { type: "string", example: "15098675309" },
           permissions: { type: "string", example: "user" },
+          refCode: { type: "string", example: "Ab3Cd4Ef" },
+          entries: { type: "number", example: 1 },
+          referredBy: { type: "string", example: "" },
+          followClaims: {
+            type: "array",
+            example: [{ network: "x", handle: "@pow_alert" }],
+          },
         },
       },
     },
@@ -54,7 +61,8 @@ const swaggerDefinition = {
             "email": "doctaflav@email.com",
             "password": "SecurePass123!",
             "phoneNumber": "15098675309",
-            "phoneVerifySID": "123456abcdef"
+            "phoneVerifySID": "123456abcdef",
+            "referredBy": "Ab3Cd4Ef"
           }
           \`\`\`
         `,

@@ -4,6 +4,13 @@ import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { digitsPhone } from "../utils/phone.js";
+import {
+  applyContestOnUserSave,
+  clientIpFromReq,
+  isFinishedGo,
+  planFollowClaim,
+  sanitizeUserWrite,
+} from "../utils/contest.js";
 dotenv.config();
 
 const phoneLookupFilter = (phoneNumber) => {
@@ -37,14 +44,18 @@ export const createUser = async (req, res) => {
     });
   }
 
+  const { referredBy, safeFields: safeUser } = sanitizeUserWrite(user);
+
   const newUser = new User({
-    ...user,
-    name: user.name ?? "",
+    ...safeUser,
+    name: safeUser.name ?? "",
     phoneNumber,
+    referredBy,
+    referralCreditEligible: true,
   });
 
   if (newUser.password) {
-    newUser.password = await hashPassword(user.password);
+    newUser.password = await hashPassword(safeUser.password);
   }
 
   const token = jwt.sign(
@@ -58,7 +69,12 @@ export const createUser = async (req, res) => {
 
   try {
     const savedUser = await newUser.save();
-    res.status(201).send({ user: savedUser, token });
+    const finalUser = await applyContestOnUserSave({
+      user: savedUser,
+      wasAlreadyFinished: false,
+      clientIp: clientIpFromReq(req),
+    });
+    res.status(201).send({ user: finalUser, token });
   } catch (error) {
     if (error?.code === 11000) {
       return res.status(409).send({
@@ -162,6 +178,12 @@ export const updateUser = async (req, res) => {
 
     console.log("Incoming update data:", updateFields);
 
+    const { referredBy, safeFields } = sanitizeUserWrite(updateFields);
+    for (const key of Object.keys(updateFields)) {
+      delete updateFields[key];
+    }
+    Object.assign(updateFields, safeFields);
+
     if (updateFields.phoneNumber) {
       const digits = digitsPhone(updateFields.phoneNumber);
       if (!digits) {
@@ -204,6 +226,19 @@ export const updateUser = async (req, res) => {
 
     console.log("Processed update fields:", updateFields);
 
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    if (referredBy && !existingUser.referredBy) {
+      updateFields.referredBy = referredBy;
+    }
+
+    const wasAlreadyFinished = isFinishedGo(existingUser);
+
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { $set: updateFields },
@@ -216,13 +251,73 @@ export const updateUser = async (req, res) => {
         .send({ success: false, message: "User not found" });
     }
 
-    console.log("User updated successfully:", updatedUser);
-    res.status(200).send({ success: true, data: updatedUser });
+    const finalUser = await applyContestOnUserSave({
+      user: updatedUser,
+      wasAlreadyFinished,
+      clientIp: clientIpFromReq(req),
+    });
+
+    console.log("User updated successfully:", finalUser);
+    res.status(200).send({ success: true, data: finalUser });
   } catch (error) {
     console.error("Update Error:", error);
     res
       .status(500)
       .send({ success: false, message: "Error updating user", error });
+  }
+};
+
+export const claimFollowExtra = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    if (req.permissions !== "admin" && req.userID !== id) {
+      return res
+        .status(401)
+        .send({ success: false, message: "Unauthorized to claim follows for this user" });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    const plan = planFollowClaim({
+      user: user.toObject(),
+      network: req.body?.network,
+      handle: req.body?.handle,
+    });
+
+    if (!plan.ok) {
+      return res.status(plan.status || 400).send({
+        success: false,
+        message: "network must be x, tiktok, instagram, or facebook",
+        reason: plan.reason,
+      });
+    }
+
+    if (!plan.noop) {
+      user.followClaims = plan.followClaims;
+      user.entries = plan.entries;
+      await user.save();
+    }
+
+    return res.status(200).send({
+      success: true,
+      claimed: true,
+      noop: Boolean(plan.noop),
+      network: req.body?.network,
+      reason: plan.reason,
+      data: user,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      success: false,
+      message: "Error claiming follow extra",
+      error: error?.message || error,
+    });
   }
 };
 

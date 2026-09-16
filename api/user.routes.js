@@ -1,9 +1,15 @@
 import express from "express";
 import {
+  claimFollowExtra,
   getUser,
   deleteUser,
   updateUser,
 } from "../controllers/user.controller.js";
+import {
+  drawContestWinner,
+  listContestEntries,
+  listContestEntriesCsv,
+} from "../controllers/contest.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
 const userRouter = express.Router();
@@ -34,6 +40,48 @@ const userRouter = express.Router();
  *       404:
  *         description: User not found
  */
+/**
+ * @swagger
+ * /api/users/contest/entries:
+ *   get:
+ *     tags: [Users]
+ *     summary: Admin JSON table of One Extra Storm entries
+ *     responses:
+ *       200:
+ *         description: Contest rows
+ *       401:
+ *         description: Admin token required
+ */
+userRouter.get("/contest/entries", verifyToken, listContestEntries);
+
+/**
+ * @swagger
+ * /api/users/contest/entries.csv:
+ *   get:
+ *     tags: [Users]
+ *     summary: Admin CSV of One Extra Storm entries
+ *     responses:
+ *       200:
+ *         description: CSV download
+ *       401:
+ *         description: Admin token required
+ */
+userRouter.get("/contest/entries.csv", verifyToken, listContestEntriesCsv);
+
+/**
+ * @swagger
+ * /api/users/contest/draw:
+ *   post:
+ *     tags: [Users]
+ *     summary: Admin weighted draw (probability proportional to entries)
+ *     responses:
+ *       200:
+ *         description: One eligible winner
+ *       401:
+ *         description: Admin token required
+ */
+userRouter.post("/contest/draw", verifyToken, drawContestWinner);
+
 userRouter.get("/:id", verifyToken, getUser);
 
 /**
@@ -67,6 +115,38 @@ userRouter.get("/:id", verifyToken, getUser);
  *         description: User not found
  */
 userRouter.put("/:id", verifyToken, updateUser);
+
+/**
+ * @swagger
+ * /api/users/{id}/follow-claim:
+ *   post:
+ *     tags: [Users]
+ *     summary: Honor-system follow extra (+1 per network, max 4, idempotent)
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               network:
+ *                 type: string
+ *                 enum: [x, tiktok, instagram, facebook]
+ *               handle:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Claim recorded or already claimed (no-op)
+ *       400:
+ *         description: Invalid network
+ */
+userRouter.post("/:id/follow-claim", verifyToken, claimFollowExtra);
 
 /**
  * @swagger

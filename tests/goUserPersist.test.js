@@ -82,6 +82,8 @@ describe("existing users collection + /go persist fields", () => {
     assert.equal(user.alertThreshold.anyResort, 18);
     assert.equal(user.alertThreshold.snowfallPeriod, 24);
     assert.equal(user.alertThreshold.uom, "in");
+    assert.equal(user.entries, 0);
+    assert.equal(user.refCode, undefined);
   });
 
   it("defaults snowfallPeriod to 24 when omitted", () => {
