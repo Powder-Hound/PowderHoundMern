@@ -92,15 +92,16 @@ describe("CRM row + filters (contest/IG if present)", () => {
     assert.equal(row.verifiedProxy, true);
   });
 
-  it("filters resort/pass/contest/IG/email-consented", () => {
+  it("filters followsResort/pass/contest/IG/email-consented/hasEmail", async () => {
     const resortId = new mongoose.Types.ObjectId();
-    const parsed = buildCrmFilter({
+    const parsed = await buildCrmFilter({
       q: "Pat",
       resort: String(resortId),
       pass: "Epic",
       contest: "true",
       ig: "true",
       emailConsented: "true",
+      hasEmail: "true",
     });
     assert.equal(parsed.ok, true);
     const and = parsed.filter.$and;
@@ -110,18 +111,41 @@ describe("CRM row + filters (contest/IG if present)", () => {
       and.some((clause) => clause["resortPreference.skiPass.Epic"] === true)
     );
     assert.ok(and.some((clause) => clause.emailMarketingConsent === true));
+    assert.ok(and.some((clause) => clause.email?.$gt === ""));
     assert.ok(
-      and.some((clause) =>
-        Array.isArray(clause.$or) &&
-        clause.$or.some((item) => item["followClaims.network"] === "instagram")
+      and.some(
+        (clause) =>
+          clause["resortPreference.resorts"] &&
+          String(clause["resortPreference.resorts"]) === String(resortId)
       )
     );
+    assert.ok(
+      and.some(
+        (clause) =>
+          Array.isArray(clause.$or) &&
+          clause.$or.some((item) => item["followClaims.network"] === "instagram")
+      )
+    );
+    assert.ok(parsed.applied.some((item) => item.id === "hasEmail"));
+    assert.ok(parsed.applied.some((item) => item.id === "followsResort"));
   });
 
-  it("rejects an unknown pass instead of building a raw path", () => {
-    const parsed = buildCrmFilter({ pass: "IkonPlus" });
+  it("rejects an unknown pass instead of building a raw path", async () => {
+    const parsed = await buildCrmFilter({ pass: "IkonPlus" });
     assert.equal(parsed.ok, false);
     assert.equal(parsed.status, 400);
+  });
+
+  it("CSV and list share the same segment filter builder", () => {
+    const controller = readFileSync(
+      join(root, "controllers/admin.controller.js"),
+      "utf8"
+    );
+    assert.match(controller, /const parsed = await buildCrmFilter\(req\.query\)/);
+    assert.equal(
+      controller.split("await buildCrmFilter(req.query)").length - 1,
+      2
+    );
   });
 });
 
@@ -159,6 +183,7 @@ describe("admin CSV export", () => {
 
 describe("admin CRM routes stay private and do not touch storm SMS", () => {
   it("registers allow-listed admin routes and /admin HTML", () => {
+    const html = readFileSync(join(root, "public/admin.html"), "utf8");
     const routes = readFileSync(join(root, "api/admin.routes.js"), "utf8");
     const index = readFileSync(join(root, "index.js"), "utf8");
     const users = readFileSync(join(root, "api/user.routes.js"), "utf8");
@@ -175,6 +200,11 @@ describe("admin CRM routes stay private and do not touch storm SMS", () => {
     assert.match(middleware, /ADMIN_PHONE_ALLOWLIST/);
     assert.match(middleware, /permissions !== "admin"/);
     assert.match(middleware, /allowlist\.size === 0/);
+    assert.match(routes, /followsResort/);
+    assert.match(routes, /hasEmail/);
+    assert.match(html, /followsResort/);
+    assert.match(html, /hasEmail/);
+    assert.match(html, /emailMarketingConsent/);
     assert.doesNotMatch(routes, /sendEmail|sendTextMessage|campaign/);
   });
 

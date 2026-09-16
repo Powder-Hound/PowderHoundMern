@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PowAlert CRM v1</title>
+    <title>PowAlert CRM v2</title>
     <style>
       :root {
         color-scheme: dark;
@@ -51,6 +51,7 @@
       button.secondary { background: #2b3644; color: var(--text); }
       .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
       .row > * { min-width: 140px; }
+      .row .wide { min-width: 220px; flex: 1; }
       table { width: 100%; border-collapse: collapse; font-size: 13px; }
       th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
       th { color: var(--muted); font-weight: 600; }
@@ -58,12 +59,20 @@
       .ok { color: #7dffb3; }
       .hidden { display: none; }
       .meta { color: var(--muted); font-size: 13px; }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
+      .chip {
+        font-size: 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 10px;
+        color: var(--accent);
+      }
     </style>
   </head>
   <body>
     <header>
-      <h1>PowAlert CRM v1</h1>
-      <p class="sub">Read-only. No campaign send. Admin allow-list required. HOLD-MERGE until CoS reviews.</p>
+      <h1>PowAlert CRM v2</h1>
+      <p class="sub">Phase A segments. Read-only — no campaign send. Admin allow-list required. HOLD-MERGE until CoS reviews.</p>
     </header>
     <main>
       <section id="login-panel" class="panel">
@@ -80,7 +89,7 @@
 
       <section id="crm-panel" class="panel hidden">
         <div class="row">
-          <div>
+          <div class="wide">
             <label for="q">Search name / phone / email</label>
             <input id="q" />
           </div>
@@ -94,9 +103,26 @@
               <option>MountainCollective</option>
             </select>
           </div>
+          <div class="wide">
+            <label for="followsResort">Follows resort (id or slug)</label>
+            <input id="followsResort" list="resort-slugs" placeholder="copper-mountain or ObjectId" />
+            <datalist id="resort-slugs"></datalist>
+          </div>
           <div>
-            <label for="resort">Followed resort id</label>
-            <input id="resort" placeholder="ObjectId" />
+            <label for="emailMarketingConsent">Email marketing consent</label>
+            <select id="emailMarketingConsent">
+              <option value="">Any</option>
+              <option value="true">Consented</option>
+              <option value="false">Not consented</option>
+            </select>
+          </div>
+          <div>
+            <label for="hasEmail">Has email</label>
+            <select id="hasEmail">
+              <option value="">Any</option>
+              <option value="true">Non-empty email</option>
+              <option value="false">No email</option>
+            </select>
           </div>
           <div>
             <label for="contest">Contest</label>
@@ -114,18 +140,11 @@
               <option value="false">No IG</option>
             </select>
           </div>
-          <div>
-            <label for="emailConsented">Email consent</label>
-            <select id="emailConsented">
-              <option value="">Any</option>
-              <option value="true">Consented</option>
-              <option value="false">Not consented</option>
-            </select>
-          </div>
           <button id="search-btn" type="button">Filter</button>
           <button id="csv-btn" class="secondary" type="button">Download CSV</button>
         </div>
         <p id="crm-msg" class="meta"></p>
+        <div id="applied" class="chips"></div>
         <div style="overflow:auto">
           <table>
             <thead>
@@ -154,10 +173,27 @@
       const crmPanel = document.getElementById("crm-panel");
       const loginMsg = document.getElementById("login-msg");
       const crmMsg = document.getElementById("crm-msg");
+      const filterIds = [
+        "q",
+        "pass",
+        "followsResort",
+        "contest",
+        "ig",
+        "emailMarketingConsent",
+        "hasEmail",
+      ];
+
+      const toSlug = (name) =>
+        String(name || "")
+          .trim()
+          .toLowerCase()
+          .replace(/['’]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
 
       const queryString = () => {
         const params = new URLSearchParams();
-        for (const id of ["q", "pass", "resort", "contest", "ig", "emailConsented"]) {
+        for (const id of filterIds) {
           const value = document.getElementById(id).value.trim();
           if (value) params.set(id, value);
         }
@@ -176,6 +212,35 @@
           throw new Error(body.message || "Admin access denied");
         }
         return body;
+      }
+
+      async function loadResortSlugs() {
+        try {
+          const res = await fetch("/api/resorts/harvest");
+          const body = await res.json().catch(() => ({}));
+          const list = document.getElementById("resort-slugs");
+          list.innerHTML = "";
+          for (const resort of body.data || []) {
+            const slug = toSlug(resort.resortName);
+            const option = document.createElement("option");
+            option.value = slug;
+            option.label = resort.resortName || slug;
+            list.appendChild(option);
+          }
+        } catch {
+          // Harvest is optional; ObjectId / typed slug still work.
+        }
+      }
+
+      function renderApplied(applied) {
+        const box = document.getElementById("applied");
+        box.innerHTML = "";
+        for (const item of applied || []) {
+          const chip = document.createElement("span");
+          chip.className = "chip";
+          chip.textContent = `${item.id}=${item.value}`;
+          box.appendChild(chip);
+        }
       }
 
       async function loadRows() {
@@ -214,14 +279,21 @@
           }
           tbody.appendChild(tr);
         }
-        crmMsg.textContent = `${body.count} shown / ${body.total} total. Read-only.`;
+        const applied = (body.applied || [])
+          .map((item) => `${item.id}=${item.value}`)
+          .join(", ");
+        crmMsg.className = "meta";
+        crmMsg.textContent = `${body.count} shown / ${body.total} total. Read-only.${
+          applied ? " Segments: " + applied + "." : ""
+        }`;
+        renderApplied(body.applied);
       }
 
       async function openCrm() {
         await confirmAdmin();
         loginPanel.classList.add("hidden");
         crmPanel.classList.remove("hidden");
-        await loadRows();
+        await Promise.all([loadResortSlugs(), loadRows()]);
       }
 
       document.getElementById("login-btn").addEventListener("click", async () => {
