@@ -13,7 +13,7 @@ const adminRouter = express.Router();
  * @swagger
  * tags:
  *   name: Admin CRM
- *   description: Read-only PowAlert CRM (allow-listed admin only)
+ *   description: Read-only PowAlert CRM v2 Phase A — Helio-style segment predicates, no sends
  */
 
 /**
@@ -30,14 +30,21 @@ adminRouter.get("/me", verifyToken, requireAdminCrm, getAdminSession);
  * /api/admin/users:
  *   get:
  *     tags: [Admin CRM]
- *     summary: List/search users (read-only)
+ *     summary: List users by combining segment predicates (read-only)
  *     parameters:
  *       - name: q
  *         in: query
+ *         description: Name / phone / email search (not a segment)
+ *         schema:
+ *           type: string
+ *       - name: followsResort
+ *         in: query
+ *         description: Followed hill — Mongo ObjectId or resortName slug
  *         schema:
  *           type: string
  *       - name: resort
  *         in: query
+ *         description: Alias of followsResort (CRM v1)
  *         schema:
  *           type: string
  *       - name: pass
@@ -45,18 +52,32 @@ adminRouter.get("/me", verifyToken, requireAdminCrm, getAdminSession);
  *         schema:
  *           type: string
  *           enum: [Epic, Ikon, Indy, MountainCollective]
- *       - name: contest
- *         in: query
- *         schema:
- *           type: string
- *           enum: [true, false]
- *       - name: ig
+ *       - name: emailMarketingConsent
  *         in: query
  *         schema:
  *           type: string
  *           enum: [true, false]
  *       - name: emailConsented
  *         in: query
+ *         description: Alias of emailMarketingConsent (CRM v1)
+ *         schema:
+ *           type: string
+ *           enum: [true, false]
+ *       - name: hasEmail
+ *         in: query
+ *         description: Non-empty email when true
+ *         schema:
+ *           type: string
+ *           enum: [true, false]
+ *       - name: contest
+ *         in: query
+ *         description: Matches #49 contest fields if present on the row
+ *         schema:
+ *           type: string
+ *           enum: [true, false]
+ *       - name: ig
+ *         in: query
+ *         description: Matches #49 followClaims instagram / handle fields if present
  *         schema:
  *           type: string
  *           enum: [true, false]
@@ -76,7 +97,7 @@ adminRouter.get("/users", verifyToken, requireAdminCrm, listCrmUsers);
  * /api/admin/users.csv:
  *   get:
  *     tags: [Admin CRM]
- *     summary: CSV export of the same CRM filter (admin-only)
+ *     summary: CSV export of the same segment filter (read-only, admin-only)
  */
 adminRouter.get("/users.csv", verifyToken, requireAdminCrm, exportCrmUsersCsv);
 

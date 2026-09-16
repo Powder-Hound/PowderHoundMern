@@ -1,8 +1,12 @@
-import mongoose from "mongoose";
 import { digitsPhone } from "./phone.js";
 import { normalizeEmail } from "./email.js";
+import {
+  SEGMENT_PREDICATE_IDS,
+  SKI_PASSES,
+  buildSegmentQuery,
+} from "./segmentPredicates.js";
 
-export const SKI_PASSES = ["Epic", "Ikon", "Indy", "MountainCollective"];
+export { SEGMENT_PREDICATE_IDS, SKI_PASSES };
 export const CRM_PAGE_DEFAULT = 50;
 export const CRM_PAGE_MAX = 200;
 export const CRM_EXPORT_MAX = 10000;
@@ -122,9 +126,21 @@ export function toCrmRow(user = {}) {
   };
 }
 
-export function buildCrmFilter(query = {}) {
-  const filter = {};
-  const and = [];
+function combineClauses(clauses) {
+  if (clauses.length === 0) return {};
+  if (clauses.length === 1) return clauses[0];
+  return { $and: clauses };
+}
+
+/**
+ * Compose Helio-style segment predicates + optional `q` search.
+ * List and CSV both call this so export matches the filter UI.
+ */
+export async function buildCrmFilter(query = {}, options = {}) {
+  const segment = await buildSegmentQuery(query, options);
+  if (!segment.ok) return segment;
+
+  const and = [...segment.clauses];
 
   const q = String(query.q ?? "").trim();
   if (q) {
@@ -137,96 +153,12 @@ export function buildCrmFilter(query = {}) {
     and.push({ $or: searchOr });
   }
 
-  if (query.resort) {
-    try {
-      and.push({
-        "resortPreference.resorts": new mongoose.Types.ObjectId(
-          String(query.resort)
-        ),
-      });
-    } catch {
-      return { ok: false, status: 400, message: "resort must be a Mongo ObjectId" };
-    }
-  }
-
-  if (query.pass) {
-    if (!SKI_PASSES.includes(query.pass)) {
-      return {
-        ok: false,
-        status: 400,
-        message: `pass must be one of ${SKI_PASSES.join(", ")}`,
-      };
-    }
-    and.push({ [`resortPreference.skiPass.${query.pass}`]: true });
-  }
-
-  if (query.contest === "true" || query.contest === true) {
-    and.push({
-      $or: [
-        { refCode: { $exists: true, $nin: [null, ""] } },
-        { entries: { $gt: 0 } },
-        { contestEnteredAt: { $ne: null } },
-        { baseEntryGranted: true },
-      ],
-    });
-  } else if (query.contest === "false" || query.contest === false) {
-    and.push({
-      $and: [
-        { $or: [{ refCode: { $exists: false } }, { refCode: "" }, { refCode: null }] },
-        { $or: [{ entries: { $exists: false } }, { entries: 0 }, { entries: null }] },
-        { $or: [{ contestEnteredAt: { $exists: false } }, { contestEnteredAt: null }] },
-        { baseEntryGranted: { $ne: true } },
-      ],
-    });
-  }
-
-  if (query.ig === "true" || query.ig === true) {
-    and.push({
-      $or: [
-        { instagramHandle: { $exists: true, $nin: [null, ""] } },
-        { igHandle: { $exists: true, $nin: [null, ""] } },
-        { instagram: { $exists: true, $nin: [null, ""] } },
-        { "followClaims.network": "instagram" },
-      ],
-    });
-  } else if (query.ig === "false" || query.ig === false) {
-    and.push({
-      $and: [
-        {
-          $or: [
-            { instagramHandle: { $exists: false } },
-            { instagramHandle: "" },
-            { instagramHandle: null },
-          ],
-        },
-        { $or: [{ igHandle: { $exists: false } }, { igHandle: "" }, { igHandle: null }] },
-        {
-          $or: [
-            { followClaims: { $exists: false } },
-            { followClaims: { $size: 0 } },
-            { "followClaims.network": { $ne: "instagram" } },
-          ],
-        },
-      ],
-    });
-  }
-
-  if (query.emailConsented === "true" || query.emailConsented === true) {
-    and.push({ emailMarketingConsent: true });
-  } else if (
-    query.emailConsented === "false" ||
-    query.emailConsented === false
-  ) {
-    and.push({ emailMarketingConsent: { $ne: true } });
-  }
-
-  if (and.length === 1) {
-    Object.assign(filter, and[0]);
-  } else if (and.length > 1) {
-    filter.$and = and;
-  }
-
-  return { ok: true, filter };
+  return {
+    ok: true,
+    filter: combineClauses(and),
+    applied: segment.applied,
+    predicates: SEGMENT_PREDICATE_IDS,
+  };
 }
 
 export function parseCrmPaging(query = {}, { exportAll = false } = {}) {
@@ -270,11 +202,14 @@ export function crmRowsToCsv(rows = []) {
 
 export const CRM_PUBLIC_QUERY_KEYS = [
   "q",
+  "followsResort",
   "resort",
   "pass",
   "contest",
   "ig",
+  "emailMarketingConsent",
   "emailConsented",
+  "hasEmail",
   "page",
   "limit",
 ];

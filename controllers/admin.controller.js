@@ -84,7 +84,7 @@ export const getAdminSession = async (req, res) => {
 };
 
 export const listCrmUsers = async (req, res) => {
-  const parsed = buildCrmFilter(req.query);
+  const parsed = await buildCrmFilter(req.query);
   if (!parsed.ok) {
     return res.status(parsed.status).send({
       success: false,
@@ -120,6 +120,8 @@ export const listCrmUsers = async (req, res) => {
       total,
       count: rows.length,
       columns: CRM_CSV_COLUMNS,
+      predicates: parsed.predicates,
+      applied: parsed.applied,
       rows,
     });
   } catch (error) {
@@ -132,7 +134,7 @@ export const listCrmUsers = async (req, res) => {
 };
 
 export const exportCrmUsersCsv = async (req, res) => {
-  const parsed = buildCrmFilter(req.query);
+  const parsed = await buildCrmFilter(req.query);
   if (!parsed.ok) {
     return res.status(parsed.status).send({
       success: false,
