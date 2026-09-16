@@ -11,6 +11,12 @@ import {
   sendVerificationEmail,
   emailVerificationCheck,
 } from "../middleware/twilioMiddleware.js";
+import {
+  getBotProtectionConfig,
+  otpSendProtection,
+  otpValidateProtection,
+  otpVerifyProtection,
+} from "../middleware/otpBotProtection.js";
 
 const authRouter = express.Router();
 
@@ -75,6 +81,18 @@ authRouter.post("/login", login);
 
 /**
  * @swagger
+ * /api/auth/bot-protection:
+ *   get:
+ *     tags: [Auth]
+ *     summary: Public Turnstile widget config for /go OTP
+ *     responses:
+ *       200:
+ *         description: Site key and whether a token is required
+ */
+authRouter.get("/bot-protection", getBotProtectionConfig);
+
+/**
+ * @swagger
  * /api/auth/validate-username:
  *   post:
  *     tags: [Auth]
@@ -116,8 +134,10 @@ authRouter.post("/validate-username", validateUsername);
  *         description: Number is usable for Verify (Lookup is advisory)
  *       400:
  *         description: Number is missing or not a plausible US E.164
+ *       429:
+ *         description: Rate limited per IP or per phone
  */
-authRouter.post("/validate-phone", validatePhoneNumber);
+authRouter.post("/validate-phone", otpValidateProtection, validatePhoneNumber);
 
 /**
  * @swagger
@@ -134,13 +154,20 @@ authRouter.post("/validate-phone", validatePhoneNumber);
  *             properties:
  *               phoneNumber:
  *                 type: string
+ *               turnstileToken:
+ *                 type: string
+ *                 description: Cloudflare Turnstile widget token (required in production)
  *     responses:
  *       200:
  *         description: Code sent successfully
+ *       403:
+ *         description: Turnstile missing, invalid, or unavailable (fail closed)
+ *       429:
+ *         description: Rate limited per IP or per phone
  *       500:
  *         description: Failed to send code
  */
-authRouter.post("/send-verification-code", sendVerificationCode);
+authRouter.post("/send-verification-code", otpSendProtection, sendVerificationCode);
 
 /**
  * @swagger
@@ -166,8 +193,10 @@ authRouter.post("/send-verification-code", sendVerificationCode);
  *         description: OTP verified successfully
  *       400:
  *         description: Invalid OTP
+ *       429:
+ *         description: Rate limited per IP or per phone
  */
-authRouter.post("/verify-otp", verifyOTP);
+authRouter.post("/verify-otp", otpVerifyProtection, verifyOTP);
 
 /**
  * @swagger
