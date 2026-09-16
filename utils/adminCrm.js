@@ -34,7 +34,7 @@ export function parseAdminPhoneAllowlist(
 ) {
   return new Set(
     String(raw ?? "")
-      .split(/[,\s]+/)
+      .split(",")
       .map((value) => digitsPhone(value))
       .filter(Boolean)
   );

@@ -79,8 +79,12 @@ export function applyEmailPreferenceFields({
   let consent = Boolean(existing.emailMarketingConsent);
 
   if (emailChanged) {
-    // New or cleared address did not consent unless this same request says so.
-    if (emailParse.clear || !consentProvided) {
+    if (emailParse.clear) {
+      consent = false;
+      next.emailMarketingConsent = false;
+      next.emailMarketingConsentAt = null;
+    } else if (existingEmail && !consentProvided) {
+      // A different address did not inherit the previous opt-in.
       consent = false;
       next.emailMarketingConsent = false;
       next.emailMarketingConsentAt = null;
