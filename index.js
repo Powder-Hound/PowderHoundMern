@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerOptions from "./swaggerConfig.js";
@@ -12,8 +14,12 @@ import resortRouter from "./api/resort.routes.js";
 import visualCrossingRouter from "./api/visualCrossing.routes.js";
 import notificationRouter from "./api/notification.routes.js";
 import expediaLinkRouter from "./api/expediaLink.routes.js";
+import adminRouter from "./api/admin.routes.js";
+import { serveAdminHtml } from "./controllers/admin.controller.js";
 import startVisualCrossingCron from "./cron/visualCrossingCron.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
+
+const publicDir = join(dirname(fileURLToPath(import.meta.url)), "public");
 
 dotenv.config();
 
@@ -47,6 +53,9 @@ app.use("/api/resorts", resortRouter);
 app.use("/api/visual-crossing", visualCrossingRouter);
 app.use("/api/notifications", notificationRouter);
 app.use("/api/expedia-links", expediaLinkRouter);
+app.use("/api/admin", adminRouter);
+app.get("/admin", serveAdminHtml);
+app.use("/admin", express.static(publicDir));
 
 // Error Handling Middleware
 app.use(errorHandler); // Always include after all routes
