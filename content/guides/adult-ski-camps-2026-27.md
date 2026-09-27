@@ -323,7 +323,7 @@ Terms vary widely:
 - **Deer Valley women's program**: full refund up to two days out.
 - **Extremely Canadian**: 100% refund up to 48 hours out, 50% after that.
 - **Deer Valley's Ligety and Vogtli clinics**: no refunds at all.
-- **Snow conditions**: most schools run the camp in poor conditions and switch the focus to technique rather than refunding.
+- **Snow conditions**: ask each provider what happens if snow is thin, whether that means a refund, a credit, or a technique-focused day, and get the answer in writing before you pay.
 
 Trip insurance is worth pricing for anything over about US$2,000.
 
