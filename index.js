@@ -15,18 +15,24 @@ import visualCrossingRouter from "./api/visualCrossing.routes.js";
 import notificationRouter from "./api/notification.routes.js";
 import expediaLinkRouter from "./api/expediaLink.routes.js";
 import adminRouter from "./api/admin.routes.js";
+import leadRouter from "./api/lead.routes.js";
 import { serveAdminHtml } from "./controllers/admin.controller.js";
 import startVisualCrossingCron from "./cron/visualCrossingCron.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
+import { isAllowedCorsOrigin } from "./utils/corsOrigins.js";
 
 const publicDir = join(dirname(fileURLToPath(import.meta.url)), "public");
 
 dotenv.config();
 
-const envOrigin = process.env.ORIGIN;
-
 const corsOptions = {
-  "access-control-allow-origins": envOrigin,
+  origin(origin, callback) {
+    if (isAllowedCorsOrigin(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200,
 };
@@ -39,6 +45,8 @@ const app = express();
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 // Middleware
+// Render sits behind a proxy. OTP rate limits must key on the visitor IP.
+app.set("trust proxy", 1);
 app.use(morgan()); // Logs requests to the console
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -54,6 +62,7 @@ app.use("/api/visual-crossing", visualCrossingRouter);
 app.use("/api/notifications", notificationRouter);
 app.use("/api/expedia-links", expediaLinkRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/leads", leadRouter);
 app.get("/admin", serveAdminHtml);
 app.use("/admin", express.static(publicDir));
 
