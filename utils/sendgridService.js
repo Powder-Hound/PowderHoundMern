@@ -11,13 +11,23 @@ if (!process.env.SENDGRID_API_KEY) {
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-export const sendEmail = async (to, subject, message) => {
+export const DEFAULT_SENDER_EMAIL = "hello@powalert.com";
+
+export const sendEmail = async (to, subject, message, options = {}) => {
   try {
+    const html =
+      options && typeof options === "object" && typeof options.html === "string"
+        ? options.html
+        : "";
+    const from =
+      String(process.env.SENDGRID_SENDER_EMAIL || "").trim() ||
+      DEFAULT_SENDER_EMAIL;
     const response = await sgMail.send({
       to,
-      from: process.env.SENDGRID_SENDER_EMAIL,
+      from,
       subject,
       text: message,
+      ...(html ? { html } : {}),
     });
     console.log(`📧 Email sent to ${to}:`, response);
     return response;
