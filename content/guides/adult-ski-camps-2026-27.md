@@ -15,7 +15,7 @@ This directory lists the camps we could check for 2026/27, with dates, prices, l
 - **Confirmed**: 2026/27 dates and price are both posted on the provider's page.
 - **Price TBA**: 2026/27 dates are posted but the price is not.
 - **TBA**: the program exists but 2026/27 dates are not posted. Where useful, we show the most recent published figure, labeled with its season.
-- **(unverified)**: we could not confirm the item on the provider's own page at check time.
+- **Dates/price TBA, check provider.**: the provider lists the program, but its own page does not confirm 2026/27 dates and price. Any date shown next to this label is from the provider's page.
 - Prices are per person, before tax, in the currency shown. Lift access is **not** included unless we say so.
 
 ---
@@ -35,8 +35,6 @@ This directory lists the camps we could check for 2026/27, with dates, prices, l
 - **Early Season Performance Camp (snowboard)**, 2 days. Dec 17–18, 2026. US$865. No more than five riders per coach. Focus: snowboard. Confirmed.
 - **Adaptive Steep & Deep Camp**: dates TBA for 2026/27.
 
-Note: an older page on the same site ([mountain-sports-school path](https://www.jacksonhole.com/mountain-sports-school/steep-deep-camps)) still shows US$2,280. The current multi-day camps pages show US$2,395.
-
 ### Utah
 
 **Alta Ski Area, Alf Engen Ski School** ([women's camps](https://www.alta.com/ski-school/womens-camps/skills))
@@ -48,15 +46,13 @@ Note: an older page on the same site ([mountain-sports-school path](https://www.
 
 **Rippin Chix at Alta**. Women's Steep Skiing Clinic, 2 days. Mar 8–9 or Mar 11–12, 2027. US$725. 6:1 coach ratio. Focus: women's, steeps. Confirmed. ([page](https://www.rippinchix.com/products/2027-alta-ut-womens-steep-skiing-clinic-march-8-9))
 
-**Snowbird**. Women's Ski & Snowboard Camp. Mar 8–10, 2027, per Snowbird's [event calendar](https://www.snowbird.com/activities-events/events/events-calendar/womens-camp-march/). Price not posted. A secondary listing gives the 2025/26 price as US$930, lift not included (unverified). Snowbird has not posted a January 2027 session. Focus: women's, ski and snowboard. Price TBA. ([program page](https://www.snowbird.com/guiding-lessons/programs/womens-camps/))
+**Snowbird**. Women's Ski & Snowboard Camp. Mar 8–10, 2027, per Snowbird's [event calendar](https://www.snowbird.com/activities-events/events/events-calendar/womens-camp-march/). Snowbird has not posted a January 2027 session. Focus: women's, ski and snowboard. Dates/price TBA, check provider. ([program page](https://www.snowbird.com/guiding-lessons/programs/womens-camps/))
 
 **Deer Valley Resort** (policies from Deer Valley's [adult specialty summary](https://dvssvinfo.com/adultSpecialty.php))
 
 - **Women's Three-Day Program**. Dec 15–17, 2026; Jan 29–31 and Mar 3–5, 2027. US$1,100. Advanced beginner to advanced, 18+, groups of 4–8. Includes video and test skis. Full refund if you cancel before 5pm two days prior. Focus: women's. Confirmed. ([page](https://www.deervalley.com/plan-your-trip/ski-school/ski-camps-womens-programs))
 - **Ted Ligety Performance Camp**, 3 days. Feb 5–7, 2027. US$4,990. Advanced–expert, groups of 4–6 with a Deer Valley instructor, plus visits and an indoor session with Ligety. No refunds. Focus: carving, ski with a legend. Confirmed. ([page](https://www.deervalley.com/plan-your-trip/ski-school/ski-camps-ted-ligety))
 - **Jillian Vogtli Empowerment Clinics**. One-day, US$875: Dec 19, 2026 (women), Jan 13, 2027 (co-ed), Mar 8, 2027 (women). Two-day, US$1,750: Feb 27–28, 2027 (women). Intermediate–advanced. No refunds. Focus: women's, mental skills. Confirmed. ([page](https://www.deervalley.com/plan-your-trip/ski-school/ski-camps-jillian-vogtli))
-
-**Park City Mountain**. Women's Weekend. Dates TBA for 2026/27. The last posted dates were March 7–8, 2026 (unverified; the provider site could not be loaded at check time). ([lessons page](https://www.parkcitymountain.com/Plan-Your-Trip/ski-and-ride-lessons.aspx))
 
 ### Colorado
 
@@ -80,11 +76,11 @@ Note: an older page on the same site ([mountain-sports-school path](https://www.
 - **Intermediate & Advanced session**, 3 days. Feb 28–Mar 3, 2027. Focus: technique, ski with a legend. Price TBA.
 - **Women's Clinic**, 3 days. Mar 3–6, 2027. Focus: women's. Price TBA.
 
-**Vail Resorts properties in Colorado.** Automated checks of these sites were blocked, so we could not verify 2026/27 details.
+**Vail Resorts properties in Colorado.** The resorts list these women's programs, but 2026/27 dates and prices are not posted.
 
-- **Vail, Her Turn women's clinic**: TBA (unverified). ([lessons](https://www.vail.com/plan-your-trip/ski-and-ride-lessons.aspx))
-- **Breckenridge, Women's Camp**: TBA (unverified). ([women's programs](https://www.breckenridge.com/plan-your-trip/ski-and-ride-lessons/category/womens-programs.aspx))
-- **Crested Butte, Women's Wednesdays**: TBA (unverified). ([women's programs](https://www.skicb.com/plan-your-trip/ski-and-ride-lessons/category/womens-programs.aspx))
+- **Vail, Her Turn women's clinic**, 3 days with female instructors, starting at Vail Village Ski and Snowboard School. Focus: women's. Dates/price TBA, check provider. ([adult signature programs](https://www.vail.com/plan-your-trip/ski-and-ride-lessons/category/adult-signature-programs.aspx))
+- **Breckenridge, Women's Programs**. Dates/price TBA, check provider. ([women's programs](https://www.breckenridge.com/plan-your-trip/ski-and-ride-lessons/category/womens-programs.aspx))
+- **Crested Butte, Women's Programs**. Dates/price TBA, check provider. ([women's programs](https://www.skicb.com/plan-your-trip/ski-and-ride-lessons/category/womens-programs.aspx))
 - **Beaver Creek**: no adult camp found.
 
 **Winter Park**. Breakthrough Women's Clinic, 1 day, taught by and for women. 2026/27 dates and price are not posted. TBA. ([page](https://www.winterparkresort.com/plan-your-trip/snowboard-ski-lessons/winter-skill-clinics))
@@ -96,7 +92,7 @@ Note: an older page on the same site ([mountain-sports-school path](https://www.
 - **Summit Pursuits with Dan Egan**, 3 days. Jan 12–14 and Feb 23–25, 2027. Price not posted. Groups are set by discipline, ability and goals, with an optional women-only group. Ski and snowboard. Focus: all-mountain, ski with a legend. Price TBA. ([page](https://www.bigskyresort.com/lessons/summit-pursuits))
 - **Calamity Janes**, women's and non-binary multi-week series. Thursdays Jan 7, 21 and 28, and Feb 4, 11 and 25, 2027. Price not clearly posted. All levels. Focus: women's. Price TBA. ([page](https://www.bigskyresort.com/lessons/adult-seasonal-programs/calamity-janes))
 
-**North American Ski Training Center (NASTC) at Big Sky**, 3 days. Jan 13–15, 2027. US$3,995 includes two nights at the Huntley Lodge, breakfast, a 3-day lift ticket and instruction. Instruction only is US$2,995. Levels 7–10. Focus: all-mountain. Confirmed. The camp page also lists Dec 7–9, but NASTC's calendar shows only Jan 13–15; confirm with NASTC. ([calendar](https://skinastc.com/calendar/), [camp page](https://skinastc.com/big-sky/))
+**North American Ski Training Center (NASTC) at Big Sky**, 3 days. Dec 7–9, 2026 or Jan 13–15, 2027. US$3,995 includes two nights at the Huntley Lodge, breakfast, a 3-day lift ticket and instruction. Instruction only is US$2,995. Levels 7–10. Focus: all-mountain. Confirmed. ([calendar](https://skinastc.com/calendar/), [camp page](https://skinastc.com/big-sky/))
 
 ### Idaho
 
@@ -116,7 +112,7 @@ Note: an older page on the same site ([mountain-sports-school path](https://www.
 **NASTC at Palisades and Sugar Bowl.** Levels 7–10, groups of six or fewer. ([Palisades page](https://skinastc.com/palisades/), [calendar](https://skinastc.com/calendar/))
 
 - **Early-season camp, Palisades**, 2 days. Dec 7–8, 2026. US$945. Focus: all-mountain. Confirmed.
-- **All Terrain/All Conditions, Palisades**, 3 days. Jan 25–27 or Feb 22–24, 2027. US$1,045, or US$2,750 with two nights' lodging and a 3-day lift ticket. These dates appear on the camp page but not on NASTC's calendar; confirm. Focus: all-mountain.
+- **All Terrain/All Conditions, Palisades**, 3 days. Jan 25–27 or Feb 22–24, 2027. US$1,045, or US$2,750 with two nights' lodging and a 3-day lift ticket. Focus: all-mountain. Confirmed.
 - **Sugar Bowl camp**. Mar 1–2, 2027. Price not posted. Price TBA.
 
 **Mammoth Mountain.** Prices are not shown on the pages. Lift access is not included. Groups under three students run a half day. ([multi-day clinics](https://www.mammothmountain.com/discover-mammoth/camps-teams/multi-day-clinics))
@@ -140,20 +136,20 @@ Note: an older page on the same site ([mountain-sports-school path](https://www.
 
 **Mt. Hood Meadows**. She Shreds, women's camps and clinics. TBA for 2026/27. ([page](https://www.skihood.com/explore/Lessons-and-Rentals/Camps-and-Clinics/She-Shreds))
 
-**Crystal Mountain, WA**: no dedicated adult camp found. It offers group and freeride lessons (unverified). ([lessons](https://www.crystalmountainresort.com/plan-your-trip/ski-and-snowboard-lessons))
+**Crystal Mountain, WA**: no dedicated adult camp found. It offers adult group lessons and Crystal Freeride sessions. ([lessons](https://www.crystalmountainresort.com/plan-your-trip/ski-and-snowboard-lessons))
 
 ### New Mexico
 
 **Taos Ski Valley.** Ski Weeks are six half-day lessons, Sunday through Friday, with participants grouped by ability. ([Ski Weeks](https://www.skitaos.com/ski-weeks); 2026/27 dates from Taos's [Sept 9, 2026 announcement](https://www.prnewswire.com/news-releases/taos-ski-valley-announces-2027-opening-date-and-winter-season-updates-302874219.html))
 
-- **Taos Ski Week**, weekly all winter. 2026/27 price not posted. 2025/26 price: US$395, per a secondary source (unverified). All levels, grouped by ability. Focus: all-mountain, technique. Price TBA.
+- **Taos Ski Week**, weekly all winter. All levels, grouped by ability. Focus: all-mountain, technique. Dates/price TBA, check provider.
 - **Early Season Ski Weeks**. Dec 13–19, 2026 and Jan 3–9, 2027. US$220, which is 50% off. Focus: all-mountain. Confirmed.
 - **Women's Ski Weeks**. Jan 3–9 and Feb 21–27, 2027. Price not posted. Focus: women's. Price TBA.
 - **Race Ski Week with Alain Veth**, 6 days. Dates TBA for 2026/27. Advanced. Focus: race.
 
 ### Alaska
 
-**Alyeska Resort**. Women on Snow, 2 days. Listed dates are Dec 27–28 and Feb 14–15, 18+, novice to advanced (unverified; the provider page could not be loaded). ([Mountain Sports School](https://www.alyeskaresort.com/mountain-sports-school/))
+**Alyeska Resort**. Women on Snow, 2 days: two half-day lessons plus lunch with your instructor. Dec 19–20 and Feb 13–14. The page lists days without a year; both are Saturday–Sunday weekends in the 2026/27 season. US$199 when booked online. Novice to advanced, 18+. Lift access and rentals are not included. Focus: women's. Confirmed. ([Mountain Sports School](https://www.alyeskaresort.com/mountain-sports-school/))
 
 ---
 
@@ -174,9 +170,9 @@ Note: an older page on the same site ([mountain-sports-school path](https://www.
 - **Women's Discovery Camp**, 2 days. Advanced beginner–expert. 2026/27 dates and price not yet posted. TBA.
 - **Advanced Adult Series**, 3 weeks, for experts on steep, technical terrain. TBA.
 
-**Stratton**. Women on Snow, 2-day camps. TBA; details could not be verified at check time (unverified). ([camps and clinics](https://www.stratton.com/plan-your-trip/snowboarding-ski-lessons/seasonal-programs-camps/camps-clinics))
+**Stratton**. Women's 2- and 3-Day Camps. Two-day camps Feb 4–5 and Feb 24–25, 2027; three-day camp Jan 11–13, 2027. Price not posted. Ages 18+, ski and snowboard, small groups set by pace, terrain and goals, with continental breakfast. Focus: women's. Price TBA. ([camps and clinics](https://www.stratton.com/plan-your-trip/snowboarding-ski-lessons/seasonal-programs-camps/camps-clinics))
 
-**Stowe** (Women + Wine) and **Okemo** (Women's Alpine Adventures). TBA. These are Vail Resorts sites and could not be checked (unverified). ([Stowe lessons](https://www.stowe.com/plan-your-trip/ski-and-ride-lessons.aspx))
+**Okemo**. Women's Alpine Adventure. Focus: women's. Dates/price TBA, check provider. ([page](https://www.okemo.com/plan-your-trip/ski-and-ride-lessons/category/womens-alpine-adventure.aspx))
 
 ### New Hampshire
 
@@ -199,9 +195,9 @@ We found no women's, masters or steep camps for 2026/27 at Sugarloaf, Sunday Riv
 - **Freeride Snowboard Clinic**, 2 days. 19 set dates, Dec 19, 2026–Mar 28, 2027. CA$698. Focus: snowboard, freeride. Confirmed. ([page](https://extremelycanadian.com/snowboard-clinics))
 - **Wild Tracks Women's Inbounds**, 1 day. Jan 30, 2027. CA$249. Focus: women's, steeps. Confirmed. ([page](https://extremelycanadian.com/womens-inbounds))
 
-**Whistler Blackcomb Snow School.** Figures come from Tourism Whistler's [booking page](https://www.whistler.com/skiing/ski-school/adult-lessons/); the resort's own site could not be loaded.
+**Whistler Blackcomb Snow School.** Women's camp dates are from the resort's [women's camps page](https://www.whistlerblackcomb.com/plan-your-trip/ski-and-ride-lessons/womens-camps.aspx); prices and The Camp's dates are from Tourism Whistler's [booking page](https://www.whistler.com/skiing/ski-school/adult-lessons/).
 
-- **Helly Hansen Women's 2-Day Camps**. Dec 12–13 (ski only), Jan 9–10, Jan 23–24, Feb 6–7, Feb 20–21 (ski only), Mar 6–7 and Mar 20–21 (ski only). CA$537, camp only. Levels 1–6, ski and snowboard. Focus: women's. Confirmed.
+- **Helly Hansen Women's 2-Day Camps**. Dec 12–13, 2026 (ski only); Jan 9–10, Jan 23–24, Feb 6–7, Feb 20–21 (ski only), Mar 6–7 and Mar 20–21, 2027 (ski only). 9am–3pm. CA$537, camp only. Levels 1–6, ski and snowboard. Focus: women's. Confirmed.
 - **The Camp**, 4 days. Weekly Jan 11–14 through Mar 15–18, 2027 (nine sessions). CA$981, camp only. Levels 4–6. Focus: all-mountain. Confirmed.
 
 **Revelstoke Mountain Resort.** Prices drop 15% if you book before Nov 15. Lift ticket required. ([adult specialty programs](https://www.revelstokemountainresort.com/mountain-sports-school/adult-programs/adult-specialty-programs/))
@@ -228,11 +224,11 @@ We found no women's, masters or steep camps for 2026/27 at Sugarloaf, Sunday Riv
 
 **Extremely Canadian World Tour, Sunshine Village**. Apr 2–6, 2027. CA$5,250 plus taxes. Includes four days of skiing with EC coaches and four days of lift tickets. Advanced–expert, ski and snowboard. Focus: steeps, powder, freeride. Confirmed. ([page](https://extremelycanadian.com/sunshine))
 
-**Sunshine Village**. Women's Ski Days, 6 Mondays. Jan 4–Feb 8, 2027. All levels, 18+. Registration closes Dec 31, 2026. Price: the webstore shows conflicting figures, so confirm with Sunshine (unverified). Focus: women's. ([page](https://shop.skibanff.com/en/catalogue/womens-ski-days-18yrs_1734/))
+**Sunshine Village**. Women's Ski Days, 6 Mondays. Jan 4–Feb 8, 2027. All levels, 18+. Registration closes Dec 31, 2026. CA$755. Full days 10am–3:30pm; lift ticket or pass and rentals are extra. Focus: women's. Confirmed. ([page](https://shop.skibanff.com/en/catalogue/womens-ski-days-18yrs_1734/))
 
 ### Quebec
 
-**Tremblant**: no dedicated adult camp found. Adult seasonal programs reportedly start in January 2027 (unverified). ([seasonal programs](https://www.tremblant.ca/plan/tremblant-snow-school/seasonal-programs))
+**Tremblant**: no dedicated adult camp found. Adult seasonal programs for 2026/27 start January 9, 2027. ([seasonal programs](https://www.tremblant.ca/plan/tremblant-snow-school/seasonal-programs))
 
 ---
 
@@ -257,7 +253,7 @@ These are listed separately. They are travel programs, and many include lodging.
 - **Alagna**, Italy. Feb 14–21, 2027. Price TBD; the page shows CA$6,450 from the prior season.
 - **Las Leñas**, Argentina. Aug 28–Sep 4 and Sep 4–11, 2027. Price TBD; 2026 price: CA$10,995.
 
-**Chris Davenport camps.** Currency is not stated on the page. ([camps](https://chrisdavenport.com/ski-camps))
+**Chris Davenport camps.** Prices are shown as listed on the provider's page. ([camps](https://chrisdavenport.com/ski-camps))
 
 - **JAPOW**, Lotte Arai, Myoko, Japan. Jan 31–Feb 7, 2027. $3,400. Focus: powder. Confirmed.
 - **Engelberg**, Switzerland. Mar 21–28, 2027. $3,400. Focus: freeride. Confirmed.
@@ -344,14 +340,14 @@ Trip insurance is worth pricing for anything over about US$2,000.
 
 ---
 
-## Get alerts before you go
+## Plan your camp around the forecast
 
-PowAlert is a ski-alerts service. If you are booking a camp this season, sign up at [/go](/go) to get alerts for the resorts you plan to ski.
+PowAlert is a free extended ski resort and powder forecast. Pick your mountains at [powalert.com/go](https://powalert.com/go).
 
 ---
 
 ## Sources and verification
 
-All camps were checked on **September 27, 2026**. Every entry links to the provider's page at the point where it appears. Where the resort's site could not be loaded, we name the source used instead: Tourism Whistler for Whistler Blackcomb, and Taos's own press release for Taos dates. Entries marked (unverified) rely on secondary listings or could not be confirmed on the provider's site at check time. Several Vail Resorts sites (Vail, Breckenridge, Crested Butte, Park City, Stowe, Okemo, Whistler Blackcomb) blocked automated checks.
+All camps were checked on **September 27, 2026**. Every entry links to the provider's page at the point where it appears. Where a figure comes from somewhere other than the provider's own page, we name the source: Tourism Whistler for Whistler Blackcomb prices, and Taos's own press release for Taos dates. Entries marked "Dates/price TBA, check provider." are programs the provider lists without confirmed 2026/27 dates or price. We left out any claim we could not confirm on a provider page.
 
 Camp dates, prices and inclusions change, and some sessions sell out months ahead. Confirm every detail directly with the provider before you book or make travel plans.

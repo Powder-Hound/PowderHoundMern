@@ -7,7 +7,7 @@ A practical reference for skiing from a van, truck camper, or RV in North Americ
 How to read this guide:
 
 - **Fact** statements carry an inline link to the page we read.
-- **(unverified)** means we could not confirm the item on a primary source on the check date.
+- Where we could not confirm a rule or price on a primary source, we cut it and say: "Confirm overnight rules or cost with the resort before you go."
 - **Inference** is labeled as such. It is our reading of the facts, not a policy.
 
 ---
@@ -31,7 +31,7 @@ The picture is not all bans. Many mid-size and independent areas now sell capped
 - **Allowed:** overnight stays in a vehicle are permitted in a designated area, usually self-contained only.
 - **Restricted:** overnight parking is possible, but sleeping in the vehicle is prohibited or unclear, or you need prior authorization.
 - **Banned:** no overnight parking or camping in resort lots.
-- **Unverified:** no policy found on the resort's own site on the check date.
+- **Not posted:** no overnight policy found on the resort's own site on the check date.
 
 "Self-contained" means onboard toilet and water, with all waste packed out. Unless the Cost column says otherwise, assume no hookups, no water, and no dump station. Prices are in US dollars for US resorts. Canadian resort prices are shown as C$, on the assumption that Canadian resort sites list Canadian dollars (inference). All pages were checked September 27, 2026.
 
@@ -39,10 +39,10 @@ The picture is not all bans. Many mid-size and independent areas now sell capped
 
 | Resort | Status | Cost | Rules | Source |
 |---|---|---|---|---|
-| Mt. Baker | Allowed | Not shown on page (unverified) | Reservation required, Opening Day to Apr 18. Self-contained. 7 nights max if occupied. No tents | [mtbaker.us](https://www.mtbaker.us/getting-here/overnight-parking/op-occupied-vehicles/) |
+| Mt. Baker | Allowed | Site rate: Confirm overnight rules or cost with the resort before you go. Additional vehicles $10 each | Reservation required, Opening Day to Apr 18. Self-contained. 7 nights max if occupied. No tents | [mtbaker.us](https://www.mtbaker.us/getting-here/overnight-parking/op-occupied-vehicles/) |
 | Crystal Mountain | Allowed | Winter nightly rate not posted. 2026 summer: $65 (50A), $55 (30A). 26/27 RV season pass $7,249 or $7,799 | Reserve on RoverPass. 30/50A hookups. No dump, no water hookups. Quiet 10pm-8am | [crystalmountainresort.com](https://www.crystalmountainresort.com/things-to-do/overnight-and-rv-parking), [season pass](https://www.crystalmountainresort.com/plan-your-trip/tickets-and-passes/rv-season-pass) |
-| Summit at Snoqualmie | Allowed | Not shown in page text (unverified) | Book online in advance. 3 nights max. No RV stays Sun/Mon nights (4th night allowed only on Sundays before MLK and Presidents Day). Quiet 11pm-8am. No tents | [summitatsnoqualmie.com](https://www.summitatsnoqualmie.com/overnight-parking) |
-| Stevens Pass | Allowed | Not shown (unverified) | Lot F only. RV-specific reservation required. RV lot "operating for Winter 2026/27" | [stevenspass.com](https://www.stevenspass.com/explore-the-resort/about-the-resort/getting-here-and-parking.aspx) |
+| Summit at Snoqualmie | Allowed | Confirm overnight rules or cost with the resort before you go. Page lists $30/night for summer only | Book online in advance. 3 nights max. No RV stays Sun/Mon nights (4th night allowed only on Sundays before MLK and Presidents Day). Quiet 11pm-8am. No tents | [summitatsnoqualmie.com](https://www.summitatsnoqualmie.com/overnight-parking) |
+| Stevens Pass | Allowed | Confirm overnight rules or cost with the resort before you go. | Lot F only. RV-specific reservation required. RV lot "operating for Winter 2026/27" | [stevenspass.com](https://www.stevenspass.com/explore-the-resort/about-the-resort/getting-here-and-parking.aspx) |
 | Mission Ridge | Allowed | $40/night (15 RV spots). Truck campers under 22 ft $30/night | Reserve 24 hr ahead. 7 consecutive or 14 in 30 nights max. Must be occupied. No hookups | [missionridge.com](https://www.missionridge.com/rv-overnight-parking/) |
 | White Pass | Allowed | $40, $45, or $50 by site length (30, 40, 50 ft) | 76 sites in Lot A. Online reservation required. Half released weekly Monday 9pm. No hookups | [skiwhitepass.com](https://skiwhitepass.com/lodging-and-dining/rv-parking) |
 
@@ -59,7 +59,7 @@ The picture is not all bans. Many mid-size and independent areas now sell capped
 
 | Resort | Status | Cost | Rules | Source |
 |---|---|---|---|---|
-| Sun Valley | Unverified | (unverified) | No overnight policy found on sunvalley.com | None found |
+| Sun Valley | Not posted | n/a | No overnight policy found on sunvalley.com. Confirm overnight rules or cost with the resort before you go. | None found |
 | Brundage | Allowed | Free | Register with Guest Services. Centennial Lot. Holiday blackouts (2025/26 listed: Dec 23-Jan 7, Jan 16-19, Feb 13-16; 26/27 not posted). No generators 10pm-8am | [brundage.com](https://brundage.com/winter-camping/) |
 | Schweitzer | Allowed | Free | Fire station lot only. Overnight RV pass from Guest Services. 3 nights max. Must be occupied. No tents | [schweitzer.com FAQ](https://www.schweitzer.com/about-us/faq), [parking](https://www.schweitzer.com/mountain-info/shuttles-parking) |
 | Big Sky | Banned | n/a | No camping on resort property. Campers may stay overnight only as resort lodging guests with a tag, and may not occupy the camper | [bigskyresort.com](https://www.bigskyresort.com/policies/camping) |
@@ -73,8 +73,8 @@ The picture is not all bans. Many mid-size and independent areas now sell capped
 | Resort | Status | Cost | Rules | Source |
 |---|---|---|---|---|
 | Alta | Banned | n/a | No overnight parking in Little Cottonwood Canyon except registered lodge guests, cabin guests, and employee zones | [alta.com](https://www.alta.com/parking-faqs) |
-| Snowbird | Banned (canyon rule; unverified on resort site) | n/a | Snowbird's parking pages do not address it. UDOT: no sleeping in vehicles within 1/2 mile of any Cottonwood Canyons road except designated campgrounds | [UDOT](https://cottonwoodcanyons.udot.utah.gov/travel-resources/), [alta.com](https://www.alta.com/parking-faqs) |
-| Brighton | Banned (canyon rule; unverified on resort site) | n/a | Resort page did not load. UDOT: no roadside overnight parking in Big Cottonwood 12am-7am, and the same 1/2-mile sleeping ban | [UDOT](https://cottonwoodcanyons.udot.utah.gov/travel-resources/) |
+| Snowbird | Banned (UDOT canyon rule) | n/a | Snowbird's parking pages do not address it. UDOT: no sleeping in vehicles within 1/2 mile of any Cottonwood Canyons road except designated campgrounds | [UDOT](https://cottonwoodcanyons.udot.utah.gov/travel-resources/), [alta.com](https://www.alta.com/parking-faqs) |
+| Brighton | Banned (UDOT canyon rule) | n/a | Resort parking pages do not address it. UDOT: no roadside overnight parking in Big Cottonwood 12am-7am, and the same 1/2-mile sleeping ban | [UDOT](https://cottonwoodcanyons.udot.utah.gov/travel-resources/) |
 | Solitude | Banned | n/a | No camping in lots at any time | [solitudemountain.com](https://www.solitudemountain.com/mountain-and-village/mountain-information/mountain-policies) |
 | Park City Mountain | Banned | n/a | No overnight parking in surface lots or Mountain Village lots | [parkcitymountain.com](https://www.parkcitymountain.com/explore-the-resort/about-the-resort/getting-here.aspx) |
 | Snowbasin | Banned | n/a | No overnight camping on premises | [snowbasin.com](https://www.snowbasin.com/about/faqs/) |
@@ -85,15 +85,15 @@ The picture is not all bans. Many mid-size and independent areas now sell capped
 | Resort | Status | Cost | Rules | Source |
 |---|---|---|---|---|
 | Arapahoe Basin | Banned | n/a | No overnight parking or camping year-round. No RVs or trailers | [parkabasin.com](https://www.parkabasin.com/parkingbasics), [arapahoebasin.com](https://www.arapahoebasin.com/the-beach/) |
-| Loveland | Unverified | (unverified) | Resort FAQ does not address it. A 2019 secondary account says Guest Services no longer allows overnight RV camping | [Ski Burrito (secondary)](https://skiburrito.com/winter-van-life-loveland-ski-area/) |
+| Loveland | Not posted | n/a | Resort FAQ does not address overnight stays. Confirm overnight rules or cost with the resort before you go. | [skiloveland.com](https://skiloveland.com/plan-your-trip/faq/) |
 | Copper Mountain | Restricted | $20 overnight parking, Alpine Lot only, 10pm-5am | No camping, meaning no sleeping in the vehicle. RV overnight parking only for Copper lodging guests, still no sleeping | [coppercolorado.com](https://www.coppercolorado.com/plan-your-trip/getting-here/parking) |
 | Keystone | Banned | n/a | No camping (county land use agreement). No oversized vehicle parking | [keystoneresort.com](https://www.keystoneresort.com/explore-the-resort/about-the-resort/getting-here.aspx) |
 | Breckenridge | Banned (resort lots) | Town Runway oversize lot: $45 per 24 hr, no camping | No oversized or overnight parking in resort lots. Town: no sleeping in vehicles in town lots or streets | [breckenridge.com](https://www.breckenridge.com/explore-the-resort/about-the-resort/getting-here.aspx), [Breck Park](https://www.breckpark.com/) |
-| Vail | Restricted (camping unverified) | Village and Lionshead garages: free if you enter 3pm-4am, $60 if you enter 4am-5am (winter) | Resort page does not state whether you may sleep in a vehicle (unverified). Town oversize area: $60/day | [vail.com](https://www.vail.com/explore-the-resort/about-the-resort/getting-here.aspx), [Discover Vail](https://discovervail.com/businesses/oversized-vehicle-parking/) |
+| Vail | Restricted | Village and Lionshead garages: free if you enter 3pm-4am, $60 if you enter 4am-5am (winter) | Sleeping in a vehicle: Confirm overnight rules or cost with the resort before you go. Town oversize area: $60/day | [vail.com](https://www.vail.com/explore-the-resort/about-the-resort/getting-here.aspx), [Discover Vail](https://discovervail.com/businesses/oversized-vehicle-parking/) |
 | Winter Park | Restricted | No fee stated | Generally not permitted. Limited self-contained exceptions in upper G Lot only. Call Security at 970-726-1500 first. 3 days in any 30 | [winterparkresort.com](https://www.winterparkresort.com/plan-your-trip/getting-here/resort-parking) |
-| Steamboat | Restricted | $40/night, oversized vehicles, Meadows Lot | Call 970-846-1055. The page does not say whether you may sleep in the vehicle (unverified) | [steamboat.com](https://www.steamboat.com/plan-your-trip/getting-here-and-around) |
+| Steamboat | Restricted | $40/night, oversized vehicles, Meadows Lot | Call 970-846-1055. Sleeping in the vehicle: Confirm overnight rules or cost with the resort before you go. | [steamboat.com](https://www.steamboat.com/plan-your-trip/getting-here-and-around) |
 | Telluride | Restricted | Mountain Village Gondola Garage overnight: $40 car, $60 RV or trailer over 24 ft | Overnight parking yes, sleeping in the vehicle no. First come, no reservations | [tellurideskiresort.com](https://tellurideskiresort.com/travel/), [Town of Mountain Village](https://townofmountainvillage.com/explore/getting-around/parking/) |
-| Aspen Snowmass | Restricted (unverified) | n/a | Resort page lists no overnight parking at the Snowmass Base Village garage. No general camping policy found. County roadside vehicle camping ban since Jan 2026 | [aspensnowmass.com](https://www.aspensnowmass.com/visit/parking-and-getting-around), [Aspen Times](https://www.aspentimes.com/news/pitkin-county-commissioners-approve-ban-on-roadside-camping/) |
+| Aspen Snowmass | No overnight at Snowmass Base garage | n/a | Resort page lists no overnight parking at the Snowmass Base Village garage. For other lots: Confirm overnight rules or cost with the resort before you go. County roadside vehicle camping ban since Jan 2026 | [aspensnowmass.com](https://www.aspensnowmass.com/visit/parking-and-getting-around), [Aspen Times](https://www.aspentimes.com/news/pitkin-county-commissioners-approve-ban-on-roadside-camping/) |
 | Monarch | Banned (resort lots) | Not stated | Winter camping allowed at the Monarch Crest permitted area atop Monarch Pass. Forest Service stay limits apply | [skimonarch.com](https://skimonarch.com/parking/) |
 
 ### New Mexico
@@ -107,9 +107,9 @@ The picture is not all bans. Many mid-size and independent areas now sell capped
 | Resort | Status | Cost | Rules | Source |
 |---|---|---|---|---|
 | Mammoth | Banned (winter) | n/a | Overnight parking prohibited in all lots in winter. Violators towed or ticketed | [mammothmountain.com](https://www.mammothmountain.com/discover-mammoth/getting-around/parking) |
-| Palisades Tahoe | Restricted (overnight unverified) | n/a | Trailers, campers, and towed vehicles not permitted in lots. Overnight rule for self-propelled vans not stated (unverified) | [palisadestahoe.com](https://www.palisadestahoe.com/mountain-information/parking-and-road-conditions/parking-program) |
+| Palisades Tahoe | Restricted (no towed units) | n/a | Trailers, campers, and towed vehicles not permitted in lots. For self-propelled vans: Confirm overnight rules or cost with the resort before you go. | [palisadestahoe.com](https://www.palisadestahoe.com/mountain-information/parking-and-road-conditions/parking-program) |
 | Northstar | Banned | n/a | No overnight parking, no overnight camping | [northstarcalifornia.com](https://www.northstarcalifornia.com/explore-the-resort/about-the-resort/getting-here.aspx) |
-| Heavenly | Restricted (camping unverified) | "No free overnight parking" at base lodges | Camping not addressed on the page we found (unverified) | [Heavenly help center](https://skiheavenly.zendesk.com/hc/en-us/articles/4412286683291-Is-There-Free-Parking-In-Heavenly) |
+| Heavenly | Restricted | "No free overnight parking" at base lodges | Sleeping in a vehicle: Confirm overnight rules or cost with the resort before you go. | [Heavenly help center](https://skiheavenly.zendesk.com/hc/en-us/articles/4412286683291-Is-There-Free-Parking-In-Heavenly) |
 | Kirkwood | Banned | n/a | No overnight camping in any lot | [kirkwood.com](https://www.kirkwood.com/explore-the-resort/about-the-resort/getting-here.aspx) |
 | Mt. Rose | Banned | n/a | No overnight parking. No RV parking (Sprinter vans OK for day use) | [skirose.com](https://skirose.com/mountain-information/) |
 | Diamond Peak | Banned | n/a | No overnight parking. No RV parking | [diamondpeak.com](https://www.diamondpeak.com/visit/getting-here-parking/) |
@@ -120,11 +120,11 @@ The picture is not all bans. Many mid-size and independent areas now sell capped
 |---|---|---|---|---|
 | Killington | Allowed | No fee stated | Skyeship lot only, Nov-May. Guests with a valid mountain product only. 10 nights per winter. First come. Self-contained. No fires. Winter listing showed "2025/26 closed" at check | [killington.com](https://www.killington.com/camping) |
 | Stowe | Banned | n/a | No overnight parking. No vehicles over 25 ft | [Stowe help center](https://stowe.zendesk.com/hc/en-us/articles/29905865518619-Do-you-allow-overnight-parking), [stowe.com](https://www.stowe.com/explore-the-resort/about-the-resort/getting-here.aspx) |
-| Sugarbush | Unverified | (unverified) | No policy found on sugarbush.com | None found |
-| Jay Peak | Banned (event notice; general policy unverified) | n/a | An April 2024 eclipse-event page says overnight camping is not permitted anywhere at the resort | [jaypeakresort.com](https://jaypeakresort.com/resort/blog-updates/whiteout-total-eclipse-operational-details) |
+| Sugarbush | Not posted | n/a | No overnight policy found on sugarbush.com. Confirm overnight rules or cost with the resort before you go. | None found |
+| Jay Peak | Not posted (general policy) | n/a | An April 2024 eclipse-event page said overnight camping was not permitted anywhere at the resort. The current resort policies page does not address it. Confirm overnight rules or cost with the resort before you go. | [jaypeakresort.com](https://jaypeakresort.com/resort/blog-updates/whiteout-total-eclipse-operational-details) |
 | Sunday River | Allowed | No fee stated | Back row of Lot 5. Must be built or retrofitted for habitation and self-contained. No sleeping in passenger cars or tents | [sundayriver.com](https://www.sundayriver.com/policies-and-safety/resort-policies) |
 | Sugarloaf | Allowed | Free (all lots free) | Winter: Lot E only. Self-contained single units up to 25 ft, no trailers. Never unattended. Move daily. Display your contact info | [sugarloaf.com](https://www.sugarloaf.com/parking-and-shuttles) |
-| Cannon (NH) | Allowed (state park RV park) | Not shown (unverified) | Cannon Mountain RV Park: 7 sites with hookups, year-round, reservation required | [cannonmt.com](https://www.cannonmt.com/winter-camping-rv-park) |
+| Cannon (NH) | Allowed (state park RV park) | Confirm overnight rules or cost with the resort before you go. | Cannon Mountain RV Park: 7 sites with hookups, year-round, reservation required | [cannonmt.com](https://www.cannonmt.com/winter-camping-rv-park) |
 | Whiteface (NY) | Banned | n/a | No overnight camping in lots | [whiteface.com](https://whiteface.com/mountain/free-parking-shuttle/) |
 
 ### British Columbia and Alberta
@@ -133,14 +133,14 @@ The picture is not all bans. Many mid-size and independent areas now sell capped
 |---|---|---|---|---|
 | Whistler Blackcomb | Banned | n/a | Day Lots 1-5: no parking 3am-6am, Nov 1-Mar 31. Sleeping in vehicles not permitted on Whistler roads or municipal lots | [whistlerblackcomb.com](https://www.whistlerblackcomb.com/explore-the-resort/about-the-resort/getting-here.aspx), [RMOW](https://www.whistler.ca/transportation/parking/where-to-park-in-whistler/) |
 | Revelstoke | Banned | n/a | "New: No overnight parking or camping" on site. Resort points to Boulder Mountain Resort, The Reverie, and Smokey Bear | [revelstokemountainresort.com](https://www.revelstokemountainresort.com/discover/lodging/rv-parks-camping/) |
-| Kicking Horse | Unverified | (unverified) | No policy found on kickinghorseresort.com | None found |
+| Kicking Horse | Not posted | n/a | No overnight policy found on kickinghorseresort.com. Confirm overnight rules or cost with the resort before you go. | None found |
 | RED Mountain | Allowed | Free | Lower lot, self-contained. Permit from the attendant from 3pm. Up to two 7-day stays. First come | [redresort.com](https://www.redresort.com/getting-here/#overnight-parking) |
-| Whitewater | Allowed | Not captured (unverified) | 10 self-contained sites at Hummingbird Lodge, 6 with 30A power. 14 nights max, 35 ft max. Indoor washrooms and showers | [whitewatermountainresort.com](https://whitewatermountainresort.com/accommodation/camping-at-whitewater/) |
-| Fernie | Allowed (seasonal) | Winter season RV parking C$3,099 (listed down from C$4,339). Nightly rate not found (unverified) | Season runs Thanksgiving weekend to May long weekend. Recreational use, not a principal residence | [skircr.com](https://skircr.com/product/fernie-rv-parking/) |
+| Whitewater | Allowed | Confirm overnight rules or cost with the resort before you go. | 10 self-contained sites at Hummingbird Lodge, 6 with 30A power. 14 nights max, 35 ft max. Indoor washrooms and showers | [whitewatermountainresort.com](https://whitewatermountainresort.com/accommodation/camping-at-whitewater/) |
+| Fernie | Allowed (seasonal) | Winter season RV parking C$3,099 (listed down from C$4,339). Nightly rate: Confirm overnight rules or cost with the resort before you go. | Season runs Thanksgiving weekend to May long weekend. Recreational use, not a principal residence | [skircr.com](https://skircr.com/product/fernie-rv-parking/) |
 | Big White | Allowed | C$50/night for RVs and campers | Permit required. 7 nights per season max. No services | [bigwhite.com](http://bigwhite.com/explore/transport/driving-big-white-day-parking-free) |
 | Sun Peaks | Allowed | C$22.50/night | Lot P5. Online reservations for 26/27 open Oct 13, 2026. 14 nights max. Self-contained. No sani-dump in winter | [sunpeaksresort.com](https://www.sunpeaksresort.com/places-to-stay/rving-camping) |
 | Panorama | Banned (RVs) | n/a | Oversized vehicles and trailers prohibited in long-term parking | [panoramaresort.com](https://www.panoramaresort.com/planning/tickets-and-passes/long-term-paid-parking-permit) |
-| Banff Sunshine | Banned (park rule; unverified on resort site) | n/a | Resort bars access to its premises outside operating hours without approval. In Banff National Park, camping only in designated campgrounds | [skibanff.com](https://www.skibanff.com/resort-policy-third-party-use/), [Parks Canada](https://parks.canada.ca/pn-np/ab/banff/activ/camping) |
+| Banff Sunshine | Banned (Parks Canada rule) | n/a | Resort bars access to its premises outside operating hours without approval. Parks Canada: "Camping is only permitted in a designated campground and site" in Banff National Park | [skibanff.com](https://www.skibanff.com/resort-policy-third-party-use/), [Parks Canada](https://parks.canada.ca/pn-np/ab/banff/activ/camping) |
 | Lake Louise | Banned | n/a | "Overnight parking, camping or picnicking in parking lots is prohibited" | [skilouise.com](https://www.skilouise.com/getting-here/by-car/free-parking/) |
 
 **Coverage gaps:** We found no usable overnight policy on the resort's own site for Sun Valley, Loveland, Sugarbush, or Kicking Horse. We did not assess Deer Valley, Crested Butte, Okemo, Eldora, Purgatory, Loon, Bretton Woods, Mad River Glen, Saddleback, Sierra-at-Tahoe, Sugar Bowl, Bogus Basin, Tamarack, or Ski Santa Fe this pass.
@@ -177,14 +177,14 @@ When the lot says no, these are the options. All of them have rules, and many cl
 
 **Banff and Lake Louise.** In Banff National Park, camping is allowed only in designated campgrounds, with a camping permit and a park pass. Maximum stay is 14 nights. Two campgrounds are open year-round: Tunnel Mountain Village II (electrical sites, 15/30/50A) and Lake Louise Hard-sided (15/30/50A, hard-sided units only). Both list a dumping station ([Parks Canada](https://parks.canada.ca/pn-np/ab/banff/activ/camping)).
 
-**Vermont and New Hampshire.** Sunday River points to Stony Brook Campground, about five miles away ([sundayriver.com](https://www.sundayriver.com/policies-and-safety/resort-policies)). In Franconia Notch, the NH State Parks-run Cannon Mountain RV Park takes reservations year-round ([cannonmt.com](https://www.cannonmt.com/winter-camping-rv-park)). Gifford Woods State Park near Killington lists tent and RV sites, but its winter status was not confirmed (unverified) ([vtstateparks.com](https://www.vtstateparks.com/parks/gifford-woods)).
+**Vermont and New Hampshire.** Sunday River points to Stony Brook Campground, about five miles away ([sundayriver.com](https://www.sundayriver.com/policies-and-safety/resort-policies)). In Franconia Notch, the NH State Parks-run Cannon Mountain RV Park takes reservations year-round ([cannonmt.com](https://www.cannonmt.com/winter-camping-rv-park)). Gifford Woods State Park near Killington lists 22 tent/RV sites and a trailer sanitary station, but its posted season runs from the Friday of Memorial Day weekend through the third weekend in October, so it is not a ski-season option ([vtstateparks.com](https://www.vtstateparks.com/parks/gifford-woods)).
 
 ### Retail lots and membership networks
 
 - **Walmart.** Walmart's corporate FAQ says it permits RV parking "as we are able." Permission comes from individual store managers based on space and local laws, and Walmart asks you to contact store management first ([Ask Walmart](https://corporate.walmart.com/askwalmart)). **Inference:** Many mountain towns restrict overnight parking by ordinance, so expect store-level refusals near resorts.
-- **Cabela's / Bass Pro Shops.** We found no published corporate overnight policy (unverified). Call the specific store.
+- **Cabela's / Bass Pro Shops.** We found no published corporate overnight policy. Confirm overnight parking with the specific store before you go.
 - **Harvest Hosts.** An annual membership for self-contained RVs to stay overnight at farms, wineries, breweries, and similar hosts. Plans are $99/year (Classic), $169 (with Boondockers Welcome), or $179 (All Access). There is no camping fee. Harvest Hosts suggests supporting the host with a purchase of about $30 per one-night stay ([Harvest Hosts guide](https://www.harvesthosts.com/blog/what-is-harvest-hosts-a-complete-guide-to-how-it-works); [how it works](https://www.harvesthosts.com/how-it-works)). **Inference:** Winter availability near ski towns is thinner than in summer.
-- **Hipcamp.** A booking marketplace for campsites on private land ([hipcamp.com](https://www.hipcamp.com/)). Winter availability, plowing, and vehicle access near resorts vary by listing (unverified).
+- **Hipcamp.** A booking marketplace for campsites on private land ([hipcamp.com](https://www.hipcamp.com/)). Confirm winter access and plowing with the host before you go.
 
 ---
 
@@ -261,19 +261,17 @@ Generator rules are site-specific:
 
 | Cluster | Facility | What's verified | Source |
 |---|---|---|---|
-| Wasatch | Cottonwood Improvement District, 8620 Highland Dr, Sandy | Previously listed on third-party dump-station directories as year-round; listing no longer online (unverified) | None found; confirm by phone |
 | Wasatch | Fuel | No gas stations in Big or Little Cottonwood Canyon | [UDOT](https://cottonwoodcanyons.udot.utah.gov/traction-law/) |
-| I-70 / Summit | Tiger Run Resort, near Breckenridge | 371 full-hookup sites, year-round. Non-guest dump access (unverified) | [tigerrunresort.com](https://www.tigerrunresort.com/rv-sites) |
-| Tahoe | Coachland RV Park, Truckee | Winter dump access (unverified) | None verified |
+| I-70 / Summit | Tiger Run Resort, near Breckenridge | 371 full-hookup sites, year-round. Non-guest dump access: Confirm hours and winter access with the operator before you go. | [tigerrunresort.com](https://www.tigerrunresort.com/rv-sites) |
 | Mammoth | Mammoth Mountain RV Park | Open year-round. Dump station, propane fill, winter overflow parking listed | [mammothrv.com](https://mammothrv.com/amenities.htm) |
 | Jackson | Jackson Hole Campground (Fireside) | Freshwater fill year-round. Dump only mid-May to mid-Oct. Winter sites electric-only | [jacksonholecampground.com](http://jacksonholecampground.com/) |
-| Bend / Bachelor | Mt. Bachelor RV lot | 50/30/20A outlets at hookup spots. Water and dump not confirmed for winter (unverified) | [mtbachelor.com](https://www.mtbachelor.com/amenities-groups/overnight-rv-camping/) |
-| Bend / Bachelor | Sun Outdoors Bend (formerly Crown Villa) | Public dump access and winter hours (unverified) | [crownvillarvresort.com](https://crownvillarvresort.com/) |
-| Whistler / Sea-to-Sky | Function Junction Depot, 1001 Lynham Rd | Municipal RV sanitation dump. Winter water availability (unverified) | [RMOW](https://www.whistler.ca/property-housing/garbage-and-recycling/waste-facilities/) |
+| Bend / Bachelor | Mt. Bachelor RV lot | 50/30/20A outlets at hookup spots. No sewage or tank-dumping area and no 24-hour water fill on site; bring your own water | [mtbachelor.com](https://www.mtbachelor.com/amenities-groups/overnight-rv-camping/) |
+| Bend / Bachelor | Sun Outdoors Bend (formerly Crown Villa) | Confirm hours and winter access with the operator before you go. | [crownvillarvresort.com](https://crownvillarvresort.com/) |
+| Whistler / Sea-to-Sky | Function Junction Depot, 1001 Lynham Rd | Municipal RV sanitation dump. Water fill: Confirm hours and winter access with the operator before you go. | [RMOW](https://www.whistler.ca/property-housing/garbage-and-recycling/waste-facilities/) |
 | Whistler / Sea-to-Sky | Riverside (Parkbridge) | Lists sani dump and water refill station | [parkbridge.com](https://www.parkbridge.com/en/resort/resort-detail/riverside) |
 | Banff / Lake Louise | Tunnel Mtn Village II and Lake Louise Hard-sided (Parks Canada) | Year-round. Dumping station listed. Reservation and park pass required | [Parks Canada](https://parks.canada.ca/pn-np/ab/banff/activ/camping) |
 | Vermont | Killington winter lot | No potable water, restrooms, or dumpsters. Showers at Pico Fitness Center (day pass) | [killington.com](https://www.killington.com/camping) |
-| Vermont | Gifford Woods State Park | Winter dump and water status (unverified) | [vtstateparks.com](https://www.vtstateparks.com/parks/gifford-woods) |
+| Vermont | Gifford Woods State Park | Trailer sanitary station, no hookups. Posted season ends the third weekend in October | [vtstateparks.com](https://www.vtstateparks.com/parks/gifford-woods) |
 | New Hampshire | Cannon Mountain RV Park | Hookups, year-round by reservation | [cannonmt.com](https://www.cannonmt.com/winter-camping-rv-park) |
 
 **Showers.** Whitewater has indoor heated washrooms and showers for campers ([whitewatermountainresort.com](https://whitewatermountainresort.com/accommodation/camping-at-whitewater/)). Grand Targhee sells a pool add-on that includes shower access ([grandtarghee.com](https://www.grandtarghee.com/plan-your-trip/lodging-options/winter-camping)). Sun Peaks sells showers at $5 plus tax per person ([sunpeaksresort.com](https://www.sunpeaksresort.com/places-to-stay/rving-camping)).
@@ -354,9 +352,9 @@ These norms come from the rules resorts publish. They are also the reasons overn
 
 ---
 
-## 9. Get the alert before you drive
+## 9. PowAlert
 
-A van only helps if you're parked at the right mountain before the snow falls. PowAlert sends a text when a mountain you follow crosses the snowfall amount you set, as early as the forecast shows it. That gives you time to book a site, check the chain law, and plan the drive. Sign up at [/go](/go).
+PowAlert is a free extended ski resort and powder forecast. Pick your mountains at [powalert.com/go](https://powalert.com/go).
 
 ---
 
@@ -364,7 +362,7 @@ A van only helps if you're parked at the right mountain before the snow falls. P
 
 All resort and agency pages cited above were checked **September 27, 2026**. Most resorts had not published 2026/27 winter overnight rates on that date. Where a page showed summer 2026 or 2025/26 information, we said so in the table.
 
-Entries marked **(unverified)** could not be confirmed on a primary source on that date. "Unverified on resort site" means the rule comes from a government agency or secondary source rather than the resort itself.
+Every rule and price in this guide links to the resort, operator, or government page we read. Where we could not confirm a claim on a primary source, we removed it and told you to confirm with the resort or operator. Where a rule comes from a government agency rather than the resort (for example UDOT in the Cottonwood Canyons, or Parks Canada in Banff), the table names the agency.
 
 Numerical examples in the power section are illustrative and labeled as such.
 

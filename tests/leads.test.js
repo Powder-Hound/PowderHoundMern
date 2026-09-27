@@ -215,10 +215,12 @@ describe("guide markdown drop-in", () => {
     for (const slug of ["ski-vanlife", "adult-ski-camps"]) {
       const markdown = loadGuideMarkdown(slug);
       const html = renderGuideMarkdown(markdown);
-      const sourceCount = markdown.match(/unverified/gi).length;
-      const htmlCount = html.match(/unverified/gi).length;
+      const sourceCount = (markdown.match(/unverified/gi) || []).length;
+      const htmlCount = (html.match(/unverified/gi) || []).length;
       const tables = markdown.match(/^\|[-:| ]+\|\s*$/gm).length;
-      assert.equal(htmlCount, sourceCount, `${slug} dropped an unverified marker`);
+      assert.equal(htmlCount, sourceCount, `${slug} unverified count changed in render`);
+      assert.equal(sourceCount, 0, `${slug} editorial file should have zero unverified markers`);
+      assert.match(markdown, /https:\/\/powalert\.com\/go/);
       assert.equal((html.match(/<table\b/g) || []).length, tables, slug);
       assert.match(html, /border-collapse:collapse/);
     }
@@ -229,8 +231,8 @@ describe("guide markdown drop-in", () => {
     });
     assert.match(email.html, /See PowAlert/);
     assert.match(email.ctaUrl, /^https:\/\/powalert\.com\/go\?from=ski-vanlife$/);
+    assert.match(email.html, /href="https:\/\/powalert\.com\/go"/);
     assert.match(email.html, /Sun Valley/);
-    assert.match(email.html, /\(unverified\)/);
   });
 
   it("ends every guide email with the /go CTA and optional UTM", () => {
@@ -271,7 +273,7 @@ describe("POST /api/leads", () => {
     assert.equal(sends.length, 1);
     assert.equal(sends[0][0], "pat@powalert.com");
     assert.match(sends[0][2], /See PowAlert: https:\/\/powalert\.com\/go\?/);
-    assert.match(sends[0][3].html, /\(unverified\)/);
+    assert.match(sends[0][3].html, /href="https:\/\/powalert\.com\/go"/);
     assert.match(sends[0][3].html, /<table /);
     assert.match(sends[0][3].html, /from=ski-vanlife/);
     assert.match(sends[0][3].html, /utm_source=newsletter/);
