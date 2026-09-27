@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import twilio from "twilio";
 import sgMail from "@sendgrid/mail";
 import { e164Phone } from "../utils/phone.js";
+import { recordPhoneOtpVerified } from "../utils/contest.js";
+import { createValidatePhoneNumber } from "../utils/phoneLookupGate.js";
 
 dotenv.config();
 
@@ -63,6 +65,17 @@ export const verifyOTP = async (req, res) => {
       .services(process.env.TWILIO_VERIFY_SERVICE_SID)
       .verificationChecks.create({ to, code });
 
+    if (check?.status === "approved") {
+      try {
+        await recordPhoneOtpVerified(to);
+      } catch (contestError) {
+        console.error(
+          "[contest-otp]",
+          contestError?.message || contestError
+        );
+      }
+    }
+
     return res.status(200).send(check);
   } catch (error) {
     console.log(error);
@@ -84,39 +97,9 @@ export const sendTextMessage = (number, message) => {
   }
 };
 
-export const validatePhoneNumber = async (req, res) => {
-  try {
-    const to = e164Phone(req.body?.phoneNumber);
-    if (!to) {
-      return res.status(400).send({
-        success: false,
-        valid: false,
-        message: "phoneNumber is required",
-      });
-    }
-
-    const phoneNumber = await client.lookups.v2.phoneNumbers(to).fetch();
-
-    if (phoneNumber?.valid) {
-      return res.status(200).send(phoneNumber);
-    }
-
-    return res.status(200).send({
-      success: false,
-      valid: false,
-      phoneNumber: phoneNumber?.phoneNumber,
-      message: "Invalid phone number",
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(400).send({
-      success: false,
-      valid: false,
-      message: error?.message || "Invalid phone number",
-      code: error?.code,
-    });
-  }
-};
+export const validatePhoneNumber = createValidatePhoneNumber((to) =>
+  client.lookups.v2.phoneNumbers(to).fetch()
+);
 
 export const sendVerificationEmail = async (req, res) => {
   try {

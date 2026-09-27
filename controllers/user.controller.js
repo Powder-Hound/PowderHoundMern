@@ -4,6 +4,7 @@ import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { digitsPhone } from "../utils/phone.js";
+import { applyEmailPreferenceFields } from "../utils/email.js";
 import {
   applyContestOnUserSave,
   clientIpFromReq,
@@ -12,6 +13,12 @@ import {
   sanitizeUserWrite,
 } from "../utils/contest.js";
 dotenv.config();
+
+const SERVER_OWNED_USER_FIELDS = [
+  "permissions",
+  "emailMarketingConsentAt",
+  "phoneVerifySID",
+];
 
 const phoneLookupFilter = (phoneNumber) => {
   const digits = digitsPhone(phoneNumber);
@@ -73,6 +80,7 @@ export const createUser = async (req, res) => {
       user: savedUser,
       wasAlreadyFinished: false,
       clientIp: clientIpFromReq(req),
+      referralJustAttached: Boolean(referredBy),
     });
     res.status(201).send({ user: finalUser, token });
   } catch (error) {
@@ -165,9 +173,26 @@ export const getUser = async (req, res) => {
   }
 };
 
+const stripServerOwnedUserFields = (fields = {}) => {
+  const next = { ...fields };
+  for (const key of SERVER_OWNED_USER_FIELDS) {
+    delete next[key];
+  }
+  return next;
+};
+
+const applyEmailUpdateOrError = ({ body, existing, updateFields }) => {
+  const emailResult = applyEmailPreferenceFields({ body, existing });
+  if (!emailResult.ok) {
+    return emailResult;
+  }
+  Object.assign(updateFields, emailResult.fields);
+  return { ok: true };
+};
+
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const updateFields = req.body;
+  const updateFields = stripServerOwnedUserFields(req.body || {});
 
   try {
     if (req.permissions !== "admin" && req.userID !== id) {
@@ -177,6 +202,25 @@ export const updateUser = async (req, res) => {
     }
 
     console.log("Incoming update data:", updateFields);
+
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    const emailApplied = applyEmailUpdateOrError({
+      body: req.body || {},
+      existing: existingUser,
+      updateFields,
+    });
+    if (!emailApplied.ok) {
+      return res.status(emailApplied.status).send({
+        success: false,
+        message: emailApplied.message,
+      });
+    }
 
     const { referredBy, safeFields } = sanitizeUserWrite(updateFields);
     for (const key of Object.keys(updateFields)) {
@@ -226,13 +270,6 @@ export const updateUser = async (req, res) => {
 
     console.log("Processed update fields:", updateFields);
 
-    const existingUser = await User.findById(id);
-    if (!existingUser) {
-      return res
-        .status(404)
-        .send({ success: false, message: "User not found" });
-    }
-
     if (referredBy && !existingUser.referredBy) {
       updateFields.referredBy = referredBy;
     }
@@ -255,12 +292,20 @@ export const updateUser = async (req, res) => {
       user: updatedUser,
       wasAlreadyFinished,
       clientIp: clientIpFromReq(req),
+      referralJustAttached: Boolean(referredBy && !existingUser.referredBy),
     });
 
     console.log("User updated successfully:", finalUser);
     res.status(200).send({ success: true, data: finalUser });
   } catch (error) {
     console.error("Update Error:", error);
+    if (error?.name === "ValidationError") {
+      return res.status(400).send({
+        success: false,
+        message: error.message,
+        error,
+      });
+    }
     res
       .status(500)
       .send({ success: false, message: "Error updating user", error });
@@ -316,6 +361,112 @@ export const claimFollowExtra = async (req, res) => {
     return res.status(500).send({
       success: false,
       message: "Error claiming follow extra",
+      error: error?.message || error,
+    });
+  }
+};
+
+/**
+ * SPA preference write: set/clear optional email + marketing consent.
+ * Email is never required. Consent is never inferred from an address.
+ */
+export const updateUserPreferences = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body || {};
+
+  try {
+    if (req.permissions !== "admin" && req.userID !== id) {
+      return res.status(401).send({
+        success: false,
+        message: "Unauthorized to update this user",
+      });
+    }
+
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    const updateFields = {};
+    const emailApplied = applyEmailUpdateOrError({
+      body,
+      existing: existingUser,
+      updateFields,
+    });
+    if (!emailApplied.ok) {
+      return res.status(emailApplied.status).send({
+        success: false,
+        message: emailApplied.message,
+      });
+    }
+
+    if (body.name !== undefined) {
+      updateFields.name = String(body.name ?? "");
+    }
+    if (body.zipCode !== undefined) {
+      updateFields.zipCode = body.zipCode;
+    }
+    if (body.notificationsActive !== undefined) {
+      updateFields.notificationsActive = body.notificationsActive;
+    }
+    if (body.alertThreshold !== undefined) {
+      updateFields.alertThreshold = body.alertThreshold;
+    }
+    if (body.resortPreference !== undefined) {
+      updateFields.resortPreference = body.resortPreference;
+      if (updateFields.resortPreference.resorts) {
+        if (!Array.isArray(updateFields.resortPreference.resorts)) {
+          return res
+            .status(400)
+            .send({ success: false, message: "Resorts must be an array" });
+        }
+        try {
+          updateFields.resortPreference.resorts =
+            updateFields.resortPreference.resorts.map(
+              (resortId) => new mongoose.Types.ObjectId(String(resortId))
+            );
+        } catch {
+          return res.status(400).send({
+            success: false,
+            message: "Resorts must be valid MongoDB ObjectIds",
+          });
+        }
+      }
+    }
+
+    const { referredBy } = sanitizeUserWrite(body);
+    if (referredBy && !existingUser.referredBy) {
+      updateFields.referredBy = referredBy;
+    }
+
+    const wasAlreadyFinished = isFinishedGo(existingUser);
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: updateFields },
+      { new: true, runValidators: true }
+    );
+
+    const finalUser = await applyContestOnUserSave({
+      user: updatedUser,
+      wasAlreadyFinished,
+      clientIp: clientIpFromReq(req),
+      referralJustAttached: Boolean(referredBy && !existingUser.referredBy),
+    });
+
+    return res.status(200).send({ success: true, data: finalUser });
+  } catch (error) {
+    if (error?.name === "ValidationError") {
+      return res.status(400).send({
+        success: false,
+        message: error.message,
+        error,
+      });
+    }
+    return res.status(500).send({
+      success: false,
+      message: "Error updating preferences",
       error: error?.message || error,
     });
   }

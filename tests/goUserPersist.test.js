@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 import mongoose from "mongoose";
-import { digitsPhone, e164Phone } from "../utils/phone.js";
+import { digitsPhone, e164Phone, usE164Phone, isPlausibleUsPhone } from "../utils/phone.js";
 import { User } from "../models/users.model.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -21,7 +21,21 @@ describe("phone helpers used by /go Twilio + users table", () => {
     assert.equal(e164Phone("+17205550100"), "+17205550100");
     assert.equal(e164Phone("17205550100"), "+17205550100");
     assert.equal(e164Phone("++17205550100"), "+17205550100");
+    assert.equal(e164Phone("7205550100"), "+17205550100");
+    assert.equal(e164Phone("(720) 555-0100"), "+17205550100");
     assert.equal(e164Phone(""), "");
+    assert.doesNotMatch(e164Phone("++17205550100"), /\+\+/);
+    assert.doesNotMatch(e164Phone("+17205550100"), /\+\+/);
+  });
+
+  it("accepts plausible US/NANP shapes and rejects junk", () => {
+    assert.equal(usE164Phone("7205550100"), "+17205550100");
+    assert.equal(usE164Phone("+1 (720) 555-0100"), "+17205550100");
+    assert.equal(usE164Phone("17205550100"), "+17205550100");
+    assert.equal(isPlausibleUsPhone("0205550100"), false);
+    assert.equal(isPlausibleUsPhone("720555010"), false);
+    assert.equal(usE164Phone("555"), "");
+    assert.equal(usE164Phone(""), "");
   });
 });
 
@@ -101,6 +115,31 @@ describe("ENABLE_POWDER_ALERT_CRON stays gated off", () => {
     assert.match(cron, /ENABLE_POWDER_ALERT_CRON === "true"/);
     assert.match(cron, /30 14 \* \* \*/);
     assert.doesNotMatch(cron, /ENABLE_POWDER_ALERT_CRON\s*=\s*"true"/);
+  });
+
+  it("hard-gates storm SMS send + HTTP trigger/alerts behind the same env", () => {
+    const service = readFileSync(
+      join(root, "services/weatherAlertService.js"),
+      "utf8"
+    );
+    const notify = readFileSync(
+      join(root, "controllers/notification.controller.js"),
+      "utf8"
+    );
+    const visual = readFileSync(
+      join(root, "controllers/visual-crossing.controller.js"),
+      "utf8"
+    );
+    const index = readFileSync(join(root, "index.js"), "utf8");
+
+    assert.match(service, /isPowderAlertCronEnabled/);
+    assert.match(service, /openingAlertWindowStatus/);
+    assert.match(service, /STORM_ALERT_LEAD_DAYS/);
+    assert.match(notify, /isPowderAlertCronEnabled/);
+    assert.match(notify, /status\(403\)/);
+    assert.match(visual, /isPowderAlertCronEnabled/);
+    assert.match(visual, /status\(403\)/);
+    assert.doesNotMatch(index, /liveWeatherMonitor/);
   });
 
   it("Twilio Verify send no longer prepends + onto E.164", () => {

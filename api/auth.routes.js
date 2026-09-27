@@ -113,9 +113,9 @@ authRouter.post("/validate-username", validateUsername);
  *                 type: string
  *     responses:
  *       200:
- *         description: Phone number is valid
+ *         description: Number is usable for Verify (Lookup is advisory)
  *       400:
- *         description: Invalid phone number
+ *         description: Number is missing or not a plausible US E.164
  */
 authRouter.post("/validate-phone", validatePhoneNumber);
 

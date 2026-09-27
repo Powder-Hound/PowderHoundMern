@@ -4,6 +4,7 @@ import {
   getUser,
   deleteUser,
   updateUser,
+  updateUserPreferences,
 } from "../controllers/user.controller.js";
 import {
   drawContestWinner,
@@ -11,6 +12,7 @@ import {
   listContestEntriesCsv,
 } from "../controllers/contest.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
+import { requireContestAdmin } from "../middleware/contestAdminMiddleware.js";
 
 const userRouter = express.Router();
 
@@ -52,7 +54,7 @@ const userRouter = express.Router();
  *       401:
  *         description: Admin token required
  */
-userRouter.get("/contest/entries", verifyToken, listContestEntries);
+userRouter.get("/contest/entries", requireContestAdmin, listContestEntries);
 
 /**
  * @swagger
@@ -66,7 +68,11 @@ userRouter.get("/contest/entries", verifyToken, listContestEntries);
  *       401:
  *         description: Admin token required
  */
-userRouter.get("/contest/entries.csv", verifyToken, listContestEntriesCsv);
+userRouter.get(
+  "/contest/entries.csv",
+  requireContestAdmin,
+  listContestEntriesCsv
+);
 
 /**
  * @swagger
@@ -80,7 +86,7 @@ userRouter.get("/contest/entries.csv", verifyToken, listContestEntriesCsv);
  *       401:
  *         description: Admin token required
  */
-userRouter.post("/contest/draw", verifyToken, drawContestWinner);
+userRouter.post("/contest/draw", requireContestAdmin, drawContestWinner);
 
 userRouter.get("/:id", verifyToken, getUser);
 
@@ -147,6 +153,40 @@ userRouter.put("/:id", verifyToken, updateUser);
  *         description: Invalid network
  */
 userRouter.post("/:id/follow-claim", verifyToken, claimFollowExtra);
+
+/**
+ * @swagger
+ * /api/users/{id}/preferences:
+ *   patch:
+ *     tags: [Users]
+ *     summary: Update optional email, marketing consent, and watch prefs
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Optional. Empty or null clears. Does not imply consent.
+ *               emailMarketingConsent:
+ *                 type: boolean
+ *               emailSource:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Preferences updated
+ *       400:
+ *         description: Invalid email
+ */
+userRouter.patch("/:id/preferences", verifyToken, updateUserPreferences);
 
 /**
  * @swagger

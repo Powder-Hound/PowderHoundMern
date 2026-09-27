@@ -1,33 +1,39 @@
 import { createHash, randomBytes, randomInt } from "node:crypto";
 import { User } from "../models/users.model.js";
+import { PhoneOtpVerification } from "../models/phoneOtpVerification.model.js";
 import { digitsPhone } from "./phone.js";
 
 /**
- * One Extra Storm (2026/27) — unique-link + signup tracking.
+ * One Extra Storm — unique-link + signup tracking.
  *
- * CONTEST WINDOW (America/Denver, MDT in September):
- *   CONTEST_START_LOCAL  2026-09-08T00:00:00
- *   CONTEST_END_LOCAL    2026-09-28T23:59:59
+ * Contest window comes from env (ISO 8601), not a hard-coded calendar:
+ *   CONTEST_START_AT
+ *   CONTEST_END_AT
+ * If either is missing or invalid, the contest is not running and no
+ * entries or referral credits are granted.
  *
  * Public unique link: https://powalert.com/go?ref={CODE}
  * Also accepted:      https://powalert.com/go?from=win&ref=CODE
  * Persist field: `ref` or `referredBy` (same code).
  *
- * Contest mint (refCode + 1 base entry), referral +5, and draw eligibility
- * are window-gated. Finished /go outside the window still persists the watch.
- * In-window rows stay draw-eligible after close if not fraudFlag. Cron off.
+ * Scoring (only while the window is running):
+ *   - Non-referred finished /go: +1 base entry + refCode
+ *   - Signup through a referral link: 5 entries for the new user (not 1+5)
+ *   - Referrer: +10 when that referred user completes phone OTP
+ *     Unverified referred signups credit the referrer nothing.
+ *   - Honor-system follows: +1 per network, max 4
+ *
+ * Finished /go outside the window still persists the watch.
+ * Rows that already minted inside the window stay draw-eligible after close
+ * if not fraudFlag. Cron off.
  *
  * Prize (do not implement payment): one 2026/27 adult Epic or Ikon.
- * Honor-system follow extras: +1 per network (x/tiktok/instagram/facebook),
- * max 4, idempotent, not API-verified. Referral +5 on finished OTP is the
- * only verified multiplier. No Gleam. No OAuth. Cron stays off.
+ * No Gleam. No OAuth. Cron stays off.
  */
 
-export const CONTEST_TIME_ZONE = "America/Denver";
-export const CONTEST_START_LOCAL = "2026-09-08T00:00:00";
-export const CONTEST_END_LOCAL = "2026-09-28T23:59:59";
 export const CONTEST_BASE_ENTRIES = 1;
-export const CONTEST_REFERRAL_ENTRIES = 5;
+export const CONTEST_REFERRED_SIGNUP_ENTRIES = 5;
+export const CONTEST_REFERRER_OTP_ENTRIES = 10;
 export const CONTEST_SHARE_ORIGIN = "https://powalert.com/go";
 export const SAME_IP_CLUSTER_THRESHOLD = 3;
 /** SPA + mint + sanitize share this exact alphabet and length. Do not change minted format. */
@@ -47,7 +53,12 @@ export const CONTEST_SERVER_FIELDS = [
   "fraudReasons",
   "referralCredited",
   "referralCreditEligible",
+  "referralCreditClosed",
   "baseEntryGranted",
+  "referredSignupEntriesGranted",
+  "referredSignupAttachedAt",
+  "referredSignupChecked",
+  "phoneOtpVerifiedAt",
   "followClaims",
   "contestEnteredAt",
   "contestDrawLocked",
@@ -80,36 +91,83 @@ const DISPOSABLE_EMAIL_DOMAINS = new Set([
   "mailnesia.com",
 ]);
 
-export function contestWindowMeta() {
+function asDate(value) {
+  if (!value) return null;
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+/**
+ * Read CONTEST_START_AT / CONTEST_END_AT. Missing or invalid → not configured.
+ * Comparison is absolute (the ISO timestamps), inclusive on both ends.
+ */
+export function parseContestWindow(env = process.env) {
+  const startRaw = String(env.CONTEST_START_AT ?? "").trim();
+  const endRaw = String(env.CONTEST_END_AT ?? "").trim();
+  if (!startRaw || !endRaw) {
+    return { configured: false, start: null, end: null, reason: "unset" };
+  }
+  const start = asDate(startRaw);
+  const end = asDate(endRaw);
+  if (!start || !end || start.getTime() >= end.getTime()) {
+    return { configured: false, start: null, end: null, reason: "invalid" };
+  }
   return {
-    timeZone: CONTEST_TIME_ZONE,
-    start: CONTEST_START_LOCAL,
-    end: CONTEST_END_LOCAL,
-    referralEntries: CONTEST_REFERRAL_ENTRIES,
-    baseEntries: CONTEST_BASE_ENTRIES,
-    note: "refCode + base entry + referral +5 mint only inside this America/Denver window. In-window rows stay draw-eligible after close if not fraudFlag.",
+    configured: true,
+    start,
+    end,
+    startIso: start.toISOString(),
+    endIso: end.toISOString(),
   };
 }
 
-export function denverDateTime(now = new Date()) {
-  const date = now instanceof Date ? now : new Date(now);
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: CONTEST_TIME_ZONE,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hourCycle: "h23",
-  }).formatToParts(date);
-  const g = (type) => parts.find((p) => p.type === type)?.value ?? "00";
-  return `${g("year")}-${g("month")}-${g("day")}T${g("hour")}:${g("minute")}:${g("second")}`;
+export function isContestRunning(now = new Date(), env = process.env) {
+  const window = parseContestWindow(env);
+  if (!window.configured) return false;
+  const t = asDate(now);
+  if (!t) return false;
+  return t.getTime() >= window.start.getTime() && t.getTime() <= window.end.getTime();
 }
 
-export function isWithinContestWindow(now = new Date()) {
-  const local = denverDateTime(now);
-  return local >= CONTEST_START_LOCAL && local <= CONTEST_END_LOCAL;
+export function contestScoring() {
+  return {
+    baseEntries: CONTEST_BASE_ENTRIES,
+    referredSignupEntries: CONTEST_REFERRED_SIGNUP_ENTRIES,
+    referrerEntriesPerVerifiedSignup: CONTEST_REFERRER_OTP_ENTRIES,
+    followExtraPerNetwork: FOLLOW_EXTRA_PER_NETWORK,
+    followExtraMax: FOLLOW_EXTRA_MAX,
+  };
+}
+
+/** Public SPA contract for GET /api/contest/config. */
+export function contestPublicConfig(now = new Date(), env = process.env) {
+  const window = parseContestWindow(env);
+  return {
+    success: true,
+    running: isContestRunning(now, env),
+    configured: window.configured,
+    window: {
+      start: window.startIso ?? null,
+      end: window.endIso ?? null,
+    },
+    scoring: contestScoring(),
+    shareOrigin: CONTEST_SHARE_ORIGIN,
+    refCode: {
+      alphabet: REF_CODE.alphabet,
+      length: REF_CODE.length,
+    },
+  };
+}
+
+export function contestWindowMeta(now = new Date(), env = process.env) {
+  const config = contestPublicConfig(now, env);
+  return {
+    running: config.running,
+    configured: config.configured,
+    start: config.window.start,
+    end: config.window.end,
+    ...config.scoring,
+  };
 }
 
 export function hasSkiPass(user) {
@@ -269,17 +327,25 @@ export function isSelfReferral({ user, referrer, referredBy } = {}) {
   return false;
 }
 
-export function shouldCreditReferral({
+export function phoneOtpVerifiedAt(user, override) {
+  return asDate(override ?? user?.phoneOtpVerifiedAt ?? null);
+}
+
+/**
+ * Referrer +10. Only after the referred user's phone OTP is verified,
+ * once, inside the window. Unverified signups credit nothing.
+ * Re-verify and self-referral do not credit again.
+ */
+export function shouldCreditReferrer({
   user,
   referrer,
-  now = new Date(),
-  wasAlreadyFinished = false,
+  verifiedAt = null,
 } = {}) {
-  if (wasAlreadyFinished) {
-    return { ok: false, reason: "already_finished" };
-  }
   if (user?.referralCredited) {
     return { ok: false, reason: "already_credited" };
+  }
+  if (user?.referralCreditClosed) {
+    return { ok: false, reason: "credit_closed" };
   }
   if (!user?.referralCreditEligible) {
     return { ok: false, reason: "phone_already_existed" };
@@ -287,17 +353,15 @@ export function shouldCreditReferral({
   if (!user?.referredBy) {
     return { ok: false, reason: "no_referred_by" };
   }
-  if (!isFinishedGo(user)) {
-    return { ok: false, reason: "not_finished" };
+  const verified = phoneOtpVerifiedAt(user, verifiedAt);
+  if (!verified) {
+    return { ok: false, reason: "otp_not_verified" };
   }
-  if (!isWithinContestWindow(now)) {
+  if (!isContestRunning(verified)) {
     return { ok: false, reason: "outside_window" };
   }
   if (!referrer?.refCode) {
     return { ok: false, reason: "referrer_not_found" };
-  }
-  if (!isFinishedGo(referrer)) {
-    return { ok: false, reason: "referrer_not_finished" };
   }
   if (referrer.refCode !== user.referredBy) {
     return { ok: false, reason: "code_mismatch" };
@@ -305,7 +369,81 @@ export function shouldCreditReferral({
   if (isSelfReferral({ user, referrer, referredBy: user.referredBy })) {
     return { ok: false, reason: "self_referral" };
   }
-  return { ok: true, reason: "credited", entries: CONTEST_REFERRAL_ENTRIES };
+  return {
+    ok: true,
+    reason: "credited",
+    entries: CONTEST_REFERRER_OTP_ENTRIES,
+  };
+}
+
+export function shouldCreditReferral(args) {
+  return shouldCreditReferrer(args);
+}
+
+/**
+ * The referred user's own 5 entries, granted once when the referral code
+ * is first attached inside the window. Replaces the +1 base (not 1+5).
+ */
+export function planReferredSignupEntries({
+  user,
+  referrer = null,
+  referralJustAttached = false,
+  now = new Date(),
+} = {}) {
+  if (!user?.referredBy) {
+    return { grant: false, reason: "no_referred_by", userSet: {} };
+  }
+  if (user.referredSignupEntriesGranted) {
+    return { grant: false, reason: "already_granted", userSet: {} };
+  }
+  if (user.referredSignupChecked && !referralJustAttached) {
+    return { grant: false, reason: "already_checked", userSet: {} };
+  }
+
+  const attachedAt = user.referredSignupAttachedAt
+    ? asDate(user.referredSignupAttachedAt)
+    : referralJustAttached
+      ? asDate(now)
+      : null;
+  if (!attachedAt) {
+    return { grant: false, reason: "not_attached_now", userSet: {} };
+  }
+
+  const userSet = {};
+  if (!user.referredSignupAttachedAt && referralJustAttached) {
+    userSet.referredSignupAttachedAt = attachedAt;
+  }
+
+  const close = (reason) => {
+    userSet.referredSignupChecked = true;
+    return { grant: false, reason, userSet };
+  };
+
+  if (!isContestRunning(attachedAt)) {
+    // The referral signup itself was outside the window, so it does not
+    // earn the 5 and does not fall through to the non-referred +1.
+    userSet.baseEntryGranted = true;
+    return close("outside_window");
+  }
+  if (!referrer?.refCode || referrer.refCode !== user.referredBy) {
+    return close("referrer_not_found");
+  }
+  if (isSelfReferral({ user, referrer, referredBy: user.referredBy })) {
+    userSet.baseEntryGranted = true;
+    return close("self_referral");
+  }
+
+  userSet.referredSignupChecked = true;
+  userSet.referredSignupEntriesGranted = true;
+  userSet.baseEntryGranted = true;
+  userSet.entries =
+    (Number(user.entries) || 0) + CONTEST_REFERRED_SIGNUP_ENTRIES;
+  return {
+    grant: true,
+    reason: "granted",
+    entries: CONTEST_REFERRED_SIGNUP_ENTRIES,
+    userSet,
+  };
 }
 
 /**
@@ -319,27 +457,56 @@ export function planContestAfterSave({
   wasAlreadyFinished = false,
   now = new Date(),
   ipHash = "",
+  referralJustAttached = false,
+  otpVerifiedAt = null,
 } = {}) {
   const userSet = {};
   if (ipHash && ipHash !== user.ipHash) {
     userSet.ipHash = ipHash;
   }
 
+  const verified = phoneOtpVerifiedAt(user, otpVerifiedAt);
+  if (verified && !user.phoneOtpVerifiedAt) {
+    userSet.phoneOtpVerifiedAt = verified;
+  }
+
   const merged = { ...user, ...userSet };
   const finished = isFinishedGo(merged);
-  const inWindow = isWithinContestWindow(now);
+  const inWindow = isContestRunning(now);
 
-  // Contest mint only inside the Denver window. Watch persist still happens
-  // on the user row; we just skip refCode / base entry / draw eligibility.
-  if (finished && inWindow && !user.refCode) {
+  const referred = planReferredSignupEntries({
+    user: merged,
+    referrer,
+    referralJustAttached,
+    now,
+  });
+  Object.assign(userSet, referred.userSet);
+
+  // refCode still mints only on a finished /go inside the window.
+  if (finished && inWindow && !user.refCode && !userSet.refCode) {
     userSet.refCode = mintRefCode();
     userSet.contestEnteredAt = now instanceof Date ? now : new Date(now);
   }
-  // Follow extras increment `entries` too; do not treat that as the base entry.
-  // Users who already have a refCode were granted the base before this flag.
-  if (finished && inWindow && !user.baseEntryGranted) {
+
+  // Non-referred finished /go keeps today's +1. A referred signup's 5
+  // replaces that base (baseEntryGranted is set with the 5). Self-referral
+  // and an out-of-window referral attach also suppress the base.
+  const suppressBase = Boolean(
+    user.baseEntryGranted ||
+      userSet.baseEntryGranted ||
+      user.referredSignupEntriesGranted ||
+      userSet.referredSignupEntriesGranted ||
+      referred.reason === "self_referral" ||
+      referred.reason === "outside_window" ||
+      referred.reason === "already_granted"
+  );
+  if (finished && inWindow && !suppressBase) {
     if (!user.refCode) {
-      userSet.entries = (Number(user.entries) || 0) + CONTEST_BASE_ENTRIES;
+      const current =
+        userSet.entries !== undefined
+          ? Number(userSet.entries)
+          : Number(user.entries) || 0;
+      userSet.entries = current + CONTEST_BASE_ENTRIES;
     }
     userSet.baseEntryGranted = true;
   }
@@ -358,29 +525,89 @@ export function planContestAfterSave({
   const creditUser = {
     ...merged,
     ...userSet,
+    phoneOtpVerifiedAt: userSet.phoneOtpVerifiedAt || user.phoneOtpVerifiedAt,
   };
-  const credit = shouldCreditReferral({
+  const credit = shouldCreditReferrer({
     user: creditUser,
     referrer,
-    now,
-    wasAlreadyFinished,
+    verifiedAt: verified,
   });
 
-  let referrerInc = null;
-  if (credit.ok) {
-    userSet.referralCredited = true;
-    referrerInc = {
-      entries: CONTEST_REFERRAL_ENTRIES,
-      referredCompleteCount: 1,
-    };
+  // The +10 only counts when the referred signup itself counted (the 5).
+  // A signup attached outside the window cannot be credited later.
+  // Idempotency is referralCredited (atomic in applyContestOnUserSave).
+  void wasAlreadyFinished;
+  const signupCounted = Boolean(
+    user.referredSignupEntriesGranted || userSet.referredSignupEntriesGranted
+  );
+  const signupDecided = Boolean(
+    signupCounted || user.referredSignupChecked || userSet.referredSignupChecked
+  );
+  const referrerInc =
+    credit.ok && signupCounted
+      ? {
+          entries: CONTEST_REFERRER_OTP_ENTRIES,
+          referredCompleteCount: 1,
+        }
+      : null;
+  if (
+    credit.reason === "outside_window" ||
+    credit.reason === "self_referral" ||
+    (credit.ok && signupDecided && !signupCounted)
+  ) {
+    userSet.referralCreditClosed = true;
   }
 
   return {
     userSet,
     referrerInc,
     creditReason: credit.reason,
+    referredSignupReason: referred.reason,
     shareUrl: contestShareUrl(userSet.refCode || user.refCode),
   };
+}
+
+export async function lookupPhoneOtpVerifiedAt(phoneNumber) {
+  const digits = digitsPhone(phoneNumber);
+  if (!digits) return null;
+  const record = await PhoneOtpVerification.findOne({ phoneNumber: digits });
+  return asDate(record?.verifiedAt);
+}
+
+/**
+ * First successful OTP wins. Re-verify does not move verifiedAt.
+ * If the user row already exists, contest credit runs immediately.
+ */
+export async function recordPhoneOtpVerified(phone, now = new Date()) {
+  const digits = digitsPhone(phone);
+  if (!digits) return null;
+  const when = asDate(now) || new Date();
+  let record;
+  try {
+    record = await PhoneOtpVerification.findOneAndUpdate(
+      { phoneNumber: digits },
+      { $setOnInsert: { phoneNumber: digits, verifiedAt: when } },
+      { upsert: true, new: true }
+    );
+  } catch (error) {
+    if (error?.code === 11000) {
+      record = await PhoneOtpVerification.findOne({ phoneNumber: digits });
+    } else {
+      throw error;
+    }
+  }
+
+  const user = await User.findOne({
+    $or: [{ phoneNumber: digits }, { phoneNumber: `+${digits}` }],
+  });
+  if (user) {
+    await applyContestOnUserSave({
+      user,
+      wasAlreadyFinished: isFinishedGo(user),
+      now: new Date(),
+    });
+  }
+  return record;
 }
 
 export async function applyContestOnUserSave({
@@ -388,6 +615,7 @@ export async function applyContestOnUserSave({
   wasAlreadyFinished = false,
   clientIp = "",
   now = new Date(),
+  referralJustAttached = false,
 } = {}) {
   if (!user?._id) return user;
 
@@ -400,6 +628,11 @@ export async function applyContestOnUserSave({
     existingWithHash,
     alreadyHasThisHash: Boolean(ipHash && plain.ipHash === ipHash),
   });
+
+  let otpVerifiedAt = phoneOtpVerifiedAt(plain);
+  if (!otpVerifiedAt) {
+    otpVerifiedAt = await lookupPhoneOtpVerifiedAt(plain.phoneNumber);
+  }
 
   let referrer = null;
   if (plain.referredBy) {
@@ -417,6 +650,8 @@ export async function applyContestOnUserSave({
     wasAlreadyFinished,
     now,
     ipHash,
+    referralJustAttached,
+    otpVerifiedAt,
   });
 
   const userSet = { ...plan.userSet };
@@ -437,7 +672,11 @@ export async function applyContestOnUserSave({
 
   if (plan.referrerInc && referrer) {
     const claimed = await User.findOneAndUpdate(
-      { _id: user._id, referralCredited: { $ne: true } },
+      {
+        _id: user._id,
+        referralCredited: { $ne: true },
+        referralCreditClosed: { $ne: true },
+      },
       { $set: { referralCredited: true } }
     );
     if (claimed) {
@@ -480,6 +719,15 @@ export function planFollowClaim({ user, network, handle, now = new Date() } = {}
   const key = normalizeFollowNetwork(network);
   if (!key) {
     return { ok: false, status: 400, reason: "invalid_network" };
+  }
+  if (!isContestRunning(now)) {
+    return {
+      ok: true,
+      noop: true,
+      reason: "outside_window",
+      entriesDelta: 0,
+      followClaims: user?.followClaims || [],
+    };
   }
 
   const claims = followClaimList(user);

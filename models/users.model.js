@@ -35,6 +35,33 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
       default: "",
+      set: (value) => (value == null ? "" : String(value).trim().toLowerCase()),
+      validate: {
+        validator: function (value) {
+          if (value === "" || value == null) return true;
+          return /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/.test(
+            value
+          );
+        },
+        message: (props) => `${props.value} is not a valid email`,
+      },
+    },
+    // Marketing opt-in is separate from notificationsActive.email (storm alerts)
+    // and from merely storing an address. Entering email ≠ consent.
+    emailMarketingConsent: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    emailMarketingConsentAt: {
+      type: Date,
+      required: false,
+      default: null,
+    },
+    emailSource: {
+      type: String,
+      required: false,
+      default: "",
     },
     zipCode: {
       type: String,
@@ -171,6 +198,33 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
     referralCredited: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    // Set when an OTP credit was refused for good (outside window or self-ref)
+    // so a later re-verify cannot collect it.
+    referralCreditClosed: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    phoneOtpVerifiedAt: {
+      type: Date,
+      required: false,
+      default: null,
+    },
+    referredSignupEntriesGranted: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    referredSignupAttachedAt: {
+      type: Date,
+      required: false,
+      default: null,
+    },
+    referredSignupChecked: {
       type: Boolean,
       required: false,
       default: false,

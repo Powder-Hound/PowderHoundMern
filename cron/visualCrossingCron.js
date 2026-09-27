@@ -57,7 +57,9 @@ const startVisualCrossingCron = () => {
     timezone: "MST"
   });
 
-  // Season alerts stay off until CoS sets ENABLE_POWDER_ALERT_CRON=true.
+  // Season / stick SMS stays off until CoS sets ENABLE_POWDER_ALERT_CRON=true.
+  // fetchVisualCrossingAlerts also fail-closes unless a followed resort is
+  // within 16 days of season.start. Do not enable without CoS yes.
   if (process.env.ENABLE_POWDER_ALERT_CRON === "true") {
     cron.schedule("30 14 * * *", async () => {
       console.log("🚀 Running global Visual Crossing notification task...");
@@ -68,6 +70,10 @@ const startVisualCrossingCron = () => {
         console.error("❌ Error during global alert task:", err.message);
       }
     });
+  } else {
+    console.log(
+      "⛔ Powder-alert cron (14:30) not scheduled. ENABLE_POWDER_ALERT_CRON is not true."
+    );
   }
 
   console.log("🚀 Global Visual Crossing cron jobs initialized.");

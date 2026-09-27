@@ -6,28 +6,28 @@ import { describe, it } from "node:test";
 import mongoose from "mongoose";
 import { User } from "../models/users.model.js";
 import { digitsPhone } from "../utils/phone.js";
+import jwt from "jsonwebtoken";
 import {
   ADMIN_CSV_COLUMNS,
-  CONTEST_END_LOCAL,
-  CONTEST_REFERRAL_ENTRIES,
-  CONTEST_START_LOCAL,
-  CONTEST_TIME_ZONE,
+  CONTEST_BASE_ENTRIES,
+  CONTEST_REFERRER_OTP_ENTRIES,
+  CONTEST_REFERRED_SIGNUP_ENTRIES,
   FOLLOW_EXTRA_MAX,
   FOLLOW_NETWORKS,
   FOLLOW_V1_CONFIRMED,
   REF_CODE,
   SAME_IP_CLUSTER_THRESHOLD,
   adminEntriesToCsv,
+  contestPublicConfig,
   contestShareUrl,
-  denverDateTime,
   extractRefCode,
   detectFraud,
   hashIp,
+  isContestRunning,
   isDrawEligible,
   isFinishedGo,
   isSelfReferral,
   isUrlSafeRefCode,
-  isWithinContestWindow,
   maskPhone,
   mintRefCode,
   pickWeightedWinner,
@@ -37,16 +37,27 @@ import {
   planFollowClaim,
   readReferredBy,
   sanitizeUserWrite,
-  shouldCreditReferral,
+  shouldCreditReferrer,
   stripContestServerFields,
   toAdminRow,
 } from "../utils/contest.js";
+import {
+  CONTEST_ADMIN_TOKEN_MAX_TTL_SECONDS,
+  contestAdminDecision,
+  verifyExpiringAdminToken,
+} from "../middleware/contestAdminMiddleware.js";
+import { parseAdminPhoneAllowlist } from "../utils/adminCrm.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-const INSIDE_WINDOW = new Date("2026-09-10T18:00:00.000Z"); // 12:00 MDT
+const WINDOW_START = "2026-09-08T06:00:00.000Z";
+const WINDOW_END = "2026-09-29T05:59:59.000Z";
+process.env.CONTEST_START_AT = WINDOW_START;
+process.env.CONTEST_END_AT = WINDOW_END;
+
+const INSIDE_WINDOW = new Date("2026-09-10T18:00:00.000Z");
 const BEFORE_WINDOW = new Date("2026-08-29T12:00:00.000Z");
-const AFTER_WINDOW = new Date("2026-09-29T06:00:00.000Z"); // 00:00 MDT Sep 29
+const AFTER_WINDOW = new Date("2026-09-29T06:00:00.000Z");
 
 const finishedFields = () => ({
   name: "Pat",
@@ -155,27 +166,87 @@ describe("finished /go eligibility gate", () => {
   });
 });
 
-describe("contest window constant (America/Denver)", () => {
-  it("documents 8 Sep 00:00 through 28 Sep 23:59 America/Denver", () => {
-    assert.equal(CONTEST_TIME_ZONE, "America/Denver");
-    assert.equal(CONTEST_START_LOCAL, "2026-09-08T00:00:00");
-    assert.equal(CONTEST_END_LOCAL, "2026-09-28T23:59:59");
+describe("contest window from env", () => {
+  it("does not hard-code the old Sep 8–28 Denver window", () => {
+    const source = readFileSync(join(root, "utils/contest.js"), "utf8");
+    assert.match(source, /CONTEST_START_AT/);
+    assert.match(source, /CONTEST_END_AT/);
+    assert.doesNotMatch(source, /CONTEST_START_LOCAL/);
+    assert.doesNotMatch(source, /2026-09-08T00:00:00/);
+    assert.doesNotMatch(source, /2026-09-28T23:59:59/);
   });
 
-  it("is closed on 29 Aug 2026 and open on 10 Sep 2026", () => {
-    assert.equal(isWithinContestWindow(BEFORE_WINDOW), false);
-    assert.equal(isWithinContestWindow(INSIDE_WINDOW), true);
-    assert.equal(isWithinContestWindow(AFTER_WINDOW), false);
-    assert.equal(denverDateTime(INSIDE_WINDOW).startsWith("2026-09-10"), true);
+  it("is closed before the env start and open inside it", () => {
+    assert.equal(isContestRunning(BEFORE_WINDOW), false);
+    assert.equal(isContestRunning(INSIDE_WINDOW), true);
+    assert.equal(isContestRunning(AFTER_WINDOW), false);
   });
 
-  it("opens at 8 Sep 2026 00:00 Denver and closes after 28 Sep 23:59 Denver", () => {
-    const open = new Date("2026-09-08T06:00:00.000Z"); // 00:00 MDT
-    const lastSecond = new Date("2026-09-29T05:59:59.000Z"); // 23:59:59 MDT Sep 28
-    const closed = new Date("2026-09-29T06:00:00.000Z"); // 00:00 MDT Sep 29
-    assert.equal(isWithinContestWindow(open), true);
-    assert.equal(isWithinContestWindow(lastSecond), true);
-    assert.equal(isWithinContestWindow(closed), false);
+  it("is inclusive of the ISO start and end instants", () => {
+    assert.equal(isContestRunning(new Date(WINDOW_START)), true);
+    assert.equal(isContestRunning(new Date(WINDOW_END)), true);
+    assert.equal(isContestRunning(AFTER_WINDOW), false);
+  });
+
+  it("treats a missing or invalid window as not running", () => {
+    const prevStart = process.env.CONTEST_START_AT;
+    const prevEnd = process.env.CONTEST_END_AT;
+    try {
+      delete process.env.CONTEST_START_AT;
+      delete process.env.CONTEST_END_AT;
+      assert.equal(isContestRunning(INSIDE_WINDOW), false);
+      const config = contestPublicConfig(INSIDE_WINDOW);
+      assert.equal(config.running, false);
+      assert.equal(config.configured, false);
+      assert.equal(config.window.start, null);
+      assert.equal(config.window.end, null);
+      const plan = planContestAfterSave({
+        user: finishedUser(),
+        now: INSIDE_WINDOW,
+      });
+      assert.equal(plan.userSet.refCode, undefined);
+      assert.equal(plan.userSet.entries, undefined);
+      assert.equal(plan.referrerInc, null);
+
+      process.env.CONTEST_START_AT = "not-a-date";
+      process.env.CONTEST_END_AT = WINDOW_END;
+      assert.equal(contestPublicConfig(INSIDE_WINDOW).configured, false);
+      assert.equal(isContestRunning(INSIDE_WINDOW), false);
+
+      process.env.CONTEST_START_AT = WINDOW_END;
+      process.env.CONTEST_END_AT = WINDOW_START;
+      assert.equal(contestPublicConfig(INSIDE_WINDOW).configured, false);
+    } finally {
+      process.env.CONTEST_START_AT = prevStart;
+      process.env.CONTEST_END_AT = prevEnd;
+    }
+  });
+
+  it("exposes window and scoring from GET /api/contest/config's builder", () => {
+    const config = contestPublicConfig(INSIDE_WINDOW);
+    assert.equal(config.success, true);
+    assert.equal(config.running, true);
+    assert.equal(config.configured, true);
+    assert.equal(config.window.start, new Date(WINDOW_START).toISOString());
+    assert.equal(config.window.end, new Date(WINDOW_END).toISOString());
+    assert.deepEqual(config.scoring, {
+      baseEntries: CONTEST_BASE_ENTRIES,
+      referredSignupEntries: CONTEST_REFERRED_SIGNUP_ENTRIES,
+      referrerEntriesPerVerifiedSignup: CONTEST_REFERRER_OTP_ENTRIES,
+      followExtraPerNetwork: 1,
+      followExtraMax: 4,
+    });
+    assert.equal(config.shareOrigin, "https://powalert.com/go");
+    assert.equal(config.refCode.length, 8);
+    assert.equal(CONTEST_BASE_ENTRIES, 1);
+    assert.equal(CONTEST_REFERRED_SIGNUP_ENTRIES, 5);
+    assert.equal(CONTEST_REFERRER_OTP_ENTRIES, 10);
+
+    const routes = readFileSync(join(root, "api/contest.routes.js"), "utf8");
+    const index = readFileSync(join(root, "index.js"), "utf8");
+    assert.match(routes, /contestRouter\.get\("\/config", getContestConfig\)/);
+    assert.match(index, /app\.use\("\/api\/contest", contestRouter\)/);
+    assert.doesNotMatch(routes, /verifyToken|requireContestAdmin/);
   });
 
   it("does not mint refCode/base entry or enter the draw pool before the window", () => {
@@ -231,7 +302,7 @@ describe("contest window constant (America/Denver)", () => {
   });
 });
 
-describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entries += 5)", () => {
+describe("scoring: base 1, referred signup 5, referrer +10 on OTP", () => {
   it("mints a short URL-safe refCode and 1 base entry when A finishes /go", () => {
     const a = finishedUser({ phoneNumber: "17205550101", name: "A" });
     const planA = planContestAfterSave({
@@ -250,7 +321,7 @@ describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entri
     );
   });
 
-  it("credits A +5 when B finishes /go with referredBy=CODE inside the window", () => {
+  it("gives B 5 entries for a referral signup and does not also add the base 1", () => {
     const a = finishedUser({
       phoneNumber: "17205550101",
       name: "A",
@@ -266,46 +337,94 @@ describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entri
     const planB = planContestAfterSave({
       user: b,
       referrer: a,
+      referralJustAttached: true,
       wasAlreadyFinished: false,
       now: INSIDE_WINDOW,
     });
-    assert.equal(planB.userSet.entries, 1);
+    assert.equal(planB.userSet.entries, CONTEST_REFERRED_SIGNUP_ENTRIES);
+    assert.equal(planB.userSet.baseEntryGranted, true);
     assert.ok(planB.userSet.refCode);
-    assert.equal(planB.referrerInc.entries, CONTEST_REFERRAL_ENTRIES);
-    assert.equal(planB.referrerInc.referredCompleteCount, 1);
-    assert.equal(planB.creditReason, "credited");
-    assert.equal(a.entries + planB.referrerInc.entries, 6);
+    assert.equal(planB.referrerInc, null);
+    assert.equal(planB.creditReason, "otp_not_verified");
   });
 
-  it("does not credit a page view or unfinished persist", () => {
+  it("credits the referrer +10 only after OTP, once, and not on re-verify", () => {
+    const a = finishedUser({
+      phoneNumber: "17205550101",
+      name: "A",
+      refCode: "Ab3Cd4Ef",
+      entries: 1,
+    });
+    const b = finishedUser({
+      phoneNumber: "17205550102",
+      name: "B",
+      referredBy: "Ab3Cd4Ef",
+      referralCreditEligible: true,
+    });
+    const unverified = shouldCreditReferrer({
+      user: b,
+      referrer: a,
+    });
+    assert.equal(unverified.ok, false);
+    assert.equal(unverified.reason, "otp_not_verified");
+
+    const planB = planContestAfterSave({
+      user: b,
+      referrer: a,
+      referralJustAttached: true,
+      otpVerifiedAt: INSIDE_WINDOW,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(planB.userSet.entries, 5);
+    assert.equal(planB.referrerInc.entries, CONTEST_REFERRER_OTP_ENTRIES);
+    assert.equal(planB.referrerInc.referredCompleteCount, 1);
+    assert.equal(planB.creditReason, "credited");
+    assert.equal(a.entries + planB.referrerInc.entries, 11);
+
+    const again = planContestAfterSave({
+      user: {
+        ...b,
+        ...planB.userSet,
+        referralCredited: true,
+        phoneOtpVerifiedAt: INSIDE_WINDOW,
+      },
+      referrer: a,
+      referralJustAttached: true,
+      otpVerifiedAt: INSIDE_WINDOW,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(again.referrerInc, null);
+    assert.equal(again.creditReason, "already_credited");
+    assert.equal(again.userSet.entries, undefined);
+  });
+
+  it("does not mint a refCode for an unfinished referral signup, and gives the referrer nothing", () => {
     const a = finishedUser({
       refCode: "Ab3Cd4Ef",
       entries: 1,
       name: "A",
     });
-    const b = {
-      ...finishedUser({
-        phoneNumber: "17205550102",
-        referredBy: "Ab3Cd4Ef",
-        name: "",
-      }),
-    };
+    const b = finishedUser({
+      phoneNumber: "17205550102",
+      referredBy: "Ab3Cd4Ef",
+      name: "",
+    });
     const plan = planContestAfterSave({
       user: b,
       referrer: a,
-      wasAlreadyFinished: false,
+      referralJustAttached: true,
       now: INSIDE_WINDOW,
     });
     assert.equal(plan.referrerInc, null);
+    assert.equal(plan.userSet.entries, 5);
     assert.equal(plan.userSet.refCode, undefined);
-    assert.equal(shouldCreditReferral({
-      user: b,
-      referrer: a,
-      now: INSIDE_WINDOW,
-    }).reason, "not_finished");
+    assert.equal(
+      isDrawEligible({ ...b, ...plan.userSet }),
+      false
+    );
   });
 
-  it("does not credit outside the Denver window, on self-ref, or when the phone already existed", () => {
+  it("does not credit outside the window, on self-ref, or when the phone already existed", () => {
     const a = finishedUser({
       refCode: "Ab3Cd4Ef",
       entries: 1,
@@ -313,37 +432,79 @@ describe("two-user unique-link flow (A finishes → CODE; B finishes → A.entri
       phoneNumber: "17205550101",
     });
 
-    const outside = shouldCreditReferral({
+    const outside = shouldCreditReferrer({
       user: finishedUser({ referredBy: "Ab3Cd4Ef" }),
       referrer: a,
-      now: BEFORE_WINDOW,
+      verifiedAt: BEFORE_WINDOW,
     });
     assert.equal(outside.ok, false);
     assert.equal(outside.reason, "outside_window");
 
-    const existingPhone = shouldCreditReferral({
+    const outsidePlan = planContestAfterSave({
+      user: finishedUser({
+        phoneNumber: "17205550109",
+        referredBy: "Ab3Cd4Ef",
+        name: "Late",
+      }),
+      referrer: a,
+      referralJustAttached: true,
+      otpVerifiedAt: BEFORE_WINDOW,
+      now: BEFORE_WINDOW,
+    });
+    assert.equal(outsidePlan.userSet.entries, undefined);
+    assert.equal(outsidePlan.referrerInc, null);
+    assert.equal(outsidePlan.userSet.referralCreditClosed, true);
+
+    const otpAfterClosedSignup = planContestAfterSave({
+      user: {
+        ...finishedUser({
+          phoneNumber: "17205550109",
+          referredBy: "Ab3Cd4Ef",
+          name: "Late",
+        }),
+        ...outsidePlan.userSet,
+      },
+      referrer: a,
+      otpVerifiedAt: INSIDE_WINDOW,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(otpAfterClosedSignup.referrerInc, null);
+    assert.equal(otpAfterClosedSignup.userSet.entries, undefined);
+
+    const existingPhone = shouldCreditReferrer({
       user: finishedUser({
         referredBy: "Ab3Cd4Ef",
         referralCreditEligible: false,
+        phoneOtpVerifiedAt: INSIDE_WINDOW,
       }),
       referrer: a,
-      now: INSIDE_WINDOW,
+      verifiedAt: INSIDE_WINDOW,
     });
     assert.equal(existingPhone.ok, false);
     assert.equal(existingPhone.reason, "phone_already_existed");
 
-    const self = shouldCreditReferral({
-      user: finishedUser({
-        _id: a._id,
-        phoneNumber: a.phoneNumber,
-        referredBy: "Ab3Cd4Ef",
-        refCode: "Ab3Cd4Ef",
-      }),
+    const selfUser = finishedUser({
+      _id: a._id,
+      phoneNumber: a.phoneNumber,
+      referredBy: "Ab3Cd4Ef",
+      refCode: "Ab3Cd4Ef",
+    });
+    const self = shouldCreditReferrer({
+      user: selfUser,
       referrer: a,
-      now: INSIDE_WINDOW,
+      verifiedAt: INSIDE_WINDOW,
     });
     assert.equal(self.ok, false);
     assert.equal(self.reason, "self_referral");
+    const selfPlan = planContestAfterSave({
+      user: selfUser,
+      referrer: a,
+      referralJustAttached: true,
+      otpVerifiedAt: INSIDE_WINDOW,
+      now: INSIDE_WINDOW,
+    });
+    assert.equal(selfPlan.userSet.entries, undefined);
+    assert.equal(selfPlan.referrerInc, null);
     assert.equal(
       isSelfReferral({
         user: { _id: a._id, phoneNumber: a.phoneNumber, refCode: "Ab3Cd4Ef" },
@@ -409,7 +570,12 @@ describe("honor-system follow extras (not verified)", () => {
 
   it("adds +1 once per network, max 4, and is idempotent", () => {
     const user = { entries: 1, followClaims: [] };
-    const first = planFollowClaim({ user, network: "x", handle: "@ski" });
+    const first = planFollowClaim({
+      user,
+      network: "x",
+      handle: "@ski",
+      now: INSIDE_WINDOW,
+    });
     assert.equal(first.ok, true);
     assert.equal(first.noop, false);
     assert.equal(first.entries, 2);
@@ -419,20 +585,25 @@ describe("honor-system follow extras (not verified)", () => {
     const again = planFollowClaim({
       user: { ...user, entries: first.entries, followClaims: first.followClaims },
       network: "x",
+      now: INSIDE_WINDOW,
     });
     assert.equal(again.noop, true);
     assert.equal(again.entriesDelta, 0);
 
     let current = { entries: first.entries, followClaims: first.followClaims };
     for (const network of ["tiktok", "instagram", "facebook"]) {
-      const next = planFollowClaim({ user: current, network });
+      const next = planFollowClaim({ user: current, network, now: INSIDE_WINDOW });
       assert.equal(next.noop, false);
       current = { entries: next.entries, followClaims: next.followClaims };
     }
     assert.equal(current.entries, 5);
     assert.equal(current.followClaims.length, 4);
 
-    const overflow = planFollowClaim({ user: current, network: "x" });
+    const overflow = planFollowClaim({
+      user: current,
+      network: "x",
+      now: INSIDE_WINDOW,
+    });
     assert.equal(overflow.noop, true);
     assert.equal(overflow.entriesDelta, 0);
   });
@@ -442,7 +613,11 @@ describe("honor-system follow extras (not verified)", () => {
     assert.equal(missing.ok, false);
     assert.equal(missing.reason, "invalid_network");
 
-    const noHandle = planFollowClaim({ user: { entries: 0, followClaims: [] }, network: "tiktok" });
+    const noHandle = planFollowClaim({
+      user: { entries: 0, followClaims: [] },
+      network: "tiktok",
+      now: INSIDE_WINDOW,
+    });
     assert.equal(noHandle.ok, true);
     assert.equal(noHandle.followClaims[0].handle, "");
   });
@@ -623,7 +798,7 @@ describe("ENABLE_POWDER_ALERT_CRON stays gated off", () => {
     assert.doesNotMatch(cron, /ENABLE_POWDER_ALERT_CRON\s*=\s*"true"/);
   });
 
-  it("admin contest routes are registered before /:id and require verifyToken", () => {
+  it("admin contest routes are registered before /:id and require expiring admin auth", () => {
     const routes = readFileSync(join(root, "api/user.routes.js"), "utf8");
     const entriesAt = routes.indexOf('"/contest/entries"');
     const csvAt = routes.indexOf('"/contest/entries.csv"');
@@ -632,9 +807,108 @@ describe("ENABLE_POWDER_ALERT_CRON stays gated off", () => {
     assert.ok(entriesAt > 0 && entriesAt < idAt);
     assert.ok(csvAt > 0 && csvAt < idAt);
     assert.ok(drawAt > 0 && drawAt < idAt);
-    assert.match(routes, /verifyToken, listContestEntries/);
-    assert.match(routes, /verifyToken, drawContestWinner/);
+    assert.match(routes, /requireContestAdmin, listContestEntries/);
+    assert.match(routes, /requireContestAdmin,\s*\n?\s*listContestEntriesCsv/);
+    assert.match(routes, /requireContestAdmin, drawContestWinner/);
+    assert.doesNotMatch(routes, /verifyToken, listContestEntries/);
+    assert.doesNotMatch(routes, /verifyToken, drawContestWinner/);
     assert.match(routes, /"\/:id\/follow-claim"/);
     assert.match(routes, /verifyToken, claimFollowExtra/);
+    const auth = readFileSync(
+      join(root, "middleware/contestAdminMiddleware.js"),
+      "utf8"
+    );
+    assert.doesNotMatch(auth, /ignoreExpiration/);
+    assert.match(auth, /parseAdminPhoneAllowlist/);
+  });
+});
+
+describe("contest admin tokens expire and are revocable", () => {
+  const secret = "contest-admin-test-secret";
+
+  it("accepts a 1h token and rejects missing, expired, and forever tokens", () => {
+    const ok = jwt.sign({ userID: "admin-1", permissions: "admin" }, secret, {
+      expiresIn: CONTEST_ADMIN_TOKEN_MAX_TTL_SECONDS,
+    });
+    assert.equal(verifyExpiringAdminToken(ok, secret).ok, true);
+
+    const forever = jwt.sign(
+      { userID: "admin-1", permissions: "admin" },
+      secret
+    );
+    assert.equal(verifyExpiringAdminToken(forever, secret).reason, "missing_expiry");
+
+    const week = jwt.sign({ userID: "admin-1" }, secret, { expiresIn: "7d" });
+    assert.equal(verifyExpiringAdminToken(week, secret).reason, "ttl_too_long");
+
+    const expired = jwt.sign({ userID: "admin-1" }, secret, { expiresIn: -10 });
+    assert.equal(verifyExpiringAdminToken(expired, secret).reason, "expired");
+
+    assert.equal(
+      verifyExpiringAdminToken(ok, "other-secret").reason,
+      "invalid"
+    );
+  });
+
+  it("revokes access when the allow-list or live permissions change", () => {
+    const tokenCheck = { ok: true, userID: "admin-1" };
+    const allowlist = parseAdminPhoneAllowlist("+17205550100,17205550199");
+    const admin = { permissions: "admin", phoneNumber: "17205550100" };
+    assert.equal(
+      contestAdminDecision({ tokenCheck, allowlist, user: admin }).ok,
+      true
+    );
+
+    const removed = parseAdminPhoneAllowlist("17205550199");
+    assert.equal(
+      contestAdminDecision({ tokenCheck, allowlist: removed, user: admin }).reason,
+      "not_allowlisted"
+    );
+    assert.equal(
+      contestAdminDecision({
+        tokenCheck,
+        allowlist,
+        user: { ...admin, permissions: "user" },
+      }).reason,
+      "not_admin"
+    );
+    assert.equal(
+      contestAdminDecision({
+        tokenCheck,
+        allowlist: parseAdminPhoneAllowlist(""),
+        user: admin,
+      }).reason,
+      "allowlist_unconfigured"
+    );
+    assert.equal(
+      contestAdminDecision({
+        tokenCheck: { ok: false, status: 401, reason: "expired" },
+        allowlist,
+        user: admin,
+      }).reason,
+      "expired"
+    );
+  });
+});
+
+describe("follow extras do not count outside the window", () => {
+  it("does not add entries when the contest is not running", () => {
+    const prevStart = process.env.CONTEST_START_AT;
+    const prevEnd = process.env.CONTEST_END_AT;
+    try {
+      delete process.env.CONTEST_START_AT;
+      delete process.env.CONTEST_END_AT;
+      const plan = planFollowClaim({
+        user: { entries: 1, followClaims: [] },
+        network: "x",
+        now: INSIDE_WINDOW,
+      });
+      assert.equal(plan.noop, true);
+      assert.equal(plan.reason, "outside_window");
+      assert.equal(plan.entriesDelta, 0);
+    } finally {
+      process.env.CONTEST_START_AT = prevStart;
+      process.env.CONTEST_END_AT = prevEnd;
+    }
   });
 });

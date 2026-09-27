@@ -3,6 +3,7 @@ import {
   ADMIN_CSV_COLUMNS,
   adminEntriesToCsv,
   contestCohortFilter,
+  contestPublicConfig,
   contestWindowMeta,
   formatLockedDraw,
   resolveDraw,
@@ -10,11 +11,16 @@ import {
 } from "../utils/contest.js";
 
 const requireAdmin = (req, res) => {
-  if (req.permissions !== "admin") {
+  if (!req.contestAdmin) {
     res.status(401).send({ success: false, message: "Unauthorized" });
     return false;
   }
   return true;
+};
+
+/** Public. No auth. SPA rules page reads this and only this. */
+export const getContestConfig = (req, res) => {
+  res.status(200).send(contestPublicConfig());
 };
 
 const ADMIN_SELECT =
@@ -73,11 +79,16 @@ export const listContestEntriesCsv = async (req, res) => {
 /**
  * Weighted on-camera draw.
  *
+ * Auth is requireContestAdmin: a login JWT with exp (max 1h), live
+ * users.permissions === "admin", and ADMIN_PHONE_ALLOWLIST. Tokens
+ * with no exp are rejected. Removing the phone from the allow-list
+ * or dropping permissions revokes access immediately.
+ *
  *   curl -X POST \
- *     -H "Authorization: Bearer $ADMIN_TOKEN" \
+ *     -H "Authorization: Bearer $ADMIN_JWT" \
  *     https://powderhoundmern.onrender.com/api/users/contest/draw
  *
- * Picks 1 in-window finished /go row with P(user) = user.entries / sum(entries).
+ * Picks 1 finished /go row with P(user) = user.entries / sum(entries).
  * Eligible = refCode (window mint) + finished /go + entries ≥ 1 + not fraudFlag.
  * First successful POST locks the winner; later POSTs return that lock (no re-roll).
  */
