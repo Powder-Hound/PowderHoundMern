@@ -189,18 +189,48 @@ describe("guide markdown drop-in", () => {
     assert.equal(pickGuideFilename("ski-vanlife", []), null);
   });
 
-  it("ships placeholder copy and escapes HTML", () => {
+  it("ships the editorial reports and escapes HTML", () => {
     const ski = loadGuideMarkdown("ski-vanlife");
     const camps = loadGuideMarkdown("adult-ski-camps");
-    assert.match(ski, /PLACEHOLDER/);
-    assert.match(camps, /PLACEHOLDER/);
-    assert.match(ski, /ski-vanlife-guide\.md/);
-    assert.match(camps, /adult-ski-camps-2026-27\.md/);
+    assert.match(ski, /The PowAlert Ski Vanlife & Camping Guide 2026\/27/);
+    assert.match(camps, /Adult Ski Camps 2026\/27/);
+    assert.doesNotMatch(ski, /PLACEHOLDER/);
+    assert.doesNotMatch(camps, /PLACEHOLDER/);
     const html = renderGuideMarkdown("Hello <script>alert(1)</script>\n\n**Bold** and [Pow](https://powalert.com)");
     assert.match(html, /&lt;script&gt;/);
     assert.doesNotMatch(html, /<script>/);
     assert.match(html, /<strong>Bold<\/strong>/);
     assert.match(html, /href="https:\/\/powalert\.com"/);
+  });
+
+  it("renders tables with inline styles and keeps every unverified marker", () => {
+    const sample = renderGuideMarkdown(
+      "| Resort | Status |\n|---|---|\n| Sun Valley | (unverified) |"
+    );
+    assert.match(sample, /<table [^>]*style="[^"]*border-collapse:collapse/);
+    assert.match(sample, /<th[^>]*>Resort<\/th>/);
+    assert.match(sample, /<td[^>]*>\(unverified\)<\/td>/);
+    assert.doesNotMatch(sample, /<style/);
+
+    for (const slug of ["ski-vanlife", "adult-ski-camps"]) {
+      const markdown = loadGuideMarkdown(slug);
+      const html = renderGuideMarkdown(markdown);
+      const sourceCount = markdown.match(/unverified/gi).length;
+      const htmlCount = html.match(/unverified/gi).length;
+      const tables = markdown.match(/^\|[-:| ]+\|\s*$/gm).length;
+      assert.equal(htmlCount, sourceCount, `${slug} dropped an unverified marker`);
+      assert.equal((html.match(/<table\b/g) || []).length, tables, slug);
+      assert.match(html, /border-collapse:collapse/);
+    }
+
+    const email = buildGuideEmail({
+      guide: "ski-vanlife",
+      markdown: loadGuideMarkdown("ski-vanlife"),
+    });
+    assert.match(email.html, /See PowAlert/);
+    assert.match(email.ctaUrl, /^https:\/\/powalert\.com\/go\?from=ski-vanlife$/);
+    assert.match(email.html, /Sun Valley/);
+    assert.match(email.html, /\(unverified\)/);
   });
 
   it("ends every guide email with the /go CTA and optional UTM", () => {
@@ -241,7 +271,8 @@ describe("POST /api/leads", () => {
     assert.equal(sends.length, 1);
     assert.equal(sends[0][0], "pat@powalert.com");
     assert.match(sends[0][2], /See PowAlert: https:\/\/powalert\.com\/go\?/);
-    assert.match(sends[0][3].html, /PLACEHOLDER/);
+    assert.match(sends[0][3].html, /\(unverified\)/);
+    assert.match(sends[0][3].html, /<table /);
     assert.match(sends[0][3].html, /from=ski-vanlife/);
     assert.match(sends[0][3].html, /utm_source=newsletter/);
   });

@@ -6,8 +6,8 @@ import { fileURLToPath } from "node:url";
 export const LEAD_GUIDE_SLUGS = ["ski-vanlife", "adult-ski-camps"];
 
 /**
- * Editorial filenames win when both exist, so a drop-in replaces the placeholder
- * without deleting it. Otherwise `content/guides/<slug>.md` is sent.
+ * Editorial filenames are what gets emailed. The slug filename is only a fallback
+ * if that file is the one present.
  */
 export const GUIDE_CONTENT_FILES = {
   "ski-vanlife": ["ski-vanlife-guide.md", "ski-vanlife.md"],
@@ -55,12 +55,66 @@ function escapeHtml(value) {
 function formatInline(raw) {
   let html = escapeHtml(raw);
   html = html.replace(
-    /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g,
-    (_match, text, href) => `<a href="${href}">${text}</a>`
+    /\[([^\]\n]+)\]\(((?:https?:\/\/|\/)[^\s)]+)\)/g,
+    (_match, text, href) => {
+      const url = href.startsWith("/") ? `https://powalert.com${href}` : href;
+      return `<a href="${url}" style="color:#0b3a5b;">${text}</a>`;
+    }
   );
   html = html.replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
   html = html.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
   return html;
+}
+
+const TABLE_CELL =
+  "border:1px solid #c5d0d6;padding:8px 6px;vertical-align:top;text-align:left;";
+
+function splitTableRow(line) {
+  return line
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((cell) => cell.trim());
+}
+
+function isSeparatorRow(cells) {
+  return cells.length > 0 && cells.every((cell) => /^:?-+:?$/.test(cell));
+}
+
+function isTableBlock(lines) {
+  return lines.length >= 2 && lines.every((line) => /^\s*\|.+\|\s*$/.test(line));
+}
+
+function renderTable(lines) {
+  const rows = lines.map(splitTableRow);
+  let header = null;
+  let body = rows;
+  if (rows.length >= 2 && isSeparatorRow(rows[1])) {
+    header = rows[0];
+    body = rows.slice(2);
+  }
+  const head = header
+    ? `<thead><tr>${header
+        .map(
+          (cell) =>
+            `<th align="left" bgcolor="#0b3a5b" style="${TABLE_CELL}background:#0b3a5b;color:#ffffff;font-weight:700;">${formatInline(cell)}</th>`
+        )
+        .join("")}</tr></thead>`
+    : "";
+  const bodyHtml = body
+    .map((row, index) => {
+      const bg = index % 2 === 0 ? "#ffffff" : "#f4f7f8";
+      const cells = row
+        .map(
+          (cell) =>
+            `<td bgcolor="${bg}" style="${TABLE_CELL}background:${bg};">${formatInline(cell)}</td>`
+        )
+        .join("");
+      return `<tr>${cells}</tr>`;
+    })
+    .join("");
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;width:100%;margin:12px 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35;color:#1c2830;">${head}<tbody>${bodyHtml}</tbody></table>`;
 }
 
 function renderBlock(block) {
@@ -68,8 +122,12 @@ function renderBlock(block) {
     const inner = block.replace(/^```[^\n]*\n?/, "").replace(/\n?```$/, "");
     return `<pre>${escapeHtml(inner)}</pre>`;
   }
+  if (/^(-{3,}|\*{3,}|_{3,})$/.test(block)) {
+    return `<hr style="border:0;border-top:1px solid #d5dee3;margin:20px 0;">`;
+  }
 
   const lines = block.split("\n");
+  if (isTableBlock(lines)) return renderTable(lines);
   const heading = lines.length === 1 ? lines[0].match(/^(#{1,3})\s+(.+)$/) : null;
   if (heading) {
     const level = heading[1].length;
@@ -79,22 +137,29 @@ function renderBlock(block) {
     const inner = lines.map((line) => line.replace(/^>\s?/, "")).join(" ");
     return `<blockquote>${formatInline(inner)}</blockquote>`;
   }
-  if (lines.every((line) => /^[-*]\s+/.test(line))) {
+  if (lines.every((line) => /^\s*[-*]\s+/.test(line))) {
     const items = lines
-      .map((line) => `<li>${formatInline(line.replace(/^[-*]\s+/, ""))}</li>`)
+      .map((line) => {
+        const indent = line.match(/^\s*/)[0].length;
+        const pad = indent >= 2 ? "padding-left:16px;" : "";
+        return `<li style="margin:0 0 6px;${pad}">${formatInline(line.replace(/^\s*[-*]\s+/, ""))}</li>`;
+      })
       .join("");
-    return `<ul>${items}</ul>`;
+    return `<ul style="margin:0 0 12px;padding-left:20px;">${items}</ul>`;
   }
-  if (lines.every((line) => /^\d+\.\s+/.test(line))) {
+  if (lines.every((line) => /^\s*\d+\.\s+/.test(line))) {
     const items = lines
-      .map((line) => `<li>${formatInline(line.replace(/^\d+\.\s+/, ""))}</li>`)
+      .map(
+        (line) =>
+          `<li style="margin:0 0 6px;">${formatInline(line.replace(/^\s*\d+\.\s+/, ""))}</li>`
+      )
       .join("");
-    return `<ol>${items}</ol>`;
+    return `<ol style="margin:0 0 12px;padding-left:20px;">${items}</ol>`;
   }
   return `<p>${lines.map((line) => formatInline(line)).join("<br>")}</p>`;
 }
 
-/** Small markdown subset: headings, paragraphs, lists, quotes, fences, bold, italic, links. HTML is escaped. */
+/** Headings, paragraphs, lists, quotes, fences, rules, tables, bold, italic, links. HTML is escaped. */
 export function renderGuideMarkdown(markdown) {
   const text = String(markdown || "").replace(/\r\n/g, "\n").trim();
   if (!text) return "";
