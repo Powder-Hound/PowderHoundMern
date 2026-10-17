@@ -15,6 +15,8 @@ import visualCrossingRouter from "./api/visualCrossing.routes.js";
 import notificationRouter from "./api/notification.routes.js";
 import expediaLinkRouter from "./api/expediaLink.routes.js";
 import adminRouter from "./api/admin.routes.js";
+import staysRouter from "./api/stays.routes.js";
+import { duffelStaysWebhook } from "./controllers/stays.controller.js";
 import { serveAdminHtml } from "./controllers/admin.controller.js";
 import startVisualCrossingCron from "./cron/visualCrossingCron.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
@@ -41,6 +43,12 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 // Middleware
 app.use(morgan()); // Logs requests to the console
 app.use(cors(corsOptions));
+// Duffel signs the raw body. Register before express.json().
+app.post(
+  "/api/stays/webhooks/duffel",
+  express.raw({ type: "*/*", limit: "1mb" }),
+  duffelStaysWebhook
+);
 app.use(express.json());
 
 // Swagger UI
@@ -54,6 +62,7 @@ app.use("/api/visual-crossing", visualCrossingRouter);
 app.use("/api/notifications", notificationRouter);
 app.use("/api/expedia-links", expediaLinkRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/stays", staysRouter);
 app.get("/admin", serveAdminHtml);
 app.use("/admin", express.static(publicDir));
 
