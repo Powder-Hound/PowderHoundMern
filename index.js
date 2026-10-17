@@ -17,6 +17,7 @@ import expediaLinkRouter from "./api/expediaLink.routes.js";
 import adminRouter from "./api/admin.routes.js";
 import { serveAdminHtml } from "./controllers/admin.controller.js";
 import startVisualCrossingCron from "./cron/visualCrossingCron.js";
+import startForecastAccuracyCron from "./cron/forecastAccuracyCron.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 
 const publicDir = join(dirname(fileURLToPath(import.meta.url)), "public");
@@ -67,4 +68,6 @@ app.listen(port, () => {
 
   // Start Visual Crossing Cron Job
   startVisualCrossingCron();
+  // Accuracy capture stays off unless ENABLE_FORECAST_ACCURACY_CRON=true.
+  startForecastAccuracyCron();
 });
