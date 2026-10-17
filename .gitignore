@@ -135,3 +135,6 @@ dist
 # Test directory
 __tests__/
 test/
+
+# Forecast-accuracy dry-run artifacts (sample rows live in the PR, not git)
+output/

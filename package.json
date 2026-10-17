@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "accuracy:capture": "node scripts/accuracyCapture.js",
+    "accuracy:snotel": "node scripts/accuracySnotel.js",
+    "accuracy:score": "node scripts/accuracyScore.js"
   },
   "type": "module",
   "keywords": [],
