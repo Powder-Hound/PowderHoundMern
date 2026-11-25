@@ -34,6 +34,11 @@ export const createOtpProtection = ({
 
     if (requireTurnstile) {
       const policy = resolveTurnstilePolicy(resolvedEnv);
+      if (policy.reason === "missing_secret") {
+        console.warn(
+          "TURNSTILE_SECRET_KEY is not set; skipping Turnstile verification. Per-IP and per-phone OTP rate limits stay active."
+        );
+      }
       if (policy.required) {
         const verdict = await verifyTurnstileToken({
           token: extractTurnstileToken(req),

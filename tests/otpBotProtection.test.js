@@ -179,7 +179,7 @@ describe("per IP + per phone sliding window", () => {
   });
 });
 
-describe("Turnstile policy (fail closed; skip is explicit and non-prod only)", () => {
+describe("Turnstile policy (required only when the secret is set)", () => {
   it("requires a token when the secret is set, including production", () => {
     const prod = resolveTurnstilePolicy({
       NODE_ENV: "production",
@@ -192,14 +192,19 @@ describe("Turnstile policy (fail closed; skip is explicit and non-prod only)", (
     assert.equal(prod.siteKey, "0xpublic");
   });
 
-  it("fail-closes when production has no secret, even if TURNSTILE_SKIP=true", () => {
-    const policy = resolveTurnstilePolicy({
-      NODE_ENV: "production",
-      TURNSTILE_SKIP: "true",
-    });
-    assert.equal(policy.required, true);
-    assert.equal(policy.failClosedMissingSecret, true);
-    assert.equal(policy.skip, false);
+  it("skips verification when the secret is missing, including production", () => {
+    for (const env of [
+      { NODE_ENV: "production" },
+      { NODE_ENV: "production", TURNSTILE_SECRET_KEY: "   " },
+      { NODE_ENV: "production", TURNSTILE_SKIP: "true" },
+      { NODE_ENV: "development" },
+    ]) {
+      const policy = resolveTurnstilePolicy(env);
+      assert.equal(policy.required, false);
+      assert.equal(policy.skip, true);
+      assert.equal(policy.reason, "missing_secret");
+      assert.equal(policy.secret, "");
+    }
   });
 
   it("ignores TURNSTILE_SKIP in production when a secret is set", () => {
@@ -212,7 +217,7 @@ describe("Turnstile policy (fail closed; skip is explicit and non-prod only)", (
     assert.equal(policy.skip, false);
   });
 
-  it("skips only when TURNSTILE_SKIP=true outside production", () => {
+  it("honors TURNSTILE_SKIP=true only outside production", () => {
     const skipped = resolveTurnstilePolicy({
       NODE_ENV: "test",
       TURNSTILE_SKIP: "true",
@@ -220,12 +225,6 @@ describe("Turnstile policy (fail closed; skip is explicit and non-prod only)", (
     assert.equal(skipped.required, false);
     assert.equal(skipped.skip, true);
     assert.equal(skipped.reason, "explicit_skip");
-
-    const localClosed = resolveTurnstilePolicy({
-      NODE_ENV: "development",
-    });
-    assert.equal(localClosed.required, true);
-    assert.equal(localClosed.failClosedMissingSecret, true);
   });
 
   it("exposes the public site key and token field without the secret", () => {
@@ -418,6 +417,67 @@ describe("OTP bot-protection middleware", () => {
       () => {}
     );
     assert.equal(blocked.statusCode, 429);
+  });
+
+  it("skips Turnstile when TURNSTILE_SECRET_KEY is missing and still rate-limits", async () => {
+    const store = createMemoryStore();
+    const warnings = [];
+    const originalWarn = console.warn;
+    console.warn = (...args) => {
+      warnings.push(args.join(" "));
+    };
+    const mw = createOtpProtection({
+      action: "send",
+      requireTurnstile: true,
+      store,
+      env: { NODE_ENV: "production" },
+      fetchImpl: async () => {
+        throw new Error("siteverify must not run without TURNSTILE_SECRET_KEY");
+      },
+    });
+    try {
+      for (let i = 0; i < OTP_RATE_LIMITS.send.phone.max; i += 1) {
+        const res = mockRes();
+        let nextCalled = false;
+        await mw(
+          { ip: "203.0.113.20", body: { phoneNumber: "+17205550120" } },
+          res,
+          () => {
+            nextCalled = true;
+          }
+        );
+        assert.equal(nextCalled, true, `attempt ${i + 1} should pass without a token`);
+        assert.equal(res.statusCode, 0);
+      }
+
+      const blocked = mockRes();
+      let nextCalled = false;
+      await mw(
+        { ip: "203.0.113.20", body: { phoneNumber: "+17205550120" } },
+        blocked,
+        () => {
+          nextCalled = true;
+        }
+      );
+      assert.equal(nextCalled, false);
+      assert.equal(blocked.statusCode, 429);
+      assert.equal(blocked.body.code, "rate_limited");
+      assert.equal(
+        warnings.every(
+          (line) =>
+            line ===
+            "TURNSTILE_SECRET_KEY is not set; skipping Turnstile verification. Per-IP and per-phone OTP rate limits stay active."
+        ),
+        true
+      );
+      assert.equal(warnings.length, OTP_RATE_LIMITS.send.phone.max + 1);
+
+      const config = botProtectionPublicConfig({ NODE_ENV: "production" });
+      assert.equal(config.turnstileRequired, false);
+      assert.equal(config.siteKey, "");
+    } finally {
+      console.warn = originalWarn;
+    }
   });
 
   it("skips Turnstile when TURNSTILE_SKIP=true in test, still rate-limits", async () => {

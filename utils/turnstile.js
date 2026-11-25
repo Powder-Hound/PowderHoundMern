@@ -1,9 +1,12 @@
 /**
  * Cloudflare Turnstile siteverify + env policy for public OTP routes.
  *
- * Production always requires a valid token when TURNSTILE_SECRET_KEY is set.
+ * A valid token is required only when TURNSTILE_SECRET_KEY is set.
  * TURNSTILE_SKIP=true is honored only when NODE_ENV !== "production".
- * Missing secret is fail-closed (do not send SMS) unless skip is explicit.
+ * A missing secret skips verification (so /go send-code still works before
+ * the Render key exists) and the caller logs a warning. Per-IP and per-phone
+ * rate limits stay on that path. This function itself still refuses to
+ * siteverify without a secret, so it cannot report success by accident.
  */
 
 export const TURNSTILE_SITEVERIFY_URL =
@@ -52,12 +55,11 @@ export const resolveTurnstilePolicy = (env = process.env) => {
   }
 
   return {
-    required: true,
-    skip: false,
+    required: false,
+    skip: true,
     secret: "",
     siteKey,
     reason: "missing_secret",
-    failClosedMissingSecret: true,
   };
 };
 

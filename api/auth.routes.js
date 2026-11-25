@@ -156,12 +156,12 @@ authRouter.post("/validate-phone", otpValidateProtection, validatePhoneNumber);
  *                 type: string
  *               turnstileToken:
  *                 type: string
- *                 description: Cloudflare Turnstile widget token (required in production)
+ *                 description: Cloudflare Turnstile widget token (required only when TURNSTILE_SECRET_KEY is set)
  *     responses:
  *       200:
  *         description: Code sent successfully
  *       403:
- *         description: Turnstile missing, invalid, or unavailable (fail closed)
+ *         description: Turnstile token missing or invalid when TURNSTILE_SECRET_KEY is set
  *       429:
  *         description: Rate limited per IP or per phone
  *       500:
