@@ -3,7 +3,25 @@ import { User } from "../models/users.model.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { digitsPhone } from "../utils/phone.js";
+import { applyEmailPreferenceFields } from "../utils/email.js";
 dotenv.config();
+
+const SERVER_OWNED_USER_FIELDS = [
+  "permissions",
+  "emailMarketingConsentAt",
+  "phoneVerifySID",
+];
+
+const phoneLookupFilter = (phoneNumber) => {
+  const digits = digitsPhone(phoneNumber);
+  const or = [];
+  if (phoneNumber) or.push({ phoneNumber });
+  if (digits) {
+    or.push({ phoneNumber: digits }, { phoneNumber: `+${digits}` });
+  }
+  return or.length ? { $or: or } : { phoneNumber: null };
+};
 
 const hashPassword = async (password) => {
   try {
@@ -17,8 +35,9 @@ const hashPassword = async (password) => {
 
 export const createUser = async (req, res) => {
   const user = req.body || {};
+  const phoneNumber = digitsPhone(user.phoneNumber);
 
-  if (!user.phoneNumber || !user.phoneVerifySID) {
+  if (!phoneNumber || !user.phoneVerifySID) {
     return res.status(400).send({
       success: false,
       message: "phoneNumber and phoneVerifySID are required",
@@ -28,6 +47,7 @@ export const createUser = async (req, res) => {
   const newUser = new User({
     ...user,
     name: user.name ?? "",
+    phoneNumber,
   });
 
   if (newUser.password) {
@@ -37,7 +57,7 @@ export const createUser = async (req, res) => {
   const token = jwt.sign(
     {
       username: newUser.name,
-      userID: newUser._id,
+      userID: String(newUser._id),
       permissions: newUser.permissions,
     },
     process.env.JWT_SECRET
@@ -47,10 +67,16 @@ export const createUser = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(201).send({ user: savedUser, token });
   } catch (error) {
+    if (error?.code === 11000) {
+      return res.status(409).send({
+        success: false,
+        message: "Phone number already registered",
+      });
+    }
     res.status(500).send({
       success: false,
       message: "Error saving user",
-      error,
+      error: error?.message || error,
     });
   }
 };
@@ -74,10 +100,10 @@ export const validateUsername = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { phoneNumber, code } = req.body;
+  const { phoneNumber } = req.body;
 
   try {
-    const userInDB = await User.findOne({ phoneNumber });
+    const userInDB = await User.findOne(phoneLookupFilter(phoneNumber));
     if (!userInDB) {
       return res.status(404).send({
         success: false,
@@ -88,7 +114,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       {
         username: userInDB.name,
-        userID: userInDB._id,
+        userID: String(userInDB._id),
         permissions: userInDB.permissions,
       },
       process.env.JWT_SECRET || "default_secret",
@@ -130,9 +156,26 @@ export const getUser = async (req, res) => {
   }
 };
 
+const stripServerOwnedUserFields = (fields = {}) => {
+  const next = { ...fields };
+  for (const key of SERVER_OWNED_USER_FIELDS) {
+    delete next[key];
+  }
+  return next;
+};
+
+const applyEmailUpdateOrError = ({ body, existing, updateFields }) => {
+  const emailResult = applyEmailPreferenceFields({ body, existing });
+  if (!emailResult.ok) {
+    return emailResult;
+  }
+  Object.assign(updateFields, emailResult.fields);
+  return { ok: true };
+};
+
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const updateFields = req.body;
+  const updateFields = stripServerOwnedUserFields(req.body || {});
 
   try {
     if (req.permissions !== "admin" && req.userID !== id) {
@@ -143,7 +186,37 @@ export const updateUser = async (req, res) => {
 
     console.log("Incoming update data:", updateFields);
 
-    // 🔹 Convert resortPreference.resorts to an array of ObjectIds
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    const emailApplied = applyEmailUpdateOrError({
+      body: req.body || {},
+      existing: existingUser,
+      updateFields,
+    });
+    if (!emailApplied.ok) {
+      return res.status(emailApplied.status).send({
+        success: false,
+        message: emailApplied.message,
+      });
+    }
+
+    if (updateFields.phoneNumber) {
+      const digits = digitsPhone(updateFields.phoneNumber);
+      if (!digits) {
+        return res.status(400).send({
+          success: false,
+          message: "phoneNumber is invalid",
+        });
+      }
+      updateFields.phoneNumber = digits;
+    }
+
+    // Convert resortPreference.resorts to an array of ObjectIds
     if (
       updateFields.resortPreference &&
       updateFields.resortPreference.resorts
@@ -154,10 +227,17 @@ export const updateUser = async (req, res) => {
           .send({ success: false, message: "Resorts must be an array" });
       }
 
-      updateFields.resortPreference.resorts =
-        updateFields.resortPreference.resorts.map(
-          (resortId) => new mongoose.Types.ObjectId(resortId)
-        );
+      try {
+        updateFields.resortPreference.resorts =
+          updateFields.resortPreference.resorts.map(
+            (resortId) => new mongoose.Types.ObjectId(String(resortId))
+          );
+      } catch {
+        return res.status(400).send({
+          success: false,
+          message: "Resorts must be valid MongoDB ObjectIds",
+        });
+      }
     }
 
     // 🔹 Hash new password if provided
@@ -183,9 +263,109 @@ export const updateUser = async (req, res) => {
     res.status(200).send({ success: true, data: updatedUser });
   } catch (error) {
     console.error("Update Error:", error);
+    if (error?.name === "ValidationError") {
+      return res.status(400).send({
+        success: false,
+        message: error.message,
+        error,
+      });
+    }
     res
       .status(500)
       .send({ success: false, message: "Error updating user", error });
+  }
+};
+
+/**
+ * SPA preference write: set/clear optional email + marketing consent.
+ * Email is never required. Consent is never inferred from an address.
+ */
+export const updateUserPreferences = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body || {};
+
+  try {
+    if (req.permissions !== "admin" && req.userID !== id) {
+      return res.status(401).send({
+        success: false,
+        message: "Unauthorized to update this user",
+      });
+    }
+
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    const updateFields = {};
+    const emailApplied = applyEmailUpdateOrError({
+      body,
+      existing: existingUser,
+      updateFields,
+    });
+    if (!emailApplied.ok) {
+      return res.status(emailApplied.status).send({
+        success: false,
+        message: emailApplied.message,
+      });
+    }
+
+    if (body.name !== undefined) {
+      updateFields.name = String(body.name ?? "");
+    }
+    if (body.zipCode !== undefined) {
+      updateFields.zipCode = body.zipCode;
+    }
+    if (body.notificationsActive !== undefined) {
+      updateFields.notificationsActive = body.notificationsActive;
+    }
+    if (body.alertThreshold !== undefined) {
+      updateFields.alertThreshold = body.alertThreshold;
+    }
+    if (body.resortPreference !== undefined) {
+      updateFields.resortPreference = body.resortPreference;
+      if (updateFields.resortPreference.resorts) {
+        if (!Array.isArray(updateFields.resortPreference.resorts)) {
+          return res
+            .status(400)
+            .send({ success: false, message: "Resorts must be an array" });
+        }
+        try {
+          updateFields.resortPreference.resorts =
+            updateFields.resortPreference.resorts.map(
+              (resortId) => new mongoose.Types.ObjectId(String(resortId))
+            );
+        } catch {
+          return res.status(400).send({
+            success: false,
+            message: "Resorts must be valid MongoDB ObjectIds",
+          });
+        }
+      }
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: updateFields },
+      { new: true, runValidators: true }
+    );
+
+    return res.status(200).send({ success: true, data: updatedUser });
+  } catch (error) {
+    if (error?.name === "ValidationError") {
+      return res.status(400).send({
+        success: false,
+        message: error.message,
+        error,
+      });
+    }
+    return res.status(500).send({
+      success: false,
+      message: "Error updating preferences",
+      error: error?.message || error,
+    });
   }
 };
 

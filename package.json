@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --test tests/smsUtils.test.js",
+    "test": "node --test tests/*.test.js",
     "start": "nodemon index.js"
   },
   "type": "module",

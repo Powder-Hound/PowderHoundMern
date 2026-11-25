@@ -2,10 +2,20 @@ import mongoose from "mongoose";
 import { Notification } from "../models/notification.model.js";
 import { User } from "../models/users.model.js";
 import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
+import {
+  STORM_ALERTS_LOCKED_MESSAGE,
+  isPowderAlertCronEnabled,
+} from "../utils/stormAlertGate.js";
 
 // API to manually trigger snow alerts
 export const triggerVisualCrossingNotifications = async (req, res) => {
   try {
+    if (!isPowderAlertCronEnabled()) {
+      return res.status(403).send({
+        success: false,
+        message: STORM_ALERTS_LOCKED_MESSAGE,
+      });
+    }
     const alerts = await fetchVisualCrossingAlerts(); // ✅ CORRECT FUNCTION NAME
     res.status(200).send({
       success: true,

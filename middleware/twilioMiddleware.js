@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import twilio from "twilio";
 import sgMail from "@sendgrid/mail";
+import { e164Phone } from "../utils/phone.js";
+import { createValidatePhoneNumber } from "../utils/phoneLookupGate.js";
 
 dotenv.config();
 
@@ -15,37 +17,59 @@ const client = twilio(
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-export const sendVerificationCode = (req, res) => {
+const twilioErrorBody = (error, fallbackMessage) => ({
+  success: false,
+  message: error?.message || fallbackMessage,
+  code: error?.code,
+});
+
+export const sendVerificationCode = async (req, res) => {
   try {
-    client.verify.v2
+    const to = e164Phone(req.body?.phoneNumber);
+    if (!to) {
+      return res.status(400).send({
+        success: false,
+        message: "phoneNumber is required",
+      });
+    }
+
+    const verification = await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID)
-      .verifications.create({ to: `+${req.body.phoneNumber}`, channel: "sms" })
-      .then((verification) => console.log(verification.status, verification));
+      .verifications.create({ to, channel: "sms" });
+
+    return res.status(200).send({
+      success: true,
+      sid: verification.sid,
+      status: verification.status,
+    });
   } catch (e) {
     console.log(e);
-    res.status(500).send(e);
-    return;
+    const status = e?.status && Number(e.status) >= 400 ? Number(e.status) : 500;
+    return res.status(status).send(twilioErrorBody(e, "Failed to send verification code"));
   }
-  res.sendStatus(200);
 };
 
 export const verifyOTP = async (req, res) => {
   try {
+    const to = e164Phone(req.body?.phoneNumber);
+    const code = req.body?.code ?? req.body?.otp;
+    if (!to || !code) {
+      return res.status(400).send({
+        success: false,
+        message: "phoneNumber and code are required",
+      });
+    }
+
     const check = await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID)
-      .verificationChecks.create({
-        to: `+${req.body.phoneNumber}`,
-        code: req.body.code,
-      })
-      .catch((e) => {
-        console.log(e);
-        res.status(500).send(e);
-      });
-    console.log(check);
-    res.status(200).send(check);
+      .verificationChecks.create({ to, code });
+
+    return res.status(200).send(check);
   } catch (error) {
     console.log(error);
-    res.status(400).send(error);
+    const status =
+      error?.status && Number(error.status) >= 400 ? Number(error.status) : 400;
+    return res.status(status).send(twilioErrorBody(error, "OTP verification failed"));
   }
 };
 
@@ -53,7 +77,7 @@ export const sendTextMessage = (number, message) => {
   try {
     client.messages.create({
       body: message,
-      to: number,
+      to: e164Phone(number) || number,
       from: process.env.TWILIO_PHONE_NUMBER || "+18554267058",
     });
   } catch (error) {
@@ -61,20 +85,9 @@ export const sendTextMessage = (number, message) => {
   }
 };
 
-export const validatePhoneNumber = async (req, res) => {
-  const phoneNumber = await client.lookups.v2
-    .phoneNumbers(req.body.phoneNumber)
-    .fetch()
-    .catch((error) => {
-      console.log(error);
-      res.status(400).send(error);
-    });
-
-  if (phoneNumber.valid) {
-    console.log(phoneNumber);
-    res.status(200).send(phoneNumber);
-  }
-};
+export const validatePhoneNumber = createValidatePhoneNumber((to) =>
+  client.lookups.v2.phoneNumbers(to).fetch()
+);
 
 export const sendVerificationEmail = async (req, res) => {
   try {
@@ -92,7 +105,7 @@ export const sendVerificationEmail = async (req, res) => {
     res.status(200).send(verification.sid);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    res.status(500).send(twilioErrorBody(error, "Failed to send verification email"));
     return;
   }
 };
@@ -107,7 +120,7 @@ export const emailVerificationCheck = async (req, res) => {
       });
     res.status(200).send(verificationCheck);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(twilioErrorBody(error, "Email OTP verification failed"));
     console.error(error);
   }
 };

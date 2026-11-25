@@ -3,6 +3,7 @@ import {
   getUser,
   deleteUser,
   updateUser,
+  updateUserPreferences,
 } from "../controllers/user.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
@@ -67,6 +68,40 @@ userRouter.get("/:id", verifyToken, getUser);
  *         description: User not found
  */
 userRouter.put("/:id", verifyToken, updateUser);
+
+/**
+ * @swagger
+ * /api/users/{id}/preferences:
+ *   patch:
+ *     tags: [Users]
+ *     summary: Update optional email, marketing consent, and watch prefs
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Optional. Empty or null clears. Does not imply consent.
+ *               emailMarketingConsent:
+ *                 type: boolean
+ *               emailSource:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Preferences updated
+ *       400:
+ *         description: Invalid email
+ */
+userRouter.patch("/:id/preferences", verifyToken, updateUserPreferences);
 
 /**
  * @swagger
