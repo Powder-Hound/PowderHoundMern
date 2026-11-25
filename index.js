@@ -39,6 +39,8 @@ const app = express();
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 // Middleware
+// Render sits behind a proxy. OTP rate limits must key on the visitor IP.
+app.set("trust proxy", 1);
 app.use(morgan()); // Logs requests to the console
 app.use(cors(corsOptions));
 app.use(express.json());
