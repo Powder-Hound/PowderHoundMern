@@ -6,8 +6,8 @@
  * body should stay in a single Twilio send.
  */
 
-const DASHBOARD_URL = "https://powalert.com/dashboard";
-const SMS_HILL_LIMIT = 3;
+import { buildStormMessages, groupQualifyingDays } from "./stormRadar.js";
+
 const WEEKDAYS_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /**
@@ -59,33 +59,10 @@ export function formatSnowInches(value) {
 }
 
 /**
- * One hill per resort, keeping the highest-snowfall alert. Sorted inches desc.
- * @param {Array<{resortId?: unknown, resortName: string, snowfall: number, alertDate: Date|string}>} alerts
- */
-function uniqueResortsByMaxSnow(alerts) {
-  const byResort = new Map();
-  for (const alert of alerts) {
-    const key =
-      alert.resortId != null ? String(alert.resortId) : String(alert.resortName);
-    const existing = byResort.get(key);
-    if (!existing || Number(alert.snowfall) > Number(existing.snowfall)) {
-      byResort.set(key, alert);
-    }
-  }
-  return [...byResort.values()].sort(
-    (a, b) => Number(b.snowfall) - Number(a.snowfall)
-  );
-}
-
-/**
- * Compact GSM-7 powder-alert SMS body. Lodging stays out of the text.
- *
- * Single: `PowAlert: {Resort} {N}" {Day}. Open -> https://powalert.com/dashboard`
- * Multi:  `PowAlert: {R1} {N1}", {R2} {N2}", {R3} {N3}" {Day}. Open -> ...`
- * 4+:     top 3 + `+{k} more` then the same dashboard URL.
- *
- * Uses ASCII `->` instead of Unicode `→` so the message stays GSM-7
- * (1 segment at ≤160 chars) instead of UCS-2 (2 segments at ≤70).
+ * Compact GSM-7 powder-alert SMS. One storm per resort: consecutive
+ * qualifying days (or a single gap day) collapse to the peak inches.
+ * Two sections when a caller passes pre-grouped storms via buildStormMessages.
+ * Lodging and emoji stay out of the text. ASCII `->` keeps the body GSM-7.
  *
  * @param {Array<{resortId?: unknown, resortName: string, snowfall: number, alertDate: Date|string}>} alerts
  * @returns {string}
@@ -95,17 +72,39 @@ export function buildPowderAlertSms(alerts) {
     return "";
   }
 
-  const ranked = uniqueResortsByMaxSnow(alerts);
-  const day = shortWeekdayFromForecastDate(ranked[0].alertDate);
-  const shown = ranked.slice(0, SMS_HILL_LIMIT);
-  const extra = ranked.length - shown.length;
+  const byResort = new Map();
+  for (const alert of alerts) {
+    const resortId =
+      alert.resortId != null ? String(alert.resortId) : String(alert.resortName);
+    const day = {
+      date: alert.start ?? alert.alertDate,
+      inches: Number(alert.peakInches ?? alert.snowfall) || 0,
+    };
+    const existing = byResort.get(resortId);
+    if (existing) {
+      existing.days.push(day);
+    } else {
+      byResort.set(resortId, {
+        resortId,
+        resortName: alert.resortName,
+        days: [day],
+      });
+    }
+  }
 
-  const hills = shown
-    .map((alert) => `${alert.resortName} ${formatSnowInches(alert.snowfall)}"`)
-    .join(", ");
-  const more = extra > 0 ? ` +${extra} more` : "";
+  const triggered = [];
+  for (const resort of byResort.values()) {
+    for (const storm of groupQualifyingDays(resort.days, 0)) {
+      triggered.push({
+        resortId: resort.resortId,
+        resortName: resort.resortName,
+        ...storm,
+        reason: "new",
+      });
+    }
+  }
 
-  return `PowAlert: ${hills}${more} ${day}. Open -> ${DASHBOARD_URL}`;
+  return buildStormMessages({ triggered, monitoring: [] }).sms;
 }
 
 /**

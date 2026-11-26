@@ -29,5 +29,10 @@ export const VAIL_ASPEN_PARK_CITY_ALERTS = [
   },
 ];
 
-export const EXPECTED_THREE_HILL_SMS =
-  'PowAlert: Vail 18", Aspen 14", Park City 12" Sat. Open -> https://powalert.com/dashboard';
+export const EXPECTED_THREE_HILL_SMS = [
+  "New PowAlerts!",
+  'Vail 18" Sat',
+  'Aspen 14" Sat',
+  'Park City 12" Sat',
+  "Open -> https://powalert.com/dashboard",
+].join("\n");
