@@ -114,16 +114,16 @@ describe("Helio-style segment predicates", () => {
   });
 });
 
-describe("contest / IG predicates stay compatible with #49 without schema invention", () => {
-  it("does not add contest or IG fields to the User schema", () => {
-    assert.equal(User.schema.path("refCode"), undefined);
-    assert.equal(User.schema.path("entries"), undefined);
-    assert.equal(User.schema.path("followClaims"), undefined);
+describe("contest / IG predicates stay compatible with #49", () => {
+  it("uses #49 contest fields and does not invent a separate instagramHandle", () => {
+    assert.ok(User.schema.path("refCode"));
+    assert.ok(User.schema.path("entries"));
+    assert.ok(User.schema.path("followClaims"));
+    assert.ok(User.schema.path("contestEnteredAt"));
     assert.equal(User.schema.path("instagramHandle"), undefined);
-    assert.equal(User.schema.path("contestEnteredAt"), undefined);
     const model = readFileSync(join(root, "models/users.model.js"), "utf8");
-    assert.doesNotMatch(model, /refCode/);
-    assert.doesNotMatch(model, /followClaims/);
+    assert.match(model, /refCode/);
+    assert.match(model, /followClaims/);
     assert.doesNotMatch(model, /instagramHandle/);
   });
 

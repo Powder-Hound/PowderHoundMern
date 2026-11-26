@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import twilio from "twilio";
 import sgMail from "@sendgrid/mail";
 import { e164Phone } from "../utils/phone.js";
+import { recordPhoneOtpVerified } from "../utils/contest.js";
 import { createValidatePhoneNumber } from "../utils/phoneLookupGate.js";
 
 dotenv.config();
@@ -63,6 +64,17 @@ export const verifyOTP = async (req, res) => {
     const check = await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID)
       .verificationChecks.create({ to, code });
+
+    if (check?.status === "approved") {
+      try {
+        await recordPhoneOtpVerified(to);
+      } catch (contestError) {
+        console.error(
+          "[contest-otp]",
+          contestError?.message || contestError
+        );
+      }
+    }
 
     return res.status(200).send(check);
   } catch (error) {
