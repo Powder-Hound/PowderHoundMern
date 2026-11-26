@@ -57,9 +57,9 @@ const startVisualCrossingCron = () => {
     timezone: "MST"
   });
 
-  // Season / stick SMS stays off until CoS sets ENABLE_POWDER_ALERT_CRON=true.
-  // fetchVisualCrossingAlerts also fail-closes unless a followed resort is
-  // within 16 days of season.start. Do not enable without CoS yes.
+  // Stick / storm SMS stays unscheduled until ENABLE_POWDER_ALERT_CRON is
+  // exactly "true". The 16-day opening gate is retired; this env check is
+  // the remaining schedule lock. Do not set the env var in code.
   if (process.env.ENABLE_POWDER_ALERT_CRON === "true") {
     cron.schedule("30 14 * * *", async () => {
       console.log("🚀 Running global Visual Crossing notification task...");

@@ -528,11 +528,12 @@ describe("auth route wiring + storm cron untouched", () => {
     assert.match(index, /trust proxy["'], 1/);
   });
 
-  it("does not enable storm SMS cron or weaken the 16-day gate", () => {
+  it("does not enable the storm SMS cron", () => {
     const cron = readFileSync(join(root, "cron/visualCrossingCron.js"), "utf8");
     const gate = readFileSync(join(root, "utils/stormAlertGate.js"), "utf8");
     assert.match(cron, /ENABLE_POWDER_ALERT_CRON === "true"/);
     assert.doesNotMatch(cron, /ENABLE_POWDER_ALERT_CRON\s*=\s*"true"/);
-    assert.match(gate, /STORM_ALERT_LEAD_DAYS = 16/);
+    assert.match(gate, /ENABLE_POWDER_ALERT_CRON === "true"/);
+    assert.doesNotMatch(gate, /STORM_ALERT_LEAD_DAYS/);
   });
 });

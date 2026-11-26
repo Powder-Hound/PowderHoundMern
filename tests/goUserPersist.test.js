@@ -131,8 +131,7 @@ describe("ENABLE_POWDER_ALERT_CRON stays gated off", () => {
     const index = readFileSync(join(root, "index.js"), "utf8");
 
     assert.match(service, /isPowderAlertCronEnabled/);
-    assert.match(service, /openingAlertWindowStatus/);
-    assert.match(service, /STORM_ALERT_LEAD_DAYS/);
+    assert.doesNotMatch(service, /openingAlertWindowStatus|STORM_ALERT_LEAD_DAYS/);
     assert.match(notify, /isPowderAlertCronEnabled/);
     assert.match(notify, /status\(403\)/);
     assert.match(visual, /isPowderAlertCronEnabled/);
