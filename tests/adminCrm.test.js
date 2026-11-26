@@ -217,6 +217,6 @@ describe("admin CRM routes stay private and do not touch storm SMS", () => {
     assert.match(cron, /ENABLE_POWDER_ALERT_CRON === "true"/);
     assert.doesNotMatch(cron, /ENABLE_POWDER_ALERT_CRON\s*=\s*"true"/);
     assert.match(service, /isPowderAlertCronEnabled/);
-    assert.match(service, /STORM_ALERT_LEAD_DAYS/);
+    assert.doesNotMatch(service, /openingAlertWindowStatus|STORM_ALERT_LEAD_DAYS/);
   });
 });

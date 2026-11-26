@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { User } from "../models/users.model.js";
-import { Resort } from "../models/resorts.model.js";
 import { ResortWeatherData } from "../models/resortWeatherData.model.js";
 import { Notification } from "../models/notification.model.js";
 import { ExpediaLink } from "../models/expediaLink.model.js";
@@ -10,11 +9,7 @@ import { AggregatedNotification } from "../models/aggregatedNotification.model.j
 import { buildPowderAlertSms, splitAggregatedMessages } from "../utils/smsUtils.js";
 import { splitAggregatedEmailMessages } from "../utils/emailUtils.js";
 import { sendPushNotification } from "../services/pushNotificationService.js";
-import {
-  STORM_ALERT_LEAD_DAYS,
-  isPowderAlertCronEnabled,
-  openingAlertWindowStatus,
-} from "../utils/stormAlertGate.js";
+import { isPowderAlertCronEnabled } from "../utils/stormAlertGate.js";
 
 export const fetchVisualCrossingAlerts = async () => {
   try {
@@ -78,15 +73,8 @@ export const fetchVisualCrossingAlerts = async () => {
 
       console.log(`🎯 Mapped Preferred Resorts:`, preferredResorts);
 
-      const followedResorts = await Resort.find(
-        { _id: { $in: preferredResorts } },
-        "season resortName"
-      );
-      const seasonByResortId = new Map(
-        followedResorts.map((resort) => [resort._id.toString(), resort.season])
-      );
-
-      // Fetch weather data for the user's preferred resorts
+      // Fetch weather data for the user's preferred resorts.
+      // Opening-date / 16-day lead checks were retired 25 Nov 2026.
       const weatherData = await ResortWeatherData.find({
         resortId: { $in: preferredResorts },
       });
@@ -104,16 +92,6 @@ export const fetchVisualCrossingAlerts = async () => {
       for (const data of weatherData) {
         if (!data.weatherData || !data.weatherData.visualCrossing?.forecast) {
           console.warn(`⚠️ No forecast data for resort: ${data.resortId}`);
-          continue;
-        }
-
-        const window = openingAlertWindowStatus(
-          seasonByResortId.get(String(data.resortId))
-        );
-        if (!window.allowed) {
-          console.log(
-            `⛔ Skipping ${data.resortName || data.resortId}: not within ${STORM_ALERT_LEAD_DAYS} days of opening (${window.reason}).`
-          );
           continue;
         }
 
