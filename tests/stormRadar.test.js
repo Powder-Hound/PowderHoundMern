@@ -11,6 +11,7 @@ import {
   addUtcDays,
   buildStormMessages,
   daysBetween,
+  formatStormDate,
   groupQualifyingDays,
   planMorningAlert,
   stormsForResort,
@@ -389,6 +390,56 @@ describe("big upgrade trigger", () => {
   });
 });
 
+describe("storm date labels", () => {
+  function copyFor(start, end) {
+    return buildStormMessages({
+      triggered: [
+        {
+          resortId: "alta",
+          resortName: "Alta",
+          start: utcDay(start),
+          end: utcDay(end),
+          peakInches: 18,
+          totalInches: 18,
+          leadDays: 12,
+          reason: "new",
+        },
+      ],
+      monitoring: [],
+    });
+  }
+
+  it("formats a single day, a same-month range, and a month boundary", () => {
+    assert.equal(formatStormDate("2026-12-10", "2026-12-10"), "Dec 10");
+    assert.equal(formatStormDate("2026-12-10", "2026-12-11"), "Dec 10-11");
+    assert.equal(formatStormDate("2026-11-30", "2026-12-01"), "Nov 30-Dec 1");
+
+    const single = copyFor("2026-12-10", "2026-12-10");
+    const sameMonth = copyFor("2026-12-10", "2026-12-11");
+    const boundary = copyFor("2026-11-30", "2026-12-01");
+
+    assert.equal(single.sms.includes('Alta 18" Dec 10\n'), true);
+    assert.equal(single.email.includes("starts Dec 10 (12 days out)"), true);
+    assert.equal(single.pushBody.includes('Alta 18" Dec 10 (12d)'), true);
+
+    assert.equal(sameMonth.sms.includes('Alta 18" Dec 10-11\n'), true);
+    assert.equal(sameMonth.email.includes("starts Dec 10-11 (12 days out)"), true);
+    assert.equal(sameMonth.pushBody.includes('Alta 18" Dec 10-11 (12d)'), true);
+
+    assert.equal(boundary.sms.includes('Alta 18" Nov 30-Dec 1\n'), true);
+    assert.equal(boundary.email.includes("starts Nov 30-Dec 1 (12 days out)"), true);
+    assert.equal(boundary.pushBody.includes('Alta 18" Nov 30-Dec 1 (12d)'), true);
+
+    for (const copy of [single, sameMonth, boundary]) {
+      assert.equal(isGsm7(copy.sms), true);
+      assert.equal(copy.sms.includes("–"), false);
+      assert.equal(copy.sms.includes("—"), false);
+      assert.equal(copy.email.includes("–"), false);
+      assert.equal(copy.pushBody.includes("–"), false);
+    }
+  });
+});
+
 describe("two-section radar copy", () => {
   const single = {
     resortId: "alta",
@@ -425,19 +476,19 @@ describe("two-section radar copy", () => {
     const copy = buildStormMessages({ triggered: [single], monitoring: [] });
     const expectedSms = [
       "New PowAlerts!",
-      'Alta 18" Wed-Thu',
+      'Alta 18" Dec 16-17',
       "Open -> https://powalert.com/dashboard",
     ].join("\n");
     const expectedEmail = [
       "New PowAlerts!",
       "",
-      'Alta: 18" peak, 32" over the storm, starts Wed-Thu (15 days out). New storm.',
+      'Alta: 18" peak, 32" over the storm, starts Dec 16-17 (15 days out). New storm.',
       "",
       "Open -> https://powalert.com/dashboard",
     ].join("\n");
     const expectedPush = [
       "New PowAlerts!",
-      'Alta 18" Wed-Thu (15d)',
+      'Alta 18" Dec 16-17 (15d)',
       "Open -> https://powalert.com/dashboard",
     ].join("\n");
 
@@ -466,27 +517,27 @@ describe("two-section radar copy", () => {
     });
     const expectedSms = [
       "New PowAlerts!",
-      'Breck 16" Wed',
+      'Breck 16" Dec 16',
       "Other PowAlerts You're Monitoring",
-      'Alta 18" Wed',
+      'Alta 18" Dec 16',
       "Open -> https://powalert.com/dashboard",
     ].join("\n");
     const expectedEmail = [
       "New PowAlerts!",
       "",
-      'Breck: 16" peak, starts Wed (14 days out). New storm.',
+      'Breck: 16" peak, starts Dec 16 (14 days out). New storm.',
       "",
       "Other PowAlerts You're Monitoring",
       "",
-      'Alta: 18" peak, starts Wed (14 days out).',
+      'Alta: 18" peak, starts Dec 16 (14 days out).',
       "",
       "Open -> https://powalert.com/dashboard",
     ].join("\n");
     const expectedPush = [
       "New PowAlerts!",
-      'Breck 16" Wed (14d)',
+      'Breck 16" Dec 16 (14d)',
       "Other PowAlerts You're Monitoring",
-      'Alta 18" Wed (14d)',
+      'Alta 18" Dec 16 (14d)',
       "Open -> https://powalert.com/dashboard",
     ].join("\n");
 

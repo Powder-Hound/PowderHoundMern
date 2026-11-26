@@ -56,7 +56,7 @@ describe("buildPowderAlertSms", () => {
     const body = buildPowderAlertSms([VAIL_ASPEN_PARK_CITY_ALERTS[1]]);
     const expected = [
       "New PowAlerts!",
-      'Vail 18" Sat',
+      'Vail 18" Feb 14',
       "Open -> https://powalert.com/dashboard",
     ].join("\n");
     const estimate = estimateSmsSegments(body);
@@ -88,10 +88,10 @@ describe("buildPowderAlertSms", () => {
     const body = buildPowderAlertSms(alerts);
     const expected = [
       "New PowAlerts!",
-      'Vail 18" Sat',
-      'Aspen 14" Sat',
-      'Park City 12" Sat',
-      'Breckenridge 9" Sat',
+      'Vail 18" Feb 14',
+      'Aspen 14" Feb 14',
+      'Park City 12" Feb 14',
+      'Breckenridge 9" Feb 14',
       "+1 more",
       "Open -> https://powalert.com/dashboard",
     ].join("\n");
@@ -126,7 +126,7 @@ describe("buildPowderAlertSms", () => {
       body,
       [
         "New PowAlerts!",
-        'Vail 18" Sat-Sun',
+        'Vail 18" Feb 14-15',
         "Open -> https://powalert.com/dashboard",
       ].join("\n")
     );

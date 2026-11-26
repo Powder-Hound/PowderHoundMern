@@ -16,7 +16,7 @@
  */
 
 const MS_DAY = 24 * 60 * 60 * 1000;
-const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const DASHBOARD_URL = "https://powalert.com/dashboard";
 
 export const DEFAULT_STICK_INCHES = 12;
@@ -92,18 +92,24 @@ export function bandForLead(leadDays) {
   return null;
 }
 
-function weekday(value) {
-  const day = utcDay(value);
-  if (!day) return "Day";
-  return WEEKDAYS[day.getUTCDay()];
+function monthDay(day) {
+  return `${MONTHS[day.getUTCMonth()]} ${day.getUTCDate()}`;
 }
 
-function daySpan(start, end) {
-  const open = weekday(start);
-  const close = weekday(end ?? start);
-  if (!end || utcDay(start)?.getTime() === utcDay(end)?.getTime()) return open;
-  if (open === close) return open;
-  return `${open}-${close}`;
+/**
+ * Short calendar label. ASCII hyphen only.
+ * Dec 10, Dec 10-11, or Nov 30-Dec 1.
+ */
+export function formatStormDate(start, end) {
+  const open = utcDay(start);
+  const close = utcDay(end ?? start);
+  if (!open) return "Day";
+  const openLabel = monthDay(open);
+  if (!close || open.getTime() === close.getTime()) return openLabel;
+  const sameMonth =
+    open.getUTCMonth() === close.getUTCMonth() && open.getUTCFullYear() === close.getUTCFullYear();
+  if (sameMonth) return `${openLabel}-${close.getUTCDate()}`;
+  return `${openLabel}-${monthDay(close)}`;
 }
 
 /**
@@ -341,7 +347,7 @@ function reasonSentence(reason) {
 }
 
 function smsLine(storm) {
-  return `${storm.resortName} ${roundInches(storm.peakInches)}" ${daySpan(storm.start, storm.end)}`;
+  return `${storm.resortName} ${roundInches(storm.peakInches)}" ${formatStormDate(storm.start, storm.end)}`;
 }
 
 function pushLine(storm) {
@@ -363,7 +369,9 @@ export function formatStormEmailLine(storm) {
         ? "1 day out"
         : `${lead} days out`;
   const totalBit = total === peak ? "" : `, ${total}" over the storm`;
-  const when = leadText ? `, starts ${daySpan(storm.start, storm.end)} (${leadText})` : `, starts ${daySpan(storm.start, storm.end)}`;
+  const when = leadText
+    ? `, starts ${formatStormDate(storm.start, storm.end)} (${leadText})`
+    : `, starts ${formatStormDate(storm.start, storm.end)}`;
   const reason = reasonSentence(storm.reason);
   return `${storm.resortName}: ${peak}" peak${totalBit}${when}.${reason ? ` ${reason}` : ""}`;
 }
