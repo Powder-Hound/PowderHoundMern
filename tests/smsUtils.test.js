@@ -54,8 +54,11 @@ describe("buildPowderAlertSms", () => {
 
   it("formats a single hill", () => {
     const body = buildPowderAlertSms([VAIL_ASPEN_PARK_CITY_ALERTS[1]]);
-    const expected =
-      'PowAlert: Vail 18" Sat. Open -> https://powalert.com/dashboard';
+    const expected = [
+      "New PowAlerts!",
+      'Vail 18" Feb 14',
+      "Open -> https://powalert.com/dashboard",
+    ].join("\n");
     const estimate = estimateSmsSegments(body);
 
     console.log("SAMPLE SMS (1 hill):", body);
@@ -66,7 +69,7 @@ describe("buildPowderAlertSms", () => {
     assert.equal(isGsm7(body), true);
   });
 
-  it("keeps top 3 hills and +k more when more than 3 resorts alert", () => {
+  it("keeps the top 4 hills and +k more when more resorts alert", () => {
     const alerts = [
       ...VAIL_ASPEN_PARK_CITY_ALERTS,
       {
@@ -83,8 +86,15 @@ describe("buildPowderAlertSms", () => {
       },
     ];
     const body = buildPowderAlertSms(alerts);
-    const expected =
-      'PowAlert: Vail 18", Aspen 14", Park City 12" +2 more Sat. Open -> https://powalert.com/dashboard';
+    const expected = [
+      "New PowAlerts!",
+      'Vail 18" Feb 14',
+      'Aspen 14" Feb 14',
+      'Park City 12" Feb 14',
+      'Breckenridge 9" Feb 14',
+      "+1 more",
+      "Open -> https://powalert.com/dashboard",
+    ].join("\n");
     const estimate = estimateSmsSegments(body);
 
     console.log("SAMPLE SMS (5 hills):", body);
@@ -94,10 +104,10 @@ describe("buildPowderAlertSms", () => {
     assert.equal(estimate.segments, 1);
     assert.equal(isGsm7(body), true);
     assert.equal(body.includes("Copper"), false);
-    assert.equal(body.includes("Breckenridge"), false);
+    assert.equal(body.includes("Breckenridge"), true);
   });
 
-  it("collapses multiple forecast days at one resort to the max inches", () => {
+  it("groups consecutive forecast days at one resort into one storm line", () => {
     const body = buildPowderAlertSms([
       {
         resortId: "resort-vail",
@@ -114,7 +124,11 @@ describe("buildPowderAlertSms", () => {
     ]);
     assert.equal(
       body,
-      'PowAlert: Vail 18" Sat. Open -> https://powalert.com/dashboard'
+      [
+        "New PowAlerts!",
+        'Vail 18" Feb 14-15',
+        "Open -> https://powalert.com/dashboard",
+      ].join("\n")
     );
     assert.equal(body.includes("10"), false);
   });

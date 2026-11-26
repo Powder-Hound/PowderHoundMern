@@ -1,5 +1,5 @@
 /**
- * Fixture: three preferred hills in one storm window (Sat).
+ * Fixture: three preferred hills on Feb 14.
  * Sorted inches desc: Vail 18, Aspen 14, Park City 12.
  */
 export const VAIL_ASPEN_PARK_CITY_ALERTS = [
@@ -29,5 +29,10 @@ export const VAIL_ASPEN_PARK_CITY_ALERTS = [
   },
 ];
 
-export const EXPECTED_THREE_HILL_SMS =
-  'PowAlert: Vail 18", Aspen 14", Park City 12" Sat. Open -> https://powalert.com/dashboard';
+export const EXPECTED_THREE_HILL_SMS = [
+  "New PowAlerts!",
+  'Vail 18" Feb 14',
+  'Aspen 14" Feb 14',
+  'Park City 12" Feb 14',
+  "Open -> https://powalert.com/dashboard",
+].join("\n");

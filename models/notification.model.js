@@ -39,6 +39,16 @@ const notificationSchema = new Schema(
       ref: "ExpediaLink",
       default: null,
     },
+    // Optional storm window. Legacy rows omit these and stay valid.
+    stormStart: { type: Date },
+    stormEnd: { type: Date },
+    peakInches: { type: Number },
+    totalInches: { type: Number },
+    leadDays: { type: Number },
+    stormRole: {
+      type: String,
+      enum: ["new", "checkpoint", "upgrade", "monitoring"],
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields automatically
