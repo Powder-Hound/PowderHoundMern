@@ -1,0 +1,216 @@
+{
+  "built": "2026-11-28",
+  "notes": "SNOTEL/SCAN stations used by the offline SLR backtest. Resort names and triplets come from the internal station map. Third-party forecast captures are not included. A station shared by two resorts is listed once; part (a) scores it once.",
+  "stations": [
+    {
+      "triplet": "814:UT:SNTL",
+      "region": "Wasatch",
+      "state": "UT",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Park City",
+        "Deer Valley"
+      ],
+      "note": "Thaynes Canyon 9260ft, 2.3 mi, on-mountain upper elevation"
+    },
+    {
+      "triplet": "766:UT:SNTL",
+      "region": "Wasatch",
+      "state": "UT",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Snowbird"
+      ],
+      "note": "Snowbird SNOTEL 9170ft, 0.9 mi"
+    },
+    {
+      "triplet": "1308:UT:SNTL",
+      "region": "Wasatch",
+      "state": "UT",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Alta"
+      ],
+      "note": "Atwater 8750ft, 0.2 mi"
+    },
+    {
+      "triplet": "366:UT:SNTL",
+      "region": "Wasatch",
+      "state": "UT",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Brighton"
+      ],
+      "note": "Brighton SNOTEL 8790ft, 0.1 mi"
+    },
+    {
+      "triplet": "842:CO:SNTL",
+      "region": "Colorado",
+      "state": "CO",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Vail"
+      ],
+      "note": "Vail Mountain 10290ft, 1.6 mi"
+    },
+    {
+      "triplet": "531:CO:SNTL",
+      "region": "Colorado",
+      "state": "CO",
+      "match": "moderate",
+      "method": "snwd_delta",
+      "resorts": [
+        "Breckenridge"
+      ],
+      "note": "Hoosier Pass 11600ft, 8.4 mi S on the same Tenmile/Tarryall crest; Copper Mtn 7.1 mi is alt"
+    },
+    {
+      "triplet": "457:CO:SNTL",
+      "region": "Colorado",
+      "state": "CO",
+      "match": "moderate",
+      "method": "snwd_delta",
+      "resorts": [
+        "Steamboat"
+      ],
+      "note": "Dry Lake 8240ft, 4.3 mi; below summit (10568ft). Tower 10610ft alt"
+    },
+    {
+      "triplet": "1186:CO:SNTL",
+      "region": "Colorado",
+      "state": "CO",
+      "match": "moderate",
+      "method": "snwd_delta",
+      "resorts": [
+        "Winter Park"
+      ],
+      "note": "Fool Creek 11130ft, 5.8 mi; Berthoud Summit 6.1 mi alt"
+    },
+    {
+      "triplet": "1101:CO:SNTL",
+      "region": "Colorado",
+      "state": "CO",
+      "match": "weak",
+      "method": "snwd_delta",
+      "resorts": [
+        "Aspen Snowmass"
+      ],
+      "note": "No SNOTEL within 13 mi of Snowmass; Chapman Tunnel 10090ft 17.5 mi (Fryingpan)"
+    },
+    {
+      "triplet": "784:CA:SNTL",
+      "region": "Sierra",
+      "state": "CA",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Palisades Tahoe"
+      ],
+      "note": "Palisades Tahoe SNOTEL 8010ft, 1.7 mi"
+    },
+    {
+      "triplet": "518:CA:SNTL",
+      "region": "Sierra",
+      "state": "CA",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Heavenly"
+      ],
+      "note": "Heavenly Valley SNOTEL 8540ft, 1.4 mi"
+    },
+    {
+      "triplet": "689:WY:SNTL",
+      "region": "Tetons",
+      "state": "WY",
+      "match": "moderate",
+      "method": "snwd_delta",
+      "resorts": [
+        "Jackson Hole"
+      ],
+      "note": "Phillips Bench 8170ft, 6.5 mi (Teton Pass side), not on JH mountain"
+    },
+    {
+      "triplet": "590:MT:SNTL",
+      "region": "Northern Rockies",
+      "state": "MT",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Big Sky"
+      ],
+      "note": "Lone Mountain 8820ft, 1.4 mi"
+    },
+    {
+      "triplet": "MHP:CA:MSNT",
+      "region": "Sierra",
+      "state": "CA",
+      "match": "weak",
+      "method": "swe_x10",
+      "resorts": [
+        "Mammoth"
+      ],
+      "note": "Mammoth Pass 9400ft 1.4 mi is a manual/MSNT site with daily WTEQ only, no snow depth: new snow is SWE-change x10 (assumed 10:1 ratio). Nearest SNTL Virginia Lakes Ridge is 32 mi"
+    },
+    {
+      "triplet": "815:OR:SNTL",
+      "region": "Cascades",
+      "state": "OR",
+      "match": "weak",
+      "method": "snwd_delta",
+      "resorts": [
+        "Mt Bachelor"
+      ],
+      "note": "Three Creeks Meadow 5680ft, 11.6 mi NE, below Bachelor's base (5700) and summit (9065)"
+    },
+    {
+      "triplet": "791:WA:SNTL",
+      "region": "Cascades",
+      "state": "WA",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Stevens Pass"
+      ],
+      "note": "Stevens Pass SNOTEL 3940ft, 0.2 mi (base-level)"
+    },
+    {
+      "triplet": "642:WA:SNTL",
+      "region": "Cascades",
+      "state": "WA",
+      "match": "good",
+      "method": "snwd_delta",
+      "resorts": [
+        "Crystal Mountain (WA)"
+      ],
+      "note": "Morse Lake 5400ft, 2.1 mi"
+    },
+    {
+      "triplet": "2041:VT:SCAN",
+      "region": "Northeast",
+      "state": "VT",
+      "match": "weak",
+      "method": "snwd_delta",
+      "resorts": [
+        "Stowe"
+      ],
+      "note": "No SNOTEL in VT; Mount Mansfield SCAN 2310ft 2.7 mi (low elevation, depth only, no SWE)"
+    },
+    {
+      "triplet": "2042:VT:SCAN",
+      "region": "Northeast",
+      "state": "VT",
+      "match": "weak",
+      "method": "snwd_delta",
+      "resorts": [
+        "Killington"
+      ],
+      "note": "No SNOTEL/SCAN near; Lye Brook SCAN 2440ft is 41 mi away. Treat Killington actuals as unreliable until a resort report source is added"
+    }
+  ]
+}

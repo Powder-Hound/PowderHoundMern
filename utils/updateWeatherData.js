@@ -1,5 +1,6 @@
 import ResortWeatherData from "../models/resortWeatherData.model.js";
 import { Resort } from "../models/resorts.model.js";
+import { selectIngestCoordinates } from "./forecastPoint.js";
 
 export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
   const lastChecked = new Date();
@@ -9,15 +10,20 @@ export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
   const results = await Promise.allSettled(
     resorts.map(async (resort) => {
       try {
-        // Fetch weather data for the resort's coordinates
+        // One fetch per resort. forecastPoint replaces the base coordinate
+        // when it is present; it does not add a second Visual Crossing call.
+        const point = selectIngestCoordinates(resort);
         console.log(
-          `Fetching weather data for coordinates: ${resort.Latitude}, ${resort.Longitude}`
+          `Fetching weather data for coordinates: ${point.lat}, ${point.lon}` +
+            (point.usedForecastPoint
+              ? ` (forecast point; base ${resort.Latitude}, ${resort.Longitude})`
+              : "")
         );
-        const weatherData = await fetchFn(resort.Latitude, resort.Longitude);
+        const weatherData = await fetchFn(point.lat, point.lon);
 
         if (!weatherData || !weatherData.forecast) {
           throw new Error(
-            `No forecast data fetched for coordinates: ${resort.Latitude}, ${resort.Longitude}`
+            `No forecast data fetched for coordinates: ${point.lat}, ${point.lon}`
           );
         }
 
@@ -43,14 +49,17 @@ export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
         // Ensure the uom defaults to 'metric'
         const uom = weatherData.uom || "metric";
 
-        // Find the matching resort in the database
+        // Match the resort by id, or by its stored base coordinates. The
+        // forecast point is not a resort identity and must not be used here.
         console.log(
-          `Finding matching resort for coordinates: ${resort.Latitude}, ${resort.Longitude}`
+          `Finding matching resort for base coordinates: ${resort.Latitude}, ${resort.Longitude}`
         );
-        const matchedResort = await Resort.findOne({
-          Latitude: resort.Latitude,
-          Longitude: resort.Longitude,
-        });
+        const matchedResort = resort.resortId
+          ? await Resort.findById(resort.resortId)
+          : await Resort.findOne({
+              Latitude: resort.Latitude,
+              Longitude: resort.Longitude,
+            });
 
         if (!matchedResort) {
           throw new Error(
