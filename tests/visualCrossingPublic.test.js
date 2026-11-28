@@ -32,7 +32,8 @@ describe("GET /api/visual-crossing/public", () => {
     assert.match(listBlock, /verifyToken/);
     assert.doesNotMatch(publicBlock, /verifyToken/);
     assert.match(publicBlock, /validateIds/);
-    assert.match(publicBlock, /findListOfWeatherData/);
+    assert.match(publicBlock, /findPublicForecast/);
+    assert.doesNotMatch(publicBlock, /findListOfWeatherData/);
   });
 
   it("reads Mongo weather rows; live Visual Crossing still uses VISUALCROSSING_KEY", () => {
@@ -52,5 +53,20 @@ describe("GET /api/visual-crossing/public", () => {
       /fetchVisualCrossing/
     );
     assert.match(api, /process\.env\.VISUALCROSSING_KEY/);
+  });
+
+  it("adds forecastPoint elevation and label without calling Visual Crossing", () => {
+    const controller = readFileSync(
+      join(root, "controllers/visual-crossing.controller.js"),
+      "utf8"
+    );
+    const helper = readFileSync(join(root, "utils/forecastPoint.js"), "utf8");
+    const start = controller.indexOf("export const findPublicForecast");
+    const body = controller.slice(start, controller.indexOf("export const getWeatherAlerts"));
+    assert.match(body, /publicForecastPoint/);
+    assert.match(body, /Resort\.find/);
+    assert.doesNotMatch(body, /fetchVisualCrossing/);
+    assert.match(helper, /elevationFt/);
+    assert.match(helper, /label/);
   });
 });

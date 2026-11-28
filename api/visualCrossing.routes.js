@@ -6,6 +6,7 @@ import {
   updateAllVisualCrossingData,
   getAllWeatherData,
   findListOfWeatherData,
+  findPublicForecast,
   getWeatherAlerts,
   getWeatherSummary,
   getForecastByDate,
@@ -80,7 +81,7 @@ visualCrossingRouter.get(
  *         description: Comma-separated resort ObjectIds
  *     responses:
  *       200:
- *         description: Weather rows for the requested ids
+ *         description: Weather rows for the requested ids. Each row includes forecastPoint.elevationFt and forecastPoint.label when the resort has a mid-mountain forecast point.
  *       400:
  *         description: Missing or invalid ids
  */
@@ -89,7 +90,7 @@ visualCrossingRouter.get(
   validateIds,
   async (req, res, next) => {
     try {
-      await findListOfWeatherData(req, res);
+      await findPublicForecast(req, res);
     } catch (err) {
       next(err);
     }
