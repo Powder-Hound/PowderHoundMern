@@ -8,8 +8,14 @@ export const getAllResorts = async (query = {}) => {
             _id: 1,
             Latitude: 1,
             Longitude: 1,
+            forecastPoint: 1,
         })
-        resorts.forEach(D => fullResortsWithCoords.push({ resortId: D._id, Latitude: D.Latitude, Longitude: D.Longitude }))
+        resorts.forEach(D => fullResortsWithCoords.push({
+            resortId: D._id,
+            Latitude: D.Latitude,
+            Longitude: D.Longitude,
+            forecastPoint: D.forecastPoint,
+        }))
     }
     catch (err) {
         console.log(err)

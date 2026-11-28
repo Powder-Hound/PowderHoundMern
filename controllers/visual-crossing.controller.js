@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 import ResortWeatherData from "../models/resortWeatherData.model.js";
+import { Resort } from "../models/resorts.model.js";
 import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { getAllResorts } from "../utils/mongoResortHelper.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
+import { publicForecastPoint } from "../utils/forecastPoint.js";
 import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
 import {
   STORM_ALERTS_LOCKED_MESSAGE,
@@ -85,6 +87,42 @@ export const findListOfWeatherData = async (req, res) => {
     res.status(200).send({ success: true, data: weatherData });
   } catch (err) {
     console.error("Error fetching weather data for list:", err);
+    res.status(500).send({ success: false, message: "Internal server error" });
+  }
+};
+
+// Public forecast rows, plus the resort forecast-point label when one is set.
+export const findPublicForecast = async (req, res) => {
+  try {
+    let { ids } = req.query;
+
+    if (!ids) {
+      return res
+        .status(400)
+        .send({ success: false, message: "No resort IDs provided." });
+    }
+
+    if (typeof ids === "string") {
+      ids = ids.split(",").map((id) => id.trim());
+    }
+
+    const objectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
+    const weatherData = await ResortWeatherData.find({
+      resortId: { $in: objectIds },
+    }).lean();
+    const resorts = await Resort.find(
+      { _id: { $in: objectIds } },
+      { forecastPoint: 1 }
+    ).lean();
+    const byId = new Map(resorts.map((resort) => [String(resort._id), resort]));
+    const data = weatherData.map((row) => ({
+      ...row,
+      forecastPoint: publicForecastPoint(byId.get(String(row.resortId))),
+    }));
+
+    res.status(200).send({ success: true, data });
+  } catch (err) {
+    console.error("Error fetching public forecast:", err);
     res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
