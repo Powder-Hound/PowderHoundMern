@@ -1,5 +1,10 @@
 import ResortWeatherData from "../models/resortWeatherData.model.js";
 import { Resort } from "../models/resorts.model.js";
+import {
+  formatFailureLine,
+  sanitizeForecastError,
+  summarizeForecastBatch,
+} from "./forecastIngestSummary.js";
 
 export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
   const lastChecked = new Date();
@@ -8,6 +13,8 @@ export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
 
   const results = await Promise.allSettled(
     resorts.map(async (resort) => {
+      const resortId = resort.resortId || resort._id || null;
+      const resortName = resort.resortName || null;
       try {
         // Fetch weather data for the resort's coordinates
         console.log(
@@ -79,44 +86,43 @@ export const updateWeatherData = async (resorts, fetchFn, dataKey) => {
         console.log(
           `Successfully updated weather data for resort: ${matchedResort.resortName}`
         );
-        return { resortId: matchedResort._id, success: true };
+        return {
+          resortId: matchedResort._id,
+          resortName: matchedResort.resortName,
+          success: true,
+        };
       } catch (error) {
+        const safeError = sanitizeForecastError(error);
         console.error(
-          `Error updating weather data for coordinates: ${resort.Latitude}, ${resort.Longitude}:`,
-          error.message
+          `Error updating weather data for resortId=${resortId || "unknown"} resortName=${resortName || "unknown"} coordinates: ${resort.Latitude}, ${resort.Longitude}:`,
+          safeError
         );
         return {
-          resortId: resort._id || null,
+          resortId,
+          resortName,
           success: false,
-          error: error.message,
+          error: safeError,
         };
       }
     })
   );
 
-  // Summarize results
-  const summary = results.reduce(
-    (acc, result) => {
-      if (result.status === "fulfilled") {
-        acc.success.push(result.value);
-      } else {
-        acc.failed.push(result.reason);
-      }
-      return acc;
-    },
-    { success: [], failed: [] }
-  );
+  // {success:false} is a failure even though the promise fulfilled.
+  const summary = summarizeForecastBatch(results);
 
   console.log(
-    `Weather data update completed: ${summary.success.length} succeeded, ${summary.failed.length} failed.`
+    `Weather data update completed: ${summary.ok} succeeded, ${summary.failed} failed.`
   );
 
-  if (summary.failed.length > 0) {
+  if (summary.failed > 0) {
     console.error(
       "Failed updates:",
-      summary.failed.map((failure) => failure.error || failure)
+      summary.failures.map((failure) => formatFailureLine(failure)).join("; ")
     );
   }
 
-  return summary;
+  return {
+    success: summary.successes,
+    failed: summary.failures,
+  };
 };

@@ -3,54 +3,98 @@ import { getAllResorts } from "../utils/mongoResortHelper.js";
 import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
 import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
+import { sanitizeForecastError } from "../utils/forecastIngestSummary.js";
+import {
+  finalizeForecastIngest,
+  runScheduledFreshnessCheck,
+} from "../services/forecastMonitor.js";
 
 const startVisualCrossingCron = () => {
   // Global Weather Data Update (averaged to ~6:30 UTC)
   cron.schedule("30 6 * * *", async () => {
     console.log("⏳ Running global Visual Crossing weather data update...");
+    const startedAt = new Date();
+    let summary = null;
 
     try {
-      // Fetch all resorts
+      // Fetch all resorts. One Visual Crossing call per resort; no retries.
       const resorts = await getAllResorts();
       if (!resorts || resorts.length === 0) {
         console.warn("⚠️ No resorts found for global weather data update.");
-        return;
+        summary = await finalizeForecastIngest({
+          startedAt,
+          settledResults: [
+            {
+              status: "rejected",
+              reason: new Error("No resorts found for global weather data update"),
+              resortId: "ingest-job",
+              resortName: "visual-crossing-ingest",
+            },
+          ],
+        });
+      } else {
+        console.log(`📌 Found ${resorts.length} resorts to update.`);
+
+        // Batch update weather data for resorts
+        const settled = await Promise.allSettled(
+          resorts.map((resort) =>
+            updateWeatherData([resort], fetchVisualCrossing, "visualCrossing")
+          )
+        );
+        const settledResults = settled.map((result, index) => ({
+          ...result,
+          resortId: resorts[index]?.resortId,
+          resortName: resorts[index]?.resortName,
+        }));
+        summary = await finalizeForecastIngest({ startedAt, settledResults });
       }
-
-      console.log(`📌 Found ${resorts.length} resorts to update.`);
-
-      // Batch update weather data for resorts
-      const results = await Promise.allSettled(
-        resorts.map((resort) =>
-          updateWeatherData([resort], fetchVisualCrossing, "visualCrossing")
-        )
-      );
-
-      // Summarize results
-      const summary = results.reduce(
-        (acc, result) => {
-          if (result.status === "fulfilled") {
-            acc.success += 1;
-          } else {
-            acc.failed += 1;
-            acc.errors.push(result.reason.message || "Unknown error");
-          }
-          return acc;
-        },
-        { success: 0, failed: 0, errors: [] }
-      );
 
       console.log("✅ Global Visual Crossing weather data update completed.");
       console.log(
-        `✅ Success: ${summary.success}, ❌ Failed: ${summary.failed}`
+        `✅ Success: ${summary.ok}, ❌ Failed: ${summary.failed}`
       );
-      if (summary.errors.length > 0) {
-        console.error("⚠️ Errors:", summary.errors);
-      }
     } catch (err) {
       console.error(
         "❌ Error during global Visual Crossing update:",
-        err.message
+        sanitizeForecastError(err)
+      );
+      if (!summary) {
+        try {
+          await finalizeForecastIngest({
+            startedAt,
+            settledResults: [
+              {
+                status: "rejected",
+                reason: err,
+                resortId: "ingest-job",
+                resortName: "visual-crossing-ingest",
+              },
+            ],
+          });
+        } catch (persistErr) {
+          console.error(
+            "ALERT forecast ingest could not record failure:",
+            sanitizeForecastError(persistErr)
+          );
+        }
+      }
+    }
+  }, {
+    timezone: "MST"
+  });
+
+  // After the 06:30 MST ingest. Read-only freshness check; no Visual Crossing calls.
+  cron.schedule("15 7 * * *", async () => {
+    console.log("⏳ Running forecast freshness check...");
+    try {
+      const report = await runScheduledFreshnessCheck();
+      console.log(
+        `Forecast freshness ok=${report.ok} staleResorts=${report.staleCount} oldestLastChecked=${report.oldestLastChecked}`
+      );
+    } catch (err) {
+      console.error(
+        "ALERT forecast freshness check failed:",
+        sanitizeForecastError(err)
       );
     }
   }, {

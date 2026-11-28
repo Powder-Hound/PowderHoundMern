@@ -15,6 +15,7 @@ import visualCrossingRouter from "./api/visualCrossing.routes.js";
 import notificationRouter from "./api/notification.routes.js";
 import expediaLinkRouter from "./api/expediaLink.routes.js";
 import adminRouter from "./api/admin.routes.js";
+import healthRouter from "./api/health.routes.js";
 import { serveAdminHtml } from "./controllers/admin.controller.js";
 import startVisualCrossingCron from "./cron/visualCrossingCron.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
@@ -56,6 +57,7 @@ app.use("/api/visual-crossing", visualCrossingRouter);
 app.use("/api/notifications", notificationRouter);
 app.use("/api/expedia-links", expediaLinkRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/health", healthRouter);
 app.get("/admin", serveAdminHtml);
 app.use("/admin", express.static(publicDir));
 
