@@ -5,6 +5,8 @@ import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { getAllResorts } from "../utils/mongoResortHelper.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
 import { publicForecastPoint } from "../utils/forecastPoint.js";
+import { attributionForForecast } from "../utils/snowBlend.js";
+import { logSnowBlendCounts, runSnowBlendJob } from "../utils/runSnowBlendJob.js";
 import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
 import {
   STORM_ALERTS_LOCKED_MESSAGE,
@@ -54,10 +56,19 @@ export const updateAllVisualCrossingData = async (req, res) => {
     const successCount = results.success.length;
     const failedCount = results.failed.length;
 
+    let blend = null;
+    try {
+      blend = await runSnowBlendJob(resorts);
+      logSnowBlendCounts(blend);
+    } catch (blendErr) {
+      console.error("Snow blend ingest failed:", blendErr.message);
+    }
+
     res.status(200).send({
       success: true,
       message: `Weather data update completed: ${successCount} succeeded, ${failedCount} failed.`,
       results,
+      blend,
     });
   } catch (err) {
     console.error("Error updating Visual Crossing data:", err);
@@ -118,6 +129,9 @@ export const findPublicForecast = async (req, res) => {
     const data = weatherData.map((row) => ({
       ...row,
       forecastPoint: publicForecastPoint(byId.get(String(row.resortId))),
+      attribution: attributionForForecast(
+        row.weatherData?.visualCrossing?.forecast
+      ),
     }));
 
     res.status(200).send({ success: true, data });

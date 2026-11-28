@@ -44,12 +44,43 @@ const resortWeatherDataSchema = new Schema(
             cloudCover: { type: Number, default: null }, // Cloud cover percentage
             uvIndex: { type: Number, default: null }, // UV Index
             conditions: { type: String, default: "Unknown" }, // Weather conditions
+            // Source inches sit beside snow. snow.value itself is not rewritten.
+            snowSources: {
+              type: [
+                {
+                  source: { type: String },
+                  inches: { type: Number },
+                  issuedAt: { type: String },
+                },
+              ],
+              default: undefined,
+            },
+            blend: {
+              median: { type: Number },
+              low: { type: Number },
+              high: { type: Number },
+              sources: { type: [String] },
+              n: { type: Number },
+              singleSource: { type: Boolean },
+            },
           },
         ],
         uom: {
           type: String,
           enum: ["metric", "standard"], // Allowed values: metric or standard
           default: "standard", // Default is standard (inches, Fahrenheit, mph)
+        },
+        // Present when a day's blend includes an open-meteo source.
+        attribution: {
+          type: [
+            {
+              provider: { type: String },
+              license: { type: String },
+              url: { type: String },
+              licenseUrl: { type: String },
+            },
+          ],
+          default: undefined,
         },
       },
     },

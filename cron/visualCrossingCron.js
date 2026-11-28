@@ -2,6 +2,7 @@ import cron from "node-cron";
 import { getAllResorts } from "../utils/mongoResortHelper.js";
 import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
+import { logSnowBlendCounts, runSnowBlendJob } from "../utils/runSnowBlendJob.js";
 import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
 
 const startVisualCrossingCron = () => {
@@ -46,6 +47,17 @@ const startVisualCrossingCron = () => {
       );
       if (summary.errors.length > 0) {
         console.error("⚠️ Errors:", summary.errors);
+      }
+
+      // NWS runs after Visual Crossing, on the same 06:30 MST job. Open-Meteo
+      // runs only when ENABLE_OPEN_METEO is exactly "true". forecastIngestRuns
+      // from PR #62 is absent on main, so this job logs ok/failed and the NWS
+      // request count. snow.value is left as Visual Crossing stored it.
+      try {
+        const blend = await runSnowBlendJob(resorts);
+        logSnowBlendCounts(blend);
+      } catch (blendErr) {
+        console.error("Snow blend ingest failed:", blendErr.message);
       }
     } catch (err) {
       console.error(
