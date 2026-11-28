@@ -5,6 +5,10 @@
  * are absent).
  */
 
+import { POWALERT_SLR_SOURCE } from "./snowRatio.js";
+
+export { POWALERT_SLR_SOURCE };
+
 export const OPEN_METEO_ATTRIBUTION = {
   provider: "Open-Meteo",
   license: "CC BY 4.0",
@@ -21,7 +25,13 @@ const SOURCE_ORDER = [
   "open-meteo:icon",
   "open-meteo:gem",
   "open-meteo:nbm",
+  POWALERT_SLR_SOURCE,
 ];
+
+/** Exactly "true" includes powalert-slr in the published median. Default off. */
+export function blendIncludesPowalertSlr(env = process.env) {
+  return env?.BLEND_INCLUDE_POWALERT_SLR === "true";
+}
 
 export function roundSnowInches(value) {
   const number = Number(value);
@@ -58,7 +68,8 @@ function sourceRank(source) {
   return index === -1 ? SOURCE_ORDER.length : index;
 }
 
-export function buildBlend(observations) {
+export function buildBlend(observations, options = {}) {
+  const includePowalertSlr = options.includePowalertSlr === true;
   const ordered = [...(observations || [])].sort(
     (a, b) => sourceRank(a.source) - sourceRank(b.source)
   );
@@ -76,7 +87,11 @@ export function buildBlend(observations) {
     });
   }
   if (snowSources.length === 0) return null;
-  const values = snowSources.map((source) => source.inches);
+  const blendPool = includePowalertSlr
+    ? snowSources
+    : snowSources.filter((source) => source.source !== POWALERT_SLR_SOURCE);
+  if (blendPool.length === 0) return { snowSources, blend: null };
+  const values = blendPool.map((source) => source.inches);
   const count = values.length;
   return {
     snowSources,
@@ -84,7 +99,7 @@ export function buildBlend(observations) {
       median: roundSnowInches(median(values)),
       low: Math.min(...values),
       high: Math.max(...values),
-      sources: snowSources.map((source) => source.source),
+      sources: blendPool.map((source) => source.source),
       n: count,
       singleSource: count === 1,
     },
@@ -96,7 +111,14 @@ function dayKey(validTime) {
   return /^\d{4}-\d{2}-\d{2}/.test(text) ? text.slice(0, 10) : text;
 }
 
-export function applyBlendToForecast(forecast, { uom, vcIssuedAt, extrasByDate }) {
+export function applyBlendToForecast(forecast, options) {
+  const {
+    uom,
+    vcIssuedAt,
+    extrasByDate,
+    windowsByDate,
+    includePowalertSlr,
+  } = options || {};
   return (forecast || []).map((day) => {
     const observations = [];
     const vcInches = visualCrossingSnowInches(day?.snow?.value, uom);
@@ -109,13 +131,23 @@ export function applyBlendToForecast(forecast, { uom, vcIssuedAt, extrasByDate }
     }
     const extras = extrasByDate?.get(dayKey(day?.validTime)) || [];
     observations.push(...extras);
-    const built = buildBlend(observations);
-    if (!built) return { ...day };
-    return {
-      ...day,
-      snowSources: built.snowSources,
-      blend: built.blend,
-    };
+    const built = buildBlend(observations, {
+      includePowalertSlr: includePowalertSlr === true,
+    });
+    const next = built
+      ? {
+          ...day,
+          snowSources: built.snowSources,
+          ...(built.blend ? { blend: built.blend } : {}),
+        }
+      : { ...day };
+    if (built && !built.blend) delete next.blend;
+    if (windowsByDate) {
+      const windows = windowsByDate.get(dayKey(day?.validTime));
+      if (windows) next.nwsWindows = windows;
+      else delete next.nwsWindows;
+    }
+    return next;
   });
 }
 

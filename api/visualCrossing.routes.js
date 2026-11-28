@@ -81,7 +81,7 @@ visualCrossingRouter.get(
  *         description: Comma-separated resort ObjectIds
  *     responses:
  *       200:
- *         description: Weather rows for the requested ids. Each row includes forecastPoint.elevationFt and forecastPoint.label when the resort has a mid-mountain forecast point. Each forecast day keeps snow and adds snowSources plus blend (median, low, high, sources, n, singleSource). attribution is an Open-Meteo CC BY 4.0 entry when a day lists an open-meteo source, and an empty array otherwise. /all, /list, /forecast, and /:resortId return the same stored snowSources, blend, and weatherData.visualCrossing.attribution.
+ *         description: Weather rows for the requested ids. Each row includes forecastPoint.elevationFt and forecastPoint.label when the resort has a mid-mountain forecast point. Each forecast day keeps snow and adds snowSources plus blend (median, low, high, sources, n, singleSource). snowSources may include powalert-slr; that source is left out of blend unless BLEND_INCLUDE_POWALERT_SLR is true. US resorts add nwsWindows on days 0-3 (overnight 5 PM-5 AM local, daytime 5 AM-5 PM, and hourly). Canada omits nwsWindows. attribution is an Open-Meteo CC BY 4.0 entry when a day lists an open-meteo source, and an empty array otherwise. /all, /list, /forecast, and /:resortId return the same stored snowSources, blend, nwsWindows, and weatherData.visualCrossing.attribution.
  *       400:
  *         description: Missing or invalid ids
  */

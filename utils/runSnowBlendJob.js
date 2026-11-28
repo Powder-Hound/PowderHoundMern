@@ -3,6 +3,7 @@ import ResortWeatherData from "../models/resortWeatherData.model.js";
 import NwsGridPoint from "../models/nwsGridPoint.model.js";
 import { fetchNwsSnow } from "../externalAPI/nwsAPI.js";
 import { fetchOpenMeteoSnow, isOpenMeteoEnabled } from "../externalAPI/openMeteoAPI.js";
+import { blendIncludesPowalertSlr } from "./snowBlend.js";
 import { runSnowBlendIngest } from "./snowBlendIngest.js";
 
 const NWS_CONCURRENCY = 4;
@@ -57,6 +58,7 @@ export async function runSnowBlendJob(resorts) {
       ),
     fetchNwsSnow: (args) => fetchNwsSnow({ ...args, cache, fetchImpl: fetch }),
     fetchOpenMeteo: (args) => fetchOpenMeteoSnow({ ...args, fetchImpl: fetch }),
+    includePowalertSlr: () => blendIncludesPowalertSlr(process.env),
     log: console,
   });
 }
@@ -66,6 +68,7 @@ export function logSnowBlendCounts(counts) {
     `Snow blend: resorts=${counts.resorts} ok=${counts.ok} failed=${counts.failed} ` +
       `nwsRequests=${counts.nwsRequests} points=${counts.nwsPointsRequests} ` +
       `gridpoints=${counts.nwsGridRequests} nwsResortFailures=${counts.nwsFailed} ` +
-      `openMeteoEnabled=${counts.openMeteoEnabled} openMeteoRequests=${counts.openMeteoRequests}`
+      `openMeteoEnabled=${counts.openMeteoEnabled} openMeteoRequests=${counts.openMeteoRequests} ` +
+      `powalertSlrInBlend=${counts.powalertSlrInBlend}`
   );
 }

@@ -585,6 +585,8 @@ describe("blend wiring leaves Visual Crossing calls and alert thresholds alone",
       "utils/snowBlendIngest.js",
       "utils/runSnowBlendJob.js",
       "utils/snowBlend.js",
+      "utils/snowRatio.js",
+      "utils/nwsSnow.js",
       "externalAPI/nwsAPI.js",
       "externalAPI/openMeteoAPI.js",
     ]) {

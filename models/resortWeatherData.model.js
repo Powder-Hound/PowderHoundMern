@@ -63,6 +63,8 @@ const resortWeatherDataSchema = new Schema(
               n: { type: Number },
               singleSource: { type: Boolean },
             },
+            // US days 0–3 only. Absent for Canada and when NWS did not return.
+            nwsWindows: { type: Schema.Types.Mixed, default: undefined },
           },
         ],
         uom: {

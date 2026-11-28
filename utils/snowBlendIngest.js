@@ -1,6 +1,6 @@
 import { selectIngestCoordinates } from "./forecastPoint.js";
 import { isUnitedStates } from "./nwsSnow.js";
-import { applyBlendToForecast } from "./snowBlend.js";
+import { applyBlendToForecast, POWALERT_SLR_SOURCE } from "./snowBlend.js";
 
 function safeError(error) {
   return String(error?.message || error).replace(/apikey=[^&\s]+/gi, "apikey=redacted");
@@ -39,7 +39,9 @@ async function blendResort(resort, deps, counts) {
     : new Date().toISOString();
   const point = selectIngestCoordinates(resort);
   const extras = new Map();
+  const windowsByDate = new Map();
   let timeZone = null;
+  const includePowalertSlr = deps.includePowalertSlr?.() === true;
 
   if (isUnitedStates(resort.Country)) {
     try {
@@ -56,6 +58,20 @@ async function blendResort(resort, deps, counts) {
           source: "nws",
           inches: day.inches,
           issuedAt,
+        });
+      }
+      for (const day of nws?.slrDays || []) {
+        pushExtra(extras, day.date, {
+          source: POWALERT_SLR_SOURCE,
+          inches: day.inches,
+          issuedAt,
+        });
+      }
+      for (const window of nws?.windows || []) {
+        windowsByDate.set(window.date, {
+          overnight: window.overnight,
+          daytime: window.daytime,
+          hourly: window.hourly,
         });
       }
     } catch (error) {
@@ -97,6 +113,8 @@ async function blendResort(resort, deps, counts) {
     uom,
     vcIssuedAt,
     extrasByDate: extras,
+    windowsByDate,
+    includePowalertSlr,
   });
   await deps.saveBlend({
     resortId: resort.resortId,
@@ -121,6 +139,7 @@ export async function runSnowBlendIngest(resorts, deps) {
     openMeteoRequests: 0,
     openMeteoFailed: 0,
     openMeteoEnabled: Boolean(deps.isOpenMeteoEnabled()),
+    powalertSlrInBlend: deps.includePowalertSlr?.() === true,
   };
   await mapPool(resorts, deps.concurrency ?? 4, async (resort) => {
     try {

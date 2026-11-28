@@ -1,7 +1,9 @@
 import { fetchJsonWithRetry } from "../utils/httpRetry.js";
 import {
+  buildNwsWindows,
   formatNwsCoordinate,
   nwsDailyInches,
+  slrInchesByDay,
 } from "../utils/nwsSnow.js";
 
 const DEFAULT_CONTACT = "forecast@powalert.com";
@@ -35,8 +37,10 @@ function tally(counts, kind) {
 
 /**
  * One /points lookup when the resort has no cached grid for these coordinates,
- * then one /gridpoints fetch. Each HTTP attempt, including retries, increments
- * counts.nwsRequests. The caller fail-softs a thrown error per resort.
+ * then one /gridpoints fetch. snowfallAmount, quantitativePrecipitation, and
+ * temperature are read from that same gridpoint body. Each HTTP attempt,
+ * including retries, increments counts.nwsRequests. The caller fail-softs a
+ * thrown error per resort.
  */
 export async function fetchNwsSnow({
   resortId,
@@ -48,6 +52,7 @@ export async function fetchNwsSnow({
   env = process.env,
   sleepImpl,
   attempts = 3,
+  now = new Date(),
 }) {
   const flatLat = formatNwsCoordinate(lat);
   const flatLon = formatNwsCoordinate(lon);
@@ -107,14 +112,29 @@ export async function fetchNwsSnow({
 
   const gridUrl = `https://api.weather.gov/gridpoints/${encodeURIComponent(grid.wfo)}/${grid.gridX},${grid.gridY}`;
   const gridBody = await request(gridUrl);
-  const snowfall = gridBody?.properties?.snowfallAmount;
+  const props = gridBody?.properties || {};
+  const snowfall = props.snowfallAmount;
   const days = nwsDailyInches(snowfall, grid.timeZone).map((day) => ({
     date: day.date,
     inches: day.inches,
   }));
+  const windows = buildNwsWindows({
+    snowfallAmount: snowfall,
+    quantitativePrecipitation: props.quantitativePrecipitation,
+    temperature: props.temperature,
+    timeZone: grid.timeZone,
+    now,
+  });
+  const slrDays = slrInchesByDay({
+    quantitativePrecipitation: props.quantitativePrecipitation,
+    temperature: props.temperature,
+    timeZone: grid.timeZone,
+  });
   return {
     timeZone: grid.timeZone,
-    issuedAt: gridBody?.properties?.updateTime || new Date().toISOString(),
+    issuedAt: props.updateTime || new Date().toISOString(),
     days,
+    windows,
+    slrDays,
   };
 }
