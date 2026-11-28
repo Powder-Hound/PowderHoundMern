@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 import NodeCache from "node-cache"; // Add caching for API responses
+import { sanitizeForecastError } from "../utils/forecastIngestSummary.js";
 
 dotenv.config();
 
@@ -76,7 +77,10 @@ export const fetchVisualCrossing = async (lat, long) => {
 
     return processedData;
   } catch (err) {
-    console.error("Error fetching Visual Crossing data:", err);
+    console.error(
+      "Error fetching Visual Crossing data:",
+      sanitizeForecastError(err, API_KEY)
+    );
     throw err;
   }
 };

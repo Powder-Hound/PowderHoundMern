@@ -3,6 +3,7 @@ import ResortWeatherData from "../models/resortWeatherData.model.js";
 import { fetchVisualCrossing } from "../externalAPI/visualCrossingAPI.js";
 import { getAllResorts } from "../utils/mongoResortHelper.js";
 import { updateWeatherData } from "../utils/updateWeatherData.js";
+import { sanitizeForecastError } from "../utils/forecastIngestSummary.js";
 import { fetchVisualCrossingAlerts } from "../services/weatherAlertService.js";
 import {
   STORM_ALERTS_LOCKED_MESSAGE,
@@ -58,7 +59,10 @@ export const updateAllVisualCrossingData = async (req, res) => {
       results,
     });
   } catch (err) {
-    console.error("Error updating Visual Crossing data:", err);
+    console.error(
+      "Error updating Visual Crossing data:",
+      sanitizeForecastError(err)
+    );
     res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
