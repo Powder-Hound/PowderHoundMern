@@ -1,0 +1,1418 @@
+{
+  "description": "Mid-mountain Visual Crossing forecast points for 40 North American resorts already in data/resorts.json. Elevations were read from the cited pages on 2026-11-28. Coordinates are OpenStreetMap lift vertices. US elevations are USGS EPQS; Whistler Blackcomb and Lake Louise use open-meteo because EPQS does not cover Canada. The migration writes only forecastPoint and does not change Latitude or Longitude.",
+  "retrieved": "2026-11-28",
+  "skipped": [
+    {
+      "resortId": "66eb1b97cbd1c8aacee63aa0",
+      "resortName": "The Summit at Snoqualmie",
+      "state": "Washington",
+      "current": {
+        "lat": 47.4281,
+        "lon": -121.4135
+      },
+      "reason": "The Wikipedia ski-area infobox lists the base as 2,610 ft at Summit East and the summit as 5,420 ft at Alpental. Those are different mountains. The seed coordinate is at Snoqualmie Pass, and no published base and summit pair for that base area was found. Combining the two mountains would invent a vertical, so the resort is omitted.",
+      "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/The_Summit_at_Snoqualmie",
+      "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/The_Summit_at_Snoqualmie"
+    }
+  ],
+  "resorts": [
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a72",
+      "resortName": "Park City Mountain Resort",
+      "state": "Utah",
+      "country": "United States",
+      "current": {
+        "lat": 40.6514,
+        "lon": -111.5077,
+        "elevationFt": 6979,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.5077&y=40.6514&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6900,
+        "summitFt": 10026,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Park_City_Mountain_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Park_City_Mountain_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 8463
+      },
+      "forecastPoint": {
+        "lat": 40.6442644,
+        "lon": -111.5385011,
+        "elevationFt": 8389,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 398430290 (Quicksilver Gondola, gondola); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.5385011&y=40.6442644&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Quicksilver Gondola",
+      "osmWayId": 398430290,
+      "aerialway": "gondola",
+      "distanceFromCurrentM": 2717,
+      "screeningElevationFt": 8428,
+      "demSource": "USGS EPQS",
+      "note": "Named Quicksilver Gondola vertex. USGS ground elevation is the mid-mountain target, so this is terrain under the lift rather than a valley span."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a6f",
+      "resortName": "Alta Ski Area",
+      "state": "Utah",
+      "country": "United States",
+      "current": {
+        "lat": 40.5883,
+        "lon": -111.638,
+        "elevationFt": 8539,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.638&y=40.5883&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 8530,
+        "summitFt": 11068,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Alta_Ski_Area",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Alta_Ski_Area",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 9799
+      },
+      "forecastPoint": {
+        "lat": 40.5745018,
+        "lon": -111.6238689,
+        "elevationFt": 9874,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 137670512 (Sugarloaf, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.6238689&y=40.5745018&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Sugarloaf",
+      "osmWayId": 137670512,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1944,
+      "screeningElevationFt": 9865,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a70",
+      "resortName": "Snowbird",
+      "state": "Utah",
+      "country": "United States",
+      "current": {
+        "lat": 40.582,
+        "lon": -111.656,
+        "elevationFt": 8146,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.656&y=40.582&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 8100,
+        "summitFt": 11000,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Snowbird_ski_resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Snowbird_ski_resort",
+        "baseNote": "main base area (closest published base to DEM 8186 ft)",
+        "summitNote": "infobox top",
+        "targetFt": 9550
+      },
+      "forecastPoint": {
+        "lat": 40.570028,
+        "lon": -111.6476103,
+        "elevationFt": 9573,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 31845482 (Peruvian, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.6476103&y=40.570028&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Peruvian",
+      "osmWayId": 31845482,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1508,
+      "screeningElevationFt": 9573,
+      "demSource": "USGS EPQS",
+      "note": "Main base 8,100 ft matches the existing coordinate. The lowest chair at 7,760 ft was not used."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a71",
+      "resortName": "Deer Valley Resort",
+      "state": "Utah",
+      "country": "United States",
+      "current": {
+        "lat": 40.6374,
+        "lon": -111.4783,
+        "elevationFt": 7217,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.4783&y=40.6374&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6530,
+        "summitFt": 9570,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Deer_Valley",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Deer_Valley",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 8050
+      },
+      "forecastPoint": {
+        "lat": 40.603094,
+        "lon": -111.4712419,
+        "elevationFt": 8013,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 844333128 (East Village Gondola II, gondola); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.4712419&y=40.603094&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "East Village Gondola II",
+      "osmWayId": 844333128,
+      "aerialway": "gondola",
+      "distanceFromCurrentM": 3861,
+      "screeningElevationFt": 8064,
+      "demSource": "USGS EPQS",
+      "note": "Existing coordinate DEM is 7,217 ft, above the published base of 6,530 ft. East Village Gondola II is east of the Deer Valley base."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a73",
+      "resortName": "Brighton Resort",
+      "state": "Utah",
+      "country": "United States",
+      "current": {
+        "lat": 40.5982,
+        "lon": -111.5835,
+        "elevationFt": 8795,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.5835&y=40.5982&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 8755,
+        "summitFt": 10750,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Brighton_Ski_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Brighton_Ski_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 9753
+      },
+      "forecastPoint": {
+        "lat": 40.5947679,
+        "lon": -111.5681501,
+        "elevationFt": 9678,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 137706718 (Great Western Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.5681501&y=40.5947679&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Great Western Express",
+      "osmWayId": 137706718,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1351,
+      "screeningElevationFt": 9675,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a74",
+      "resortName": "Solitude Mountain Resort",
+      "state": "Utah",
+      "country": "United States",
+      "current": {
+        "lat": 40.6219,
+        "lon": -111.593,
+        "elevationFt": 8171,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.593&y=40.6219&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 7988,
+        "summitFt": 10488,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Solitude_Mountain_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Solitude_Mountain_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 9238
+      },
+      "forecastPoint": {
+        "lat": 40.6116933,
+        "lon": -111.6049309,
+        "elevationFt": 9311,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 137770109 (Powderhorn 2, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.6049309&y=40.6116933&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Powderhorn 2",
+      "osmWayId": 137770109,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1517,
+      "screeningElevationFt": 9163,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a76",
+      "resortName": "Snowbasin Resort",
+      "state": "Utah",
+      "country": "United States",
+      "current": {
+        "lat": 41.2157,
+        "lon": -111.8561,
+        "elevationFt": 6417,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.8561&y=41.2157&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6391,
+        "summitFt": 9350,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Snowbasin",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Snowbasin",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 7871
+      },
+      "forecastPoint": {
+        "lat": 41.1903967,
+        "lon": -111.856813,
+        "elevationFt": 7812,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 195798982 (Strawberry Express Gondola, gondola); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.856813&y=41.1903967&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Strawberry Express Gondola",
+      "osmWayId": 195798982,
+      "aerialway": "gondola",
+      "distanceFromCurrentM": 2814,
+      "screeningElevationFt": 7877,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a75",
+      "resortName": "Powder Mountain",
+      "state": "Utah",
+      "country": "United States",
+      "current": {
+        "lat": 41.3797,
+        "lon": -111.7837,
+        "elevationFt": 8256,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.7837&y=41.3797&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6900,
+        "summitFt": 8900,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Powder_Mountain",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Powder_Mountain",
+        "baseNote": "infobox base",
+        "summitNote": "lift-served top; hiking summit 9422 ft not used",
+        "targetFt": 7900
+      },
+      "forecastPoint": {
+        "lat": 41.3900397,
+        "lon": -111.7658387,
+        "elevationFt": 7891,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 194711787 (Paradise Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.7658387&y=41.3900397&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Paradise Express",
+      "osmWayId": 194711787,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1882,
+      "screeningElevationFt": 7861,
+      "demSource": "USGS EPQS",
+      "note": "Existing coordinate DEM is 8,256 ft, already above the published halfway elevation of 7,900 ft. The new point is that halfway mark and is slightly lower. Summit used is the lift-served 8,900 ft, not the hike-to 9,422 ft."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a7d",
+      "resortName": "Vail",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 39.6403,
+        "lon": -106.3742,
+        "elevationFt": 8176,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-106.3742&y=39.6403&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 8120,
+        "summitFt": 11570,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Vail_Ski_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Vail_Ski_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 9845
+      },
+      "forecastPoint": {
+        "lat": 39.6247355,
+        "lon": -106.388852,
+        "elevationFt": 9862,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 89630012 (Pride Express Lift, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-106.388852&y=39.6247355&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Pride Express Lift",
+      "osmWayId": 89630012,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 2138,
+      "screeningElevationFt": 9856,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a7c",
+      "resortName": "Breckenridge",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 39.4817,
+        "lon": -106.0384,
+        "elevationFt": 9732,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-106.0384&y=39.4817&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 9600,
+        "summitFt": 12998,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Breckenridge_Ski_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Breckenridge_Ski_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 11299
+      },
+      "forecastPoint": {
+        "lat": 39.460848,
+        "lon": -106.0818251,
+        "elevationFt": 11346,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 23260016 (E-Chair, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-106.0818251&y=39.460848&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "E-Chair",
+      "osmWayId": 23260016,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 4390,
+      "screeningElevationFt": 11178,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a7b",
+      "resortName": "Aspen Snowmass",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 39.207,
+        "lon": -106.949,
+        "elevationFt": 8521,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-106.949&y=39.207&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 8104,
+        "summitFt": 12510,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Snowmass_(ski_area)",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Snowmass_(ski_area)",
+        "baseNote": "Snowmass ski area infobox base (seed coordinate is Snowmass, not Aspen Mountain)",
+        "summitNote": "Snowmass ski area infobox top",
+        "targetFt": 10307
+      },
+      "forecastPoint": {
+        "lat": 39.1833646,
+        "lon": -106.9606077,
+        "elevationFt": 10454,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 17118727 (Sheer Bliss, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-106.9606077&y=39.1833646&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Sheer Bliss",
+      "osmWayId": 17118727,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 2812,
+      "screeningElevationFt": 10322,
+      "demSource": "USGS EPQS",
+      "note": "Seed coordinate is Snowmass, not Aspen Mountain. Base and summit are the Snowmass ski area figures."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a82",
+      "resortName": "Copper Mountain",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 39.5022,
+        "lon": -106.1497,
+        "elevationFt": 9721,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-106.1497&y=39.5022&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 9712,
+        "summitFt": 12313,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Copper_Mountain_(Colorado)",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Copper_Mountain_(Colorado)",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 11013
+      },
+      "forecastPoint": {
+        "lat": 39.4810151,
+        "lon": -106.1730596,
+        "elevationFt": 11073,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 48031577 (Timberline Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-106.1730596&y=39.4810151&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Timberline Express",
+      "osmWayId": 48031577,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 3093,
+      "screeningElevationFt": 11017,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a83",
+      "resortName": "Winter Park Resort",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 39.8917,
+        "lon": -105.7631,
+        "elevationFt": 9038,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-105.7631&y=39.8917&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 9000,
+        "summitFt": 12060,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Winter_Park_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Winter_Park_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 10530
+      },
+      "forecastPoint": {
+        "lat": 39.8736137,
+        "lon": -105.7795708,
+        "elevationFt": 10549,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 17058979 (Olympia Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-105.7795708&y=39.8736137&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Olympia Express",
+      "osmWayId": 17058979,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 2454,
+      "screeningElevationFt": 10518,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a80",
+      "resortName": "Steamboat",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 40.485,
+        "lon": -106.8317,
+        "elevationFt": 6732,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-106.8317&y=40.485&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6900,
+        "summitFt": 10568,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Steamboat_Ski_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Steamboat_Ski_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 8734
+      },
+      "forecastPoint": {
+        "lat": 40.4551606,
+        "lon": -106.7749785,
+        "elevationFt": 8785,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 17136817 (Thunderhead Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-106.7749785&y=40.4551606&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Thunderhead Express",
+      "osmWayId": 17136817,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 5834,
+      "screeningElevationFt": 8734,
+      "demSource": "USGS EPQS",
+      "note": "Thunderhead Express vertex nearest the halfway elevation. Upper-mountain lifts top out above this band."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a7f",
+      "resortName": "Telluride Ski Resort",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 37.9375,
+        "lon": -107.8123,
+        "elevationFt": 8789,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-107.8123&y=37.9375&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 8725,
+        "summitFt": 13150,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Telluride_Ski_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Telluride_Ski_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 10938
+      },
+      "forecastPoint": {
+        "lat": 37.922131,
+        "lon": -107.820064,
+        "elevationFt": 10846,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 258652724 (Plunge Lift, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-107.820064&y=37.922131&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Plunge Lift",
+      "osmWayId": 258652724,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1840,
+      "screeningElevationFt": 10912,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a8c",
+      "resortName": "Crested Butte Mountain Resort",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 38.8697,
+        "lon": -106.9878,
+        "elevationFt": 8912,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-106.9878&y=38.8697&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 9375,
+        "summitFt": 12162,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Crested_Butte_Mountain_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Crested_Butte_Mountain_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 10769
+      },
+      "forecastPoint": {
+        "lat": 38.8911077,
+        "lon": -106.9507605,
+        "elevationFt": 10588,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 17065569 (Silver Queen Express Lift, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-106.9507605&y=38.8911077&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Silver Queen Express Lift",
+      "osmWayId": 17065569,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 3993,
+      "screeningElevationFt": 10548,
+      "demSource": "USGS EPQS",
+      "note": "Existing coordinate DEM is 8,912 ft, below the published ski-area base of 9,375 ft. Forecast point is on Silver Queen Express."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a7e",
+      "resortName": "Keystone",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 39.6052,
+        "lon": -105.9437,
+        "elevationFt": 9322,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-105.9437&y=39.6052&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 9280,
+        "summitFt": 12408,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Keystone_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Keystone_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 10844
+      },
+      "forecastPoint": {
+        "lat": 39.5616051,
+        "lon": -105.9418218,
+        "elevationFt": 10982,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 99979748 (Santiago Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-105.9418218&y=39.5616051&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Santiago Express",
+      "osmWayId": 99979748,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 4850,
+      "screeningElevationFt": 10876,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a85",
+      "resortName": "Beaver Creek",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 39.6042,
+        "lon": -106.5166,
+        "elevationFt": 8082,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-106.5166&y=39.6042&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 8100,
+        "summitFt": 11440,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Beaver_Creek_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Beaver_Creek_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 9770
+      },
+      "forecastPoint": {
+        "lat": 39.593249,
+        "lon": -106.5480135,
+        "elevationFt": 9770,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 842879768 (Mccoy Park Express Lift, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-106.5480135&y=39.593249&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Mccoy Park Express Lift",
+      "osmWayId": 842879768,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 2954,
+      "screeningElevationFt": 9770,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a84",
+      "resortName": "Arapahoe Basin",
+      "state": "Colorado",
+      "country": "United States",
+      "current": {
+        "lat": 39.6428,
+        "lon": -105.8717,
+        "elevationFt": 10858,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-105.8717&y=39.6428&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 10780,
+        "summitFt": 13050,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Arapahoe_Basin",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Arapahoe_Basin",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 11915
+      },
+      "forecastPoint": {
+        "lat": 39.6192905,
+        "lon": -105.8773803,
+        "elevationFt": 11894,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 102018790 (Zuma Lift, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-105.8773803&y=39.6192905&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Zuma Lift",
+      "osmWayId": 102018790,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 2659,
+      "screeningElevationFt": 11886,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a8e",
+      "resortName": "Squaw Valley Alpine Meadows (Palisades Tahoe)",
+      "state": "California",
+      "country": "United States",
+      "current": {
+        "lat": 39.197,
+        "lon": -120.235,
+        "elevationFt": 6222,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-120.235&y=39.197&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6200,
+        "summitFt": 9050,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Palisades_Tahoe",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Palisades_Tahoe",
+        "baseNote": "Palisades Tahoe (Olympic Valley) infobox base, not Alpine Meadows",
+        "summitNote": "Palisades Tahoe infobox top",
+        "targetFt": 7625
+      },
+      "forecastPoint": {
+        "lat": 39.1919038,
+        "lon": -120.2529011,
+        "elevationFt": 7531,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 30423428 (Gold Coast Funitel, gondola); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-120.2529011&y=39.1919038&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Gold Coast Funitel",
+      "osmWayId": 30423428,
+      "aerialway": "gondola",
+      "distanceFromCurrentM": 1643,
+      "screeningElevationFt": 7648,
+      "demSource": "USGS EPQS",
+      "note": "Gold Coast Funitel on the Olympic Valley side. The Base-to-Base gondola and Alpine Meadows lifts were not used. Published base 6,200 ft and summit 9,050 ft are the Palisades Tahoe figures."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a8f",
+      "resortName": "Heavenly Mountain Resort",
+      "state": "California",
+      "country": "United States",
+      "current": {
+        "lat": 38.935,
+        "lon": -119.939,
+        "elevationFt": 6685,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-119.939&y=38.935&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6255,
+        "summitFt": 10067,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Heavenly_Mountain_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Heavenly_Mountain_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 8161
+      },
+      "forecastPoint": {
+        "lat": 38.9258229,
+        "lon": -119.9290851,
+        "elevationFt": 8149,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 313466573 (Groove, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-119.9290851&y=38.9258229&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Groove",
+      "osmWayId": 313466573,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1333,
+      "screeningElevationFt": 8153,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a90",
+      "resortName": "Northstar California",
+      "state": "California",
+      "country": "United States",
+      "current": {
+        "lat": 39.274,
+        "lon": -120.1209,
+        "elevationFt": 6381,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-120.1209&y=39.274&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6330,
+        "summitFt": 8610,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Northstar_California",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Northstar_California",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 7470
+      },
+      "forecastPoint": {
+        "lat": 39.2590472,
+        "lon": -120.1330868,
+        "elevationFt": 7436,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 38805255 (Tahoe Zephyr Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-120.1330868&y=39.2590472&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Tahoe Zephyr Express",
+      "osmWayId": 38805255,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1966,
+      "screeningElevationFt": 7464,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a91",
+      "resortName": "Kirkwood Mountain Resort",
+      "state": "California",
+      "country": "United States",
+      "current": {
+        "lat": 38.684,
+        "lon": -120.065,
+        "elevationFt": 7805,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-120.065&y=38.684&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 7800,
+        "summitFt": 9800,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Kirkwood_Mountain_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Kirkwood_Mountain_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 8800
+      },
+      "forecastPoint": {
+        "lat": 38.6648408,
+        "lon": -120.0526994,
+        "elevationFt": 8765,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 10282120 (Sunrise (4), chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-120.0526994&y=38.6648408&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Sunrise (4)",
+      "osmWayId": 10282120,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 2383,
+      "screeningElevationFt": 8802,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a8d",
+      "resortName": "Mammoth Mountain",
+      "state": "California",
+      "country": "United States",
+      "current": {
+        "lat": 37.6308,
+        "lon": -119.0325,
+        "elevationFt": 11031,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-119.0325&y=37.6308&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 7953,
+        "summitFt": 11053,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Mammoth_Mountain_Ski_Area",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Mammoth_Mountain_Ski_Area",
+        "baseNote": "Mammoth Mountain Ski Area infobox base",
+        "summitNote": "Mammoth Mountain Ski Area infobox top",
+        "targetFt": 9503
+      },
+      "forecastPoint": {
+        "lat": 37.6377816,
+        "lon": -119.025694,
+        "elevationFt": 9563,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 10898353 (High Five Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-119.025694&y=37.6377816&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "High Five Express",
+      "osmWayId": 10898353,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 981,
+      "screeningElevationFt": 9514,
+      "demSource": "USGS EPQS",
+      "note": "Existing coordinate DEM is 11,031 ft, the summit (published 11,053 ft). The forecast point moves down to mid-mountain on High Five Express."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a9d",
+      "resortName": "Crystal Mountain",
+      "state": "Washington",
+      "country": "United States",
+      "current": {
+        "lat": 46.9357,
+        "lon": -121.4745,
+        "elevationFt": 4385,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-121.4745&y=46.9357&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 4400,
+        "summitFt": 6992,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Crystal_Mountain_(Washington)",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Crystal_Mountain_(Washington)",
+        "baseNote": "lift base (closest published base to DEM 4383 ft)",
+        "summitNote": "paired with the selected base (lift pair 4400/6992, area pair 3912/7012)",
+        "targetFt": 5696
+      },
+      "forecastPoint": {
+        "lat": 46.9251163,
+        "lon": -121.4919518,
+        "elevationFt": 5668,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 49962025 (Forest Queen Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-121.4919518&y=46.9251163&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Forest Queen Express",
+      "osmWayId": 49962025,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1772,
+      "screeningElevationFt": 5696,
+      "demSource": "USGS EPQS",
+      "note": "Lift-served pair 4,400 ft / 6,992 ft. Existing coordinate DEM is 4,385 ft, matching the lift base rather than the 3,912 ft area base."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63a9e",
+      "resortName": "Stevens Pass",
+      "state": "Washington",
+      "country": "United States",
+      "current": {
+        "lat": 47.7444,
+        "lon": -121.0894,
+        "elevationFt": 4098,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-121.0894&y=47.7444&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 4061,
+        "summitFt": 5845,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Stevens_Pass_Ski_Area",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Stevens_Pass_Ski_Area",
+        "baseNote": "main base area (closest published base to DEM 4081 ft)",
+        "summitNote": "Cowboy Mountain; Big Chief 5600 ft not used",
+        "targetFt": 4953
+      },
+      "forecastPoint": {
+        "lat": 47.7357313,
+        "lon": -121.0749805,
+        "elevationFt": 4952,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 26982809 (Southern Cross, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-121.0749805&y=47.7357313&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Southern Cross",
+      "osmWayId": 26982809,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1446,
+      "screeningElevationFt": 4967,
+      "demSource": "USGS EPQS",
+      "note": "Main base 4,061 ft and Cowboy Mountain 5,845 ft. Mill Valley and Big Chief were not used."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63aa5",
+      "resortName": "Mt. Bachelor",
+      "state": "Oregon",
+      "country": "United States",
+      "current": {
+        "lat": 43.9794,
+        "lon": -121.6882,
+        "elevationFt": 9031,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-121.6882&y=43.9794&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 5700,
+        "summitFt": 9065,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Mount_Bachelor_ski_area",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Mount_Bachelor_ski_area",
+        "baseNote": "Northwest Express lift-served base. The seed coordinate DEM is the summit, so the nearer of the two published bases was not used. Vertical of 3,365 ft is summit 9,065 minus this base.",
+        "summitNote": "Summit Express",
+        "targetFt": 7383
+      },
+      "forecastPoint": {
+        "lat": 43.994041,
+        "lon": -121.683766,
+        "elevationFt": 7356,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 40016034 (Pine Marten Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-121.683766&y=43.994041&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Pine Marten Express",
+      "osmWayId": 40016034,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1666,
+      "screeningElevationFt": 7359,
+      "demSource": "USGS EPQS",
+      "note": "Existing coordinate DEM is 9,031 ft, the summit (published 9,065 ft at Summit Express). Forecast point is on Pine Marten Express."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63aa7",
+      "resortName": "Mt. Hood Meadows",
+      "state": "Oregon",
+      "country": "United States",
+      "current": {
+        "lat": 45.3312,
+        "lon": -121.6629,
+        "elevationFt": 5337,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-121.6629&y=45.3312&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 4523,
+        "summitFt": 7300,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Mount_Hood_Meadows",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Mount_Hood_Meadows",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 5912
+      },
+      "forecastPoint": {
+        "lat": 45.3388527,
+        "lon": -121.6687577,
+        "elevationFt": 5850,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 5039422 (Mount Hood Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-121.6687577&y=45.3388527&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Mount Hood Express",
+      "osmWayId": 5039422,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 966,
+      "screeningElevationFt": 5906,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63aee",
+      "resortName": "Whistler Blackcomb",
+      "state": "British Columbia",
+      "country": "Canada",
+      "current": {
+        "lat": 50.1163,
+        "lon": -122.9574,
+        "elevationFt": 2205,
+        "elevationSource": "https://api.open-meteo.com/v1/elevation?latitude=50.1163&longitude=-122.9574"
+      },
+      "published": {
+        "baseFt": 2214,
+        "summitFt": 7160,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Whistler_Blackcomb",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Whistler_Blackcomb",
+        "baseNote": "Village 675 m (closest published base to DEM 2205 ft)",
+        "summitNote": "Whistler 2182 m; Blackcomb lift-served 7347 ft is a separate ridge",
+        "targetFt": 4687
+      },
+      "forecastPoint": {
+        "lat": 50.0872399,
+        "lon": -122.949576,
+        "elevationFt": 4665,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 29166965 (Whistler Village Gondola, gondola); DEM open-meteo https://api.open-meteo.com/v1/elevation?latitude=50.0872399&longitude=-122.949576"
+      },
+      "namedFeature": "Whistler Village Gondola",
+      "osmWayId": 29166965,
+      "aerialway": "gondola",
+      "distanceFromCurrentM": 3279,
+      "screeningElevationFt": 4665,
+      "demSource": "open-meteo",
+      "note": "In Canada, so the elevation is from open-meteo rather than USGS EPQS. Village base 2,214 ft and Whistler summit 7,160 ft. Vertex is on the Whistler Village Gondola."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63acd",
+      "resortName": "Killington Resort",
+      "state": "Vermont",
+      "country": "United States",
+      "current": {
+        "lat": 43.6266,
+        "lon": -72.7967,
+        "elevationFt": 2175,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-72.7967&y=43.6266&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 1165,
+        "summitFt": 4241,
+        "baseElevationSourceUrl": "https://killington.com/mountain-stats",
+        "summitElevationSourceUrl": "https://killington.com/mountain-stats",
+        "baseNote": "Skyeship base elevation, read on the Killington mountain stats page",
+        "summitNote": "Killington Peak summit, read on the Killington mountain stats page",
+        "targetFt": 2703
+      },
+      "forecastPoint": {
+        "lat": 43.6256829,
+        "lon": -72.8106617,
+        "elevationFt": 2653,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 32959813 (Ramshead Express Quad, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-72.8106617&y=43.6256829&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Ramshead Express Quad",
+      "osmWayId": 32959813,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1128,
+      "screeningElevationFt": 2677,
+      "demSource": "USGS EPQS",
+      "note": "Ramshead Express Quad, next to the seed coordinate. The Outpost Double toward Pico was not used."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63acc",
+      "resortName": "Stowe Mountain Resort",
+      "state": "Vermont",
+      "country": "United States",
+      "current": {
+        "lat": 44.535,
+        "lon": -72.7801,
+        "elevationFt": 1837,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-72.7801&y=44.535&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 1559,
+        "summitFt": 3719,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Stowe_Mountain_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Stowe_Mountain_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 2639
+      },
+      "forecastPoint": {
+        "lat": 44.5258252,
+        "lon": -72.7996457,
+        "elevationFt": 2678,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 19699990 (FourRunner Quad, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-72.7996457&y=44.5258252&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "FourRunner Quad",
+      "osmWayId": 19699990,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1855,
+      "screeningElevationFt": 2644,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63ace",
+      "resortName": "Sugarbush Resort",
+      "state": "Vermont",
+      "country": "United States",
+      "current": {
+        "lat": 44.135,
+        "lon": -72.8946,
+        "elevationFt": 1623,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-72.8946&y=44.135&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 1483,
+        "summitFt": 4083,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Sugarbush_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Sugarbush_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 2783
+      },
+      "forecastPoint": {
+        "lat": 44.1445379,
+        "lon": -72.911618,
+        "elevationFt": 2720,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 32585146 (North Lynx Triple, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-72.911618&y=44.1445379&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "North Lynx Triple",
+      "osmWayId": 32585146,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1723,
+      "screeningElevationFt": 2766,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63acf",
+      "resortName": "Jay Peak Resort",
+      "state": "Vermont",
+      "country": "United States",
+      "current": {
+        "lat": 44.9376,
+        "lon": -72.5045,
+        "elevationFt": 1850,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-72.5045&y=44.9376&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 1815,
+        "summitFt": 3862,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Jay_Peak_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Jay_Peak_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 2839
+      },
+      "forecastPoint": {
+        "lat": 44.93104,
+        "lon": -72.5196216,
+        "elevationFt": 2895,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 199923178 (Flyer Express Quad, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-72.5196216&y=44.93104&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Flyer Express Quad",
+      "osmWayId": 199923178,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1396,
+      "screeningElevationFt": 2858,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63ad5",
+      "resortName": "Sunday River",
+      "state": "Maine",
+      "country": "United States",
+      "current": {
+        "lat": 44.4739,
+        "lon": -70.856,
+        "elevationFt": 981,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-70.856&y=44.4739&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 800,
+        "summitFt": 3140,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Sunday_River_(ski_resort)",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Sunday_River_(ski_resort)",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 1970
+      },
+      "forecastPoint": {
+        "lat": 44.471458,
+        "lon": -70.8745891,
+        "elevationFt": 1968,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 181218315 (North Peak Express, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-70.8745891&y=44.471458&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "North Peak Express",
+      "osmWayId": 181218315,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1500,
+      "screeningElevationFt": 1978,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63ad4",
+      "resortName": "Sugarloaf Mountain",
+      "state": "Maine",
+      "country": "United States",
+      "current": {
+        "lat": 45.0316,
+        "lon": -70.3134,
+        "elevationFt": 4230,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-70.3134&y=45.0316&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 1417,
+        "summitFt": 4237,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Sugarloaf_(ski_resort)",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Sugarloaf_(ski_resort)",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 2827
+      },
+      "forecastPoint": {
+        "lat": 45.0409301,
+        "lon": -70.3140274,
+        "elevationFt": 2865,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 137778470 (Skyline, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-70.3140274&y=45.0409301&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Skyline",
+      "osmWayId": 137778470,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1039,
+      "screeningElevationFt": 2795,
+      "demSource": "USGS EPQS",
+      "note": "Existing coordinate DEM is 4,230 ft, the summit (published 4,237 ft). The forecast point moves down to mid-mountain on Skyline."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63ad7",
+      "resortName": "Whiteface Mountain",
+      "state": "New York",
+      "country": "United States",
+      "current": {
+        "lat": 44.3653,
+        "lon": -73.919,
+        "elevationFt": 3411,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-73.919&y=44.3653&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 1220,
+        "summitFt": 4386,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Whiteface_Mountain",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Whiteface_Mountain",
+        "baseNote": "ski area base",
+        "summitNote": "lift-served top; hike-to Slides 4650 ft not used",
+        "targetFt": 2803
+      },
+      "forecastPoint": {
+        "lat": 44.3551361,
+        "lon": -73.8812121,
+        "elevationFt": 2711,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 32051122 (Cloudsplitter Gondola, gondola); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-73.8812121&y=44.3551361&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Cloudsplitter Gondola",
+      "osmWayId": 32051122,
+      "aerialway": "gondola",
+      "distanceFromCurrentM": 3210,
+      "screeningElevationFt": 2822,
+      "demSource": "USGS EPQS",
+      "note": "Existing coordinate DEM is 3,411 ft, above the mid-mountain target. Summit used is the lift-served 4,386 ft, not the hike-to Slides at 4,650 ft."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63abc",
+      "resortName": "Jackson Hole Mountain Resort",
+      "state": "Wyoming",
+      "country": "United States",
+      "current": {
+        "lat": 43.5875,
+        "lon": -110.8274,
+        "elevationFt": 6310,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-110.8274&y=43.5875&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 6311,
+        "summitFt": 10450,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Jackson_Hole_Mountain_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Jackson_Hole_Mountain_Resort",
+        "baseNote": "infobox base",
+        "summitNote": "infobox top",
+        "targetFt": 8381
+      },
+      "forecastPoint": {
+        "lat": 43.596763,
+        "lon": -110.8498423,
+        "elevationFt": 8206,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 257373820 (Marmot Double, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-110.8498423&y=43.596763&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Marmot Double",
+      "osmWayId": 257373820,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 2080,
+      "screeningElevationFt": 8350,
+      "demSource": "USGS EPQS",
+      "note": null
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63ac1",
+      "resortName": "Big Sky Resort",
+      "state": "Montana",
+      "country": "United States",
+      "current": {
+        "lat": 45.284,
+        "lon": -111.401,
+        "elevationFt": 7529,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-111.401&y=45.284&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 7500,
+        "summitFt": 11166,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Big_Sky_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Big_Sky_Resort",
+        "baseNote": "Mountain Village (closest published base to DEM 7539 ft)",
+        "summitNote": "infobox top",
+        "targetFt": 9333
+      },
+      "forecastPoint": {
+        "lat": 45.2853992,
+        "lon": -111.4358507,
+        "elevationFt": 9497,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 209633068 (Headwaters 2, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-111.4358507&y=45.2853992&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Headwaters 2",
+      "osmWayId": 209633068,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 2731,
+      "screeningElevationFt": 9347,
+      "demSource": "USGS EPQS",
+      "note": "Mountain Village base 7,500 ft matches the existing coordinate DEM of 7,529 ft. The Lone Moose base at 6,800 ft was not used."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63aac",
+      "resortName": "Sun Valley",
+      "state": "Idaho",
+      "country": "United States",
+      "current": {
+        "lat": 43.695,
+        "lon": -114.354,
+        "elevationFt": 5940,
+        "elevationSource": "https://epqs.nationalmap.gov/v1/json?x=-114.354&y=43.695&units=Feet&wkid=4326&includeDate=false"
+      },
+      "published": {
+        "baseFt": 5750,
+        "summitFt": 9150,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Bald_Mountain_(Idaho)",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Bald_Mountain_(Idaho)",
+        "baseNote": "Bald Mountain River Run base (Sun Valley ski mountain)",
+        "summitNote": "Bald Mountain infobox top",
+        "targetFt": 7450
+      },
+      "forecastPoint": {
+        "lat": 43.6581556,
+        "lon": -114.3817015,
+        "elevationFt": 7399,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 1020102786 (Broadway, chair_lift); DEM USGS EPQS https://epqs.nationalmap.gov/v1/json?x=-114.3817015&y=43.6581556&units=Feet&wkid=4326&includeDate=false"
+      },
+      "namedFeature": "Broadway",
+      "osmWayId": 1020102786,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 4663,
+      "screeningElevationFt": 7441,
+      "demSource": "USGS EPQS",
+      "note": "Existing coordinate is the town. Base and summit are Bald Mountain, the Sun Valley ski area (River Run base). Forecast point is on the Broadway lift."
+    },
+    {
+      "resortId": "66eb1b97cbd1c8aacee63af3",
+      "resortName": "Lake Louise Ski Resort",
+      "state": "Alberta",
+      "country": "Canada",
+      "current": {
+        "lat": 51.4411,
+        "lon": -116.1637,
+        "elevationFt": 5446,
+        "elevationSource": "https://api.open-meteo.com/v1/elevation?latitude=51.4411&longitude=-116.1637"
+      },
+      "published": {
+        "baseFt": 5400,
+        "summitFt": 8652,
+        "baseElevationSourceUrl": "https://en.wikipedia.org/wiki/Lake_Louise_Ski_Resort",
+        "summitElevationSourceUrl": "https://en.wikipedia.org/wiki/Lake_Louise_Ski_Resort",
+        "targetFt": 7026
+      },
+      "forecastPoint": {
+        "lat": 51.4541217,
+        "lon": -116.1456762,
+        "elevationFt": 7041,
+        "label": "mid-mountain",
+        "source": "OpenStreetMap way 883604039 (Pipestone Express, chair_lift); DEM open-meteo https://api.open-meteo.com/v1/elevation?latitude=51.4541217&longitude=-116.1456762"
+      },
+      "namedFeature": "Pipestone Express",
+      "osmWayId": 883604039,
+      "aerialway": "chair_lift",
+      "distanceFromCurrentM": 1912,
+      "screeningElevationFt": 7041,
+      "demSource": "open-meteo",
+      "note": "In Canada, so the elevation is from open-meteo rather than USGS EPQS."
+    }
+  ]
+}

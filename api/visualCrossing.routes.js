@@ -6,6 +6,7 @@ import {
   updateAllVisualCrossingData,
   getAllWeatherData,
   findListOfWeatherData,
+  findPublicForecast,
   getWeatherAlerts,
   getWeatherSummary,
   getForecastByDate,
@@ -80,7 +81,7 @@ visualCrossingRouter.get(
  *         description: Comma-separated resort ObjectIds
  *     responses:
  *       200:
- *         description: Weather rows for the requested ids
+ *         description: Weather rows for the requested ids. Each row includes forecastPoint.elevationFt and forecastPoint.label when the resort has a mid-mountain forecast point. Each forecast day keeps snow and adds snowSources plus blend (median, low, high, sources, n, singleSource). attribution is an Open-Meteo CC BY 4.0 entry when a day lists an open-meteo source, and an empty array otherwise. /all, /list, /forecast, and /:resortId return the same stored snowSources, blend, and weatherData.visualCrossing.attribution.
  *       400:
  *         description: Missing or invalid ids
  */
@@ -89,7 +90,7 @@ visualCrossingRouter.get(
   validateIds,
   async (req, res, next) => {
     try {
-      await findListOfWeatherData(req, res);
+      await findPublicForecast(req, res);
     } catch (err) {
       next(err);
     }

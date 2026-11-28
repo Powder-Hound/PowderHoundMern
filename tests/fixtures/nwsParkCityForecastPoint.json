@@ -1,0 +1,153 @@
+{
+  "note": "Recorded from api.weather.gov on 2026-11-28 for the Park City mid-mountain forecast point. Locks the /points URL, grid id, and snowfallAmount parsing. This file is not a forecast score.",
+  "recordedAt": "2026-11-28T07:43:28.722Z",
+  "forecastPoint": {
+    "resortName": "Park City Mountain Resort",
+    "lat": 40.6442644,
+    "lon": -111.5385011,
+    "label": "mid-mountain"
+  },
+  "pointsUrl": "https://api.weather.gov/points/40.6443,-111.5385",
+  "userAgent": "PowAlert snow-blend (forecast@powalert.com)",
+  "grid": {
+    "gridId": "SLC",
+    "gridX": 112,
+    "gridY": 169,
+    "timeZone": "America/Denver",
+    "forecastGridData": "https://api.weather.gov/gridpoints/SLC/112,169"
+  },
+  "updateTime": "2026-11-28T06:31:26+00:00",
+  "snowfallAmount": {
+    "uom": "wmoUnit:mm",
+    "values": [
+      {
+        "validTime": "2026-11-28T00:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-11-28T06:00:00+00:00/PT6H",
+        "value": 2.54
+      },
+      {
+        "validTime": "2026-11-28T12:00:00+00:00/PT6H",
+        "value": 35.56
+      },
+      {
+        "validTime": "2026-11-28T18:00:00+00:00/PT6H",
+        "value": 2.54
+      },
+      {
+        "validTime": "2026-11-29T00:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-11-29T06:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-11-29T12:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-11-29T18:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-11-30T00:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-11-30T06:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-11-30T12:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-11-30T18:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-01T00:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-01T06:00:00+00:00/PT6H",
+        "value": 5.08
+      },
+      {
+        "validTime": "2026-12-01T12:00:00+00:00/PT6H",
+        "value": 27.94
+      },
+      {
+        "validTime": "2026-12-01T18:00:00+00:00/PT6H",
+        "value": 5.08
+      },
+      {
+        "validTime": "2026-12-02T00:00:00+00:00/PT6H",
+        "value": 5.08
+      },
+      {
+        "validTime": "2026-12-02T06:00:00+00:00/PT6H",
+        "value": 2.54
+      },
+      {
+        "validTime": "2026-12-02T12:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-02T18:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-03T00:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-03T06:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-03T12:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-03T18:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-04T00:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-04T06:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-04T12:00:00+00:00/PT6H",
+        "value": 5.08
+      },
+      {
+        "validTime": "2026-12-04T18:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-05T00:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-05T06:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-05T12:00:00+00:00/PT6H",
+        "value": 0
+      },
+      {
+        "validTime": "2026-12-05T18:00:00+00:00/PT6H",
+        "value": 0
+      }
+    ]
+  }
+}

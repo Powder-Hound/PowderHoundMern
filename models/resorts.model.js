@@ -24,6 +24,15 @@ const resortSchema = new Schema({
     start: { type: Date },
     end: { type: Date },
   },
+  // Optional mid-mountain query point. Ingest uses it when lat and lon are
+  // set, and otherwise keeps using Latitude/Longitude. Absent on most resorts.
+  forecastPoint: {
+    lat: { type: Number },
+    lon: { type: Number },
+    elevationFt: { type: Number },
+    label: { type: String },
+    source: { type: String },
+  },
 });
 
 // Create a virtual property 'expediaLink' to populate ExpediaLink data
